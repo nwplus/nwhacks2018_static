@@ -1,0 +1,145 @@
+<dom-module id="register-form">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-button {
+        background: #4285f4;
+        color: #fff;
+      }
+      paper-dropdown-menu {
+        margin: -8px 0px -8px -8px;
+      }
+      img[item-icon] {
+        height: 40px;
+        width: 40px;
+        border-radius: 100px;
+      }
+      paper-icon-item {
+        pointer-events: none;
+      }
+      paper-checkbox, input[type="file"] {
+        display: block;
+        padding: 8px 0px;
+      }
+    </style>
+    <iron-ajax
+            auto
+            url="{{githubURL}}"
+            handle-as="json"
+            last-response="{{githubDetails}}"
+            debounce-duration="300"></iron-ajax>
+    <iron-ajax
+            auto
+            url="{{citiesURL}}"
+            handle-as="json"
+            last-response="{{cities}}"
+            debounce-duration="300"></iron-ajax>
+
+    <h1>nwHacks Registration</h1>
+    <paper-card >
+      <form is="iron-form" id="form" method="post" on-iron-form-submit="register" action="/api/register/">
+        <div class="card-content">
+          <paper-input required auto-validate error-message="Required" label="What is your name?" name="name" value="{{data.name}}"></paper-input>
+          <paper-input required auto-validate error-message="Required" label="What is your email?" name="email" value="{{data.email}}"></paper-input>
+          <paper-input required auto-validate error-message="Required" label="Where do you go to school?" name="school" value="{{data.school}}"></paper-input>
+          <paper-input required auto-validate error-message="Required" label="Where are you traveling from?" name="city" value="{{data.city}}" focused="{{cityFocused}}"></paper-input>
+          <template is="dom-repeat" items="[[citiesClean]]">
+            <paper-item on-tap="selectCity">[[item.matching_full_name]]</paper-item>
+          </template>
+          <paper-input required auto-validate error-message="Required" label="GitHub" name="github" value="{{data.github}}">
+            <div prefix>https://github.com/</div>
+          </paper-input>
+          <template is="dom-if" if="[[githubDetails]]">
+            <paper-icon-item>
+              <img src="{{githubDetails.avatar_url}}" item-icon>
+              <span>{{githubDetails.name}}</span>
+            </paper-icon-item>
+          </template>
+
+          <paper-input label="LinkedIn" name="linkedin" value="{{data.linkedin}}">
+            <div prefix>https://linkedin.com/in/</div>
+          </paper-input>
+          <paper-input label="Personal Site" name="personalsite" value="{{data.personalsite}}"></paper-input>
+
+          <paper-input always-float-label type="file" label="Resume" name="resume" value="{{data.resume}}"></paper-input>
+
+          <paper-dropdown-menu required auto-validate error-message="Required" label="T-Shirt Size" name="tshirt" selected-item-label="{{data.tshirt}}">
+            <paper-menu class="dropdown-content">
+              <paper-item>S</paper-item>
+              <paper-item>M</paper-item>
+              <paper-item>L</paper-item>
+              <paper-item>XL</paper-item>
+            </paper-menu>
+          </paper-dropdown-menu>
+          <paper-checkbox name="travel_reimbursement" checked="{{data.travel_reimbursement}}">Do you need travel reimbursements?</paper-checkbox>
+          <paper-checkbox name="first_hackathon" checked="{{data.first_hackathon}}">Is this your first hackathon?</paper-checkbox>
+          <paper-checkbox name="mentor" checked="{{data.mentor}}">Would you like to be a mentor?</paper-checkbox>
+          <paper-textarea required auto-validate error-message="Required" label="Why do you want to come to nwHacks?" name="reason" value="{{data.reason}}"></paper-textarea>
+        </div>
+
+        <div class="card-actions">
+          <paper-button elevation="1" on-tap="submit">Register</paper-button>
+        </div>
+      </form>
+    </paper-card>
+
+    <paper-dialog id="registered" modal>
+      <h2>Registered</h2>
+      <p>All set! We'll get back to you in a few weeks with a decision.</p>
+      <div class="buttons">
+        <a href="#!/"><paper-button dialog-confirm autofocus>Return Home</paper-button></a>
+      </div>
+    </paper-dialog>
+
+  </template>
+
+  <script>
+// element registration
+Polymer({
+  is: "register-form",
+
+  properties: {
+    githubURL: {
+      computed: 'updateGithubURL(data.github)'
+    },
+    citiesURL: {
+      computed: 'updateCitiesURL(data.city, cityFocused)'
+    },
+    citiesClean: {
+      computed: 'cleanCities(cities)'
+    },
+    data: {
+      type: Object,
+      notify: true,
+      value: function() { return {}; }
+    },
+  },
+  updateGithubURL: function(github) {
+    if (!github) {
+      return "";
+    }
+    return "https://api.github.com/users/"+github;
+  },
+  updateCitiesURL: function(city, focused) {
+    if (!city || !focused) {
+      return "";
+    }
+    return "https://api.teleport.org/api/cities/?limit=5&search="+city;
+  },
+  cleanCities: function(cities) {
+    return cities && cities._embedded['city:search-results'];
+  },
+  register: function() {
+    this.$.registered.open();
+  },
+  selectCity: function(e) {
+    this.set('data.city', e.model.item.matching_full_name);
+  },
+  submit: function() {
+    this.$.form.submit();
+  }
+});
+  </script>
+</dom-module>

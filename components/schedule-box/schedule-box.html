@@ -1,0 +1,154 @@
+<dom-module id="schedule-box">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .day {
+        margin-top: 0;
+        text-align: center;
+      }
+      .day table {
+        width: 100%;
+        text-align: left;
+      }
+      .day td {
+        padding: 5px 10px;
+      }
+      .day td:first-child {
+        white-space: nowrap;
+        font-weight: 500;
+      }
+      .day .time {
+        font-size: 20pt;
+      }
+      .day .period {
+        text-transform: uppercase;
+        font-size: 10pt;
+        margin-left: 2px;
+      }
+      .day td:nth-child(2) {
+        width: 100%;
+      }
+      .day td:last-child {
+        white-space: nowrap;
+      }
+      .card-content {
+        padding: 0px 16px;
+        color: #444;
+      }
+      .center {
+        text-align: center;
+      }
+      .gcal {
+        margin: 30px 0;
+      }
+      @media (min-width: 768px) {
+        .day {
+          width: calc(50% - 10px);
+          display: inline-block;
+        }
+        .day:first-of-type {
+          float: left;
+          margin-right: 20px;
+        }
+      }
+    </style>
+    <h1>SCHEDULE</h1>
+    <div class="content">
+      <template is="dom-repeat" items="[[days]]">
+        <div class="day">
+          <div class="small-trapezoid">[[item.name]]</div>
+          <div class="card-content">
+            <table>
+              <tbody>
+                <template is="dom-repeat" items="[[item.events]]">
+                  <tr>
+                    <td>
+                      <span class="time">[[item.displayTime]]</span><span class="period">[[item.timePeriod]]</span>
+                    </td>
+                    <td>[[item.name]]</td>
+                    <td><a href="[[map(item.location)]]">[[item.location]]</a></td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </template>
+      <div class="center gcal">
+        <a href="https://calendar.google.com/calendar/embed?src=outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com&ctz=America/Los_Angeles">Google Calendar</a>
+      </div>
+    </div>
+    <iron-ajax
+      auto
+      url="https://www.googleapis.com/calendar/v3/calendars/outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com/events?key=%20AIzaSyAdbxoL7d-fe9rFUh898TTCx-ZERREDhKg"
+      handle-as="json"
+      last-response="{{gcal}}"
+      debounce-duration="300"></iron-ajax>
+  </template>
+
+  <script>
+Polymer({
+  is: "schedule-box",
+  properties: {
+    days: {
+      type: Array,
+      computed: 'calendarDisplay(gcal)',
+    },
+    gcal: {
+      type: Object,
+      value: function() { return {}; },
+    },
+  },
+  map: function(location) {
+    return "https://fn.lc/campus/#"+location;
+  },
+  calendarDisplay: function() {
+    console.log(this.gcal);
+    if (!this.gcal.items) {
+      return [];
+    }
+    var days = {};
+    var daysArr = [];
+    this.gcal.items.forEach(function(item) {
+      var start = moment(item.start.dateTime);
+      var dayTitle = start.format("dddd, MMM Do");
+      var day = days[dayTitle];
+      if (!day) {
+        day = {
+          name: dayTitle,
+          start: start,
+          events: [],
+        };
+        daysArr.push(day);
+        days[dayTitle] = day;
+      }
+      var displayTime = start.format("h");
+      var minute = start.format("mm");
+      if (minute !== '00') {
+        displayTime += ':' + minute;
+      }
+      var event = {
+        name: item.summary,
+        start: start,
+        displayTime: displayTime,
+        timePeriod: start.format("a"),
+        location: item.location,
+      }
+      day.events.push(event);
+    });
+    daysArr.sort(function(a, b) {
+      return a.start - b.start;
+    });
+    daysArr.forEach(function(day) {
+      day.events.sort(function(a, b) {
+        return a.start - b.start;
+      });
+    });
+    console.log(daysArr);
+    return daysArr;
+  },
+});
+  </script>
+</dom-module>

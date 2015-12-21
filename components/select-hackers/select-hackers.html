@@ -1,0 +1,123 @@
+<dom-module id="select-hackers">
+  <template>
+    <style>
+    </style>
+    <template is="dom-repeat" items="{{hackers}}" sort="sort" as="hacker" observe="status">
+      <paper-card heading="[[hacker.name]]">
+        <div class="card-content">
+          <table>
+            <tr>
+              <td>Name</td>
+              <td>[[hacker.name]]</td>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td>[[hacker.email]]</td>
+            </tr>
+            <tr>
+              <td>School</td>
+              <td>[[hacker.school]]</td>
+            </tr>
+            <tr>
+              <td>City</td>
+              <td>[[hacker.city]]</td>
+            </tr>
+            <tr>
+              <td>GitHub</td>
+              <td><a href="{{githubLink(hacker.github)}}">[[hacker.github]]</a></td>
+            </tr>
+            <tr>
+              <td>LinkedIn</td>
+              <td>[[hacker.linkedin]]</td>
+            </tr>
+            <tr>
+              <td>Personal Site</td>
+              <td><a href="[[hacker.personalsite]]">[[hacker.personalsite]]</a></td>
+            </tr>
+            <tr>
+              <td>Resume (TODO)</td>
+              <td>[[hacker.resume]]</td>
+            </tr>
+            <tr>
+              <td>T-Shirt Size</td>
+              <td>[[hacker.tshirt]]</td>
+            </tr>
+            <tr>
+              <td>Needs travel reimbursement</td>
+              <td>[[hacker.travel_reimbursement]]</td>
+            </tr>
+            <tr>
+              <td>First Hackathon</td>
+              <td>[[hacker.first_hackathon]]</td>
+            </tr>
+            <tr>
+              <td>Would like to be a mentor</td>
+              <td>[[hacker.mentor]]</td>
+            </tr>
+            <tr>
+              <td>Reason</td>
+              <td>[[hacker.reason]]</td>
+            </tr>
+          </table>
+        </div>
+        <div class="card-actions">
+          <span>[[hacker.status]]</span>
+          <paper-dropdown-menu label="Status" selected-item-label="{{hacker.status}}">
+            <paper-menu class="dropdown-content">
+              <template is="dom-repeat" items="[[categories]]">
+                <paper-item>[[item]]</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
+        </div>
+      </paper-card>
+    </template>
+  </template>
+  <script>
+'use strict';
+const categories = ['Unfiltered', 'Accepted', 'Accepted + Travel', 'Waitlisted', 'Denied'];
+Object.freeze(categories);
+Polymer({
+  is: "select-hackers",
+
+  properties: {
+    hackers: {
+      type: Array,
+      value: [
+        {
+          name: 'Tristan Rice',
+          email: 'rice@fn.lc',
+          school: 'University of British Columbia',
+          city: 'Vancouver, BC',
+          github: 'd4l3k',
+          linkedin: 'd4l3k',
+          personalsite: 'https://fn.lc',
+          resume: '',
+          tshirt: 'S',
+          travel_reimbursement: false,
+          first_hackathon: false,
+          mentor: true,
+          reason: 'I like making cool shit!',
+        },
+        {
+          name: 'Some other guy',
+          status: 'Waitlisted',
+        }
+      ],
+    },
+    categories: {
+      type: Array,
+      value: categories,
+    },
+  },
+  sort: function(a, b) {
+    const val = categories.indexOf(a.status) - categories.indexOf(b.status);
+    console.log(a,b);
+    return val;
+  },
+  githubLink: function(username) {
+    return 'https://github.com/' + username;
+  }
+});
+  </script>
+</dom-module>

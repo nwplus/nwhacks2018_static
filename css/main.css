@@ -1,0 +1,287 @@
+@font-face {
+  font-family: "LFT Etica";
+  src: url(/static/font/LFT_Etica_Book.otf) format("opentype"); }
+@font-face {
+  font-family: "LFT Etica";
+  src: url(/static/font/LFT_Etica_Semibold.otf) format("opentype");
+  font-weight: 500; }
+@font-face {
+  font-family: "LFT Etica";
+  src: url(/static/font/LFT_Etica_Bold.otf) format("opentype");
+  font-weight: bold; }
+@font-face {
+  font-family: "LFT Etica";
+  src: url(/static/font/LFT_Etica_BoldItalic.otf) format("opentype");
+  font-weight: bold;
+  font-style: italic; }
+@font-face {
+  font-family: "LFT Etica";
+  src: url(/static/font/LFT_Etica_Light.otf) format("opentype");
+  font-weight: 200; }
+@font-face {
+  font-family: "LFT Etica";
+  src: url(/static/font/LFT_Etica_LightItalic.otf) format("opentype");
+  font-weight: lighter;
+  font-style: italic; }
+body {
+  font-family: 'LFT Etica';
+  color: #FFFFFF;
+  background: #5b6377;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #5b6377 32%, #a1c1d6 81%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #5b6377 32%, #a1c1d6 81%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #5b6377 32%, #a1c1d6 81%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5b6377', endColorstr='#a1c1d6',GradientType=0 );
+  /* IE6-9 */
+  margin: 0;
+  padding-top: 60px;
+  min-height: 100%;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
+
+html {
+  min-height: 100%; }
+
+paper-toolbar.tall {
+  background: rgba(64, 64, 64, 0.9); }
+
+paper-card .card-content {
+  padding-top: 0; }
+
+paper-button {
+  color: #444;
+  letter-spacing: 2px;
+  border-radius: 0; }
+  paper-button.register, paper-button.button {
+    font-weight: bold;
+    letter-spacing: 3px;
+    padding: 11px 15px;
+    margin-top: 10px;
+    margin-bottom: 10px; }
+  paper-button.register {
+    border-bottom: 4px solid #D74343;
+    background-color: #FF6B6B;
+    color: #FFFFFF; }
+  paper-button.button {
+    border-bottom: 4px solid #BCBEC0;
+    background-color: #FFFFFF;
+    color: #3C4558; }
+
+@media (max-width: 475px) {
+  paper-button.register, paper-button.button {
+    display: block; } }
+a.link {
+  color: #FFFFFF;
+  font-style: italic;
+  letter-spacing: 2px;
+  border-bottom: 1px solid;
+  text-decoration: none; }
+  a.link:hover {
+    text-decoration: none; }
+
+a {
+  color: #4BAE74;
+  text-decoration: none; }
+  a:hover {
+    text-decoration: underline; }
+
+.title a {
+  color: inherit;
+  text-decoration: inherit; }
+
+#menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  padding: 5px 15px;
+  background-color: rgba(35, 31, 32, 0.6);
+  color: #FFFFFF;
+  transition: background-color 0.2s, box-shadow 0.2s; }
+  #menu paper-icon-button {
+    color: inherit;
+    height: 50px;
+    width: 50px;
+    margin-left: 15px;
+    margin-right: 15px; }
+  #menu paper-button {
+    color: inherit;
+    font-size: 10pt;
+    padding: 17px 15px; }
+  #menu a {
+    text-decoration: none;
+    color: inherit; }
+    #menu a.right {
+      float: right; }
+
+@media (max-width: 400px) {
+  #menu a.med {
+    display: none; } }
+@media (max-width: 650px) {
+  #menu paper-icon-button {
+    margin-left: 7.5px;
+    margin-right: 7.5px; }
+  #menu paper-button {
+    padding: 17px 7.5px; }
+  #menu a.big {
+    display: none; } }
+schedule-box {
+  font-size: 14pt; }
+  schedule-box td:first-child {
+    color: #FFF2B5; }
+  schedule-box td:nth-child(2) {
+    color: #FFFFFF; }
+
+#header #title {
+  text-align: center; }
+  #header #title object {
+    height: 500px;
+    padding: 75px 0;
+    max-width: calc(100vw - 100px);
+    max-height: calc(100vw - 100px); }
+#header #buttons {
+  margin: 50px;
+  text-align: center; }
+
+footer {
+  overflow: hidden; }
+  footer .skyline {
+    text-align: center; }
+    footer .skyline object {
+      max-width: 2000px;
+      width: 100%;
+      margin-bottom: calc(100% / -25.974);
+      display: inline-block; }
+  footer .foot {
+    padding: 50px;
+    padding-bottom: 35px;
+    background-color: #414042; }
+  footer .imgcont img {
+    max-height: 100px; }
+  footer a {
+    display: block; }
+  footer table {
+    width: 100%; }
+    footer table td:last-child {
+      text-align: right; }
+
+@media screen and (min-width: 2000px) {
+  footer .skyline object {
+    margin-bottom: -80px; } }
+h2, h3 {
+  margin-bottom: -5px;
+  margin-top: 30px; }
+
+h1 {
+  letter-spacing: 4px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 28pt; }
+
+.h1-container {
+  text-align: center; }
+  .h1-container h1 {
+    display: inline-block; }
+
+h2, p {
+  font-size: 14pt; }
+
+h2 + p {
+  margin-top: 5px; }
+
+.content {
+  font-weight: 200;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: justify; }
+  .content .column {
+    width: calc(50% - 15px);
+    display: inline-block; }
+  .content .column + .column {
+    float: right; }
+
+@media (max-width: 768px) {
+  .content .column {
+    width: 100%;
+    display: block; } }
+.wrapper {
+  padding: 0 15px;
+  overflow: hidden; }
+
+body paper-card {
+  margin: 50px auto;
+  display: block;
+  max-width: 600px; }
+
+#warning {
+  color: red;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100; }
+
+.large-trapezoid {
+  display: inline-block;
+  color: #FFFFFF;
+  text-align: center;
+  position: relative;
+  max-width: calc(100vw - 100px);
+  padding: 15px 20px;
+  background-color: rgba(35, 31, 32, 0.6);
+  -webkit-transform: skew(-10deg);
+  transform: skew(-10deg); }
+  .large-trapezoid h1, .large-trapezoid h2, .large-trapezoid h3 {
+    letter-spacing: 4px;
+    padding: 0;
+    margin: 0; }
+  .large-trapezoid h1 {
+    font-weight: bold;
+    padding-bottom: 5px;
+    font-size: 22pt; }
+  .large-trapezoid h2 {
+    font-weight: 200;
+    font-size: 17pt; }
+  .large-trapezoid section {
+    -webkit-transform: skew(10deg);
+    transform: skew(10deg);
+    padding: 0 60px;
+    display: inline-block; }
+    .large-trapezoid section h3 {
+      letter-spacing: 2px;
+      font-size: 30pt;
+      font-weight: 500;
+      color: #FFF2B5; }
+
+@media (max-width: 840px) {
+  div.large-trapezoid section {
+    padding: 0 20px; } }
+.small-trapezoid {
+  position: relative;
+  background-color: rgba(35, 31, 32, 0.6);
+  -webkit-transform: skew(-10deg);
+  transform: skew(-10deg);
+  padding: 5px 30px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-size: 20pt;
+  display: inline-block;
+  margin: 30px 0; }
+
+star {
+  position: absolute;
+  background-image: url(/static/svg/Stars-Single.svg);
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain; }
+
+/*# sourceMappingURL=main.css.map */
