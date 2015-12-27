@@ -48,6 +48,22 @@ body {
 html {
   min-height: 100%; }
 
+register-form #form label {
+  color: #FFFFFF; }
+register-form #form .unfocused-line {
+  background: #FFFFFF; }
+register-form #form .is-invalid .focused-line {
+  background: #D74343; }
+register-form #form paper-input-error {
+  color: #D74343; }
+register-form #form .focused-line {
+  background: #90cfaa; }
+register-form #form paper-checkbox #checkbox.checked.paper-checkbox {
+  background-color: #4BAE74;
+  border-color: #4BAE74; }
+register-form #form paper-menu paper-item {
+  color: #444; }
+
 paper-toolbar.tall {
   background: rgba(64, 64, 64, 0.9); }
 

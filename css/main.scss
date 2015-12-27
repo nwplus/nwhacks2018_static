@@ -18,6 +18,9 @@ $login-btn-bg-shadow: #BCBEC0;
 
 $footer-bg: #414042;
 
+$form-error: $register-btn-bg-shadow;
+$form-focused: lighten($link, 20%);
+
 @import "./etica.scss";
 
 body {
@@ -42,6 +45,31 @@ body {
 }
 html {
   min-height: 100%;
+}
+
+register-form #form {
+  label {
+    color: $dark-fg;
+  }
+  .unfocused-line {
+    background: $dark-fg;
+  }
+  .is-invalid  .focused-line {
+    background: $form-error;
+  }
+  paper-input-error {
+    color: $form-error;
+  }
+  .focused-line {
+    background: $form-focused;
+  }
+  paper-checkbox #checkbox.checked.paper-checkbox {
+    background-color: $link;
+    border-color: $link;
+  }
+  paper-menu paper-item {
+    color: #444;
+  }
 }
 
 paper-toolbar.tall {

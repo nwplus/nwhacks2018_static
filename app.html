@@ -39,7 +39,6 @@
     <title>nwHacks 2016</title>
   </head>
   <body>
-    <div id="warning">WARNING: WIP All data subject to change/loss.</div>
     <nav id="menu">
       <a href="#!/">
         <paper-icon-button src="/static/svg/NWHacks-NavBar-Logo.svg"></paper-icon-button>
@@ -59,7 +58,7 @@
       <!--<a href="https://q.nwhacks.io">
         <paper-button>helpq</paper-button>
       </a>-->
-      <a href="#!/register" class="right">
+      <a href="#!/register#register" class="right">
         <paper-button>register</paper-button>
       </a>
     </nav>
@@ -83,7 +82,7 @@
         <a href="#!/sponsors#sponsor" class="link">Interested in becoming a sponsor?</a>
       </div>
     </div>
-    <div class="wrapper">
+    <div class="wrapper" id="begin">
       <app-router trailingSlash="ignore">
         <app-route path="/" element="index-page"></app-route>
         <app-route path="/register" element="register-form"></app-route>
@@ -178,6 +177,7 @@
         renderStars();
       });
       window.addEventListener('WebComponentsReady', function(e) {
+        console.log('WebComponentsReady');
         renderStars();
       });
     </script>

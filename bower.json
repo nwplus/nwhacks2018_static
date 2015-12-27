@@ -16,7 +16,7 @@
   "directory": "bower_components/",
   "dependencies": {
     "app-router": "~2.6.1",
-    "iron-ajax": "PolymerElements/iron-ajax#~1.0.6",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.1.1",
     "iron-form": "PolymerElements/iron-form#~1.0.10",
     "iron-image": "PolymerElements/iron-image#~1.0.2",
     "moment": "momentjs#~2.10.6",

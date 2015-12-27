@@ -1,15 +1,11 @@
 <dom-module id="register-form">
   <template>
     <style>
+      :root {
+        --primary-text-color: white;
+      }
       :host {
         display: block;
-      }
-      paper-button {
-        background: #4285f4;
-        color: #fff;
-      }
-      paper-dropdown-menu {
-        margin: -8px 0px -8px -8px;
       }
       img[item-icon] {
         height: 40px;
@@ -22,6 +18,16 @@
       paper-checkbox, input[type="file"] {
         display: block;
         padding: 8px 0px;
+      }
+      form {
+        max-width: 640px;
+        margin: 0 auto;
+      }
+      div[prefix] {
+        opacity: 0.6;
+      }
+      .register {
+        margin-top: 50px;
       }
     </style>
     <iron-ajax
@@ -37,53 +43,49 @@
             last-response="{{cities}}"
             debounce-duration="300"></iron-ajax>
 
-    <h1>nwHacks Registration</h1>
-    <paper-card >
-      <form is="iron-form" id="form" method="post" on-iron-form-submit="register" action="/api/register/">
-        <div class="card-content">
-          <paper-input required auto-validate error-message="Required" label="What is your name?" name="name" value="{{data.name}}"></paper-input>
-          <paper-input required auto-validate error-message="Required" label="What is your email?" name="email" value="{{data.email}}"></paper-input>
-          <paper-input required auto-validate error-message="Required" label="Where do you go to school?" name="school" value="{{data.school}}"></paper-input>
-          <paper-input required auto-validate error-message="Required" label="Where are you traveling from?" name="city" value="{{data.city}}" focused="{{cityFocused}}"></paper-input>
-          <template is="dom-repeat" items="[[citiesClean]]">
-            <paper-item on-tap="selectCity">[[item.matching_full_name]]</paper-item>
-          </template>
-          <paper-input required auto-validate error-message="Required" label="GitHub" name="github" value="{{data.github}}">
-            <div prefix>https://github.com/</div>
-          </paper-input>
-          <template is="dom-if" if="[[githubDetails]]">
-            <paper-icon-item>
-              <img src="{{githubDetails.avatar_url}}" item-icon>
-              <span>{{githubDetails.name}}</span>
-            </paper-icon-item>
-          </template>
+    <h1 id="register">nwHacks Registration</h1>
+    <form is="iron-form" id="form" method="post" on-iron-form-submit="register" action="/api/register/">
+      <paper-input required auto-validate error-message="Required" label="What is your name?" name="name" value="{{data.name}}"></paper-input>
+      <paper-input required auto-validate error-message="Invalid Email" type="email" label="What is your email?" name="email" value="{{data.email}}"></paper-input>
+      <paper-input required auto-validate error-message="Required" label="Where do you go to school?" name="school" value="{{data.school}}"></paper-input>
+      <paper-input required auto-validate error-message="Required" label="Where are you traveling from?" name="city" value="{{data.city}}" focused="{{cityFocused}}"></paper-input>
+      <template is="dom-repeat" items="[[citiesClean]]">
+        <paper-item on-tap="selectCity">[[item.matching_full_name]]</paper-item>
+      </template>
+      <paper-input label="GitHub" name="github" value="{{data.github}}">
+        <div prefix>https://github.com/</div>
+      </paper-input>
+      <template is="dom-if" if="[[githubDetails]]">
+        <paper-icon-item>
+          <img src="{{githubDetails.avatar_url}}" item-icon>
+          <span>{{githubDetails.name}}</span>
+        </paper-icon-item>
+      </template>
 
-          <paper-input label="LinkedIn" name="linkedin" value="{{data.linkedin}}">
-            <div prefix>https://linkedin.com/in/</div>
-          </paper-input>
-          <paper-input label="Personal Site" name="personalsite" value="{{data.personalsite}}"></paper-input>
+      <paper-input label="LinkedIn" name="linkedin" value="{{data.linkedin}}">
+        <div prefix>https://linkedin.com/in/</div>
+      </paper-input>
+      <paper-input label="Personal Site" name="personalsite" auto-validate error-message="Invalid URL" value="{{data.personalsite}}" type="url"></paper-input>
 
-          <paper-input always-float-label type="file" label="Resume" name="resume" value="{{data.resume}}"></paper-input>
+      <paper-input always-float-label type="file" label="Resume" name="resume" value="{{data.resume}}"></paper-input>
 
-          <paper-dropdown-menu required auto-validate error-message="Required" label="T-Shirt Size" name="tshirt" selected-item-label="{{data.tshirt}}">
-            <paper-menu class="dropdown-content">
-              <paper-item>S</paper-item>
-              <paper-item>M</paper-item>
-              <paper-item>L</paper-item>
-              <paper-item>XL</paper-item>
-            </paper-menu>
-          </paper-dropdown-menu>
-          <paper-checkbox name="travel_reimbursement" checked="{{data.travel_reimbursement}}">Do you need travel reimbursements?</paper-checkbox>
-          <paper-checkbox name="first_hackathon" checked="{{data.first_hackathon}}">Is this your first hackathon?</paper-checkbox>
-          <paper-checkbox name="mentor" checked="{{data.mentor}}">Would you like to be a mentor?</paper-checkbox>
-          <paper-textarea required auto-validate error-message="Required" label="Why do you want to come to nwHacks?" name="reason" value="{{data.reason}}"></paper-textarea>
-        </div>
+      <paper-dropdown-menu required auto-validate error-message="Required" label="T-Shirt Size" name="tshirt" selected-item-label="{{data.tshirt}}">
+        <paper-menu class="dropdown-content">
+          <paper-item>S</paper-item>
+          <paper-item>M</paper-item>
+          <paper-item>L</paper-item>
+          <paper-item>XL</paper-item>
+        </paper-menu>
+      </paper-dropdown-menu>
+      <paper-checkbox name="travel_reimbursement" >Do you need travel reimbursements?</paper-checkbox>
+      <paper-checkbox name="first_hackathon">Is this your first hackathon?</paper-checkbox>
+      <paper-checkbox name="mentor">Would you like to be a mentor?</paper-checkbox>
+      <paper-textarea required auto-validate error-message="Required" label="Why do you want to come to nwHacks?" name="reason" value="{{data.reason}}"></paper-textarea>
 
-        <div class="card-actions">
-          <paper-button elevation="1" on-tap="submit">Register</paper-button>
-        </div>
-      </form>
-    </paper-card>
+      <center>
+      <paper-button elevation="1" on-tap="submit" class="register">Register</paper-button>
+      </center>
+    </form>
 
     <paper-dialog id="registered" modal>
       <h2>Registered</h2>
