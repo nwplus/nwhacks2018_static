@@ -44,7 +44,7 @@
             debounce-duration="300"></iron-ajax>
 
     <h1 id="register">nwHacks Registration</h1>
-    <form is="iron-form" id="form" method="post" on-iron-form-submit="register" action="/api/register/">
+    <form is="iron-form" id="form" method="post" content-type="multipart/form-data" on-iron-form-response="register" action="/api/register/" on-iron-form-presubmit="formPreSubmit" on-iron-form-submit="submitting">
       <paper-input required auto-validate error-message="Required" label="What is your name?" name="name" value="{{data.name}}"></paper-input>
       <paper-input required auto-validate error-message="Invalid Email" type="email" label="What is your email?" name="email" value="{{data.email}}"></paper-input>
       <paper-input required auto-validate error-message="Required" label="Where do you go to school?" name="school" value="{{data.school}}"></paper-input>
@@ -94,6 +94,12 @@
         <a href="#!/"><paper-button dialog-confirm autofocus>Return Home</paper-button></a>
       </div>
     </paper-dialog>
+    <paper-dialog id="submitting" modal>
+      <h2>Submitting...</h2>
+      <p>
+        <paper-progress indeterminate></paper-progress>
+      </p>
+    </paper-dialog>
 
   </template>
 
@@ -133,7 +139,13 @@ Polymer({
   cleanCities: function(cities) {
     return cities && cities._embedded['city:search-results'];
   },
-  register: function() {
+  submitting: function(e) {
+    console.log(e);
+    this.$.submitting.open();
+  },
+  register: function(e) {
+    console.log(e);
+    this.$.submitting.close();
     this.$.registered.open();
   },
   selectCity: function(e) {
@@ -141,7 +153,40 @@ Polymer({
   },
   submit: function() {
     this.$.form.submit();
-  }
+  },
+  convertFileInputToFormData: function(){
+    regexp = /^[^[\]]+/;
+    var fileInput = $('input[type="file"]');
+    var fileInputName = regexp.exec( fileInput.attr('name') );
+    // make files available
+    var data = new FormData();
+    jQuery.each($(fileInput)[0].files, function(i, file) {
+      data.append(fileInputName+'['+i+']', file);
+    });
+    $('#form input:not([type="file"]), paper-textarea, paper-dropdown-menu').each(function(i, input) {
+      var $input = $(input);
+      data.append($input.attr('name'), $input.val());
+    });
+    $('paper-checkbox').each(function(i, input) {
+      var $input = $(input);
+      data.append($input.attr('name'), $input[0].checked);
+    });
+    return data;
+  },
+  formPreSubmit: function(event){
+    var form = document.getElementById('form');
+    // here you convert to formData calling our function
+    var data = this.convertFileInputToFormData();
+
+    form.request.method = "post";
+    // set undefined to prevent default json content type
+    form.request.contentType = undefined;
+    // here you append your formData to the iron-ajax body
+    form.request.body = data;
+    form.request.url = "/api/register/"
+
+    form.request.debounceDuration = 300;
+  },
 });
   </script>
 </dom-module>

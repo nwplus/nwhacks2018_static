@@ -48,6 +48,9 @@ body {
 html {
   min-height: 100%; }
 
+paper-dialog {
+  color: #444 !important; }
+
 register-form #form label {
   color: #FFFFFF; }
 register-form #form .unfocused-line {

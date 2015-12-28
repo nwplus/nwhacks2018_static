@@ -1,3 +1,5 @@
+$light-fg: #444;
+$light-bg: white;
 $dark-bg: rgba(35,31,32,0.6);
 $dark-fg: #FFFFFF;
 $dark-fg-alt: #FFF2B5;
@@ -46,7 +48,9 @@ body {
 html {
   min-height: 100%;
 }
-
+paper-dialog {
+  color: $light-fg !important;
+}
 register-form #form {
   label {
     color: $dark-fg;
@@ -68,7 +72,7 @@ register-form #form {
     border-color: $link;
   }
   paper-menu paper-item {
-    color: #444;
+    color: $light-fg;
   }
 }
 
