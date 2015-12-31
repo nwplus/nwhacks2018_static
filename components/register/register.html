@@ -67,7 +67,7 @@
       </paper-input>
       <paper-input maxlength="200" label="Personal Site" name="personalsite" auto-validate error-message="Invalid URL" value="{{data.personalsite}}" type="url"></paper-input>
 
-      <paper-input always-float-label type="file" label="Resume" name="resume" value="{{data.resume}}"></paper-input>
+      <paper-input always-float-label type="file" multiple="false" label="Resume" name="resume" value="{{data.resume}}"></paper-input>
 
       <paper-dropdown-menu required auto-validate error-message="Required" label="T-Shirt Size" name="tshirt" selected-item-label="{{data.tshirt}}">
         <paper-menu class="dropdown-content">
