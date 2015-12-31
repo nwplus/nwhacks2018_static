@@ -161,15 +161,21 @@ Polymer({
     // make files available
     var data = new FormData();
     jQuery.each($(fileInput)[0].files, function(i, file) {
-      data.append(fileInputName+'['+i+']', file);
+      data.append(fileInputName, file);
     });
     $('#form input:not([type="file"]), paper-textarea, paper-dropdown-menu').each(function(i, input) {
       var $input = $(input);
-      data.append($input.attr('name'), $input.val());
+      var name = $input.attr('name');
+      if (!(typeof name === "undefined")) {
+        data.append(name, $input.val());
+      }
     });
     $('paper-checkbox').each(function(i, input) {
       var $input = $(input);
-      data.append($input.attr('name'), $input[0].checked);
+      var name = $input.attr('name');
+      if (!(typeof name === "undefined")) {
+        data.append(name, $input[0].checked);
+      }
     });
     return data;
   },
