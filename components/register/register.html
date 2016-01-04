@@ -45,14 +45,14 @@
 
     <h1 id="register">nwHacks Registration</h1>
     <form is="iron-form" id="form" method="post" content-type="multipart/form-data" on-iron-form-response="register" action="/api/register/" on-iron-form-presubmit="formPreSubmit" on-iron-form-submit="submitting">
-      <paper-input required auto-validate error-message="Required" label="What is your name?" name="name" value="{{data.name}}"></paper-input>
-      <paper-input required auto-validate error-message="Invalid Email" type="email" label="What is your email?" name="email" value="{{data.email}}"></paper-input>
-      <paper-input required auto-validate error-message="Required" label="Where do you go to school?" name="school" value="{{data.school}}"></paper-input>
-      <paper-input required auto-validate error-message="Required" label="Where are you traveling from?" name="city" value="{{data.city}}" focused="{{cityFocused}}"></paper-input>
+      <paper-input required auto-validate maxlength="200" error-message="Required" label="What is your name?" name="name" value="{{data.name}}"></paper-input>
+      <paper-input required auto-validate maxlength="200" error-message="Invalid Email" type="email" label="What is your email?" name="email" value="{{data.email}}"></paper-input>
+      <paper-input required auto-validate maxlength="200" error-message="Required" label="Where do you go to school?" name="school" value="{{data.school}}"></paper-input>
+      <paper-input required auto-validate maxlength="200" error-message="Required" label="Where are you traveling from?" name="city" value="{{data.city}}" focused="{{cityFocused}}"></paper-input>
       <template is="dom-repeat" items="[[citiesClean]]">
         <paper-item on-tap="selectCity">[[item.matching_full_name]]</paper-item>
       </template>
-      <paper-input label="GitHub" name="github" value="{{data.github}}">
+      <paper-input maxlength="200" label="GitHub" name="github" value="{{data.github}}">
         <div prefix>https://github.com/</div>
       </paper-input>
       <template is="dom-if" if="[[githubDetails]]">
@@ -62,10 +62,10 @@
         </paper-icon-item>
       </template>
 
-      <paper-input label="LinkedIn" name="linkedin" value="{{data.linkedin}}">
+      <paper-input maxlength="200" label="LinkedIn" name="linkedin" value="{{data.linkedin}}">
         <div prefix>https://linkedin.com/in/</div>
       </paper-input>
-      <paper-input label="Personal Site" name="personalsite" auto-validate error-message="Invalid URL" value="{{data.personalsite}}" type="url"></paper-input>
+      <paper-input maxlength="200" label="Personal Site" name="personalsite" auto-validate error-message="Invalid URL" value="{{data.personalsite}}" type="url"></paper-input>
 
       <paper-input always-float-label type="file" label="Resume" name="resume" value="{{data.resume}}"></paper-input>
 
@@ -161,15 +161,21 @@ Polymer({
     // make files available
     var data = new FormData();
     jQuery.each($(fileInput)[0].files, function(i, file) {
-      data.append(fileInputName+'['+i+']', file);
+      data.append(fileInputName, file);
     });
     $('#form input:not([type="file"]), paper-textarea, paper-dropdown-menu').each(function(i, input) {
       var $input = $(input);
-      data.append($input.attr('name'), $input.val());
+      var name = $input.attr('name');
+      if (!(typeof name === "undefined")) {
+        data.append(name, $input.val());
+      }
     });
     $('paper-checkbox').each(function(i, input) {
       var $input = $(input);
-      data.append($input.attr('name'), $input[0].checked);
+      var name = $input.attr('name');
+      if (!(typeof name === "undefined")) {
+        data.append(name, $input[0].checked);
+      }
     });
     return data;
   },

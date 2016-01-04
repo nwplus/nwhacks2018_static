@@ -8,6 +8,7 @@ watch:
 	sass --watch css/main.scss:css/main.css&
 	util/watch.sh
 
-.PHONY: clean
 clean:
 	rm -f build.html build.js
+
+.PHONY: build deps watch clean
