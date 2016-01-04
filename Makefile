@@ -1,5 +1,5 @@
 build:
-	vulcanize --abspath . --out-html build.html --strip-comments --inline-scripts --inline-css app.html
+	vulcanize --abspath . --strip-comments --inline-scripts --inline-css app.html | crisper --html build.html --js build.js
 
 deps:
 	bower install
@@ -10,4 +10,4 @@ watch:
 
 .PHONY: clean
 clean:
-	rm -f build.html
+	rm -f build.html build.js

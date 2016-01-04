@@ -121,6 +121,7 @@ a {
   left: 0;
   z-index: 100;
   padding: 5px 15px;
+  padding-right: 165px;
   background-color: rgba(35, 31, 32, 0.6);
   color: #FFFFFF;
   transition: background-color 0.2s, box-shadow 0.2s; }
@@ -140,17 +141,19 @@ a {
     #menu a.right {
       float: right; }
 
-@media (max-width: 400px) {
+@media (max-width: 510px) {
   #menu a.med {
     display: none; } }
-@media (max-width: 650px) {
-  #menu paper-icon-button {
-    margin-left: 7.5px;
-    margin-right: 7.5px; }
-  #menu paper-button {
-    padding: 17px 7.5px; }
-  #menu a.big {
-    display: none; } }
+@media (max-width: 815px) {
+  #menu {
+    padding-right: 125px; }
+    #menu paper-icon-button {
+      margin-left: 7.5px;
+      margin-right: 7.5px; }
+    #menu paper-button {
+      padding: 17px 7.5px; }
+    #menu a.big {
+      display: none; } }
 schedule-box {
   font-size: 14pt; }
   schedule-box td:first-child {
@@ -302,5 +305,8 @@ star {
   -moz-background-size: contain;
   -o-background-size: contain;
   background-size: contain; }
+
+#sponsors {
+  text-align: center; }
 
 /*# sourceMappingURL=main.css.map */

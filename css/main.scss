@@ -146,6 +146,7 @@ a {
   left: 0;
   z-index: 100;
   padding: 5px $menu-padding;
+  padding-right: 165px;
   background-color: $dark-bg;
   color: $dark-fg;
   transition: background-color 0.2s, box-shadow 0.2s;
@@ -172,15 +173,17 @@ a {
     }
   }
 }
-@media (max-width: 400px) {
+@media (max-width: 510px) {
   #menu {
     a.med {
       display: none;
     }
   }
 }
-@media (max-width: 650px) {
+@media (max-width: 815px) {
   #menu {
+    padding-right: 125px;
+
     paper-icon-button {
       margin-left: $menu-padding/2;
       margin-right: $menu-padding/2;
@@ -391,3 +394,8 @@ star {
   -o-background-size: contain;
   background-size: contain;
 }
+
+#sponsors {
+  text-align: center;
+}
+
