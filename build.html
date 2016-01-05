@@ -3878,14 +3878,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <h1 id="register">nwHacks Registration</h1>
     <form is="iron-form" id="form" method="post" content-type="multipart/form-data" on-iron-form-response="register" action="/api/register/" on-iron-form-presubmit="formPreSubmit" on-iron-form-submit="submitting">
-      <paper-input required="" auto-validate="" error-message="Required" label="What is your name?" name="name" value="{{data.name}}"></paper-input>
-      <paper-input required="" auto-validate="" error-message="Invalid Email" type="email" label="What is your email?" name="email" value="{{data.email}}"></paper-input>
-      <paper-input required="" auto-validate="" error-message="Required" label="Where do you go to school?" name="school" value="{{data.school}}"></paper-input>
-      <paper-input required="" auto-validate="" error-message="Required" label="Where are you traveling from?" name="city" value="{{data.city}}" focused="{{cityFocused}}"></paper-input>
+      <paper-input required="" auto-validate="" maxlength="200" error-message="Required" label="What is your name?" name="name" value="{{data.name}}"></paper-input>
+      <paper-input required="" auto-validate="" maxlength="200" error-message="Invalid Email" type="email" label="What is your email?" name="email" value="{{data.email}}"></paper-input>
+      <paper-input required="" auto-validate="" maxlength="200" error-message="Required" label="Where do you go to school?" name="school" value="{{data.school}}"></paper-input>
+      <paper-input required="" auto-validate="" maxlength="200" error-message="Required" label="Where are you traveling from?" name="city" value="{{data.city}}" focused="{{cityFocused}}"></paper-input>
       <template is="dom-repeat" items="[[citiesClean]]">
         <paper-item on-tap="selectCity">[[item.matching_full_name]]</paper-item>
       </template>
-      <paper-input label="GitHub" name="github" value="{{data.github}}">
+      <paper-input maxlength="200" label="GitHub" name="github" value="{{data.github}}">
         <div prefix="">https://github.com/</div>
       </paper-input>
       <template is="dom-if" if="[[githubDetails]]">
@@ -3895,10 +3895,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </paper-icon-item>
       </template>
 
-      <paper-input label="LinkedIn" name="linkedin" value="{{data.linkedin}}">
+      <paper-input maxlength="200" label="LinkedIn" name="linkedin" value="{{data.linkedin}}">
         <div prefix="">https://linkedin.com/in/</div>
       </paper-input>
-      <paper-input label="Personal Site" name="personalsite" auto-validate="" error-message="Invalid URL" value="{{data.personalsite}}" type="url"></paper-input>
+      <paper-input maxlength="200" label="Personal Site" name="personalsite" auto-validate="" error-message="Invalid URL" value="{{data.personalsite}}" type="url"></paper-input>
 
       <paper-input always-float-label="" type="file" label="Resume" name="resume" value="{{data.resume}}"></paper-input>
 
@@ -3915,6 +3915,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <paper-checkbox name="mentor">Would you like to be a mentor?</paper-checkbox>
       <paper-textarea required="" auto-validate="" error-message="Required" label="Why do you want to come to nwHacks?" name="reason" value="{{data.reason}}"></paper-textarea>
 
+      <p>
+        We participate in Major League Hacking (MLH) as a MLH Member Event. You authorize us to share certain application/registration information for event administration, ranking, MLH administration, and occasional messages about hackathons in line with the
+        <a href="https://mlh.io/privacy">MLH Privacy Policy</a>.
+      </p>
+      <paper-checkbox name="mlh" required="" auto-validate="" error-message="Required">
+        I will at all times abide by and conform to the <a href="http://mlh.io/code-of-conduct">Major League Hacking Code of Conduct</a> while at the event.
+      </paper-checkbox>
       <center>
       <paper-button elevation="1" on-tap="submit" class="register">Register</paper-button>
       </center>
@@ -4065,7 +4072,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </p>
     </div>
     <p id="pdf">
-      <a href="/sponsors.pdf">
+      <a href="/static/docs/sponsors.pdf">
         <paper-button class="button">get the sponsorship pdf</paper-button>
       </a>
     </p>
@@ -4225,7 +4232,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <nav class="grid-container">
               <a href="#!/sponsors#sponsor">Become a Sponsor</a>
               <a href="mailto:sponsorship@nwhacks.io">Email us</a>
-              <a href="#!/codeofconduct">Our Code of Conduct </a>
+              <a href="http://mlh.io/code-of-conduct">Code of Conduct </a>
             </nav>
           </td>
           <td>
