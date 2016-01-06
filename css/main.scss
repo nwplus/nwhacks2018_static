@@ -8,7 +8,8 @@ $logo-size: 500px;
 $menu-padding: 15px;
 $tagline-font-size: 22pt;
 $infoline-font-size: 17pt;
-$link: #4BAE74;
+$link-dark: #4BAE74;
+$link: darken($link-dark, 10%);
 
 $btn-shadow-size: 4px;
 $register-btn-fg: $dark-fg;
@@ -21,7 +22,7 @@ $login-btn-bg-shadow: #BCBEC0;
 $footer-bg: #414042;
 
 $form-error: $register-btn-bg-shadow;
-$form-focused: lighten($link, 20%);
+$form-focused: $link;
 
 @import "./etica.scss";
 
@@ -209,7 +210,6 @@ schedule-box {
 
 #header {
   #title {
-
     text-align: center;
 
     object {
@@ -217,11 +217,42 @@ schedule-box {
       padding: 75px 0;
       max-width: calc(100vw - 100px);
       max-height: calc(100vw - 100px);
+      pointer-events: none;
+    }
+
+    #logos {
+      position: relative;
+      display: inline-block;
+      & > a {
+        display: block;
+      }
+    }
+
+    .title-sponsor {
+      position: absolute;
+      bottom: 30px;
+      right: -90px;
+      display: inline-block;
+
+      img {
+        max-height: 70px;
+        vertical-align: -3px;
+      }
     }
   }
   #buttons {
     margin: 50px;
     text-align: center;
+  }
+}
+
+@media(max-width: 700px) {
+  #header #title .title-sponsor {
+    bottom: 10px;
+    right: -40px;
+    img {
+      max-height: 50px;
+    }
   }
 }
 
@@ -249,12 +280,39 @@ footer {
   }
   a {
     display: block;
+    color: $link-dark;
   }
   table {
     width: 100%;
 
+    td {
+      vertical-align: top;
+
+      & > table {
+        width: auto;
+        border-collapse: collapse;
+
+        td + td {
+          padding-left: 10px;
+        }
+      }
+    }
     td:last-child {
       text-align: right;
+    }
+  }
+}
+@media (max-width: 650px) {
+  .small-first {display: table-header-group; }
+  .small-middle {display: table-row-group;    }
+  .small-last {display: table-footer-group; }
+
+  footer > table > tbody > tr > td {
+    padding-left: 0 !important;
+    text-align: left !important;
+
+    table {
+      width: 100%;
     }
   }
 }
@@ -398,4 +456,3 @@ star {
 #sponsors {
   text-align: center;
 }
-

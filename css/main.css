@@ -60,10 +60,10 @@ register-form #form .is-invalid .focused-line {
 register-form #form paper-input-error {
   color: #D74343; }
 register-form #form .focused-line {
-  background: #90cfaa; }
+  background: #3c8a5c; }
 register-form #form paper-checkbox #checkbox.checked.paper-checkbox {
-  background-color: #4BAE74;
-  border-color: #4BAE74; }
+  background-color: #3c8a5c;
+  border-color: #3c8a5c; }
 register-form #form paper-menu paper-item {
   color: #444; }
 
@@ -105,7 +105,7 @@ a.link {
     text-decoration: none; }
 
 a {
-  color: #4BAE74;
+  color: #3c8a5c;
   text-decoration: none; }
   a:hover {
     text-decoration: underline; }
@@ -167,11 +167,31 @@ schedule-box {
     height: 500px;
     padding: 75px 0;
     max-width: calc(100vw - 100px);
-    max-height: calc(100vw - 100px); }
+    max-height: calc(100vw - 100px);
+    pointer-events: none; }
+  #header #title #logos {
+    position: relative;
+    display: inline-block; }
+    #header #title #logos > a {
+      display: block; }
+  #header #title .title-sponsor {
+    position: absolute;
+    bottom: 30px;
+    right: -90px;
+    display: inline-block; }
+    #header #title .title-sponsor img {
+      max-height: 70px;
+      vertical-align: -3px; }
 #header #buttons {
   margin: 50px;
   text-align: center; }
 
+@media (max-width: 700px) {
+  #header #title .title-sponsor {
+    bottom: 10px;
+    right: -40px; }
+    #header #title .title-sponsor img {
+      max-height: 50px; } }
 footer {
   overflow: hidden; }
   footer .skyline {
@@ -188,12 +208,35 @@ footer {
   footer .imgcont img {
     max-height: 100px; }
   footer a {
-    display: block; }
+    display: block;
+    color: #4BAE74; }
   footer table {
     width: 100%; }
+    footer table td {
+      vertical-align: top; }
+      footer table td > table {
+        width: auto;
+        border-collapse: collapse; }
+        footer table td > table td + td {
+          padding-left: 10px; }
     footer table td:last-child {
       text-align: right; }
 
+@media (max-width: 650px) {
+  .small-first {
+    display: table-header-group; }
+
+  .small-middle {
+    display: table-row-group; }
+
+  .small-last {
+    display: table-footer-group; }
+
+  footer > table > tbody > tr > td {
+    padding-left: 0 !important;
+    text-align: left !important; }
+    footer > table > tbody > tr > td table {
+      width: 100%; } }
 @media screen and (min-width: 2000px) {
   footer .skyline object {
     margin-bottom: -80px; } }
