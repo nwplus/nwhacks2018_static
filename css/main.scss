@@ -68,9 +68,14 @@ register-form #form {
   .focused-line {
     background: $form-focused;
   }
-  paper-checkbox #checkbox.checked.paper-checkbox {
-    background-color: $link;
-    border-color: $link;
+  paper-checkbox {
+    #checkboxLabel.paper-checkbox  {
+      pointer-events: auto;
+    }
+    #checkbox.checked.paper-checkbox {
+      background-color: $link;
+      border-color: $link;
+    }
   }
   paper-menu paper-item {
     color: $light-fg;
@@ -454,5 +459,17 @@ star {
 }
 
 #sponsors {
+  max-width: inherit;
   text-align: center;
+
+  img, svg {
+    vertical-align: middle;
+    margin: 30px;
+    max-width: calc(100% - 60px);
+  }
+  .sponsors-tera {
+    img, svg {
+      width: 450px;
+    }
+  }
 }

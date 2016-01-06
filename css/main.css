@@ -61,6 +61,8 @@ register-form #form paper-input-error {
   color: #D74343; }
 register-form #form .focused-line {
   background: #3c8a5c; }
+register-form #form paper-checkbox #checkboxLabel.paper-checkbox {
+  pointer-events: auto; }
 register-form #form paper-checkbox #checkbox.checked.paper-checkbox {
   background-color: #3c8a5c;
   border-color: #3c8a5c; }
@@ -350,6 +352,13 @@ star {
   background-size: contain; }
 
 #sponsors {
+  max-width: inherit;
   text-align: center; }
+  #sponsors img, #sponsors svg {
+    vertical-align: middle;
+    margin: 30px;
+    max-width: calc(100% - 60px); }
+  #sponsors .sponsors-tera img, #sponsors .sponsors-tera svg {
+    width: 450px; }
 
 /*# sourceMappingURL=main.css.map */
