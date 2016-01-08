@@ -178,12 +178,12 @@ schedule-box {
       display: block; }
   #header #title .title-sponsor {
     position: absolute;
-    bottom: 30px;
+    bottom: 20px;
     right: -90px;
     display: inline-block; }
     #header #title .title-sponsor img {
-      max-height: 70px;
-      vertical-align: -3px; }
+      max-height: 80px;
+      vertical-align: -13px; }
 #header #buttons {
   margin: 50px;
   text-align: center; }
