@@ -380,5 +380,8 @@ star {
       filter: none; }
   #sponsors .sponsors-tera img, #sponsors .sponsors-tera svg {
     width: 450px; }
+  #sponsors .partners img, #sponsors .partners svg {
+    max-height: 140px;
+    max-width: 350px; }
 
 /*# sourceMappingURL=main.css.map */

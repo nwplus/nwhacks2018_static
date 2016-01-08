@@ -502,4 +502,10 @@ star {
       width: 450px;
     }
   }
+  .partners {
+    img, svg {
+      max-height: 140px;
+      max-width: 350px;
+    }
+  }
 }
