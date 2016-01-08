@@ -466,6 +466,36 @@ star {
     vertical-align: middle;
     margin: 30px;
     max-width: calc(100% - 60px);
+    $brightness: brightness(0.44);
+    $filter: brightness(0) invert(1) $brightness;
+    $filter-black: brightness(0);
+    $filter-white: brightness(0) invert(1);
+
+    -webkit-filter: $filter;
+    -moz-filter: $filter;
+    -o-filter: $filter;
+    filter: $filter;
+
+    transition : -webkit-filter 0.5s, -moz-filter 0.5s, -o-filter 0.5s, filter 0.5s;
+
+    &.black:hover {
+      -webkit-filter: $filter-black;
+      -moz-filter: $filter-black;
+      -o-filter: $filter-black;
+      filter: $filter-black;
+    }
+    &.white:hover {
+      -webkit-filter: $filter-white;
+      -moz-filter: $filter-white;
+      -o-filter: $filter-white;
+      filter: $filter-white;
+    }
+    &:hover {
+      -webkit-filter: none;
+      -moz-filter: none;
+      -o-filter: none;
+      filter: none;
+    }
   }
   .sponsors-tera {
     img, svg {

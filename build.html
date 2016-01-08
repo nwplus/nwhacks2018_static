@@ -383,7 +383,27 @@ star {
   #sponsors img, #sponsors svg {
     vertical-align: middle;
     margin: 30px;
-    max-width: calc(100% - 60px); }
+    max-width: calc(100% - 60px);
+    -webkit-filter: brightness(0) invert(1) brightness(0.44);
+    -moz-filter: brightness(0) invert(1) brightness(0.44);
+    -o-filter: brightness(0) invert(1) brightness(0.44);
+    filter: brightness(0) invert(1) brightness(0.44);
+    transition: -webkit-filter 0.5s, -moz-filter 0.5s, -o-filter 0.5s, filter 0.5s; }
+    #sponsors img.black:hover, #sponsors svg.black:hover {
+      -webkit-filter: brightness(0);
+      -moz-filter: brightness(0);
+      -o-filter: brightness(0);
+      filter: brightness(0); }
+    #sponsors img.white:hover, #sponsors svg.white:hover {
+      -webkit-filter: brightness(0) invert(1);
+      -moz-filter: brightness(0) invert(1);
+      -o-filter: brightness(0) invert(1);
+      filter: brightness(0) invert(1); }
+    #sponsors img:hover, #sponsors svg:hover {
+      -webkit-filter: none;
+      -moz-filter: none;
+      -o-filter: none;
+      filter: none; }
   #sponsors .sponsors-tera img, #sponsors .sponsors-tera svg {
     width: 450px; }
 
@@ -3889,7 +3909,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <h1>SPONSORS</h1>
       <div class="sponsors-title">
         <a href="https://www.privateinternetaccess.com/">
-          <img src="/static/svg/logos/pia-logo.svg" alt="Private Internet Access">
+          <img src="/static/svg/logos/pia-logo.svg" class="white" alt="Private Internet Access">
         </a>
       </div>
       <div class="sponsors-tera">
@@ -3897,12 +3917,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <img src="/static/svg/logos/google-logo.svg" alt="Google">
         </a>
         <a href="http://www.ca.com/">
-          <img src="/static/img/logos/ca_tech.png" alt="CA Technologies">
+          <img src="/static/img/logos/ca_tech.png" class="white" alt="CA Technologies">
         </a>
       </div>
       <h1>PARTNERS</h1>
       <a href="https://mlh.io/">
-        <object width="230" data="/static/svg/logos/mlh-logo.svg" type="image/svg+xml"></object>
+        <img width="230" src="/static/svg/logos/mlh-logo.svg" alt="MLH">
       </a>
     </div>
   </template>
@@ -4264,7 +4284,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <span class="title-sponsor">sponsored by
             <a href="https://www.privateinternetaccess.com/">
               <span class="home-top-brand-sponsor-logo">
-                <img src="/static/svg/logos/pia-logo.svg" alt="Private Internet Access">
+                <img src="/static/svg/logos/pia-logo-orig.svg" alt="Private Internet Access">
               </span>
             </a>
           </span>
