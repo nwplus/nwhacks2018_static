@@ -18482,6 +18482,9 @@ Polymer({
           return;
         }
         starsDiv.innerHTML = "";
+        if (app.route !== 'home') {
+          return;
+        }
         var trapezoid = document.querySelector("#title .large-trapezoid");
         if (!trapezoid) {
           return;

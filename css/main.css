@@ -24,7 +24,7 @@
   font-weight: lighter;
   font-style: italic; }
 body {
-  font-family: 'LFT Etica';
+  font-family: 'LFT Etica', 'Roboto', 'Sans';
   color: #FFFFFF;
   background: #5b6377;
   /* Old browsers */
