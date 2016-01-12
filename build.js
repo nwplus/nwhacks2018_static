@@ -8737,6 +8737,15 @@ event and do your own custom submission:
     };
 
     /**
+     * KeyboardEvent.key is mostly represented by printable character made by
+     * the keyboard, with unprintable keys labeled nicely.
+     *
+     * However, on OS X, Alt+char can make a Unicode character that follows an
+     * Apple-specific mapping. In this case, we fall back to .keyCode.
+     */
+    var KEY_CHAR = /[a-z0-9*]/;
+
+    /**
      * Matches a keyIdentifier string.
      */
     var IDENT_CHAR = /U\+/;
@@ -8752,14 +8761,22 @@ event and do your own custom submission:
      */
     var SPACE_KEY = /^space(bar)?/;
 
-    function transformKey(key) {
+    /**
+     * Transforms the key.
+     * @param {string} key The KeyBoardEvent.key
+     * @param {Boolean} [noSpecialChars] Limits the transformation to
+     * alpha-numeric characters.
+     */
+    function transformKey(key, noSpecialChars) {
       var validKey = '';
       if (key) {
         var lKey = key.toLowerCase();
         if (lKey === ' ' || SPACE_KEY.test(lKey)) {
           validKey = 'space';
         } else if (lKey.length == 1) {
-          validKey = lKey;
+          if (!noSpecialChars || KEY_CHAR.test(lKey)) {
+            validKey = lKey;
+          }
         } else if (ARROW_KEY.test(lKey)) {
           validKey = lKey.replace('arrow', '');
         } else if (lKey == 'multiply') {
@@ -8810,17 +8827,29 @@ event and do your own custom submission:
       return validKey;
     }
 
-    function normalizedKeyForEvent(keyEvent) {
-      // fall back from .key, to .keyIdentifier, to .keyCode, and then to
-      // .detail.key to support artificial keyboard events
-      return transformKey(keyEvent.key) ||
+    /**
+      * Calculates the normalized key for a KeyboardEvent.
+      * @param {KeyboardEvent} keyEvent
+      * @param {Boolean} [noSpecialChars] Set to true to limit keyEvent.key
+      * transformation to alpha-numeric chars. This is useful with key
+      * combinations like shift + 2, which on FF for MacOS produces
+      * keyEvent.key = @
+      * To get 2 returned, set noSpecialChars = true
+      * To get @ returned, set noSpecialChars = false
+     */
+    function normalizedKeyForEvent(keyEvent, noSpecialChars) {
+      // Fall back from .key, to .keyIdentifier, to .keyCode, and then to
+      // .detail.key to support artificial keyboard events.
+      return transformKey(keyEvent.key, noSpecialChars) ||
         transformKeyIdentifier(keyEvent.keyIdentifier) ||
         transformKeyCode(keyEvent.keyCode) ||
-        transformKey(keyEvent.detail.key) || '';
+        transformKey(keyEvent.detail.key, noSpecialChars) || '';
     }
 
-    function keyComboMatchesEvent(keyCombo, event, eventKey) {
-      return eventKey === keyCombo.key &&
+    function keyComboMatchesEvent(keyCombo, event) {
+      // For combos with modifiers we support only alpha-numeric keys
+      var keyEvent = normalizedKeyForEvent(event, keyCombo.hasModifiers);
+      return keyEvent === keyCombo.key &&
         (!keyCombo.hasModifiers || (
           !!event.shiftKey === !!keyCombo.shiftKey &&
           !!event.ctrlKey === !!keyCombo.ctrlKey &&
@@ -8957,9 +8986,8 @@ event and do your own custom submission:
 
       keyboardEventMatchesKeys: function(event, eventString) {
         var keyCombos = parseEventString(eventString);
-        var eventKey = normalizedKeyForEvent(event);
         for (var i = 0; i < keyCombos.length; ++i) {
-          if (keyComboMatchesEvent(keyCombos[i], event, eventKey)) {
+          if (keyComboMatchesEvent(keyCombos[i], event)) {
             return true;
           }
         }
@@ -9059,11 +9087,10 @@ event and do your own custom submission:
           return;
         }
 
-        var eventKey = normalizedKeyForEvent(event);
         for (var i = 0; i < keyBindings.length; i++) {
           var keyCombo = keyBindings[i][0];
           var handlerName = keyBindings[i][1];
-          if (keyComboMatchesEvent(keyCombo, event, eventKey)) {
+          if (keyComboMatchesEvent(keyCombo, event)) {
             this._triggerKeyHandler(keyCombo, handlerName, event);
             // exit the loop if eventDefault was prevented
             if (event.defaultPrevented) {
@@ -10468,7 +10495,7 @@ Polymer({
      * or a map of animation type to array of configuration objects.
      */
     getAnimationConfig: function(type) {
-      var map = [];
+      var map = {};
       var allConfigs = [];
       this._getAnimationConfigRecursive(type, map, allConfigs);
       // append the configurations saved in the map to the array
@@ -11807,15 +11834,17 @@ is separate from validation, and `allowed-pattern` does not affect how the input
 
       /**
        * Set to true to prevent the user from entering invalid input. The new input characters are
-       * matched with `allowedPattern` if it is set, otherwise it will use the `pattern` attribute if
-       * set, or the `type` attribute (only supported for `type=number`).
+       * matched with `allowedPattern` if it is set, otherwise it will use the `type` attribute (only
+       * supported for `type=number`).
        */
       preventInvalidInput: {
         type: Boolean
       },
 
       /**
-       * Regular expression to match valid input characters.
+       * Regular expression expressing a set of characters to enforce the validity of input characters.
+       * The recommended value should follow this format: `[a-ZA-Z0-9.+-!;:]` that list the characters 
+       * allowed as input.
        */
       allowedPattern: {
         type: String,
@@ -11843,8 +11872,6 @@ is separate from validation, and `allowed-pattern` does not affect how the input
       var pattern;
       if (this.allowedPattern) {
         pattern = new RegExp(this.allowedPattern);
-      } else if (this.pattern) {
-        pattern = new RegExp(this.pattern);
       } else {
         switch (this.type) {
           case 'number':
@@ -11864,7 +11891,7 @@ is separate from validation, and `allowed-pattern` does not affect how the input
      */
     _bindValueChanged: function() {
       if (this.value !== this.bindValue) {
-        this.value = !(this.bindValue || this.bindValue === 0) ? '' : this.bindValue;
+        this.value = !(this.bindValue || this.bindValue === 0 || this.bindValue === false) ? '' : this.bindValue;
       }
       // manually notify because we don't want to notify until after setting value
       this.fire('bind-value-changed', {value: this.bindValue});
@@ -11973,8 +12000,8 @@ is separate from validation, and `allowed-pattern` does not affect how the input
       if (this.hasValidator()) {
         valid = Polymer.IronValidatableBehavior.validate.call(this, this.value);
       } else {
-        this.invalid = !this.validity.valid;
-        valid = this.validity.valid;
+        valid = this.checkValidity();
+        this.invalid = !valid;
       }
       this.fire('iron-input-validate');
       return valid;
@@ -12033,6 +12060,9 @@ is separate from validation, and `allowed-pattern` does not affect how the input
       /**
        * Returns true if the value is invalid. Bind this to both the `<paper-input-container>`'s
        * and the input's `invalid` property.
+       * 
+       * If `autoValidate` is true, the `invalid` attribute is managed automatically,
+       * which can clobber attempts to manage it manually.
        */
       invalid: {
         type: Boolean,
@@ -16818,7 +16848,6 @@ Polymer({
 
 })();
 Polymer({
-
     is: 'paper-progress',
 
     behaviors: [
@@ -16826,7 +16855,6 @@ Polymer({
     ],
 
     properties: {
-
       /**
        * The number that represents the current secondary progress.
        */
@@ -16912,7 +16940,6 @@ Polymer({
     _hideSecondaryProgress: function(secondaryRatio) {
       return secondaryRatio === 0;
     }
-
   });
 (function() {
 
