@@ -4,20 +4,23 @@
       :host {
         display: block;
       }
+      h1 {
+        text-align: center;
+      }
       .day {
         margin-top: 0;
         text-align: center;
       }
-      .day table {
-        width: 100%;
+      .day .row {
         text-align: left;
       }
-      .day td {
+      .day .row > div {
         padding: 5px 10px;
       }
-      .day td:first-child {
+      .day .row > div:first-child {
         white-space: nowrap;
         font-weight: 500;
+        min-width: 74px;
       }
       .day .time {
         font-size: 20pt;
@@ -27,11 +30,15 @@
         font-size: 10pt;
         margin-left: 2px;
       }
-      .day td:nth-child(2) {
-        width: 100%;
+      .day .row > div {
+        display: inline-block;
+        line-height: 32px;
+        height: 32px;
+        vertical-align: middle;
       }
-      .day td:last-child {
+      .day .row > div:last-child {
         white-space: nowrap;
+        float: right;
       }
       .card-content {
         padding: 0px 16px;
@@ -60,19 +67,15 @@
         <div class="day">
           <div class="small-trapezoid">[[item.name]]</div>
           <div class="card-content">
-            <table>
-              <tbody>
-                <template is="dom-repeat" items="[[item.events]]">
-                  <tr>
-                    <td>
-                      <span class="time">[[item.displayTime]]</span><span class="period">[[item.timePeriod]]</span>
-                    </td>
-                    <td>[[item.name]]</td>
-                    <td><a href="[[map(item.location)]]">[[item.location]]</a></td>
-                  </tr>
-                </template>
-              </tbody>
-            </table>
+            <template is="dom-repeat" items="[[item.events]]">
+              <div class="row">
+                <div>
+                  <span class="time">[[item.displayTime]]</span><span class="period">[[item.timePeriod]]</span>
+                </div>
+                <div>[[item.name]]</div>
+                <div><a href="[[map(item.location)]]">[[item.location]]</a></div>
+              </div>
+            </template>
           </div>
         </div>
       </template>

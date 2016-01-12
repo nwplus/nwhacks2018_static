@@ -205,10 +205,10 @@ a {
 
 schedule-box {
   font-size: 14pt;
-  td:first-child {
+  .day .row > div:first-child {
     color: $dark-fg-alt;
   }
-  td:nth-child(2) {
+  .day .row > div:nth-child(2) {
     color: $dark-fg;
   }
 }

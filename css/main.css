@@ -158,9 +158,9 @@ a {
       display: none; } }
 schedule-box {
   font-size: 14pt; }
-  schedule-box td:first-child {
+  schedule-box .day .row > div:first-child {
     color: #FFF2B5; }
-  schedule-box td:nth-child(2) {
+  schedule-box .day .row > div:nth-child(2) {
     color: #FFFFFF; }
 
 #header #title {

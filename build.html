@@ -184,9 +184,9 @@ a {
       display: none; } }
 schedule-box {
   font-size: 14pt; }
-  schedule-box td:first-child {
+  schedule-box .day .row > div:first-child {
     color: #FFF2B5; }
-  schedule-box td:nth-child(2) {
+  schedule-box .day .row > div:nth-child(2) {
     color: #FFFFFF; }
 
 #header #title {
@@ -1905,7 +1905,29 @@ star {
 
 <title>nwHacks 2016</title>
   </head>
-  <body><div hidden="" by-vulcanize=""><dom-module id="iron-image" assetpath="/static/bower_components/iron-image/">
+  <body><div hidden="" by-vulcanize=""><dom-module id="iron-pages" assetpath="/static/bower_components/iron-pages/">
+
+  <style>
+
+    :host {
+      display: block;
+    }
+
+    :host > ::content > :not(.iron-selected) {
+      display: none !important;
+    }
+
+  </style>
+
+  <template>
+
+    <content></content>
+
+  </template>
+
+</dom-module>
+
+<dom-module id="iron-image" assetpath="/static/bower_components/iron-image/">
 
   <style>
 
@@ -3886,10 +3908,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 100%;
         margin-bottom: calc(100% / -5);
       }
-      #sponsors, #schedule, #faq {
-        padding-top: 100px;
-        margin-top: -100px;
-      }
     </style>
     <div id="intro">
       <div class="h1-container">
@@ -3953,7 +3971,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div class="clouds">
       <img src="/static/svg/Clouds-Distributed.svg">
     </div>
-    <div id="schedule">
+    <div id="calendar">
       <schedule-box></schedule-box>
     </div>
     <div class="mountains">
@@ -4231,20 +4249,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+      h1 {
+        text-align: center;
+      }
       .day {
         margin-top: 0;
         text-align: center;
       }
-      .day table {
-        width: 100%;
+      .day .row {
         text-align: left;
       }
-      .day td {
+      .day .row > div {
         padding: 5px 10px;
       }
-      .day td:first-child {
+      .day .row > div:first-child {
         white-space: nowrap;
         font-weight: 500;
+        min-width: 74px;
       }
       .day .time {
         font-size: 20pt;
@@ -4254,11 +4275,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-size: 10pt;
         margin-left: 2px;
       }
-      .day td:nth-child(2) {
-        width: 100%;
+      .day .row > div {
+        display: inline-block;
+        line-height: 32px;
+        height: 32px;
+        vertical-align: middle;
       }
-      .day td:last-child {
+      .day .row > div:last-child {
         white-space: nowrap;
+        float: right;
       }
       .card-content {
         padding: 0px 16px;
@@ -4287,19 +4312,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="day">
           <div class="small-trapezoid">[[item.name]]</div>
           <div class="card-content">
-            <table>
-              <tbody>
-                <template is="dom-repeat" items="[[item.events]]">
-                  <tr>
-                    <td>
-                      <span class="time">[[item.displayTime]]</span><span class="period">[[item.timePeriod]]</span>
-                    </td>
-                    <td>[[item.name]]</td>
-                    <td><a href="[[map(item.location)]]">[[item.location]]</a></td>
-                  </tr>
-                </template>
-              </tbody>
-            </table>
+            <template is="dom-repeat" items="[[item.events]]">
+              <div class="row">
+                <div>
+                  <span class="time">[[item.displayTime]]</span><span class="period">[[item.timePeriod]]</span>
+                </div>
+                <div>[[item.name]]</div>
+                <div><a href="[[map(item.location)]]">[[item.location]]</a></div>
+              </div>
+            </template>
           </div>
         </div>
       </template>
@@ -4312,109 +4333,118 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   </dom-module>
 </div>
-    <a id="mlh-trust-badge" style="position:fixed;top:0;right:50px;max-width:100px;width:10%;min-width: 60px;display:block;z-index:10000" href="https://mlh.io/seasons/s2016/events?utm_source=s2016&amp;utm_medium=TrustBadge&amp;utm_campaign=s2016" target="_blank"><img src="https://s3.amazonaws.com/logged-assets/trust-badge/s2016.png" alt="MLH Official - Spring 2016" style="width:100%;"></a>
-    <nav id="menu">
-      <a href="#!/">
-        <paper-icon-button src="/static/svg/NWHacks-NavBar-Logo.svg"></paper-icon-button>
-      </a>
-      <a href="#intro" class="big">
-        <paper-button>about</paper-button>
-      </a>
-      <a href="#faq" class="med">
-        <paper-button>faq</paper-button>
-      </a>
-      <a href="#schedule">
-        <paper-button>schedule</paper-button>
-      </a>
-      <a href="#sponsors" class="big">
-        <paper-button>sponsors</paper-button>
-      </a>
-      
-      <a href="#!/register#register" class="right med">
-        <paper-button>register</paper-button>
-      </a>
-    </nav>
-    <div id="header">
-      <div id="title">
-        <div id="logos">
-          <a href="#!/">
-            <object data="/static/svg/NWHacks-Web-Logo.svg" type="image/svg+xml"></object>
+    <template is="dom-bind" id="app">
+      <a id="mlh-trust-badge" style="position:fixed;top:0;right:50px;max-width:100px;width:10%;min-width: 60px;display:block;z-index:10000" href="https://mlh.io/seasons/s2016/events?utm_source=s2016&amp;utm_medium=TrustBadge&amp;utm_campaign=s2016" target="_blank"><img src="https://s3.amazonaws.com/logged-assets/trust-badge/s2016.png" alt="MLH Official - Spring 2016" style="width:100%;"></a>
+      <nav id="menu">
+        <a href="/#title">
+          <paper-icon-button src="/static/svg/NWHacks-NavBar-Logo.svg"></paper-icon-button>
+        </a>
+        <a href="#intro" class="big">
+          <paper-button>about</paper-button>
+        </a>
+        <a href="#faq" class="med">
+          <paper-button>faq</paper-button>
+        </a>
+        <a href="#calendar">
+          <paper-button>schedule</paper-button>
+        </a>
+        <a href="#sponsors" class="big">
+          <paper-button>sponsors</paper-button>
+        </a>
+        
+          <a href="/register#register" class="right med">
+            <paper-button>register</paper-button>
           </a>
-          <span class="title-sponsor">sponsored by
-            <a href="https://www.privateinternetaccess.com/">
-              <span class="home-top-brand-sponsor-logo">
-                <img src="/static/svg/logos/pia-logo-orig.svg" alt="Private Internet Access">
-              </span>
+      </nav>
+      <div id="header">
+        <div id="title">
+          <div id="logos">
+            <a href="/">
+              <object data="/static/svg/NWHacks-Web-Logo.svg" type="image/svg+xml"></object>
             </a>
-          </span>
+            <span class="title-sponsor">sponsored by
+              <a href="https://www.privateinternetaccess.com/">
+                <span class="home-top-brand-sponsor-logo">
+                  <img src="/static/svg/logos/pia-logo-orig.svg" alt="Private Internet Access">
+                </span>
+              </a>
+            </span>
+          </div>
+          <br>
+          <div class="large-trapezoid">
+            <h1>WESTERN CANADA'S LARGEST HACKATHON</h1>
+            <h2>FEBRUARY 27-28 @ Fred Kaiser Building, UBC</h2>
+          </div>
         </div>
-        <br>
-        <div class="large-trapezoid">
-          <h1>WESTERN CANADA'S LARGEST HACKATHON</h1>
-          <h2>FEBRUARY 27-28 @ Fred Kaiser Building, UBC</h2>
+        <div id="buttons">
+          <a href="/register#register"><paper-button class="register">Register</paper-button></a>
+          <a href="https://s2015nwhacks.devpost.com/"><paper-button class="button">previous hacks</paper-button></a>
+          <br>
+          <br>
+          <br>
+          <a href="/sponsors#sponsor" class="link">Interested in becoming a sponsor?</a>
         </div>
       </div>
-      <div id="buttons">
-        <a href="#!/register#register"><paper-button class="register">Register</paper-button></a>
-        <a href="https://s2015nwhacks.devpost.com/"><paper-button class="button">previous hacks</paper-button></a>
-        <br>
-        <br>
-        <br>
-        <a href="#!/sponsors#sponsor" class="link">Interested in becoming a sponsor?</a>
+      <div class="wrapper" id="begin">
+        <iron-pages attr-for-selected="data-route" selected="{{route}}">
+          <section data-route="home">
+            <index-page></index-page>
+          </section>
+          <section data-route="register">
+            <register-form></register-form>
+          </section>
+          <section data-route="select">
+            <select-hackers></select-hackers>
+          </section>
+          <section data-route="sponsors">
+            <sponsor-page></sponsor-page>
+          </section>
+        </iron-pages>
       </div>
-    </div>
-    <div class="wrapper" id="begin">
-      <app-router trailingslash="ignore">
-        <app-route path="/" element="index-page"></app-route>
-        <app-route path="/register" element="register-form"></app-route>
-        <app-route path="/select" element="select-hackers"></app-route>
-        <app-route path="/sponsors" element="sponsor-page"></app-route>
-        <app-route path="*" redirect="/"></app-route>
-      </app-router>
-    </div>
-    <footer>
-      <div class="skyline">
-        <object data="/static/svg/Skyline-Footer-Cropped.svg" type="image/svg+xml"></object>
-      </div>
-      <table class="foot">
-        <tbody>
-          <tr>
-            <td class="small-middle">
-              nwHacks Team
-              <table>
-                <tbody>
-                  <tr>
-                    <td>
-                      <a href="https://www.facebook.com/atsushi.yamamoto.7798">Atsushi Yamamoto</a>
-                      <a href="https://www.facebook.com/davidbaldwin123">David Baldwynn</a>
-                      <a href="https://www.rasky.co">Jerome Rasky</a>
-                      <a href="https://www.facebook.com/lansichu">Lansi Chu</a>
-                    </td>
-                    <td>
-                      <a href="https://www.facebook.com/ixxuul">Luxi Xu</a>
-                      <a href="https://fn.lc">Tristan Rice</a>
-                      <a href="https://www.facebook.com/max.leung.31">Max Leung</a>
-                    </td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
-              <br>
-            </td>
-            <td class="small-first">
-              <nav class="grid-container">
-                <a href="#!/sponsors#sponsor">Become a Sponsor</a>
-                <a href="mailto:sponsorship@nwhacks.io">Email us</a>
-                <a href="http://mlh.io/code-of-conduct">Code of Conduct </a>
-              </nav>
-              <br>
-            </td>
-            <td class="small-last">
-              Organised and held by <a href="//www.startupstorm.org/" target="_blank">StartupStorm</a>
-            </td>
-          </tr>
-          </tbody><tbody>
-      </tbody></table>
-    </footer>
-    <div id="stars"></div>
+      <footer>
+        <div class="skyline">
+          <object data="/static/svg/Skyline-Footer-Cropped.svg" type="image/svg+xml"></object>
+        </div>
+        <table class="foot">
+          <tbody>
+            <tr>
+              <td class="small-middle">
+                nwHacks Team
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <a href="https://www.facebook.com/atsushi.yamamoto.7798">Atsushi Yamamoto</a>
+                        <a href="https://www.facebook.com/davidbaldwin123">David Baldwynn</a>
+                        <a href="https://www.rasky.co">Jerome Rasky</a>
+                        <a href="https://www.facebook.com/lansichu">Lansi Chu</a>
+                      </td>
+                      <td>
+                        <a href="https://www.facebook.com/ixxuul">Luxi Xu</a>
+                        <a href="https://fn.lc">Tristan Rice</a>
+                        <a href="https://www.facebook.com/max.leung.31">Max Leung</a>
+                      </td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <br>
+              </td>
+              <td class="small-first">
+                <nav class="grid-container">
+                  <a href="/sponsors#sponsor">Become a Sponsor</a>
+                  <a href="mailto:sponsorship@nwhacks.io">Email us</a>
+                  <a href="http://mlh.io/code-of-conduct">Code of Conduct </a>
+                </nav>
+                <br>
+              </td>
+              <td class="small-last">
+                Organised and held by <a href="//www.startupstorm.org/" target="_blank">StartupStorm</a>
+              </td>
+            </tr>
+            </tbody><tbody>
+        </tbody></table>
+      </footer>
+      <div id="stars"></div>
+    </template>
     </body></html>

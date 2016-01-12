@@ -34,6 +34,8 @@
     "paper-icon-button": "PolymerElements/paper-icon-button#~1.0.5",
     "file-upload": "winhowes/file-upload#~1.6.3",
     "jquery": "~2.1.4",
-    "paper-progress": "PolymerElements/paper-progress#~1.0.7"
+    "paper-progress": "PolymerElements/paper-progress#~1.0.7",
+    "page": "visionmedia/page.js#~1.6.4",
+    "iron-pages": "PolymerElements/iron-pages#~1.0.5"
   }
 }
