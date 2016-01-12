@@ -18479,7 +18479,10 @@ Polymer({
         return true;
       }
       function renderStars() {
-        var starsDiv = document.querySelector("div#stars");
+        var starsDiv = document.querySelector("#starContainer");
+        if (!starsDiv) {
+          return;
+        }
         starsDiv.innerHTML = "";
         var top = document.querySelector("#title .large-trapezoid").offsetTop;
         var bottom = document.querySelector("#faq h1").offsetTop + 30;
@@ -18528,6 +18531,7 @@ Polymer({
         console.log('WebComponentsReady');
         renderStars();
       });
+/*
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -18535,3 +18539,4 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 
 ga('create', 'UA-72252235-1', 'auto');
 ga('send', 'pageview');
+*/
