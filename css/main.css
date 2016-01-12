@@ -373,15 +373,42 @@ star {
       -moz-filter: brightness(0) invert(1);
       -o-filter: brightness(0) invert(1);
       filter: brightness(0) invert(1); }
+    #sponsors img.grayscale, #sponsors svg.grayscale {
+      -webkit-filter: grayscale(1);
+      -moz-filter: grayscale(1);
+      -o-filter: grayscale(1);
+      filter: grayscale(1); }
     #sponsors img:hover, #sponsors svg:hover {
       -webkit-filter: none;
       -moz-filter: none;
       -o-filter: none;
       filter: none; }
-  #sponsors .sponsors-tera img, #sponsors .sponsors-tera svg {
-    width: 450px; }
+  #sponsors .sponsors-giga img, #sponsors .sponsors-giga svg {
+    max-width: 600px; }
+    @media screen and (max-width: 660px) {
+      #sponsors .sponsors-giga img, #sponsors .sponsors-giga svg {
+        max-width: calc(100% - 60px); } }
+  #sponsors .sponsors-mega img, #sponsors .sponsors-mega svg {
+    max-width: 500px; }
+    @media screen and (max-width: 560px) {
+      #sponsors .sponsors-mega img, #sponsors .sponsors-mega svg {
+        max-width: calc(100% - 60px); } }
+  #sponsors .sponsors-kilo img, #sponsors .sponsors-kilo svg {
+    max-width: 400px;
+    max-height: 140px; }
+    @media screen and (max-width: 460px) {
+      #sponsors .sponsors-kilo img, #sponsors .sponsors-kilo svg {
+        max-width: calc(100% - 60px); } }
+  #sponsors .sponsors-micro img, #sponsors .sponsors-micro svg {
+    max-width: 300px; }
+    @media screen and (max-width: 360px) {
+      #sponsors .sponsors-micro img, #sponsors .sponsors-micro svg {
+        max-width: calc(100% - 60px); } }
   #sponsors .partners img, #sponsors .partners svg {
     max-height: 140px;
     max-width: 350px; }
+    @media screen and (max-width: 310px) {
+      #sponsors .partners img, #sponsors .partners svg {
+        max-width: calc(100% - 60px); } }
 
 /*# sourceMappingURL=main.css.map */

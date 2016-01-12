@@ -470,6 +470,7 @@ star {
     $filter: brightness(0) invert(1) $brightness;
     $filter-black: brightness(0);
     $filter-white: brightness(0) invert(1);
+    $filter-grayscale: grayscale(1);
 
     -webkit-filter: $filter;
     -moz-filter: $filter;
@@ -490,6 +491,12 @@ star {
       -o-filter: $filter-white;
       filter: $filter-white;
     }
+    &.grayscale {
+      -webkit-filter: $filter-grayscale;
+      -moz-filter: $filter-grayscale;
+      -o-filter: $filter-grayscale;
+      filter: $filter-grayscale;
+    }
     &:hover {
       -webkit-filter: none;
       -moz-filter: none;
@@ -497,15 +504,46 @@ star {
       filter: none;
     }
   }
-  .sponsors-tera {
+  .sponsors-giga {
     img, svg {
-      width: 450px;
+      max-width: 600px;
+      @media screen and (max-width: 660px) {
+        max-width: calc(100% - 60px);
+      }
+    }
+  }
+  .sponsors-mega {
+    img, svg {
+      max-width: 500px;
+      @media screen and (max-width: 560px) {
+        max-width: calc(100% - 60px);
+      }
+    }
+  }
+  .sponsors-kilo {
+    img, svg {
+      max-width: 400px;
+      max-height: 140px;
+      @media screen and (max-width: 460px) {
+        max-width: calc(100% - 60px);
+      }
+    }
+  }
+  .sponsors-micro {
+    img, svg {
+      max-width: 300px;
+      @media screen and (max-width: 360px) {
+        max-width: calc(100% - 60px);
+      }
     }
   }
   .partners {
     img, svg {
       max-height: 140px;
       max-width: 350px;
+      @media screen and (max-width: 310px) {
+        max-width: calc(100% - 60px);
+      }
     }
   }
 }

@@ -399,16 +399,43 @@ star {
       -moz-filter: brightness(0) invert(1);
       -o-filter: brightness(0) invert(1);
       filter: brightness(0) invert(1); }
+    #sponsors img.grayscale, #sponsors svg.grayscale {
+      -webkit-filter: grayscale(1);
+      -moz-filter: grayscale(1);
+      -o-filter: grayscale(1);
+      filter: grayscale(1); }
     #sponsors img:hover, #sponsors svg:hover {
       -webkit-filter: none;
       -moz-filter: none;
       -o-filter: none;
       filter: none; }
-  #sponsors .sponsors-tera img, #sponsors .sponsors-tera svg {
-    width: 450px; }
+  #sponsors .sponsors-giga img, #sponsors .sponsors-giga svg {
+    max-width: 600px; }
+    @media screen and (max-width: 660px) {
+      #sponsors .sponsors-giga img, #sponsors .sponsors-giga svg {
+        max-width: calc(100% - 60px); } }
+  #sponsors .sponsors-mega img, #sponsors .sponsors-mega svg {
+    max-width: 500px; }
+    @media screen and (max-width: 560px) {
+      #sponsors .sponsors-mega img, #sponsors .sponsors-mega svg {
+        max-width: calc(100% - 60px); } }
+  #sponsors .sponsors-kilo img, #sponsors .sponsors-kilo svg {
+    max-width: 400px;
+    max-height: 140px; }
+    @media screen and (max-width: 460px) {
+      #sponsors .sponsors-kilo img, #sponsors .sponsors-kilo svg {
+        max-width: calc(100% - 60px); } }
+  #sponsors .sponsors-micro img, #sponsors .sponsors-micro svg {
+    max-width: 300px; }
+    @media screen and (max-width: 360px) {
+      #sponsors .sponsors-micro img, #sponsors .sponsors-micro svg {
+        max-width: calc(100% - 60px); } }
   #sponsors .partners img, #sponsors .partners svg {
     max-height: 140px;
     max-width: 350px; }
+    @media screen and (max-width: 310px) {
+      #sponsors .partners img, #sponsors .partners svg {
+        max-width: calc(100% - 60px); } }
 
 /*# sourceMappingURL=main.css.map */
 
@@ -3985,12 +4012,54 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <img src="/static/svg/logos/pia-logo.svg" class="white" alt="Private Internet Access">
         </a>
       </div>
-      <div class="sponsors-tera">
+      <div class="sponsors-giga">
+        <a href="http://www.ca.com/">
+          <img src="/static/img/logos/ca_tech.png" class="white" alt="CA Technologies">
+        </a>
+      </div>
+      <div class="sponsors-mega">
+        <a href="http://www.athinkingape.com/">
+          <img src="/static/img/logos/ata.png" class="white" alt="A Thinking Ape">
+        </a>
+        <a href="https://www.zenefits.com/">
+          <img src="/static/img/logos/Zenefits.png" alt="Zenefits">
+        </a>
+      </div>
+      <div class="sponsors-kilo">
         <a href="https://google.com">
           <img src="/static/svg/logos/google-logo.svg" alt="Google">
         </a>
-        <a href="http://www.ca.com/">
-          <img src="/static/img/logos/ca_tech.png" class="white" alt="CA Technologies">
+        <a href="http://www.deloitte.com/">
+          <img src="/static/svg/logos/deloitte.svg" alt="Deloitte">
+        </a>
+        <a href="https://facebook.com">
+          <img src="/static/img/logos/facebook.png" alt="Facebook">
+        </a>
+        <a href="https://www.orbisfunds.com/">
+          <img src="/static/img/logos/orbis.png" alt="Orbis Investments">
+        </a>
+      </div>
+      <div class="sponsors-micro">
+        <a href="http://www.bitalino.com/">
+          <img src="/static/img/logos/BITalino.png" alt="Bitalino">
+        </a>
+        <a href="http://www.costco.ca/">
+          <img src="/static/svg/logos/Costco_Wholesale.svg" alt="Costco">
+        </a>
+        <a href="https://lob.com/">
+          <img src="/static/img/logos/lob-logo.png" alt="Lob">
+        </a>
+        <a href="https://www.namecheap.com/">
+          <img src="/static/img/logos/namecheap.png" alt="Namecheap">
+        </a>
+        <a href="http://www.plux.info/">
+          <img src="/static/img/logos/res-plux.png" class="white" alt="Plux">
+        </a>
+        <a href="https://www.thalmic.com/">
+          <img src="/static/img/logos/thalmic.png" alt="Thalmic Labs">
+        </a>
+        <a href="http://www.wolframalpha.com/">
+          <img src="/static/img/logos/wolfram.png" alt="Wolfram">
         </a>
       </div>
       <h1>PARTNERS</h1>
