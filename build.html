@@ -3870,13 +3870,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .large-trapezoid {
         margin-top: 30px;
       }
-      .clouds object {
+      .clouds img {
         left: 50vw;
         width: 1400px;
         margin-left: calc(-1400px / 2 - 20px);
         position: relative;
         margin-top: -550px;
         margin-bottom: -120px;
+        pointer-events: none;
       }
       .mountains {
         margin: 0 -15px;
@@ -3950,7 +3951,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </div>
     <div class="clouds">
-      <object data="/static/svg/Clouds-Distributed.svg" type="image/svg+xml"></object>
+      <img src="/static/svg/Clouds-Distributed.svg">
     </div>
     <div id="schedule">
       <schedule-box></schedule-box>
@@ -4306,7 +4307,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <a href="https://calendar.google.com/calendar/embed?src=outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com&amp;ctz=America/Los_Angeles">Google Calendar</a>
       </div>
     </div>
-    <iron-ajax auto="" url="https://www.googleapis.com/calendar/v3/calendars/outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com/events?key=%20AIzaSyAdbxoL7d-fe9rFUh898TTCx-ZERREDhKg" handle-as="json" last-response="{{gcal}}" debounce-duration="300"></iron-ajax>
+    <iron-ajax auto="" url="https://www.googleapis.com/calendar/v3/calendars/outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com/events?key=%20AIzaSyAdbxoL7d-fe9rFUh898TTCx-ZERREDhKg" handle-as="json" last-response="{{gcal}}"></iron-ajax>
   </template>
 
   </dom-module>
@@ -4354,7 +4355,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
       </div>
       <div id="buttons">
-        <a href="#!/register"><paper-button class="register">Register</paper-button></a>
+        <a href="#!/register#register"><paper-button class="register">Register</paper-button></a>
         <a href="https://s2015nwhacks.devpost.com/"><paper-button class="button">previous hacks</paper-button></a>
         <br>
         <br>

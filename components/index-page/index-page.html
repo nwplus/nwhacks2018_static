@@ -21,13 +21,14 @@
       .large-trapezoid {
         margin-top: 30px;
       }
-      .clouds object {
+      .clouds img {
         left: 50vw;
         width: 1400px;
         margin-left: calc(-1400px / 2 - 20px);
         position: relative;
         margin-top: -550px;
         margin-bottom: -120px;
+        pointer-events: none;
       }
       .mountains {
         margin: 0 -15px;
@@ -101,7 +102,7 @@
       </div>
     </div>
     <div class="clouds">
-      <object data="/static/svg/Clouds-Distributed.svg" type="image/svg+xml"></object>
+      <img src="/static/svg/Clouds-Distributed.svg">
     </div>
     <div id="schedule">
       <schedule-box></schedule-box>
