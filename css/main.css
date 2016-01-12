@@ -400,7 +400,8 @@ star {
       #sponsors .sponsors-kilo img, #sponsors .sponsors-kilo svg {
         max-width: calc(100% - 60px); } }
   #sponsors .sponsors-micro img, #sponsors .sponsors-micro svg {
-    max-width: 300px; }
+    max-width: 300px;
+    max-height: 100px; }
     @media screen and (max-width: 360px) {
       #sponsors .sponsors-micro img, #sponsors .sponsors-micro svg {
         max-width: calc(100% - 60px); } }

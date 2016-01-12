@@ -532,6 +532,7 @@ star {
   .sponsors-micro {
     img, svg {
       max-width: 300px;
+      max-height: 100px;
       @media screen and (max-width: 360px) {
         max-width: calc(100% - 60px);
       }
