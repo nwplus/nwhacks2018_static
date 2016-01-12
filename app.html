@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" href="/static/favicon.png" />
     <link rel="stylesheet" href="/static/css/main.css">
 
-    <script src="/static/bower_components/webcomponentsjs/webcomponents.min.js"></script>
+    <script src="/static/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
     <script src="/static/bower_components/moment/min/moment.min.js"></script>
     <script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/static/bower_components/page/page.js"></script>
@@ -40,6 +40,7 @@
     <link rel="import" href="/static/components/sponsor-page/sponsor-page.html">
     <link rel="import" href="/static/components/schedule-box/schedule-box.html">
     <title>nwHacks 2016</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
   </head>
   <body>
     <template is="dom-bind" id="app">
@@ -160,7 +161,7 @@
     </template>
     <script>
       'use strict';
-      var app = document.querySelector("#app");
+      var app = {};//document.querySelector("#app");
       page('*', function(ctx, next) {
         next();
         setTimeout(function() {
@@ -215,7 +216,11 @@
           return;
         }
         starsDiv.innerHTML = "";
-        var top = document.querySelector("#title .large-trapezoid").offsetTop;
+        var trapezoid = document.querySelector("#title .large-trapezoid");
+        if (!trapezoid) {
+          return;
+        }
+        var top = trapezoid.offsetTop;
         var bottom = document.querySelector("#faq h1").offsetTop + 30;
         var starSize = 20;
         var margin = 15;

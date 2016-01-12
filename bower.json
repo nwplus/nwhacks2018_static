@@ -36,6 +36,7 @@
     "jquery": "~2.1.4",
     "paper-progress": "PolymerElements/paper-progress#~1.0.7",
     "page": "visionmedia/page.js#~1.6.4",
-    "iron-pages": "PolymerElements/iron-pages#~1.0.5"
+    "iron-pages": "PolymerElements/iron-pages#~1.0.5",
+    "webcomponentsjs": "~0.7.20"
   }
 }
