@@ -18267,6 +18267,12 @@ Polymer({
     this.$.submitting.close();
     this.$.registered.open();
   },
+  formError: function(e) {
+    console.log('Error!', e);
+    this.error = e.detail.error.message;
+    this.$.submitting.close();
+    this.$.error.open();
+  },
   selectCity: function(e) {
     this.set('data.city', e.model.item.matching_full_name);
   },

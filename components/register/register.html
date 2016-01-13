@@ -44,7 +44,7 @@
             debounce-duration="300"></iron-ajax>
 
     <h1 id="register">nwHacks Registration</h1>
-    <form is="iron-form" id="form" method="post" content-type="multipart/form-data" on-iron-form-response="register" action="/api/register/" on-iron-form-presubmit="formPreSubmit" on-iron-form-submit="submitting">
+    <form is="iron-form" id="form" method="post" content-type="multipart/form-data" on-iron-form-response="register" action="/api/register/" on-iron-form-presubmit="formPreSubmit" on-iron-form-submit="submitting" on-iron-form-error="formError">
       <paper-input required auto-validate maxlength="200" error-message="Required" label="What is your name?" name="name" value="{{data.name}}"></paper-input>
       <paper-input required auto-validate maxlength="200" error-message="Invalid Email" type="email" label="What is your email?" name="email" value="{{data.email}}"></paper-input>
       <paper-input required auto-validate maxlength="200" error-message="Required" label="Where do you go to school?" name="school" value="{{data.school}}"></paper-input>
@@ -102,10 +102,18 @@
       </div>
     </paper-dialog>
     <paper-dialog id="submitting" modal>
-      <h2>Submitting...</h2>
+      <h2>Registering...</h2>
       <p>
         <paper-progress indeterminate></paper-progress>
       </p>
+    </paper-dialog>
+    <paper-dialog id="error" modal>
+      <h2>Error Registering</h2>
+      <p>[[error]]</p>
+      <p>Please try again later or use a different browser.</p>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus>Return Home</paper-button>
+      </div>
     </paper-dialog>
 
   </template>
@@ -154,6 +162,12 @@ Polymer({
     console.log(e);
     this.$.submitting.close();
     this.$.registered.open();
+  },
+  formError: function(e) {
+    console.log('Error!', e);
+    this.error = e.detail.error.message;
+    this.$.submitting.close();
+    this.$.error.open();
   },
   selectCity: function(e) {
     this.set('data.city', e.model.item.matching_full_name);
