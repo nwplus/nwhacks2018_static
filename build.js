@@ -18208,6 +18208,10 @@ Polymer({
   is: "register-form",
 
   properties: {
+    valid: {
+      type: Boolean,
+      value: function() { return true; }
+    },
     githubURL: {
       computed: 'updateGithubURL(data.github)'
     },
@@ -18222,6 +18226,10 @@ Polymer({
       notify: true,
       value: function() { return {}; }
     },
+  },
+  attached: function() {
+    this.$.shirtSize.invalid = true;
+    this.$.mlhCOC.invalid = true;
   },
   updateGithubURL: function(github) {
     if (!github) {
@@ -18297,7 +18305,12 @@ Polymer({
     form.request.url = "/api/register/"
 
     form.request.debounceDuration = 300;
+    this.valid = true;
   },
+  formInvalid: function(event) {
+    console.log(event);
+    this.valid = false;
+  }
 });
 'use strict';
 const categories = ['Unfiltered', 'Accepted', 'Accepted + Travel', 'Waitlisted', 'Denied'];

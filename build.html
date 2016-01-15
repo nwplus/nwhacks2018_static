@@ -3419,7 +3419,7 @@ star {
         <p>A hackathon is an event where teams of 2-5 people collaborate on an application within the specified time limit (nwHacks is 24 hours long). Prizes are awarded to the most creative, polished and theme-specific projects or "hacks". The winners will be chosen by a panel of judges comprised of top industry professionals.</p>
 
         <h2>HOW CAN I OFFICIALLY SIGN UP?</h2>
-        <p>Official registration for nwHacks 2016 hasn't opened yet, but you can pre-register above and we'll let you know when its time to signup!</p>
+        <p>Awesome! Register <a href="/register#register">here</a>.</p>
 
         <h2>WHAT SHOULD I BRING?</h2>
         <p>nwHacks is a 24h event, which means that hackers should be prepared to sleep overnight at the venue. Be sure to bring everything you need to stay the night, including a sleeping bag! All food will be provided at event so don't worry about that!</p>
@@ -3427,7 +3427,7 @@ star {
 
       <div class="column">
         <h2>HOW MUCH DOES IT COST?</h2>
-        <p>nwHacks is 100% free for all participants. However registration is strictly limited to highschool and college students only. We will also reimburse your travel expenses as long as they are not flights and are within a 200km radius of the event. We are also setting up buses from Seattle, Portland, and Victoria ( maybe Calgary) so definitely check that out as we get closer to the start date!</p>
+        <p>nwHacks is 100% free for all participants. However registration is strictly limited to highschool and college students only. We will also reimburse your travel expenses as long as they are not flights and are within a 200km radius of the event. We are also setting up buses from Seattle so definitely check that out as we get closer to the start date!</p>
 
         <h2>CAN I WORK ON MY PREVIOUS PROJECTS?</h2>
         <p>No, all "hacks" must be built from scratch, although it is ok if you came up with the idea before hand. This rule is strictly adhered to at nwHacks and any team found working on a project that they already started will be automatically disqualified in the event. However this does not apply to any libraries or tools that you have made, so feel free to use libraries and any other code!</p>
@@ -3552,12 +3552,15 @@ star {
       .register {
         margin-top: 50px;
       }
+      .invalid {
+        color: red;
+      }
     </style>
     <iron-ajax auto="" url="{{githubURL}}" handle-as="json" last-response="{{githubDetails}}" debounce-duration="300"></iron-ajax>
     <iron-ajax auto="" url="{{citiesURL}}" handle-as="json" last-response="{{cities}}" debounce-duration="300"></iron-ajax>
 
     <h1 id="register">nwHacks Registration</h1>
-    <form is="iron-form" id="form" method="post" content-type="multipart/form-data" on-iron-form-response="register" action="/api/register/" on-iron-form-presubmit="formPreSubmit" on-iron-form-submit="submitting" on-iron-form-error="formError">
+    <form is="iron-form" id="form" method="post" content-type="multipart/form-data" on-iron-form-response="register" action="/api/register/" on-iron-form-presubmit="formPreSubmit" on-iron-form-submit="submitting" on-iron-form-error="formError" on-iron-form-invalid="formInvalid">
       <paper-input required="" auto-validate="" maxlength="200" error-message="Required" label="What is your name?" name="name" value="{{data.name}}"></paper-input>
       <paper-input required="" auto-validate="" maxlength="200" error-message="Invalid Email" type="email" label="What is your email?" name="email" value="{{data.email}}"></paper-input>
       <paper-input required="" auto-validate="" maxlength="200" error-message="Required" label="Where do you go to school?" name="school" value="{{data.school}}"></paper-input>
@@ -3582,7 +3585,7 @@ star {
 
       <paper-input always-float-label="" type="file" label="Resume" name="resume" value="{{data.resume}}"></paper-input>
 
-      <paper-dropdown-menu required="" auto-validate="" error-message="Required" label="T-Shirt Size" name="tshirt" selected-item-label="{{data.tshirt}}">
+      <paper-dropdown-menu id="shirtSize" required="" auto-validate="" error-message="Required" label="T-Shirt Size" name="tshirt" selected-item-label="{{data.tshirt}}">
         <paper-menu class="dropdown-content">
           <paper-item>S</paper-item>
           <paper-item>M</paper-item>
@@ -3599,9 +3602,12 @@ star {
         We participate in Major League Hacking (MLH) as a MLH Member Event. You authorize us to share certain application/registration information for event administration, ranking, MLH administration, and occasional messages about hackathons in line with the
         <a target="_blank" href="https://mlh.io/privacy">MLH Privacy Policy</a>.
       </p>
-      <paper-checkbox name="mlh" required="" auto-validate="" error-message="Required">
+      <paper-checkbox id="mlhCOC" name="mlh" required="" auto-validate="" error-message="Required">
         I will at all times abide by and conform to the <a target="_blank" href="http://mlh.io/code-of-conduct">Major League Hacking Code of Conduct</a> while at the event.
       </paper-checkbox>
+      <p class="invalid" hidden$="{{valid}}">
+        You must fill out all required fields.
+      </p>
       <center>
       <paper-button elevation="1" on-tap="submit" class="register">Register</paper-button>
       </center>
