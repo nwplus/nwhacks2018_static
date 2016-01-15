@@ -29,6 +29,9 @@
       .register {
         margin-top: 50px;
       }
+      .invalid {
+        color: red;
+      }
     </style>
     <iron-ajax
             auto
@@ -44,7 +47,7 @@
             debounce-duration="300"></iron-ajax>
 
     <h1 id="register">nwHacks Registration</h1>
-    <form is="iron-form" id="form" method="post" content-type="multipart/form-data" on-iron-form-response="register" action="/api/register/" on-iron-form-presubmit="formPreSubmit" on-iron-form-submit="submitting" on-iron-form-error="formError">
+    <form is="iron-form" id="form" method="post" content-type="multipart/form-data" on-iron-form-response="register" action="/api/register/" on-iron-form-presubmit="formPreSubmit" on-iron-form-submit="submitting" on-iron-form-error="formError" on-iron-form-invalid="formInvalid">
       <paper-input required auto-validate maxlength="200" error-message="Required" label="What is your name?" name="name" value="{{data.name}}"></paper-input>
       <paper-input required auto-validate maxlength="200" error-message="Invalid Email" type="email" label="What is your email?" name="email" value="{{data.email}}"></paper-input>
       <paper-input required auto-validate maxlength="200" error-message="Required" label="Where do you go to school?" name="school" value="{{data.school}}"></paper-input>
@@ -69,7 +72,7 @@
 
       <paper-input always-float-label type="file" label="Resume" name="resume" value="{{data.resume}}"></paper-input>
 
-      <paper-dropdown-menu required auto-validate error-message="Required" label="T-Shirt Size" name="tshirt" selected-item-label="{{data.tshirt}}">
+      <paper-dropdown-menu id="shirtSize" required auto-validate error-message="Required" label="T-Shirt Size" name="tshirt" selected-item-label="{{data.tshirt}}">
         <paper-menu class="dropdown-content">
           <paper-item>S</paper-item>
           <paper-item>M</paper-item>
@@ -86,9 +89,12 @@
         We participate in Major League Hacking (MLH) as a MLH Member Event. You authorize us to share certain application/registration information for event administration, ranking, MLH administration, and occasional messages about hackathons in line with the
         <a target="_blank" href="https://mlh.io/privacy">MLH Privacy Policy</a>.
       </p>
-      <paper-checkbox name="mlh" required auto-validate error-message="Required">
+      <paper-checkbox id="mlhCOC" name="mlh" required auto-validate error-message="Required">
         I will at all times abide by and conform to the <a target="_blank" href="http://mlh.io/code-of-conduct">Major League Hacking Code of Conduct</a> while at the event.
       </paper-checkbox>
+      <p class="invalid" hidden$="{{valid}}">
+        You must fill out all required fields.
+      </p>
       <center>
       <paper-button elevation="1" on-tap="submit" class="register">Register</paper-button>
       </center>
@@ -124,6 +130,10 @@ Polymer({
   is: "register-form",
 
   properties: {
+    valid: {
+      type: Boolean,
+      value: function() { return true; }
+    },
     githubURL: {
       computed: 'updateGithubURL(data.github)'
     },
@@ -138,6 +148,10 @@ Polymer({
       notify: true,
       value: function() { return {}; }
     },
+  },
+  attached: function() {
+    this.$.shirtSize.invalid = true;
+    this.$.mlhCOC.invalid = true;
   },
   updateGithubURL: function(github) {
     if (!github) {
@@ -213,7 +227,12 @@ Polymer({
     form.request.url = "/api/register/"
 
     form.request.debounceDuration = 300;
+    this.valid = true;
   },
+  formInvalid: function(event) {
+    console.log(event);
+    this.valid = false;
+  }
 });
   </script>
 </dom-module>
