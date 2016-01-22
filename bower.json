@@ -36,6 +36,8 @@
     "paper-progress": "PolymerElements/paper-progress",
     "page": "visionmedia/page.js",
     "iron-pages": "PolymerElements/iron-pages",
-    "webcomponentsjs": ""
+    "webcomponentsjs": "",
+    "paper-listbox": "polymerelements/paper-listbox#~1.1.0",
+    "lunr.js": "~0.6.0"
   }
 }

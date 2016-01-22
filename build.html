@@ -86,12 +86,12 @@ register-form #form .is-invalid .focused-line {
 register-form #form paper-input-error {
   color: #D74343; }
 register-form #form .focused-line {
-  background: #3c8a5c; }
+  background: #90cfaa; }
 register-form #form paper-checkbox #checkboxLabel.paper-checkbox {
   pointer-events: auto; }
 register-form #form paper-checkbox #checkbox.checked.paper-checkbox {
-  background-color: #3c8a5c;
-  border-color: #3c8a5c; }
+  background-color: #90cfaa;
+  border-color: #90cfaa; }
 register-form #form paper-menu paper-item {
   color: #444; }
 
@@ -133,7 +133,7 @@ a.link {
     text-decoration: none; }
 
 a {
-  color: #3c8a5c;
+  color: #90cfaa;
   text-decoration: none; }
   a:hover {
     text-decoration: underline; }
@@ -1340,29 +1340,7 @@ star {
 <title>nwHacks 2016</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
   </head>
-  <body><div hidden="" by-vulcanize=""><dom-module id="iron-pages" assetpath="/static/bower_components/iron-pages/">
-
-  <style>
-
-    :host {
-      display: block;
-    }
-
-    :host > ::content > :not(.iron-selected) {
-      display: none !important;
-    }
-
-  </style>
-
-  <template>
-
-    <content></content>
-
-  </template>
-
-</dom-module>
-
-<dom-module id="iron-image" assetpath="/static/bower_components/iron-image/">
+  <body><div hidden="" by-vulcanize=""><dom-module id="iron-image" assetpath="/static/bower_components/iron-image/">
 
   <style>
 
@@ -1400,6 +1378,28 @@ star {
 
     <img id="img" role="none" hidden$="[[_computeImageVisibility(sizing)]]">
     <div id="placeholder" hidden$="[[_computePlaceholderVisibility(fade,loaded,preload)]]" class$="[[_computePlaceholderClassName(fade,loaded,preload)]]"></div>
+    <content></content>
+
+  </template>
+
+</dom-module>
+
+<dom-module id="iron-pages" assetpath="/static/bower_components/iron-pages/">
+
+  <style>
+
+    :host {
+      display: block;
+    }
+
+    :host > ::content > :not(.iron-selected) {
+      display: none !important;
+    }
+
+  </style>
+
+  <template>
+
     <content></content>
 
   </template>
@@ -2933,6 +2933,26 @@ star {
   </template>
 
   </dom-module>
+<dom-module id="paper-listbox" assetpath="/static/bower_components/paper-listbox/">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 8px 0;
+
+        background: var(--paper-listbox-background-color, --primary-background-color);
+        color: var(--paper-listbox-color, --primary-text-color);
+
+        @apply(--paper-listbox);
+      }
+    </style>
+
+    <div class="selectable-content">
+      <content></content>
+    </div>
+  </template>
+
+  </dom-module>
 <dom-module id="paper-menu-shared-styles" assetpath="/static/bower_components/paper-menu/">
   <template>
     <style>
@@ -3659,77 +3679,93 @@ star {
 <dom-module id="select-hackers" assetpath="/static/components/select-hackers/">
   <template>
     <style>
+      paper-card {
+        color: black;
+        max-width: 900px;
+      }
+      table {
+        text-align: left;
+        width: 100%;
+      }
+      a {
+        color: green;
+      }
+      .tag {
+        color: green;
+        font-weight: bold;
+        display: inline-block;
+        padding: 5px;
+        margin: 5px;
+        border: 2px solid green;
+      }
     </style>
-    <template is="dom-repeat" items="{{hackers}}" sort="sort" as="hacker" observe="status">
-      <paper-card heading="[[hacker.name]]">
+    <h1>Select Hackers</h1>
+    <div class="content">
+      <paper-card heading="Filters">
         <div class="card-content">
-          <table>
-            <tbody><tr>
-              <td>Name</td>
-              <td>[[hacker.name]]</td>
-            </tr>
-            <tr>
-              <td>Email</td>
-              <td>[[hacker.email]]</td>
-            </tr>
-            <tr>
-              <td>School</td>
-              <td>[[hacker.school]]</td>
-            </tr>
-            <tr>
-              <td>City</td>
-              <td>[[hacker.city]]</td>
-            </tr>
-            <tr>
-              <td>GitHub</td>
-              <td><a href="{{githubLink(hacker.github)}}">[[hacker.github]]</a></td>
-            </tr>
-            <tr>
-              <td>LinkedIn</td>
-              <td>[[hacker.linkedin]]</td>
-            </tr>
-            <tr>
-              <td>Personal Site</td>
-              <td><a href="[[hacker.personalsite]]">[[hacker.personalsite]]</a></td>
-            </tr>
-            <tr>
-              <td>Resume (TODO)</td>
-              <td>[[hacker.resume]]</td>
-            </tr>
-            <tr>
-              <td>T-Shirt Size</td>
-              <td>[[hacker.tshirt]]</td>
-            </tr>
-            <tr>
-              <td>Needs travel reimbursement</td>
-              <td>[[hacker.travel_reimbursement]]</td>
-            </tr>
-            <tr>
-              <td>First Hackathon</td>
-              <td>[[hacker.first_hackathon]]</td>
-            </tr>
-            <tr>
-              <td>Would like to be a mentor</td>
-              <td>[[hacker.mentor]]</td>
-            </tr>
-            <tr>
-              <td>Reason</td>
-              <td>[[hacker.reason]]</td>
-            </tr>
-          </tbody></table>
-        </div>
-        <div class="card-actions">
-          <span>[[hacker.status]]</span>
-          <paper-dropdown-menu label="Status" selected-item-label="{{hacker.status}}">
-            <paper-menu class="dropdown-content">
+          <paper-dropdown-menu label="Status" selected-item-label="{{status}}">
+            <paper-listbox class="dropdown-content" selected="[[selected(hacker.status)]]">
+              <paper-item>All</paper-item>
               <template is="dom-repeat" items="[[categories]]">
                 <paper-item>[[item]]</paper-item>
               </template>
-            </paper-menu>
+            </paper-listbox>
+          </paper-dropdown-menu>
+        </div>
+      </paper-card>
+    </div>
+    <template is="dom-repeat" items="{{hackers}}" as="hacker" filter="{{filter(status)}}" observe="status">
+      <paper-card heading="[[title(hacker)]]">
+        <div class="card-content">
+          <table>
+            <thead>
+              <tr><th> School </th>
+              <th>City</th>
+              <th>GitHub</th>
+              <th>LinkedIn</th>
+              <th>Personal Site</th>
+              <th>Resume</th>
+              <th>T-Shirt Size</th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td>[[hacker.school]]</td>
+                <td>[[hacker.city]]</td>
+                <td><a target="_blank" href="[[githubLink(hacker.github)]]">[[hacker.github]]</a></td>
+                <td><a target="_blank" href="[[linkedinLink(hacker.linkedin)]]">[[hacker.linkedin]]</a></td>
+                <td><a target="_blank" href="[[hacker.personalsite]]">[[hacker.personalsite]]</a></td>
+                <td><a target="_blank" href="[[hacker.resume]]">[[hacker.resume]]</a></td>
+                <td>[[hacker.tshirt]]</td>
+              </tr>
+            </tbody>
+          </table>
+          <h3>Reason</h3>
+          <p>[[hacker.reason]]</p>
+
+          <template is="dom-if" if="[[hacker.travel_reimbursement]]">
+            <div class="tag">Travel Reimbursement</div>
+          </template>
+          <template is="dom-if" if="[[hacker.first_hackathon]]">
+            <div class="tag">First Hackathon</div>
+          </template>
+          <template is="dom-if" if="[[hacker.mentor]]">
+            <div class="tag">Wants to Mentor</div>
+          </template>
+          
+        </div>
+        <div class="card-actions">
+          <span>[[hacker.status]]</span>
+          <paper-dropdown-menu label="Status">
+            <paper-listbox class="dropdown-content" selected="[[selected(hacker.status)]]" on-iron-select="onSelect">
+              <template is="dom-repeat" items="[[categories]]">
+                <paper-item>[[item]]</paper-item>
+              </template>
+            </paper-listbox>
           </paper-dropdown-menu>
         </div>
       </paper-card>
     </template>
+    <iron-ajax auto="" url="/register/" handle-as="json" last-response="{{hackers}}"></iron-ajax>
   </template>
   </dom-module>
 <dom-module id="sponsor-page" assetpath="/static/components/sponsor-page/">
@@ -3946,6 +3982,9 @@ star {
           </section>
           <section data-route="sponsors">
             <sponsor-page></sponsor-page>
+          </section>
+          <section data-route="review">
+            <review-page></review-page>
           </section>
         </iron-pages>
       </div>

@@ -60,12 +60,12 @@ register-form #form .is-invalid .focused-line {
 register-form #form paper-input-error {
   color: #D74343; }
 register-form #form .focused-line {
-  background: #3c8a5c; }
+  background: #90cfaa; }
 register-form #form paper-checkbox #checkboxLabel.paper-checkbox {
   pointer-events: auto; }
 register-form #form paper-checkbox #checkbox.checked.paper-checkbox {
-  background-color: #3c8a5c;
-  border-color: #3c8a5c; }
+  background-color: #90cfaa;
+  border-color: #90cfaa; }
 register-form #form paper-menu paper-item {
   color: #444; }
 
@@ -107,7 +107,7 @@ a.link {
     text-decoration: none; }
 
 a {
-  color: #3c8a5c;
+  color: #90cfaa;
   text-decoration: none; }
   a:hover {
     text-decoration: underline; }
