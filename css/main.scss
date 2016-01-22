@@ -9,7 +9,7 @@ $menu-padding: 15px;
 $tagline-font-size: 22pt;
 $infoline-font-size: 17pt;
 $link-dark: #4BAE74;
-$link: darken($link-dark, 10%);
+$link: lighten($link-dark, 20%);
 
 $btn-shadow-size: 4px;
 $register-btn-fg: $dark-fg;
