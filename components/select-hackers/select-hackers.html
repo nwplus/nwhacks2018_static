@@ -29,6 +29,9 @@
         margin: 5px;
         border: 2px solid green;
       }
+      .right {
+        float: right;
+      }
     </style>
     <h1>Select Hackers</h1>
     <div class="content">
@@ -100,6 +103,7 @@
                   <option selected$="[[eq(item, hacker.status)]]">[[item]]</option>
                 </template>
               </select>
+              <span class="right">#<span>[[hacker.id]]</span></span>
               <!--
               <paper-dropdown-menu label="Status">
                 <paper-listbox class="dropdown-content" selected="[[selected(hacker.status)]]" on-iron-select="onSelect">

@@ -3750,6 +3750,9 @@ star {
         margin: 5px;
         border: 2px solid green;
       }
+      .right {
+        float: right;
+      }
     </style>
     <h1>Select Hackers</h1>
     <div class="content">
@@ -3821,6 +3824,7 @@ star {
                   <option selected$="[[eq(item, hacker.status)]]">[[item]]</option>
                 </template>
               </select>
+              <span class="right">#<span>[[hacker.id]]</span></span>
               
             </div>
           </paper-card>
