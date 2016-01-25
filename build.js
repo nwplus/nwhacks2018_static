@@ -19555,17 +19555,30 @@ Polymer({
   title: function(hacker) {
     return hacker.name + ' ('+hacker.email+')';
   },
-  filter: function(hackers, status, search) {
+  filter: function(hackers, status, search, filterMentor, filterFirst, filterReimbursement) {
     var results = hackers;
+    this.totalCount = hackers.length;
     if (search.length > 0) {
       var rawResults = this.lunr.search(search);
       results = rawResults.map(function(result) {
         return hackers[result.ref];
       });
     }
-    return results.filter(function(hacker, b, c) {
-      return status === '' || status === 'null' || status === 'All' || status === hacker.status;
+    var filtered = results.filter(function(hacker, b, c) {
+      var good = status === '' || status === 'null' || status === 'All' || status === hacker.status;
+      if (filterMentor) {
+        good = good && hacker.mentor;
+      }
+      if (filterReimbursement) {
+        good = good && hacker.travel_reimbursement;
+      }
+      if (filterFirst) {
+        good = good && hacker.first_hackathon;
+      }
+      return good
     });
+    this.filteredCount = filtered.length;
+    return filtered;
   },
   githubLink: function(username) {
     if (username.indexOf('github.com') > 0) {

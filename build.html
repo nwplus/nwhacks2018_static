@@ -3769,11 +3769,23 @@ star {
           </paper-dropdown-menu>
           &nbsp;
           <paper-input label="Search" value="{{search}}"></paper-input>
+
+
+          &nbsp;
+          Showing
+          <span>{{filteredCount}}</span>
+          of
+          <span>{{totalCount}}</span>
+
+          <br>
+          <paper-checkbox checked="{{filterMentor}}">Wants to Mentor</paper-checkbox> &nbsp;
+          <paper-checkbox checked="{{filterFirst}}">First Time</paper-checkbox> &nbsp;
+          <paper-checkbox checked="{{filterReimbursement}}">Needs Reimbursement</paper-checkbox> &nbsp;
         </div>
       </paper-card>
     </div>
     
-    <iron-list items="[[filter(hackers, status, search, incr)]]" as="hacker">
+    <iron-list items="[[filter(hackers, status, search, filterMentor, filterFirst, filterReimbursement, incr)]]" as="hacker">
       <template>
         <div>
           <paper-card heading="[[title(hacker)]]">
@@ -3825,7 +3837,6 @@ star {
                 </template>
               </select>
               <span class="right">#<span>[[hacker.id]]</span></span>
-              
             </div>
           </paper-card>
         </div>

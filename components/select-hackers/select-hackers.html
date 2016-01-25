@@ -48,11 +48,23 @@
           </paper-dropdown-menu>
           &nbsp;
           <paper-input label="Search" value="{{search}}"></paper-input>
+
+
+          &nbsp;
+          Showing
+          <span>{{filteredCount}}</span>
+          of
+          <span>{{totalCount}}</span>
+
+          <br>
+          <paper-checkbox checked="{{filterMentor}}">Wants to Mentor</paper-checkbox> &nbsp;
+          <paper-checkbox checked="{{filterFirst}}">First Time</paper-checkbox> &nbsp;
+          <paper-checkbox checked="{{filterReimbursement}}">Needs Reimbursement</paper-checkbox> &nbsp;
         </div>
       </paper-card>
     </div>
     <!-- <template is="dom-repeat" items="{{hackers}}" as="hacker" filter="{{filter(status)}}" observe="status"> -->
-    <iron-list items="[[filter(hackers, status, search, incr)]]" as="hacker">
+    <iron-list items="[[filter(hackers, status, search, filterMentor, filterFirst, filterReimbursement, incr)]]" as="hacker">
       <template>
         <div>
           <paper-card heading="[[title(hacker)]]">
@@ -104,15 +116,6 @@
                 </template>
               </select>
               <span class="right">#<span>[[hacker.id]]</span></span>
-              <!--
-              <paper-dropdown-menu label="Status">
-                <paper-listbox class="dropdown-content" selected="[[selected(hacker.status)]]" on-iron-select="onSelect">
-                  <template is="dom-repeat" items="[[categories]]">
-                    <paper-item>[[item]]</paper-item>
-                  </template>
-                </paper-listbox>
-              </paper-dropdown-menu>
-              -->
             </div>
           </paper-card>
         </div>
@@ -174,17 +177,30 @@ Polymer({
   title: function(hacker) {
     return hacker.name + ' ('+hacker.email+')';
   },
-  filter: function(hackers, status, search) {
+  filter: function(hackers, status, search, filterMentor, filterFirst, filterReimbursement) {
     var results = hackers;
+    this.totalCount = hackers.length;
     if (search.length > 0) {
       var rawResults = this.lunr.search(search);
       results = rawResults.map(function(result) {
         return hackers[result.ref];
       });
     }
-    return results.filter(function(hacker, b, c) {
-      return status === '' || status === 'null' || status === 'All' || status === hacker.status;
+    var filtered = results.filter(function(hacker, b, c) {
+      var good = status === '' || status === 'null' || status === 'All' || status === hacker.status;
+      if (filterMentor) {
+        good = good && hacker.mentor;
+      }
+      if (filterReimbursement) {
+        good = good && hacker.travel_reimbursement;
+      }
+      if (filterFirst) {
+        good = good && hacker.first_hackathon;
+      }
+      return good
     });
+    this.filteredCount = filtered.length;
+    return filtered;
   },
   githubLink: function(username) {
     if (username.indexOf('github.com') > 0) {
