@@ -542,7 +542,7 @@ star {
     img, svg {
       max-height: 140px;
       max-width: 350px;
-      @media screen and (max-width: 310px) {
+      @media screen and (max-width: 410px) {
         max-width: calc(100% - 60px);
       }
     }
