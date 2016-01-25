@@ -1385,6 +1385,45 @@ star {
 
 </dom-module>
 
+<dom-module id="iron-list" assetpath="/static/bower_components/iron-list/">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      :host(.has-scroller) {
+        overflow: auto;
+      }
+
+      :host(:not(.has-scroller)) {
+        position: relative;
+      }
+
+      #items {
+        @apply(--iron-list-items-container);
+        position: relative;
+      }
+
+      #items > ::content > * {
+        width: 100%;
+        box-sizing: border-box;
+        position: absolute;
+        top: 0;
+        will-change: transform;
+      }
+    </style>
+
+    <array-selector id="selector" items="{{items}}" selected="{{selectedItems}}" selected-item="{{selectedItem}}">
+    </array-selector>
+
+    <div id="items">
+      <content></content>
+    </div>
+
+  </template>
+</dom-module>
+
 <dom-module id="iron-pages" assetpath="/static/bower_components/iron-pages/">
 
   <style>
@@ -3683,13 +3722,22 @@ star {
 <dom-module id="select-hackers" assetpath="/static/components/select-hackers/">
   <template>
     <style>
+      iron-list {
+        margin-top: 20px;
+        height: 1000px;
+      }
+      paper-input {
+        display: inline-block;
+      }
       paper-card {
         color: black;
         max-width: 900px;
+        margin: 20px auto;
       }
       table {
         text-align: left;
         width: 100%;
+        table-layout: fixed;
       }
       a {
         color: green;
@@ -3705,8 +3753,9 @@ star {
     </style>
     <h1>Select Hackers</h1>
     <div class="content">
-      <paper-card heading="Filters">
+      <paper-card>
         <div class="card-content">
+          Filters &nbsp;
           <paper-dropdown-menu label="Status" selected-item-label="{{status}}">
             <paper-listbox class="dropdown-content" selected="[[selected(hacker.status)]]">
               <paper-item>All</paper-item>
@@ -3715,59 +3764,69 @@ star {
               </template>
             </paper-listbox>
           </paper-dropdown-menu>
+          &nbsp;
+          <paper-input label="Search" value="{{search}}"></paper-input>
         </div>
       </paper-card>
     </div>
-    <template is="dom-repeat" items="{{hackers}}" as="hacker" filter="{{filter(status)}}" observe="status">
-      <paper-card heading="[[title(hacker)]]">
-        <div class="card-content">
-          <table>
-            <thead>
-              <tr><th> School </th>
-              <th>City</th>
-              <th>GitHub</th>
-              <th>LinkedIn</th>
-              <th>Personal Site</th>
-              <th>Resume</th>
-              <th>T-Shirt Size</th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td>[[hacker.school]]</td>
-                <td>[[hacker.city]]</td>
-                <td><a target="_blank" href="[[githubLink(hacker.github)]]">[[hacker.github]]</a></td>
-                <td><a target="_blank" href="[[linkedinLink(hacker.linkedin)]]">[[hacker.linkedin]]</a></td>
-                <td><a target="_blank" href="[[hacker.personalsite]]">[[hacker.personalsite]]</a></td>
-                <td><a target="_blank" href="[[hacker.resume]]">[[hacker.resume]]</a></td>
-                <td>[[hacker.tshirt]]</td>
-              </tr>
-            </tbody>
-          </table>
-          <h3>Reason</h3>
-          <p>[[hacker.reason]]</p>
+    
+    <iron-list items="[[filter(hackers, status, search, incr)]]" as="hacker">
+      <template>
+        <div>
+          <paper-card heading="[[title(hacker)]]">
+            <div class="card-content">
+              <table>
+                <thead>
+                  <tr><th> School </th>
+                  <th>City</th>
+                  <th>GitHub</th>
+                  <th>LinkedIn</th>
+                  <th>Personal Site</th>
+                  <th>Resume</th>
+                  <th>T-Shirt Size</th>
+                </tr></thead>
+                <tbody>
+                  <tr>
+                    <td>[[hacker.school]]</td>
+                    <td>[[hacker.city]]</td>
+                    <td><a target="_blank" href="[[githubLink(hacker.github)]]">[[hacker.github]]</a></td>
+                    <td><a target="_blank" href="[[linkedinLink(hacker.linkedin)]]">[[hacker.linkedin]]</a></td>
+                    <td><a target="_blank" href="[[hacker.personalsite]]">[[hacker.personalsite]]</a></td>
+                    <td>
+                      <template is="dom-if" if="[[hacker.resume]]">
+                        <a target="_blank" href="[[hacker.resume]]">Resume</a>
+                      </template>
+                    </td>
+                    <td>[[hacker.tshirt]]</td>
+                  </tr>
+                </tbody>
+              </table>
+              <h3>Why do you want to come to nwHacks?</h3>
+              <p>[[hacker.reason]]</p>
 
-          <template is="dom-if" if="[[hacker.travel_reimbursement]]">
-            <div class="tag">Travel Reimbursement</div>
-          </template>
-          <template is="dom-if" if="[[hacker.first_hackathon]]">
-            <div class="tag">First Hackathon</div>
-          </template>
-          <template is="dom-if" if="[[hacker.mentor]]">
-            <div class="tag">Wants to Mentor</div>
-          </template>
-          
-        </div>
-        <div class="card-actions">
-          <paper-dropdown-menu label="Status">
-            <paper-listbox class="dropdown-content" selected="[[selected(hacker.status)]]" on-iron-select="onSelect">
-              <template is="dom-repeat" items="[[categories]]">
-                <paper-item>[[item]]</paper-item>
+              <template is="dom-if" if="[[hacker.travel_reimbursement]]">
+                <div class="tag">Travel Reimbursement</div>
               </template>
-            </paper-listbox>
-          </paper-dropdown-menu>
+              <template is="dom-if" if="[[hacker.first_hackathon]]">
+                <div class="tag">First Hackathon</div>
+              </template>
+              <template is="dom-if" if="[[hacker.mentor]]">
+                <div class="tag">Wants to Mentor</div>
+              </template>
+              
+            </div>
+            <div class="card-actions">
+              <select selected="{{selected(hacker.status)}}" on-change="onSelect">
+                <template is="dom-repeat" items="[[categories]]">
+                  <option selected$="[[eq(item, hacker.status)]]">[[item]]</option>
+                </template>
+              </select>
+              
+            </div>
+          </paper-card>
         </div>
-      </paper-card>
-    </template>
+      </template>
+    </iron-list>
     <iron-ajax auto="" url="/api/register/" handle-as="json" last-response="{{hackers}}"></iron-ajax>
   </template>
   </dom-module>

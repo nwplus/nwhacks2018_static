@@ -1132,6 +1132,13 @@ module.exports = Array.isArray || function (arr) {
 
 },{}]},{},[1])(1)
 });
+/**
+ * lunr - http://lunrjs.com - A bit like Solr, but much smaller and not as bright - 0.6.0
+ * Copyright (C) 2015 Oliver Nightingale
+ * MIT Licensed
+ * @license
+ */
+!function(){var t=function(e){var n=new t.Index;return n.pipeline.add(t.trimmer,t.stopWordFilter,t.stemmer),e&&e.call(n,n),n};t.version="0.6.0",t.utils={},t.utils.warn=function(t){return function(e){t.console&&console.warn&&console.warn(e)}}(this),t.utils.asString=function(t){return void 0===t||null===t?"":t.toString()},t.EventEmitter=function(){this.events={}},t.EventEmitter.prototype.addListener=function(){var t=Array.prototype.slice.call(arguments),e=t.pop(),n=t;if("function"!=typeof e)throw new TypeError("last argument must be a function");n.forEach(function(t){this.hasHandler(t)||(this.events[t]=[]),this.events[t].push(e)},this)},t.EventEmitter.prototype.removeListener=function(t,e){if(this.hasHandler(t)){var n=this.events[t].indexOf(e);this.events[t].splice(n,1),this.events[t].length||delete this.events[t]}},t.EventEmitter.prototype.emit=function(t){if(this.hasHandler(t)){var e=Array.prototype.slice.call(arguments,1);this.events[t].forEach(function(t){t.apply(void 0,e)})}},t.EventEmitter.prototype.hasHandler=function(t){return t in this.events},t.tokenizer=function(e){return arguments.length&&null!=e&&void 0!=e?Array.isArray(e)?e.map(function(e){return t.utils.asString(e).toLowerCase()}):e.toString().trim().toLowerCase().split(t.tokenizer.seperator):[]},t.tokenizer.seperator=/[\s\-]+/,t.Pipeline=function(){this._stack=[]},t.Pipeline.registeredFunctions={},t.Pipeline.registerFunction=function(e,n){n in this.registeredFunctions&&t.utils.warn("Overwriting existing registered function: "+n),e.label=n,t.Pipeline.registeredFunctions[e.label]=e},t.Pipeline.warnIfFunctionNotRegistered=function(e){var n=e.label&&e.label in this.registeredFunctions;n||t.utils.warn("Function is not registered with pipeline. This may cause problems when serialising the index.\n",e)},t.Pipeline.load=function(e){var n=new t.Pipeline;return e.forEach(function(e){var i=t.Pipeline.registeredFunctions[e];if(!i)throw new Error("Cannot load un-registered function: "+e);n.add(i)}),n},t.Pipeline.prototype.add=function(){var e=Array.prototype.slice.call(arguments);e.forEach(function(e){t.Pipeline.warnIfFunctionNotRegistered(e),this._stack.push(e)},this)},t.Pipeline.prototype.after=function(e,n){t.Pipeline.warnIfFunctionNotRegistered(n);var i=this._stack.indexOf(e);if(-1==i)throw new Error("Cannot find existingFn");i+=1,this._stack.splice(i,0,n)},t.Pipeline.prototype.before=function(e,n){t.Pipeline.warnIfFunctionNotRegistered(n);var i=this._stack.indexOf(e);if(-1==i)throw new Error("Cannot find existingFn");this._stack.splice(i,0,n)},t.Pipeline.prototype.remove=function(t){var e=this._stack.indexOf(t);-1!=e&&this._stack.splice(e,1)},t.Pipeline.prototype.run=function(t){for(var e=[],n=t.length,i=this._stack.length,r=0;n>r;r++){for(var o=t[r],s=0;i>s&&(o=this._stack[s](o,r,t),void 0!==o&&""!==o);s++);void 0!==o&&""!==o&&e.push(o)}return e},t.Pipeline.prototype.reset=function(){this._stack=[]},t.Pipeline.prototype.toJSON=function(){return this._stack.map(function(e){return t.Pipeline.warnIfFunctionNotRegistered(e),e.label})},t.Vector=function(){this._magnitude=null,this.list=void 0,this.length=0},t.Vector.Node=function(t,e,n){this.idx=t,this.val=e,this.next=n},t.Vector.prototype.insert=function(e,n){this._magnitude=void 0;var i=this.list;if(!i)return this.list=new t.Vector.Node(e,n,i),this.length++;if(e<i.idx)return this.list=new t.Vector.Node(e,n,i),this.length++;for(var r=i,o=i.next;void 0!=o;){if(e<o.idx)return r.next=new t.Vector.Node(e,n,o),this.length++;r=o,o=o.next}return r.next=new t.Vector.Node(e,n,o),this.length++},t.Vector.prototype.magnitude=function(){if(this._magnitude)return this._magnitude;for(var t,e=this.list,n=0;e;)t=e.val,n+=t*t,e=e.next;return this._magnitude=Math.sqrt(n)},t.Vector.prototype.dot=function(t){for(var e=this.list,n=t.list,i=0;e&&n;)e.idx<n.idx?e=e.next:e.idx>n.idx?n=n.next:(i+=e.val*n.val,e=e.next,n=n.next);return i},t.Vector.prototype.similarity=function(t){return this.dot(t)/(this.magnitude()*t.magnitude())},t.SortedSet=function(){this.length=0,this.elements=[]},t.SortedSet.load=function(t){var e=new this;return e.elements=t,e.length=t.length,e},t.SortedSet.prototype.add=function(){var t,e;for(t=0;t<arguments.length;t++)e=arguments[t],~this.indexOf(e)||this.elements.splice(this.locationFor(e),0,e);this.length=this.elements.length},t.SortedSet.prototype.toArray=function(){return this.elements.slice()},t.SortedSet.prototype.map=function(t,e){return this.elements.map(t,e)},t.SortedSet.prototype.forEach=function(t,e){return this.elements.forEach(t,e)},t.SortedSet.prototype.indexOf=function(t){for(var e=0,n=this.elements.length,i=n-e,r=e+Math.floor(i/2),o=this.elements[r];i>1;){if(o===t)return r;t>o&&(e=r),o>t&&(n=r),i=n-e,r=e+Math.floor(i/2),o=this.elements[r]}return o===t?r:-1},t.SortedSet.prototype.locationFor=function(t){for(var e=0,n=this.elements.length,i=n-e,r=e+Math.floor(i/2),o=this.elements[r];i>1;)t>o&&(e=r),o>t&&(n=r),i=n-e,r=e+Math.floor(i/2),o=this.elements[r];return o>t?r:t>o?r+1:void 0},t.SortedSet.prototype.intersect=function(e){for(var n=new t.SortedSet,i=0,r=0,o=this.length,s=e.length,a=this.elements,h=e.elements;;){if(i>o-1||r>s-1)break;a[i]!==h[r]?a[i]<h[r]?i++:a[i]>h[r]&&r++:(n.add(a[i]),i++,r++)}return n},t.SortedSet.prototype.clone=function(){var e=new t.SortedSet;return e.elements=this.toArray(),e.length=e.elements.length,e},t.SortedSet.prototype.union=function(t){var e,n,i;return this.length>=t.length?(e=this,n=t):(e=t,n=this),i=e.clone(),i.add.apply(i,n.toArray()),i},t.SortedSet.prototype.toJSON=function(){return this.toArray()},t.Index=function(){this._fields=[],this._ref="id",this.pipeline=new t.Pipeline,this.documentStore=new t.Store,this.tokenStore=new t.TokenStore,this.corpusTokens=new t.SortedSet,this.eventEmitter=new t.EventEmitter,this._idfCache={},this.on("add","remove","update",function(){this._idfCache={}}.bind(this))},t.Index.prototype.on=function(){var t=Array.prototype.slice.call(arguments);return this.eventEmitter.addListener.apply(this.eventEmitter,t)},t.Index.prototype.off=function(t,e){return this.eventEmitter.removeListener(t,e)},t.Index.load=function(e){e.version!==t.version&&t.utils.warn("version mismatch: current "+t.version+" importing "+e.version);var n=new this;return n._fields=e.fields,n._ref=e.ref,n.documentStore=t.Store.load(e.documentStore),n.tokenStore=t.TokenStore.load(e.tokenStore),n.corpusTokens=t.SortedSet.load(e.corpusTokens),n.pipeline=t.Pipeline.load(e.pipeline),n},t.Index.prototype.field=function(t,e){var e=e||{},n={name:t,boost:e.boost||1};return this._fields.push(n),this},t.Index.prototype.ref=function(t){return this._ref=t,this},t.Index.prototype.add=function(e,n){var i={},r=new t.SortedSet,o=e[this._ref],n=void 0===n?!0:n;this._fields.forEach(function(n){var o=this.pipeline.run(t.tokenizer(e[n.name]));i[n.name]=o,t.SortedSet.prototype.add.apply(r,o)},this),this.documentStore.set(o,r),t.SortedSet.prototype.add.apply(this.corpusTokens,r.toArray());for(var s=0;s<r.length;s++){var a=r.elements[s],h=this._fields.reduce(function(t,e){var n=i[e.name].length;if(!n)return t;var r=i[e.name].filter(function(t){return t===a}).length;return t+r/n*e.boost},0);this.tokenStore.add(a,{ref:o,tf:h})}n&&this.eventEmitter.emit("add",e,this)},t.Index.prototype.remove=function(t,e){var n=t[this._ref],e=void 0===e?!0:e;if(this.documentStore.has(n)){var i=this.documentStore.get(n);this.documentStore.remove(n),i.forEach(function(t){this.tokenStore.remove(t,n)},this),e&&this.eventEmitter.emit("remove",t,this)}},t.Index.prototype.update=function(t,e){var e=void 0===e?!0:e;this.remove(t,!1),this.add(t,!1),e&&this.eventEmitter.emit("update",t,this)},t.Index.prototype.idf=function(t){var e="@"+t;if(Object.prototype.hasOwnProperty.call(this._idfCache,e))return this._idfCache[e];var n=this.tokenStore.count(t),i=1;return n>0&&(i=1+Math.log(this.documentStore.length/n)),this._idfCache[e]=i},t.Index.prototype.search=function(e){var n=this.pipeline.run(t.tokenizer(e)),i=new t.Vector,r=[],o=this._fields.reduce(function(t,e){return t+e.boost},0),s=n.some(function(t){return this.tokenStore.has(t)},this);if(!s)return[];n.forEach(function(e,n,s){var a=1/s.length*this._fields.length*o,h=this,u=this.tokenStore.expand(e).reduce(function(n,r){var o=h.corpusTokens.indexOf(r),s=h.idf(r),u=1,l=new t.SortedSet;if(r!==e){var c=Math.max(3,r.length-e.length);u=1/Math.log(c)}o>-1&&i.insert(o,a*s*u);for(var f=h.tokenStore.get(r),p=Object.keys(f),d=p.length,v=0;d>v;v++)l.add(f[p[v]].ref);return n.union(l)},new t.SortedSet);r.push(u)},this);var a=r.reduce(function(t,e){return t.intersect(e)});return a.map(function(t){return{ref:t,score:i.similarity(this.documentVector(t))}},this).sort(function(t,e){return e.score-t.score})},t.Index.prototype.documentVector=function(e){for(var n=this.documentStore.get(e),i=n.length,r=new t.Vector,o=0;i>o;o++){var s=n.elements[o],a=this.tokenStore.get(s)[e].tf,h=this.idf(s);r.insert(this.corpusTokens.indexOf(s),a*h)}return r},t.Index.prototype.toJSON=function(){return{version:t.version,fields:this._fields,ref:this._ref,documentStore:this.documentStore.toJSON(),tokenStore:this.tokenStore.toJSON(),corpusTokens:this.corpusTokens.toJSON(),pipeline:this.pipeline.toJSON()}},t.Index.prototype.use=function(t){var e=Array.prototype.slice.call(arguments,1);e.unshift(this),t.apply(this,e)},t.Store=function(){this.store={},this.length=0},t.Store.load=function(e){var n=new this;return n.length=e.length,n.store=Object.keys(e.store).reduce(function(n,i){return n[i]=t.SortedSet.load(e.store[i]),n},{}),n},t.Store.prototype.set=function(t,e){this.has(t)||this.length++,this.store[t]=e},t.Store.prototype.get=function(t){return this.store[t]},t.Store.prototype.has=function(t){return t in this.store},t.Store.prototype.remove=function(t){this.has(t)&&(delete this.store[t],this.length--)},t.Store.prototype.toJSON=function(){return{store:this.store,length:this.length}},t.stemmer=function(){var t={ational:"ate",tional:"tion",enci:"ence",anci:"ance",izer:"ize",bli:"ble",alli:"al",entli:"ent",eli:"e",ousli:"ous",ization:"ize",ation:"ate",ator:"ate",alism:"al",iveness:"ive",fulness:"ful",ousness:"ous",aliti:"al",iviti:"ive",biliti:"ble",logi:"log"},e={icate:"ic",ative:"",alize:"al",iciti:"ic",ical:"ic",ful:"",ness:""},n="[^aeiou]",i="[aeiouy]",r=n+"[^aeiouy]*",o=i+"[aeiou]*",s="^("+r+")?"+o+r,a="^("+r+")?"+o+r+"("+o+")?$",h="^("+r+")?"+o+r+o+r,u="^("+r+")?"+i,l=new RegExp(s),c=new RegExp(h),f=new RegExp(a),p=new RegExp(u),d=/^(.+?)(ss|i)es$/,v=/^(.+?)([^s])s$/,m=/^(.+?)eed$/,g=/^(.+?)(ed|ing)$/,y=/.$/,S=/(at|bl|iz)$/,w=new RegExp("([^aeiouylsz])\\1$"),x=new RegExp("^"+r+i+"[^aeiouwxy]$"),k=/^(.+?[^aeiou])y$/,b=/^(.+?)(ational|tional|enci|anci|izer|bli|alli|entli|eli|ousli|ization|ation|ator|alism|iveness|fulness|ousness|aliti|iviti|biliti|logi)$/,E=/^(.+?)(icate|ative|alize|iciti|ical|ful|ness)$/,_=/^(.+?)(al|ance|ence|er|ic|able|ible|ant|ement|ment|ent|ou|ism|ate|iti|ous|ive|ize)$/,F=/^(.+?)(s|t)(ion)$/,O=/^(.+?)e$/,P=/ll$/,N=new RegExp("^"+r+i+"[^aeiouwxy]$"),T=function(n){var i,r,o,s,a,h,u;if(n.length<3)return n;if(o=n.substr(0,1),"y"==o&&(n=o.toUpperCase()+n.substr(1)),s=d,a=v,s.test(n)?n=n.replace(s,"$1$2"):a.test(n)&&(n=n.replace(a,"$1$2")),s=m,a=g,s.test(n)){var T=s.exec(n);s=l,s.test(T[1])&&(s=y,n=n.replace(s,""))}else if(a.test(n)){var T=a.exec(n);i=T[1],a=p,a.test(i)&&(n=i,a=S,h=w,u=x,a.test(n)?n+="e":h.test(n)?(s=y,n=n.replace(s,"")):u.test(n)&&(n+="e"))}if(s=k,s.test(n)){var T=s.exec(n);i=T[1],n=i+"i"}if(s=b,s.test(n)){var T=s.exec(n);i=T[1],r=T[2],s=l,s.test(i)&&(n=i+t[r])}if(s=E,s.test(n)){var T=s.exec(n);i=T[1],r=T[2],s=l,s.test(i)&&(n=i+e[r])}if(s=_,a=F,s.test(n)){var T=s.exec(n);i=T[1],s=c,s.test(i)&&(n=i)}else if(a.test(n)){var T=a.exec(n);i=T[1]+T[2],a=c,a.test(i)&&(n=i)}if(s=O,s.test(n)){var T=s.exec(n);i=T[1],s=c,a=f,h=N,(s.test(i)||a.test(i)&&!h.test(i))&&(n=i)}return s=P,a=c,s.test(n)&&a.test(n)&&(s=y,n=n.replace(s,"")),"y"==o&&(n=o.toLowerCase()+n.substr(1)),n};return T}(),t.Pipeline.registerFunction(t.stemmer,"stemmer"),t.generateStopWordFilter=function(t){var e=t.reduce(function(t,e){return t[e]=e,t},{});return function(t){return t&&e[t]!==t?t:void 0}},t.stopWordFilter=t.generateStopWordFilter(["a","able","about","across","after","all","almost","also","am","among","an","and","any","are","as","at","be","because","been","but","by","can","cannot","could","dear","did","do","does","either","else","ever","every","for","from","get","got","had","has","have","he","her","hers","him","his","how","however","i","if","in","into","is","it","its","just","least","let","like","likely","may","me","might","most","must","my","neither","no","nor","not","of","off","often","on","only","or","other","our","own","rather","said","say","says","she","should","since","so","some","than","that","the","their","them","then","there","these","they","this","tis","to","too","twas","us","wants","was","we","were","what","when","where","which","while","who","whom","why","will","with","would","yet","you","your"]),t.Pipeline.registerFunction(t.stopWordFilter,"stopWordFilter"),t.trimmer=function(t){return t.replace(/^\W+/,"").replace(/\W+$/,"")},t.Pipeline.registerFunction(t.trimmer,"trimmer"),t.TokenStore=function(){this.root={docs:{}},this.length=0},t.TokenStore.load=function(t){var e=new this;return e.root=t.root,e.length=t.length,e},t.TokenStore.prototype.add=function(t,e,n){var n=n||this.root,i=t.charAt(0),r=t.slice(1);return i in n||(n[i]={docs:{}}),0===r.length?(n[i].docs[e.ref]=e,void(this.length+=1)):this.add(r,e,n[i])},t.TokenStore.prototype.has=function(t){if(!t)return!1;for(var e=this.root,n=0;n<t.length;n++){if(!e[t.charAt(n)])return!1;e=e[t.charAt(n)]}return!0},t.TokenStore.prototype.getNode=function(t){if(!t)return{};for(var e=this.root,n=0;n<t.length;n++){if(!e[t.charAt(n)])return{};e=e[t.charAt(n)]}return e},t.TokenStore.prototype.get=function(t,e){return this.getNode(t,e).docs||{}},t.TokenStore.prototype.count=function(t,e){return Object.keys(this.get(t,e)).length},t.TokenStore.prototype.remove=function(t,e){if(t){for(var n=this.root,i=0;i<t.length;i++){if(!(t.charAt(i)in n))return;n=n[t.charAt(i)]}delete n.docs[e]}},t.TokenStore.prototype.expand=function(t,e){var n=this.getNode(t),i=n.docs||{},e=e||[];return Object.keys(i).length&&e.push(t),Object.keys(n).forEach(function(n){"docs"!==n&&e.concat(this.expand(t+n,e))},this),e},t.TokenStore.prototype.toJSON=function(){return{root:this.root,length:this.length}},function(t,e){"function"==typeof define&&define.amd?define(e):"object"==typeof exports?module.exports=e():t.lunr=e()}(this,function(){return t})}();
 (function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
@@ -15334,6 +15341,1176 @@ Polymer({
       }
     }
   });
+(function() {
+
+  var IOS = navigator.userAgent.match(/iP(?:hone|ad;(?: U;)? CPU) OS (\d+)/);
+  var IOS_TOUCH_SCROLLING = IOS && IOS[1] >= 8;
+  var DEFAULT_PHYSICAL_COUNT = 3;
+  var MAX_PHYSICAL_COUNT = 500;
+
+  Polymer({
+
+    is: 'iron-list',
+
+    properties: {
+
+      /**
+       * An array containing items determining how many instances of the template
+       * to stamp and that that each template instance should bind to.
+       */
+      items: {
+        type: Array
+      },
+
+      /**
+       * The name of the variable to add to the binding scope for the array
+       * element associated with a given template instance.
+       */
+      as: {
+        type: String,
+        value: 'item'
+      },
+
+      /**
+       * The name of the variable to add to the binding scope with the index
+       * for the row.
+       */
+      indexAs: {
+        type: String,
+        value: 'index'
+      },
+
+      /**
+       * The name of the variable to add to the binding scope to indicate
+       * if the row is selected.
+       */
+      selectedAs: {
+        type: String,
+        value: 'selected'
+      },
+
+      /**
+       * When true, tapping a row will select the item, placing its data model
+       * in the set of selected items retrievable via the selection property.
+       *
+       * Note that tapping focusable elements within the list item will not
+       * result in selection, since they are presumed to have their * own action.
+       */
+      selectionEnabled: {
+        type: Boolean,
+        value: false
+      },
+
+      /**
+       * When `multiSelection` is false, this is the currently selected item, or `null`
+       * if no item is selected.
+       */
+      selectedItem: {
+        type: Object,
+        notify: true
+      },
+
+      /**
+       * When `multiSelection` is true, this is an array that contains the selected items.
+       */
+      selectedItems: {
+        type: Object,
+        notify: true
+      },
+
+      /**
+       * When `true`, multiple items may be selected at once (in this case,
+       * `selected` is an array of currently selected items).  When `false`,
+       * only one item may be selected at a time.
+       */
+      multiSelection: {
+        type: Boolean,
+        value: false
+      }
+    },
+
+    observers: [
+      '_itemsChanged(items.*)',
+      '_selectionEnabledChanged(selectionEnabled)',
+      '_multiSelectionChanged(multiSelection)'
+    ],
+
+    behaviors: [
+      Polymer.Templatizer,
+      Polymer.IronResizableBehavior
+    ],
+
+    listeners: {
+      'iron-resize': '_resizeHandler'
+    },
+
+    /**
+     * The ratio of hidden tiles that should remain in the scroll direction.
+     * Recommended value ~0.5, so it will distribute tiles evely in both directions.
+     */
+    _ratio: 0.5,
+
+    /**
+     * The element that controls the scroll
+     * @type {?Element}
+     */
+    _scroller: null,
+
+    /**
+     * The padding-top value of the `scroller` element
+     */
+    _scrollerPaddingTop: 0,
+
+    /**
+     * This value is the same as `scrollTop`.
+     */
+    _scrollPosition: 0,
+
+    /**
+     * The number of tiles in the DOM.
+     */
+    _physicalCount: 0,
+
+    /**
+     * The k-th tile that is at the top of the scrolling list.
+     */
+    _physicalStart: 0,
+
+    /**
+     * The k-th tile that is at the bottom of the scrolling list.
+     */
+    _physicalEnd: 0,
+
+    /**
+     * The sum of the heights of all the tiles in the DOM.
+     */
+    _physicalSize: 0,
+
+    /**
+     * The average `offsetHeight` of the tiles observed till now.
+     */
+    _physicalAverage: 0,
+
+    /**
+     * The number of tiles which `offsetHeight` > 0 observed until now.
+     */
+    _physicalAverageCount: 0,
+
+    /**
+     * The Y position of the item rendered in the `_physicalStart`
+     * tile relative to the scrolling list.
+     */
+    _physicalTop: 0,
+
+    /**
+     * The number of items in the list.
+     */
+    _virtualCount: 0,
+
+    /**
+     * The n-th item rendered in the `_physicalStart` tile.
+     */
+    _virtualStartVal: 0,
+
+    /**
+     * A map between an item key and its physical item index
+     */
+    _physicalIndexForKey: null,
+
+    /**
+     * The estimated scroll height based on `_physicalAverage`
+     */
+    _estScrollHeight: 0,
+
+    /**
+     * The scroll height of the dom node
+     */
+    _scrollHeight: 0,
+
+    /**
+     * The height of the list. This is referred as the viewport in the context of list.
+     */
+    _viewportSize: 0,
+
+    /**
+     * An array of DOM nodes that are currently in the tree
+     * @type {?Array<!TemplatizerNode>}
+     */
+    _physicalItems: null,
+
+    /**
+     * An array of heights for each item in `_physicalItems`
+     * @type {?Array<number>}
+     */
+    _physicalSizes: null,
+
+    /**
+     * A cached value for the visible index.
+     * See `firstVisibleIndex`
+     * @type {?number}
+     */
+    _firstVisibleIndexVal: null,
+
+    /**
+     * A Polymer collection for the items.
+     * @type {?Polymer.Collection}
+     */
+    _collection: null,
+
+    /**
+     * True if the current item list was rendered for the first time
+     * after attached.
+     */
+    _itemsRendered: false,
+
+    /**
+     * The page that is currently rendered.
+     */
+    _lastPage: null,
+
+    /**
+     * The max number of pages to render. One page is equivalent to the height of the list.
+     */
+    _maxPages: 3,
+
+    /**
+     * The bottom of the physical content.
+     */
+    get _physicalBottom() {
+      return this._physicalTop + this._physicalSize;
+    },
+
+    /**
+     * The bottom of the scroll.
+     */
+    get _scrollBottom() {
+      return this._scrollPosition + this._viewportSize;
+    },
+
+    /**
+     * The n-th item rendered in the last physical item.
+     */
+    get _virtualEnd() {
+      return this._virtualStartVal + this._physicalCount - 1;
+    },
+
+    /**
+     * The lowest n-th value for an item such that it can be rendered in `_physicalStart`.
+     */
+    _minVirtualStart: 0,
+
+    /**
+     * The largest n-th value for an item such that it can be rendered in `_physicalStart`.
+     */
+    get _maxVirtualStart() {
+      return Math.max(0, this._virtualCount - this._physicalCount);
+    },
+
+    /**
+     * The height of the physical content that isn't on the screen.
+     */
+    get _hiddenContentSize() {
+      return this._physicalSize - this._viewportSize;
+    },
+
+    /**
+     * The maximum scroll top value.
+     */
+    get _maxScrollTop() {
+      return this._estScrollHeight - this._viewportSize;
+    },
+
+    /**
+     * Sets the n-th item rendered in `_physicalStart`
+     */
+    set _virtualStart(val) {
+      // clamp the value so that _minVirtualStart <= val <= _maxVirtualStart
+      this._virtualStartVal = Math.min(this._maxVirtualStart, Math.max(this._minVirtualStart, val));
+      this._physicalStart = this._virtualStartVal % this._physicalCount;
+      this._physicalEnd = (this._physicalStart + this._physicalCount - 1) % this._physicalCount;
+    },
+
+    /**
+     * Gets the n-th item rendered in `_physicalStart`
+     */
+    get _virtualStart() {
+      return this._virtualStartVal;
+    },
+
+    /**
+     * An optimal physical size such that we will have enough physical items
+     * to fill up the viewport and recycle when the user scrolls.
+     *
+     * This default value assumes that we will at least have the equivalent
+     * to a viewport of physical items above and below the user's viewport.
+     */
+    get _optPhysicalSize() {
+      return this._viewportSize * this._maxPages;
+    },
+
+   /**
+    * True if the current list is visible.
+    */
+    get _isVisible() {
+      return this._scroller && Boolean(this._scroller.offsetWidth || this._scroller.offsetHeight);
+    },
+
+    /**
+     * Gets the index of the first visible item in the viewport.
+     *
+     * @type {number}
+     */
+    get firstVisibleIndex() {
+      var physicalOffset;
+
+      if (this._firstVisibleIndexVal === null) {
+        physicalOffset = this._physicalTop;
+
+        this._firstVisibleIndexVal = this._iterateItems(
+          function(pidx, vidx) {
+            physicalOffset += this._physicalSizes[pidx];
+
+            if (physicalOffset > this._scrollPosition) {
+              return vidx;
+            }
+          }) || 0;
+      }
+
+      return this._firstVisibleIndexVal;
+    },
+
+    ready: function() {
+      if (IOS_TOUCH_SCROLLING) {
+        this._scrollListener = function() {
+          requestAnimationFrame(this._scrollHandler.bind(this));
+        }.bind(this);
+      } else {
+        this._scrollListener = this._scrollHandler.bind(this);
+      }
+    },
+
+    /**
+     * When the element has been attached to the DOM tree.
+     */
+    attached: function() {
+      // delegate to the parent's scroller
+      // e.g. paper-scroll-header-panel
+      var el = Polymer.dom(this);
+
+      var parentNode = /** @type {?{scroller: ?Element}} */ (el.parentNode);
+      if (parentNode && parentNode.scroller) {
+        this._scroller = parentNode.scroller;
+      } else {
+        this._scroller = this;
+        this.classList.add('has-scroller');
+      }
+
+      if (IOS_TOUCH_SCROLLING) {
+        this._scroller.style.webkitOverflowScrolling = 'touch';
+      }
+
+      this._scroller.addEventListener('scroll', this._scrollListener);
+
+      this.updateViewportBoundaries();
+      this._render();
+    },
+
+    /**
+     * When the element has been removed from the DOM tree.
+     */
+    detached: function() {
+      this._itemsRendered = false;
+      if (this._scroller) {
+        this._scroller.removeEventListener('scroll', this._scrollListener);
+      }
+    },
+
+    /**
+     * Invoke this method if you dynamically update the viewport's
+     * size or CSS padding.
+     *
+     * @method updateViewportBoundaries
+     */
+    updateViewportBoundaries: function() {
+      var scrollerStyle = window.getComputedStyle(this._scroller);
+      this._scrollerPaddingTop = parseInt(scrollerStyle['padding-top'], 10);
+      this._viewportSize = this._scroller.offsetHeight;
+    },
+
+    /**
+     * Update the models, the position of the
+     * items in the viewport and recycle tiles as needed.
+     */
+    _refresh: function() {
+      // clamp the `scrollTop` value
+      // IE 10|11 scrollTop may go above `_maxScrollTop`
+      // iOS `scrollTop` may go below 0 and above `_maxScrollTop`
+      var scrollTop = Math.max(0, Math.min(this._maxScrollTop, this._scroller.scrollTop));
+      var tileHeight, tileTop, kth, recycledTileSet, scrollBottom, physicalBottom;
+      var ratio = this._ratio;
+      var delta = scrollTop - this._scrollPosition;
+      var recycledTiles = 0;
+      var hiddenContentSize = this._hiddenContentSize;
+      var currentRatio = ratio;
+      var movingUp = [];
+
+      // track the last `scrollTop`
+      this._scrollPosition = scrollTop;
+
+      // clear cached visible index
+      this._firstVisibleIndexVal = null;
+
+      scrollBottom = this._scrollBottom;
+      physicalBottom = this._physicalBottom;
+
+      // random access
+      if (Math.abs(delta) > this._physicalSize) {
+        this._physicalTop += delta;
+        recycledTiles =  Math.round(delta / this._physicalAverage);
+      }
+      // scroll up
+      else if (delta < 0) {
+        var topSpace = scrollTop - this._physicalTop;
+        var virtualStart = this._virtualStart;
+
+        recycledTileSet = [];
+
+        kth = this._physicalEnd;
+        currentRatio = topSpace / hiddenContentSize;
+
+        // move tiles from bottom to top
+        while (
+            // approximate `currentRatio` to `ratio`
+            currentRatio < ratio &&
+            // recycle less physical items than the total
+            recycledTiles < this._physicalCount &&
+            // ensure that these recycled tiles are needed
+            virtualStart - recycledTiles > 0 &&
+            // ensure that the tile is not visible
+            physicalBottom - this._physicalSizes[kth] > scrollBottom
+        ) {
+
+          tileHeight = this._physicalSizes[kth];
+          currentRatio += tileHeight / hiddenContentSize;
+          physicalBottom -= tileHeight;
+          recycledTileSet.push(kth);
+          recycledTiles++;
+          kth = (kth === 0) ? this._physicalCount - 1 : kth - 1;
+        }
+
+        movingUp = recycledTileSet;
+        recycledTiles = -recycledTiles;
+      }
+      // scroll down
+      else if (delta > 0) {
+        var bottomSpace = physicalBottom - scrollBottom;
+        var virtualEnd = this._virtualEnd;
+        var lastVirtualItemIndex = this._virtualCount-1;
+
+        recycledTileSet = [];
+
+        kth = this._physicalStart;
+        currentRatio = bottomSpace / hiddenContentSize;
+
+        // move tiles from top to bottom
+        while (
+            // approximate `currentRatio` to `ratio`
+            currentRatio < ratio &&
+            // recycle less physical items than the total
+            recycledTiles < this._physicalCount &&
+            // ensure that these recycled tiles are needed
+            virtualEnd + recycledTiles < lastVirtualItemIndex &&
+            // ensure that the tile is not visible
+            this._physicalTop + this._physicalSizes[kth] < scrollTop
+          ) {
+
+          tileHeight = this._physicalSizes[kth];
+          currentRatio += tileHeight / hiddenContentSize;
+
+          this._physicalTop += tileHeight;
+          recycledTileSet.push(kth);
+          recycledTiles++;
+          kth = (kth + 1) % this._physicalCount;
+        }
+      }
+
+      if (recycledTiles === 0) {
+        // If the list ever reach this case, the physical average is not significant enough
+        // to create all the items needed to cover the entire viewport.
+        // e.g. A few items have a height that differs from the average by serveral order of magnitude.
+        if (physicalBottom < scrollBottom || this._physicalTop > scrollTop) {
+          this.async(this._increasePool.bind(this, 1));
+        }
+      } else {
+        this._virtualStart = this._virtualStart + recycledTiles;
+        this._update(recycledTileSet, movingUp);
+      }
+    },
+
+    /**
+     * Update the list of items, starting from the `_virtualStartVal` item.
+     * @param {!Array<number>=} itemSet
+     * @param {!Array<number>=} movingUp
+     */
+    _update: function(itemSet, movingUp) {
+      // update models
+      this._assignModels(itemSet);
+
+      // measure heights
+      this._updateMetrics(itemSet);
+
+      // adjust offset after measuring
+      if (movingUp) {
+        while (movingUp.length) {
+          this._physicalTop -= this._physicalSizes[movingUp.pop()];
+        }
+      }
+      // update the position of the items
+      this._positionItems();
+
+      // set the scroller size
+      this._updateScrollerSize();
+
+      // increase the pool of physical items
+      this._increasePoolIfNeeded();
+    },
+
+    /**
+     * Creates a pool of DOM elements and attaches them to the local dom.
+     */
+    _createPool: function(size) {
+      var physicalItems = new Array(size);
+
+      this._ensureTemplatized();
+
+      for (var i = 0; i < size; i++) {
+        var inst = this.stamp(null);
+        // First element child is item; Safari doesn't support children[0]
+        // on a doc fragment
+        physicalItems[i] = inst.root.querySelector('*');
+        Polymer.dom(this).appendChild(inst.root);
+      }
+
+      return physicalItems;
+    },
+
+    /**
+     * Increases the pool of physical items only if needed.
+     * This function will allocate additional physical items
+     * if the physical size is shorter than `_optPhysicalSize`
+     */
+    _increasePoolIfNeeded: function() {
+      if (this._viewportSize !== 0 && this._physicalSize < this._optPhysicalSize) {
+        // 0 <= `currentPage` <= `_maxPages`
+        var currentPage = Math.floor(this._physicalSize / this._viewportSize);
+
+        if (currentPage === 0) {
+          // fill the first page
+          this.async(this._increasePool.bind(this, Math.round(this._physicalCount * 0.5)));
+        } else if (this._lastPage !== currentPage) {
+          // once a page is filled up, paint it and defer the next increase
+          requestAnimationFrame(this._increasePool.bind(this, 1));
+        } else {
+          // fill the rest of the pages
+          this.async(this._increasePool.bind(this, 1));
+        }
+        this._lastPage = currentPage;
+        return true;
+      }
+      return false;
+    },
+
+    /**
+     * Increases the pool size.
+     */
+    _increasePool: function(missingItems) {
+      // limit the size
+      var nextPhysicalCount = Math.min(
+          this._physicalCount + missingItems,
+          this._virtualCount,
+          MAX_PHYSICAL_COUNT
+        );
+      var prevPhysicalCount = this._physicalCount;
+      var delta = nextPhysicalCount - prevPhysicalCount;
+
+      if (delta > 0) {
+        [].push.apply(this._physicalItems, this._createPool(delta));
+        [].push.apply(this._physicalSizes, new Array(delta));
+
+        this._physicalCount = prevPhysicalCount + delta;
+        // tail call
+        return this._update();
+      }
+    },
+
+    /**
+     * Render a new list of items. This method does exactly the same as `update`,
+     * but it also ensures that only one `update` cycle is created.
+     */
+    _render: function() {
+      var requiresUpdate = this._virtualCount > 0 || this._physicalCount > 0;
+
+      if (this.isAttached && !this._itemsRendered && this._isVisible && requiresUpdate) {
+        this._lastPage = 0;
+        this._update();
+        this._itemsRendered = true;
+      }
+    },
+
+    /**
+     * Templetizes the user template.
+     */
+    _ensureTemplatized: function() {
+      if (!this.ctor) {
+        // Template instance props that should be excluded from forwarding
+        var props = {};
+
+        props.__key__ = true;
+        props[this.as] = true;
+        props[this.indexAs] = true;
+        props[this.selectedAs] = true;
+
+        this._instanceProps = props;
+        this._userTemplate = Polymer.dom(this).querySelector('template');
+
+        if (this._userTemplate) {
+          this.templatize(this._userTemplate);
+        } else {
+          console.warn('iron-list requires a template to be provided in light-dom');
+        }
+      }
+    },
+
+    /**
+     * Implements extension point from Templatizer mixin.
+     */
+    _getStampedChildren: function() {
+      return this._physicalItems;
+    },
+
+    /**
+     * Implements extension point from Templatizer
+     * Called as a side effect of a template instance path change, responsible
+     * for notifying items.<key-for-instance>.<path> change up to host.
+     */
+    _forwardInstancePath: function(inst, path, value) {
+      if (path.indexOf(this.as + '.') === 0) {
+        this.notifyPath('items.' + inst.__key__ + '.' +
+          path.slice(this.as.length + 1), value);
+      }
+    },
+
+    /**
+     * Implements extension point from Templatizer mixin
+     * Called as side-effect of a host property change, responsible for
+     * notifying parent path change on each row.
+     */
+    _forwardParentProp: function(prop, value) {
+      if (this._physicalItems) {
+        this._physicalItems.forEach(function(item) {
+          item._templateInstance[prop] = value;
+        }, this);
+      }
+    },
+
+    /**
+     * Implements extension point from Templatizer
+     * Called as side-effect of a host path change, responsible for
+     * notifying parent.<path> path change on each row.
+     */
+    _forwardParentPath: function(path, value) {
+      if (this._physicalItems) {
+        this._physicalItems.forEach(function(item) {
+          item._templateInstance.notifyPath(path, value, true);
+        }, this);
+      }
+    },
+
+    /**
+     * Called as a side effect of a host items.<key>.<path> path change,
+     * responsible for notifying item.<path> changes to row for key.
+     */
+    _forwardItemPath: function(path, value) {
+      if (this._physicalIndexForKey) {
+        var dot = path.indexOf('.');
+        var key = path.substring(0, dot < 0 ? path.length : dot);
+        var idx = this._physicalIndexForKey[key];
+        var row = this._physicalItems[idx];
+        if (row) {
+          var inst = row._templateInstance;
+          if (dot >= 0) {
+            path = this.as + '.' + path.substring(dot+1);
+            inst.notifyPath(path, value, true);
+          } else {
+            inst[this.as] = value;
+          }
+        }
+      }
+    },
+
+    /**
+     * Called when the items have changed. That is, ressignments
+     * to `items`, splices or updates to a single item.
+     */
+    _itemsChanged: function(change) {
+      if (change.path === 'items') {
+        // render the new set
+        this._itemsRendered = false;
+
+        // update the whole set
+        this._virtualStartVal = 0;
+        this._physicalTop = 0;
+        this._virtualCount = this.items ? this.items.length : 0;
+        this._collection = this.items ? Polymer.Collection.get(this.items) : null;
+        this._physicalIndexForKey = {};
+
+        // scroll to the top
+        this._resetScrollPosition(0);
+
+        // create the initial physical items
+        if (!this._physicalItems) {
+          this._physicalCount = Math.max(1, Math.min(DEFAULT_PHYSICAL_COUNT, this._virtualCount));
+          this._physicalItems = this._createPool(this._physicalCount);
+          this._physicalSizes = new Array(this._physicalCount);
+        }
+
+        this.debounce('refresh', this._render);
+
+      } else if (change.path === 'items.splices') {
+        // render the new set
+        this._itemsRendered = false;
+
+        this._adjustVirtualIndex(change.value.indexSplices);
+        this._virtualCount = this.items ? this.items.length : 0;
+
+        this.debounce('refresh', this._render);
+
+      } else {
+        // update a single item
+        this._forwardItemPath(change.path.split('.').slice(1).join('.'), change.value);
+      }
+    },
+
+    /**
+     * @param {!Array<!PolymerSplice>} splices
+     */
+    _adjustVirtualIndex: function(splices) {
+      var i, splice, idx;
+
+      for (i = 0; i < splices.length; i++) {
+        splice = splices[i];
+
+        // deselect removed items
+        splice.removed.forEach(this.$.selector.deselect, this.$.selector);
+
+        idx = splice.index;
+        // We only need to care about changes happening above the current position
+        if (idx >= this._virtualStartVal) {
+          break;
+        }
+
+        this._virtualStart = this._virtualStart +
+            Math.max(splice.addedCount - splice.removed.length, idx - this._virtualStartVal);
+      }
+    },
+
+    _scrollHandler: function() {
+      this._refresh();
+    },
+
+    /**
+     * Executes a provided function per every physical index in `itemSet`
+     * `itemSet` default value is equivalent to the entire set of physical indexes.
+     *
+     * @param {!function(number, number)} fn
+     * @param {!Array<number>=} itemSet
+     */
+    _iterateItems: function(fn, itemSet) {
+      var pidx, vidx, rtn, i;
+
+      if (arguments.length === 2 && itemSet) {
+        for (i = 0; i < itemSet.length; i++) {
+          pidx = itemSet[i];
+          if (pidx >= this._physicalStart) {
+            vidx = this._virtualStartVal + (pidx - this._physicalStart);
+          } else {
+            vidx = this._virtualStartVal + (this._physicalCount - this._physicalStart) + pidx;
+          }
+          if ((rtn = fn.call(this, pidx, vidx)) != null) {
+            return rtn;
+          }
+        }
+      } else {
+        pidx = this._physicalStart;
+        vidx = this._virtualStartVal;
+
+        for (; pidx < this._physicalCount; pidx++, vidx++) {
+          if ((rtn = fn.call(this, pidx, vidx)) != null) {
+            return rtn;
+          }
+        }
+
+        pidx = 0;
+
+        for (; pidx < this._physicalStart; pidx++, vidx++) {
+          if ((rtn = fn.call(this, pidx, vidx)) != null) {
+            return rtn;
+          }
+        }
+      }
+    },
+
+    /**
+     * Assigns the data models to a given set of items.
+     * @param {!Array<number>=} itemSet
+     */
+    _assignModels: function(itemSet) {
+      this._iterateItems(function(pidx, vidx) {
+        var el = this._physicalItems[pidx];
+        var inst = el._templateInstance;
+        var item = this.items && this.items[vidx];
+
+        if (item) {
+          inst[this.as] = item;
+          inst.__key__ = this._collection.getKey(item);
+          inst[this.selectedAs] =
+            /** @type {!ArraySelectorElement} */ (this.$.selector).isSelected(item);
+          inst[this.indexAs] = vidx;
+          el.removeAttribute('hidden');
+          this._physicalIndexForKey[inst.__key__] = pidx;
+        } else {
+          inst.__key__ = null;
+          el.setAttribute('hidden', '');
+        }
+
+      }, itemSet);
+    },
+
+    /**
+     * Updates the height for a given set of items.
+     *
+     * @param {!Array<number>=} itemSet
+     */
+     _updateMetrics: function(itemSet) {
+      var newPhysicalSize = 0;
+      var oldPhysicalSize = 0;
+      var prevAvgCount = this._physicalAverageCount;
+      var prevPhysicalAvg = this._physicalAverage;
+      // Make sure we distributed all the physical items
+      // so we can measure them
+      Polymer.dom.flush();
+
+      this._iterateItems(function(pidx, vidx) {
+        oldPhysicalSize += this._physicalSizes[pidx] || 0;
+        this._physicalSizes[pidx] = this._physicalItems[pidx].offsetHeight;
+        newPhysicalSize += this._physicalSizes[pidx];
+        this._physicalAverageCount += this._physicalSizes[pidx] ? 1 : 0;
+      }, itemSet);
+
+      this._physicalSize = this._physicalSize + newPhysicalSize - oldPhysicalSize;
+      this._viewportSize = this._scroller.offsetHeight;
+
+      // update the average if we measured something
+      if (this._physicalAverageCount !== prevAvgCount) {
+        this._physicalAverage = Math.round(
+            ((prevPhysicalAvg * prevAvgCount) + newPhysicalSize) /
+            this._physicalAverageCount);
+      }
+    },
+
+    /**
+     * Updates the position of the physical items.
+     */
+    _positionItems: function() {
+      this._adjustScrollPosition();
+
+      var y = this._physicalTop;
+
+      this._iterateItems(function(pidx) {
+
+        this.transform('translate3d(0, ' + y + 'px, 0)', this._physicalItems[pidx]);
+        y += this._physicalSizes[pidx];
+
+      });
+    },
+
+    /**
+     * Adjusts the scroll position when it was overestimated.
+     */
+    _adjustScrollPosition: function() {
+      var deltaHeight = this._virtualStartVal === 0 ? this._physicalTop :
+          Math.min(this._scrollPosition + this._physicalTop, 0);
+
+      if (deltaHeight) {
+        this._physicalTop = this._physicalTop - deltaHeight;
+
+        // juking scroll position during interial scrolling on iOS is no bueno
+        if (!IOS_TOUCH_SCROLLING) {
+          this._resetScrollPosition(this._scroller.scrollTop - deltaHeight);
+        }
+      }
+    },
+
+    /**
+     * Sets the position of the scroll.
+     */
+    _resetScrollPosition: function(pos) {
+      if (this._scroller) {
+        this._scroller.scrollTop = pos;
+        this._scrollPosition = this._scroller.scrollTop;
+      }
+    },
+
+    /**
+     * Sets the scroll height, that's the height of the content,
+     *
+     * @param {boolean=} forceUpdate If true, updates the height no matter what.
+     */
+    _updateScrollerSize: function(forceUpdate) {
+      this._estScrollHeight = (this._physicalBottom +
+          Math.max(this._virtualCount - this._physicalCount - this._virtualStartVal, 0) * this._physicalAverage);
+
+      forceUpdate = forceUpdate || this._scrollHeight === 0;
+      forceUpdate = forceUpdate || this._scrollPosition >= this._estScrollHeight - this._physicalSize;
+
+      // amortize height adjustment, so it won't trigger repaints very often
+      if (forceUpdate || Math.abs(this._estScrollHeight - this._scrollHeight) >= this._optPhysicalSize) {
+        this.$.items.style.height = this._estScrollHeight + 'px';
+        this._scrollHeight = this._estScrollHeight;
+      }
+    },
+
+    /**
+     * Scroll to a specific item in the virtual list regardless
+     * of the physical items in the DOM tree.
+     *
+     * @method scrollToIndex
+     * @param {number} idx The index of the item
+     */
+    scrollToIndex: function(idx) {
+      if (typeof idx !== 'number') {
+        return;
+      }
+
+      var firstVisible = this.firstVisibleIndex;
+
+      idx = Math.min(Math.max(idx, 0), this._virtualCount-1);
+
+      // start at the previous virtual item
+      // so we have a item above the first visible item
+      this._virtualStart = idx - 1;
+
+      // assign new models
+      this._assignModels();
+
+      // measure the new sizes
+      this._updateMetrics();
+
+      // estimate new physical offset
+      this._physicalTop = this._virtualStart * this._physicalAverage;
+
+      var currentTopItem = this._physicalStart;
+      var currentVirtualItem = this._virtualStart;
+      var targetOffsetTop = 0;
+      var hiddenContentSize = this._hiddenContentSize;
+
+      // scroll to the item as much as we can
+      while (currentVirtualItem < idx && targetOffsetTop < hiddenContentSize) {
+        targetOffsetTop = targetOffsetTop + this._physicalSizes[currentTopItem];
+        currentTopItem = (currentTopItem + 1) % this._physicalCount;
+        currentVirtualItem++;
+      }
+
+      // update the scroller size
+      this._updateScrollerSize(true);
+
+      // update the position of the items
+      this._positionItems();
+
+      // set the new scroll position
+      this._resetScrollPosition(this._physicalTop + targetOffsetTop + 1);
+
+      // increase the pool of physical items if needed
+      this._increasePoolIfNeeded();
+
+      // clear cached visible index
+      this._firstVisibleIndexVal = null;
+    },
+
+    /**
+     * Reset the physical average and the average count.
+     */
+    _resetAverage: function() {
+      this._physicalAverage = 0;
+      this._physicalAverageCount = 0;
+    },
+
+    /**
+     * A handler for the `iron-resize` event triggered by `IronResizableBehavior`
+     * when the element is resized.
+     */
+    _resizeHandler: function() {
+      this.debounce('resize', function() {
+        this._render();
+        if (this._itemsRendered && this._physicalItems && this._isVisible) {
+          this._resetAverage();
+          this.updateViewportBoundaries();
+          this.scrollToIndex(this.firstVisibleIndex);
+        }
+      });
+    },
+
+    _getModelFromItem: function(item) {
+      var key = this._collection.getKey(item);
+      var pidx = this._physicalIndexForKey[key];
+
+      if (pidx !== undefined) {
+        return this._physicalItems[pidx]._templateInstance;
+      }
+      return null;
+    },
+
+    /**
+     * Gets a valid item instance from its index or the object value.
+     *
+     * @param {(Object|number)} item The item object or its index
+     */
+    _getNormalizedItem: function(item) {
+      if (typeof item === 'number') {
+        item = this.items[item];
+        if (!item) {
+          throw new RangeError('<item> not found');
+        }
+      } else if (this._collection.getKey(item) === undefined) {
+        throw new TypeError('<item> should be a valid item');
+      }
+      return item;
+    },
+
+    /**
+     * Select the list item at the given index.
+     *
+     * @method selectItem
+     * @param {(Object|number)} item The item object or its index
+     */
+    selectItem: function(item) {
+      item = this._getNormalizedItem(item);
+      var model = this._getModelFromItem(item);
+
+      if (!this.multiSelection && this.selectedItem) {
+        this.deselectItem(this.selectedItem);
+      }
+      if (model) {
+        model[this.selectedAs] = true;
+      }
+      this.$.selector.select(item);
+    },
+
+    /**
+     * Deselects the given item list if it is already selected.
+     *
+
+     * @method deselect
+     * @param {(Object|number)} item The item object or its index
+     */
+    deselectItem: function(item) {
+      item = this._getNormalizedItem(item);
+      var model = this._getModelFromItem(item);
+
+      if (model) {
+        model[this.selectedAs] = false;
+      }
+      this.$.selector.deselect(item);
+    },
+
+    /**
+     * Select or deselect a given item depending on whether the item
+     * has already been selected.
+     *
+     * @method toggleSelectionForItem
+     * @param {(Object|number)} item The item object or its index
+     */
+    toggleSelectionForItem: function(item) {
+      item = this._getNormalizedItem(item);
+      if (/** @type {!ArraySelectorElement} */ (this.$.selector).isSelected(item)) {
+        this.deselectItem(item);
+      } else {
+        this.selectItem(item);
+      }
+    },
+
+    /**
+     * Clears the current selection state of the list.
+     *
+     * @method clearSelection
+     */
+    clearSelection: function() {
+      function unselect(item) {
+        var model = this._getModelFromItem(item);
+        if (model) {
+          model[this.selectedAs] = false;
+        }
+      }
+
+      if (Array.isArray(this.selectedItems)) {
+        this.selectedItems.forEach(unselect, this);
+      } else if (this.selectedItem) {
+        unselect.call(this, this.selectedItem);
+      }
+
+      /** @type {!ArraySelectorElement} */ (this.$.selector).clearSelection();
+    },
+
+    /**
+     * Add an event listener to `tap` if `selectionEnabled` is true,
+     * it will remove the listener otherwise.
+     */
+    _selectionEnabledChanged: function(selectionEnabled) {
+      if (selectionEnabled) {
+        this.listen(this, 'tap', '_selectionHandler');
+        this.listen(this, 'keypress', '_selectionHandler');
+      } else {
+        this.unlisten(this, 'tap', '_selectionHandler');
+        this.unlisten(this, 'keypress', '_selectionHandler');
+      }
+    },
+
+    /**
+     * Select an item from an event object.
+     */
+    _selectionHandler: function(e) {
+      if (e.type !== 'keypress' || e.keyCode === 13) {
+        var model = this.modelForElement(e.target);
+        if (model) {
+          this.toggleSelectionForItem(model[this.as]);
+        }
+      }
+    },
+
+    _multiSelectionChanged: function(multiSelection) {
+      this.clearSelection();
+      this.$.selector.multi = multiSelection;
+    },
+
+    /**
+     * Updates the size of an item.
+     *
+     * @method updateSizeForItem
+     * @param {(Object|number)} item The item object or its index
+     */
+    updateSizeForItem: function(item) {
+      item = this._getNormalizedItem(item);
+      var key = this._collection.getKey(item);
+      var pidx = this._physicalIndexForKey[key];
+
+      if (pidx !== undefined) {
+        this._updateMetrics([pidx]);
+        this._positionItems();
+      }
+    }
+  });
+
+})();
 Polymer({
 
     is: 'iron-pages',
@@ -18340,6 +19517,10 @@ Polymer({
       type: String,
       value: '',
     },
+    incr: {
+      type: Number,
+      value: 0,
+    },
     categories: {
       type: Array,
       value: categories,
@@ -18349,6 +19530,18 @@ Polymer({
     'hackersChange(hackers)'
   ],
   hackersChange: function(hackers) {
+    this.lunr = lunr(function () {
+      this.ref('index')
+      this.field('city');
+      this.field('email');
+      this.field('github');
+      this.field('personalsite');
+      this.field('linkedin');
+      this.field('name');
+      this.field('reason');
+      this.field('school')
+    });
+    var self = this;
     $.each(hackers, function(i, hacker) {
       if (!hacker.status) {
         hacker.status = 'applied';
@@ -18356,20 +19549,34 @@ Polymer({
         hacker.status = categories[hacker.status];
       }
       hacker.index = i;
+      self.lunr.add(hacker);
     });
   },
   title: function(hacker) {
     return hacker.name + ' ('+hacker.email+')';
   },
-  filter: function(status) {
-    return function(hacker) {
+  filter: function(hackers, status, search) {
+    var results = hackers;
+    if (search.length > 0) {
+      var rawResults = this.lunr.search(search);
+      results = rawResults.map(function(result) {
+        return hackers[result.ref];
+      });
+    }
+    return results.filter(function(hacker, b, c) {
       return status === '' || status === 'null' || status === 'All' || status === hacker.status;
-    };
+    });
   },
   githubLink: function(username) {
+    if (username.indexOf('github.com') > 0) {
+      return username;
+    }
     return 'https://github.com/' + username;
   },
   linkedinLink: function(username) {
+    if (username.indexOf('linkedin.com') > 0) {
+      return username;
+    }
     return 'https://linkedin.com/in/' + username;
   },
   selected: function(status) {
@@ -18379,18 +19586,16 @@ Polymer({
     }
     return 0;
   },
+  eq: function(a, b) {
+    return a === b;
+  },
   onSelect: function(e) {
-    var index = e.target.selected;
+    var index = e.target.selectedIndex;
     var status = categories[index];
     var hacker = e.model.hacker;
     if (hacker.status !== status) {
-      console.log(hacker.status, status);
+      console.log(hacker);
       this.set('hackers.'+hacker.index+'.status',status);
-
-      /*var data = jQuery.extend(true, {}, hacker);
-      delete data.resume;
-      delete data.index;
-      */
 
       var data = {
         status: categories.indexOf(hacker.status),
@@ -18406,6 +19611,9 @@ Polymer({
         alert( "error");
       });
     }
+  },
+  refreshList: function() {
+    this.incr++;
   }
 });
 // element registration

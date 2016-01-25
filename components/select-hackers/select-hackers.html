@@ -1,13 +1,22 @@
 <dom-module id="select-hackers">
   <template>
     <style>
+      iron-list {
+        margin-top: 20px;
+        height: 1000px;
+      }
+      paper-input {
+        display: inline-block;
+      }
       paper-card {
         color: black;
         max-width: 900px;
+        margin: 20px auto;
       }
       table {
         text-align: left;
         width: 100%;
+        table-layout: fixed;
       }
       a {
         color: green;
@@ -23,8 +32,9 @@
     </style>
     <h1>Select Hackers</h1>
     <div class="content">
-      <paper-card heading="Filters">
+      <paper-card>
         <div class="card-content">
+          Filters &nbsp;
           <paper-dropdown-menu label="Status" selected-item-label="{{status}}">
             <paper-listbox class="dropdown-content" selected="[[selected(hacker.status)]]">
               <paper-item>All</paper-item>
@@ -33,59 +43,77 @@
               </template>
             </paper-listbox>
           </paper-dropdown-menu>
+          &nbsp;
+          <paper-input label="Search" value="{{search}}"></paper-input>
         </div>
       </paper-card>
     </div>
-    <template is="dom-repeat" items="{{hackers}}" as="hacker" filter="{{filter(status)}}" observe="status">
-      <paper-card heading="[[title(hacker)]]">
-        <div class="card-content">
-          <table>
-            <thead>
-              <th> School </th>
-              <th>City</th>
-              <th>GitHub</th>
-              <th>LinkedIn</th>
-              <th>Personal Site</th>
-              <th>Resume</th>
-              <th>T-Shirt Size</th>
-            </thead>
-            <tbody>
-              <tr>
-                <td>[[hacker.school]]</td>
-                <td>[[hacker.city]]</td>
-                <td><a target="_blank" href="[[githubLink(hacker.github)]]">[[hacker.github]]</a></td>
-                <td><a target="_blank" href="[[linkedinLink(hacker.linkedin)]]">[[hacker.linkedin]]</a></td>
-                <td><a target="_blank" href="[[hacker.personalsite]]">[[hacker.personalsite]]</a></td>
-                <td><a target="_blank" href="[[hacker.resume]]">[[hacker.resume]]</a></td>
-                <td>[[hacker.tshirt]]</td>
-              </tr>
-            </tbody>
-          </table>
-          <h3>Reason</h3>
-          <p>[[hacker.reason]]</p>
+    <!-- <template is="dom-repeat" items="{{hackers}}" as="hacker" filter="{{filter(status)}}" observe="status"> -->
+    <iron-list items="[[filter(hackers, status, search, incr)]]" as="hacker">
+      <template>
+        <div>
+          <paper-card heading="[[title(hacker)]]">
+            <div class="card-content">
+              <table>
+                <thead>
+                  <th> School </th>
+                  <th>City</th>
+                  <th>GitHub</th>
+                  <th>LinkedIn</th>
+                  <th>Personal Site</th>
+                  <th>Resume</th>
+                  <th>T-Shirt Size</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>[[hacker.school]]</td>
+                    <td>[[hacker.city]]</td>
+                    <td><a target="_blank" href="[[githubLink(hacker.github)]]">[[hacker.github]]</a></td>
+                    <td><a target="_blank" href="[[linkedinLink(hacker.linkedin)]]">[[hacker.linkedin]]</a></td>
+                    <td><a target="_blank" href="[[hacker.personalsite]]">[[hacker.personalsite]]</a></td>
+                    <td>
+                      <template is="dom-if" if="[[hacker.resume]]">
+                        <a target="_blank" href="[[hacker.resume]]">Resume</a>
+                      </template>
+                    </td>
+                    <td>[[hacker.tshirt]]</td>
+                  </tr>
+                </tbody>
+              </table>
+              <h3>Why do you want to come to nwHacks?</h3>
+              <p>[[hacker.reason]]</p>
 
-          <template is="dom-if" if="[[hacker.travel_reimbursement]]">
-            <div class="tag">Travel Reimbursement</div>
-          </template>
-          <template is="dom-if" if="[[hacker.first_hackathon]]">
-            <div class="tag">First Hackathon</div>
-          </template>
-          <template is="dom-if" if="[[hacker.mentor]]">
-            <div class="tag">Wants to Mentor</div>
-          </template>
-          </table>
-        </div>
-        <div class="card-actions">
-          <paper-dropdown-menu label="Status">
-            <paper-listbox class="dropdown-content" selected="[[selected(hacker.status)]]" on-iron-select="onSelect">
-              <template is="dom-repeat" items="[[categories]]">
-                <paper-item>[[item]]</paper-item>
+              <template is="dom-if" if="[[hacker.travel_reimbursement]]">
+                <div class="tag">Travel Reimbursement</div>
               </template>
-            </paper-listbox>
-          </paper-dropdown-menu>
+              <template is="dom-if" if="[[hacker.first_hackathon]]">
+                <div class="tag">First Hackathon</div>
+              </template>
+              <template is="dom-if" if="[[hacker.mentor]]">
+                <div class="tag">Wants to Mentor</div>
+              </template>
+              </table>
+            </div>
+            <div class="card-actions">
+              <select selected="{{selected(hacker.status)}}" on-change="onSelect">
+                <template is="dom-repeat" items="[[categories]]">
+                  <option selected$="[[eq(item, hacker.status)]]">[[item]]</option>
+                </template>
+              </select>
+              <!--
+              <paper-dropdown-menu label="Status">
+                <paper-listbox class="dropdown-content" selected="[[selected(hacker.status)]]" on-iron-select="onSelect">
+                  <template is="dom-repeat" items="[[categories]]">
+                    <paper-item>[[item]]</paper-item>
+                  </template>
+                </paper-listbox>
+              </paper-dropdown-menu>
+              -->
+            </div>
+          </paper-card>
         </div>
-      </paper-card>
-    </template>
+      </template>
+    </iron-list>
     <iron-ajax auto url="/api/register/" handle-as="json" last-response="{{hackers}}"></iron-ajax>
   </template>
   <script>
@@ -104,6 +132,10 @@ Polymer({
       type: String,
       value: '',
     },
+    incr: {
+      type: Number,
+      value: 0,
+    },
     categories: {
       type: Array,
       value: categories,
@@ -113,6 +145,18 @@ Polymer({
     'hackersChange(hackers)'
   ],
   hackersChange: function(hackers) {
+    this.lunr = lunr(function () {
+      this.ref('index')
+      this.field('city');
+      this.field('email');
+      this.field('github');
+      this.field('personalsite');
+      this.field('linkedin');
+      this.field('name');
+      this.field('reason');
+      this.field('school')
+    });
+    var self = this;
     $.each(hackers, function(i, hacker) {
       if (!hacker.status) {
         hacker.status = 'applied';
@@ -120,20 +164,34 @@ Polymer({
         hacker.status = categories[hacker.status];
       }
       hacker.index = i;
+      self.lunr.add(hacker);
     });
   },
   title: function(hacker) {
     return hacker.name + ' ('+hacker.email+')';
   },
-  filter: function(status) {
-    return function(hacker) {
+  filter: function(hackers, status, search) {
+    var results = hackers;
+    if (search.length > 0) {
+      var rawResults = this.lunr.search(search);
+      results = rawResults.map(function(result) {
+        return hackers[result.ref];
+      });
+    }
+    return results.filter(function(hacker, b, c) {
       return status === '' || status === 'null' || status === 'All' || status === hacker.status;
-    };
+    });
   },
   githubLink: function(username) {
+    if (username.indexOf('github.com') > 0) {
+      return username;
+    }
     return 'https://github.com/' + username;
   },
   linkedinLink: function(username) {
+    if (username.indexOf('linkedin.com') > 0) {
+      return username;
+    }
     return 'https://linkedin.com/in/' + username;
   },
   selected: function(status) {
@@ -143,18 +201,16 @@ Polymer({
     }
     return 0;
   },
+  eq: function(a, b) {
+    return a === b;
+  },
   onSelect: function(e) {
-    var index = e.target.selected;
+    var index = e.target.selectedIndex;
     var status = categories[index];
     var hacker = e.model.hacker;
     if (hacker.status !== status) {
-      console.log(hacker.status, status);
+      console.log(hacker);
       this.set('hackers.'+hacker.index+'.status',status);
-
-      /*var data = jQuery.extend(true, {}, hacker);
-      delete data.resume;
-      delete data.index;
-      */
 
       var data = {
         status: categories.indexOf(hacker.status),
@@ -170,6 +226,9 @@ Polymer({
         alert( "error");
       });
     }
+  },
+  refreshList: function() {
+    this.incr++;
   }
 });
   </script>
