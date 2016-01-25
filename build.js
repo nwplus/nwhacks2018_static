@@ -18326,7 +18326,7 @@ Polymer({
   }
 });
 'use strict';
-const categories = ['Unfiltered', 'Accepted', 'Accepted + Travel', 'Waitlisted', 'Denied', 'Mentor', 'Mentor + Travel'];
+const categories = ['applied', 'accepted', 'waitlisted', 'rejected'];
 Object.freeze(categories);
 Polymer({
   is: "select-hackers",
@@ -18351,7 +18351,9 @@ Polymer({
   hackersChange: function(hackers) {
     $.each(hackers, function(i, hacker) {
       if (!hacker.status) {
-        hacker.status = 'Unfiltered';
+        hacker.status = 'applied';
+      } else {
+        hacker.status = categories[hacker.status];
       }
       hacker.index = i;
     });
@@ -18382,7 +18384,27 @@ Polymer({
     var status = categories[index];
     var hacker = e.model.hacker;
     if (hacker.status !== status) {
+      console.log(hacker.status, status);
       this.set('hackers.'+hacker.index+'.status',status);
+
+      /*var data = jQuery.extend(true, {}, hacker);
+      delete data.resume;
+      delete data.index;
+      */
+
+      var data = {
+        status: categories.indexOf(hacker.status),
+      };
+      $.ajax({
+        url : '/api/register/'+hacker.id+'/',
+        type : 'PATCH',
+        data : data,
+      }).done(function(e) {
+        console.log('done', e);
+      }).fail(function(e) {
+        console.log('error', e)
+        alert( "error");
+      });
     }
   }
 });

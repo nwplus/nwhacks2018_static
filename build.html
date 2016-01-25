@@ -3758,7 +3758,6 @@ star {
           
         </div>
         <div class="card-actions">
-          <span>[[hacker.status]]</span>
           <paper-dropdown-menu label="Status">
             <paper-listbox class="dropdown-content" selected="[[selected(hacker.status)]]" on-iron-select="onSelect">
               <template is="dom-repeat" items="[[categories]]">
@@ -3769,7 +3768,7 @@ star {
         </div>
       </paper-card>
     </template>
-    <iron-ajax auto="" url="/register/" handle-as="json" last-response="{{hackers}}"></iron-ajax>
+    <iron-ajax auto="" url="/api/register/" handle-as="json" last-response="{{hackers}}"></iron-ajax>
   </template>
   </dom-module>
 <dom-module id="sponsor-page" assetpath="/static/components/sponsor-page/">
