@@ -1,0 +1,135 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+  <style>
+    body {
+      padding: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>
+    nwHacks Live Registration Stats
+  </h1>
+  <p class="flow-text">Total Registrations: <span id="registrations">Loading...</span>,
+  De-duplicated (by email): <span id="regDeDup">Loading...</span>
+  </p>
+  <h2>University</h2>
+  <canvas id="university" width="2000" height="700"></canvas>
+  <h2>City</h2>
+  <canvas id="city" width="2000" height="700"></canvas>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.0.1/lodash.min.js"></script>
+
+  <script>
+    var patterns = {
+      'University of British Columbia': [
+        'UBC', 'University of British Columbia', 'University of the British Columbia', 'University of British Colombia',
+      ],
+      'Simon Fraser University': ['SFU', 'Simon Fraser', 'Somion Fraser'],
+      'University of Waterloo': ['Waterloo'],
+      'BCIT': ['BCIT'],
+    }
+    var patternsCities = {
+      'Vancouver': [
+        'UBC', 'University of British Columbia', 'Vanouver', 'Vancouver', 'Gage', 'Marine Drive', 'Locally', 'Vancover', 'Campus', 'N/a', 'University of the British Columbia', 'University of British Colombia',
+      ],
+    }
+    $.get('/api/register/', function(data) {
+      renderData(data);
+    });
+
+    function renderData(data) {
+      document.getElementById("registrations").innerText = data.length;
+      var univs = {};
+      var students = {};
+      var cities = {};
+      var deDupStudents = 0;
+      _.each(data, function(datum) {
+        // Cleanup step
+        _.each(patterns, function(pattern, remap) {
+          _.each(pattern, function(p) {
+            if (datum.school.toLowerCase().trim().indexOf(p.toLowerCase()) >= 0) {
+              datum.school = remap;
+            }
+          });
+        });
+        _.each(patternsCities, function(pattern, remap) {
+          _.each(pattern, function(p) {
+            if (datum.city.toLowerCase().trim().indexOf(p.toLowerCase()) >= 0) {
+              datum.city = remap;
+            }
+          });
+        });
+
+        if (!univs[datum.school]) {
+          univs[datum.school] = {
+            name: datum.school,
+            total: 0
+          };
+        }
+        univs[datum.school].total += 1;
+        var location = toTitleCase(datum.city.split(',')[0].trim());
+        if (!cities[location]) {
+          cities[location] = {
+            name: location,
+            total: 0
+          }
+        }
+        cities[location].total += 1;
+        var email = datum.email.toLowerCase().trim();
+        if (!students[email]) {
+          deDupStudents++;
+        }
+        students[email] = datum;
+      });
+      document.getElementById("regDeDup").innerText = deDupStudents;
+      var data = {
+        labels: [],
+        datasets: [
+        {
+          label: "Total Students",
+          fillColor: "rgba(220,0,0,0.5)",
+          strokeColor: "rgba(220,0,0,0.8)",
+          highlightFill: "rgba(220,0,0,0.75)",
+          highlightStroke: "rgba(20,0,0,1)",
+          data: []
+        },
+        ]
+      };
+      var sortedUnivs = _(univs).toArray().sortBy('total').reverse().value();
+      _.each(sortedUnivs, function(v) {
+        data.labels.push(v.name);
+        data.datasets[0].data.push(v.total);
+      });
+      var ctx = document.getElementById("university").getContext("2d");
+      new Chart(ctx).Bar(data, {});
+
+      var dataCities = {
+        labels: [],
+        datasets: [
+        {
+          label: "Total Students",
+          fillColor: "rgba(0,220,0,0.5)",
+          strokeColor: "rgba(0,220,0,0.8)",
+          highlightFill: "rgba(0,220,0,0.75)",
+          highlightStroke: "rgba(0,220,0,1)",
+          data: []
+        },
+        ]
+      };
+      var sortedCities = _(cities).toArray().sortBy('total').reverse().value();
+      _.each(sortedCities, function(v) {
+        dataCities.labels.push(v.name);
+        dataCities.datasets[0].data.push(v.total);
+      });
+      var ctx = document.getElementById("city").getContext("2d");
+      new Chart(ctx).Bar(dataCities, {});
+    }
+    // https://stackoverflow.com/questions/4878756/javascript-how-to-capitalize-first-letter-of-each-word-like-a-2-word-city
+    function toTitleCase(str) {
+      return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    }
+  </script>
+</body>
