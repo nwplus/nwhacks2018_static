@@ -354,6 +354,25 @@ star {
 #sponsors {
   max-width: inherit;
   text-align: center; }
+  #sponsors a.duo {
+    position: relative; }
+    #sponsors a.duo img, #sponsors a.duo svg {
+      transition: opacity 0.5s; }
+      #sponsors a.duo img.solid, #sponsors a.duo svg.solid {
+        position: absolute;
+        left: 0;
+        opacity: 0;
+        -webkit-filter: none;
+        -moz-filter: none;
+        -o-filter: none;
+        filter: none; }
+      #sponsors a.duo img.transparent, #sponsors a.duo svg.transparent {
+        pointer-events: none;
+        opacity: 1; }
+    #sponsors a.duo:hover img.solid, #sponsors a.duo:hover svg.solid {
+      opacity: 1; }
+    #sponsors a.duo:hover img.transparent, #sponsors a.duo:hover svg.transparent {
+      opacity: 0; }
   #sponsors img, #sponsors svg {
     vertical-align: middle;
     margin: 30px;

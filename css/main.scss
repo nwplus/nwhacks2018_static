@@ -462,6 +462,36 @@ star {
   max-width: inherit;
   text-align: center;
 
+  a.duo {
+    position: relative;
+    img, svg {
+      transition: opacity 0.5s;
+      &.solid {
+        position: absolute;
+        left: 0;
+        opacity: 0;
+        -webkit-filter: none;
+        -moz-filter: none;
+        -o-filter: none;
+        filter: none;
+      }
+      &.transparent {
+        pointer-events: none;
+        opacity: 1;
+      }
+    }
+    &:hover {
+      img, svg {
+        &.solid {
+          opacity: 1;
+        }
+        &.transparent {
+          opacity: 0;
+        }
+      }
+    }
+  }
+
   img, svg {
     vertical-align: middle;
     margin: 30px;
