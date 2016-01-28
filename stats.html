@@ -1,8 +1,16 @@
 <head>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+  <title>nwHacks Live Registration Stats</title>
+  <meta name="viewport" content="width=device-width">
   <style>
-    body {
-      padding: 16px;
+    h1, h2, h3, p, canvas {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+    .chart-container {
+      margin: 0;
+      width: 100%;
+      overflow-x: auto;
     }
   </style>
 </head>
@@ -10,13 +18,18 @@
   <h1>
     nwHacks Live Registration Stats
   </h1>
+  <p class="flow-text">This page refreshes every 5 minutes. If the page doesn't load you might need to <a href="/api/admin/?next=/static/stats.html">login</a>.</p>
   <p class="flow-text">Total Registrations: <span id="registrations">Loading...</span>,
   De-duplicated (by email): <span id="regDeDup">Loading...</span>
   </p>
   <h2>University</h2>
-  <canvas id="university" width="2000" height="700"></canvas>
+  <div class="chart-container">
+    <canvas id="university" width="2000" height="700"></canvas>
+  </div>
   <h2>City</h2>
-  <canvas id="city" width="2000" height="700"></canvas>
+  <div class="chart-container">
+    <canvas id="city" width="2000" height="700"></canvas>
+  </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
@@ -36,11 +49,21 @@
         'UBC', 'University of British Columbia', 'Vanouver', 'Vancouver', 'Gage', 'Marine Drive', 'Locally', 'Vancover', 'Campus', 'N/a', 'University of the British Columbia', 'University of British Colombia',
       ],
     }
-    $.get('/api/register/', function(data) {
-      renderData(data);
-    });
+    var charts = [];
+    function fetchData() {
+      $.get('/api/register/', function(data) {
+        renderData(data);
+      });
+    }
+
+    fetchData();
+    setInterval(fetchData, 5*60*1000);
 
     function renderData(data) {
+      _.each(charts, function(chart) {
+        chart.destroy();
+      });
+      charts = [];
       document.getElementById("registrations").innerText = data.length;
       var univs = {};
       var students = {};
@@ -104,7 +127,7 @@
         data.datasets[0].data.push(v.total);
       });
       var ctx = document.getElementById("university").getContext("2d");
-      new Chart(ctx).Bar(data, {});
+      charts.push(new Chart(ctx).Bar(data, {}));
 
       var dataCities = {
         labels: [],
@@ -125,7 +148,7 @@
         dataCities.datasets[0].data.push(v.total);
       });
       var ctx = document.getElementById("city").getContext("2d");
-      new Chart(ctx).Bar(dataCities, {});
+      charts.push(new Chart(ctx).Bar(dataCities, {}));
     }
     // https://stackoverflow.com/questions/4878756/javascript-how-to-capitalize-first-letter-of-each-word-like-a-2-word-city
     function toTitleCase(str) {
