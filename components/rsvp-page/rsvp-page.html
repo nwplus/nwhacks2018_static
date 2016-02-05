@@ -1,0 +1,78 @@
+<dom-module id="rsvp-page">
+  <template>
+    <style>
+    </style>
+    <h1>RSVP</h1>
+    <paper-dialog id="rsvping" modal>
+      <h2>Submitting RSVP...</h2>
+      <p>
+        <paper-progress indeterminate></paper-progress>
+      </p>
+    </paper-dialog>
+    <paper-dialog id="rsvperror" modal>
+      <h2>Error submitting RSVP</h2>
+      <p>[[error]]</p>
+      <p>Please try again later or use a different browser.</p>
+      <div class="buttons">
+        <a href="#!/"><paper-button dialog-confirm autofocus>Return Home</paper-button></a>
+      </div>
+    </paper-dialog>
+    <paper-dialog id="rsvped" modal>
+      <h2>RSVPed</h2>
+      <p>
+        <template is="dom-if" if="{{eq(status, 1)}}">
+          All set!
+          See you at nwHacks!
+        </template>
+        <template is="dom-if" if="{{eq(status, 2)}}">
+          All set!
+          We'll let you know about travel reimbursements shortly.
+        </template>
+        <template is="dom-if" if="{{eq(status, 3)}}">
+          Sorry to hear that. Hopefully we'll see you at nwHacks next year!
+        </template>
+      </p>
+      <div class="buttons">
+        <a href="#!/"><paper-button dialog-confirm autofocus>Return Home</paper-button></a>
+      </div>
+    </paper-dialog>
+  </template>
+  <script>
+'use strict';
+const respCategories = ['No Response', 'Going', 'Travel Reimbursement Required', 'Not Going'];
+Object.freeze(categories);
+Polymer({
+  is: "rsvp-page",
+
+  properties: {
+    categories: {
+      type: Array,
+      value: respCategories,
+    },
+    params: {
+      type: Object,
+      value: function() { return {}; },
+    },
+
+  },
+  attached: function() {
+    var self = this;
+    this.$.rsvping.open();
+    $.post( "/api/rsvp/"+this.params.id+"/"+this.params.token+"/"+this.params.status, function(resp) {
+      self.$.rsvped.open();
+    })
+    .fail(function(e, status, error) {
+      self.error = e.status + ' - ' + error;
+      self.$.rsvperror.open();
+    })
+    .always(function() {
+      self.$.rsvping.close();
+    });
+
+  },
+  eq: function(a, b) {
+    return a == b;
+  },
+});
+  </script>
+</dom-module>

@@ -19698,6 +19698,42 @@ Polymer({
   },
 });
 'use strict';
+const respCategories = ['No Response', 'Going', 'Travel Reimbursement Required', 'Not Going'];
+Object.freeze(categories);
+Polymer({
+  is: "rsvp-page",
+
+  properties: {
+    categories: {
+      type: Array,
+      value: respCategories,
+    },
+    params: {
+      type: Object,
+      value: function() { return {}; },
+    },
+
+  },
+  attached: function() {
+    var self = this;
+    this.$.rsvping.open();
+    $.post( "/api/rsvp/"+this.params.id+"/"+this.params.token+"/"+this.params.status, function(resp) {
+      self.$.rsvped.open();
+    })
+    .fail(function(e, status, error) {
+      self.error = e.status + ' - ' + error;
+      self.$.rsvperror.open();
+    })
+    .always(function() {
+      self.$.rsvping.close();
+    });
+
+  },
+  eq: function(a, b) {
+    return a == b;
+  },
+});
+'use strict';
       var app = document.querySelector("#app");
       page('*', function(ctx, next) {
         next();
@@ -19722,6 +19758,10 @@ Polymer({
       });
       page('/sponsors*', function() {
         app.route = 'sponsors';
+      });
+      page('/rsvp/:id/:token/:status', function(e) {
+        app.route = 'rsvp';
+        app.params = e.params;
       });
       page('/select*', function() {
         app.route = 'select';

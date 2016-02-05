@@ -43,6 +43,7 @@
     <link rel="import" href="/static/components/select-hackers/select-hackers.html">
     <link rel="import" href="/static/components/sponsor-page/sponsor-page.html">
     <link rel="import" href="/static/components/schedule-box/schedule-box.html">
+    <link rel="import" href="/static/components/rsvp-page/rsvp-page.html">
     <title>nwHacks 2016</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
   </head>
@@ -118,6 +119,9 @@
           <section data-route="review">
             <review-page></review-page>
           </section>
+          <section data-route="rsvp">
+            <rsvp-page params="{{params}}"></rsvp-page>
+          </section>
         </iron-pages>
       </div>
       <footer>
@@ -192,6 +196,10 @@
       });
       page('/sponsors*', function() {
         app.route = 'sponsors';
+      });
+      page('/rsvp/:id/:token/:status', function(e) {
+        app.route = 'rsvp';
+        app.params = e.params;
       });
       page('/select*', function() {
         app.route = 'select';
