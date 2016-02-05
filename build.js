@@ -19716,6 +19716,7 @@ Polymer({
   },
   attached: function() {
     var self = this;
+    this.status = this.params.status;
     this.$.rsvping.open();
     $.post( "/api/rsvp/"+this.params.id+"/"+this.params.token+"/"+this.params.status, function(resp) {
       self.$.rsvped.open();
