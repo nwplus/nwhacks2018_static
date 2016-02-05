@@ -19715,6 +19715,7 @@ Polymer({
 
   },
   attached: function() {
+    return;
     var self = this;
     this.status = this.params.status;
     this.$.rsvping.open();
