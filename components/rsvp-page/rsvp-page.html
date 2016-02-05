@@ -56,7 +56,18 @@ Polymer({
 
   },
   attached: function() {
-    return;
+    var self = this;
+    this.parentElement.addEventListener('iron-select', function(e) {
+      if (e.detail.item == self) {
+        self.select();
+      }
+    });
+    this.parentElement.addEventListener('iron-deselect', function() {
+      self.deselect();
+    });
+  },
+  select: function() {
+    console.log("select");
     var self = this;
     this.status = this.params.status;
     this.$.rsvping.open();
@@ -71,6 +82,11 @@ Polymer({
       self.$.rsvping.close();
     });
 
+  },
+  deselect: function() {
+    this.$.rsvped.close();
+    this.$.rsvperror.close();
+    this.$.rsvping.close();
   },
   eq: function(a, b) {
     return a == b;

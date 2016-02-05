@@ -10119,6 +10119,7 @@ event and do your own custom submission:
 
       /**
        * Gets or sets the selected element. The default is to use the index of the item.
+       * @type {string|number}
        */
       selected: {
         type: String,
@@ -10175,6 +10176,7 @@ event and do your own custom submission:
       items: {
         type: Array,
         readOnly: true,
+        notify: true,
         value: function() {
           return [];
         }
@@ -10236,7 +10238,7 @@ event and do your own custom submission:
      * Selects the given value.
      *
      * @method select
-     * @param {string} value the value to select.
+     * @param {string|number} value the value to select.
      */
     select: function(value) {
       this.selected = value;
@@ -10261,6 +10263,22 @@ event and do your own custom submission:
     selectNext: function() {
       var index = (Number(this._valueToIndex(this.selected)) + 1) % this.items.length;
       this.selected = this._indexToValue(index);
+    },
+
+    /**
+     * Force a synchronous update of the `items` property.
+     *
+     * NOTE: Consider listening for the `iron-items-changed` event to respond to
+     * updates to the set of selectable items after updates to the DOM list and
+     * selection state have been made.
+     *
+     * WARNING: If you are using this method, you should probably consider an
+     * alternate approach. Synchronously querying for items is potentially
+     * slow for many use cases. The `items` property will update asynchronously
+     * on its own to reflect selectable items in the DOM.
+     */
+    forceSynchronousItemUpdate: function() {
+      this._updateItems();
     },
 
     get _shouldUpdateSelection() {
@@ -10326,7 +10344,8 @@ event and do your own custom submission:
     },
 
     _valueForItem: function(item) {
-      return item[this.attrForSelected] || item.getAttribute(this.attrForSelected);
+      var propValue = item[this.attrForSelected];
+      return propValue != undefined ? propValue : item.getAttribute(this.attrForSelected);
     },
 
     _applySelection: function(item, isSelected) {
@@ -10347,18 +10366,18 @@ event and do your own custom submission:
     // observe items change under the given node.
     _observeItems: function(node) {
       return Polymer.dom(node).observeNodes(function(mutations) {
+        this._updateItems();
+
+        if (this._shouldUpdateSelection) {
+          this._updateSelected();
+        }
+
         // Let other interested parties know about the change so that
         // we don't have to recreate mutation observers everywher.
         this.fire('iron-items-changed', mutations, {
           bubbles: false,
           cancelable: false
         });
-
-        this._updateItems();
-
-        if (this._shouldUpdateSelection) {
-          this._updateSelected();
-        }
       });
     },
 
@@ -14628,7 +14647,7 @@ Polymer({
      * `value` will be toggled; otherwise the `value` will be selected.
      *
      * @method select
-     * @param {string} value the value to select.
+     * @param {string|number} value the value to select.
      */
     select: function(value) {
       if (this.multi) {
@@ -19715,7 +19734,18 @@ Polymer({
 
   },
   attached: function() {
-    return;
+    var self = this;
+    this.parentElement.addEventListener('iron-select', function(e) {
+      if (e.detail.item == self) {
+        self.select();
+      }
+    });
+    this.parentElement.addEventListener('iron-deselect', function() {
+      self.deselect();
+    });
+  },
+  select: function() {
+    console.log("select");
     var self = this;
     this.status = this.params.status;
     this.$.rsvping.open();
@@ -19730,6 +19760,11 @@ Polymer({
       self.$.rsvping.close();
     });
 
+  },
+  deselect: function() {
+    this.$.rsvped.close();
+    this.$.rsvperror.close();
+    this.$.rsvping.close();
   },
   eq: function(a, b) {
     return a == b;

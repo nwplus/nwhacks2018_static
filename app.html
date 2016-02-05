@@ -104,24 +104,12 @@
       </div>
       <div class="wrapper" id="begin">
         <iron-pages attr-for-selected="data-route" selected="{{route}}">
-          <section data-route="home">
-            <index-page></index-page>
-          </section>
-          <section data-route="register">
-            <register-form></register-form>
-          </section>
-          <section data-route="select">
-            <select-hackers></select-hackers>
-          </section>
-          <section data-route="sponsors">
-            <sponsor-page></sponsor-page>
-          </section>
-          <section data-route="review">
-            <review-page></review-page>
-          </section>
-          <section data-route="rsvp">
-            <rsvp-page params="{{params}}"></rsvp-page>
-          </section>
+          <index-page data-route="home"></index-page>
+          <register-form data-route="register"></register-form>
+          <select-hackers data-route="select"></select-hackers>
+          <sponsor-page data-route="sponsors"></sponsor-page>
+          <review-page data-route="review"></review-page>
+          <rsvp-page data-route="rsvp" params="{{params}}"></rsvp-page>
         </iron-pages>
       </div>
       <footer>
