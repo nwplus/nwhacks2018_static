@@ -121,7 +121,7 @@ a {
   top: 0;
   right: 0;
   left: 0;
-  z-index: 100;
+  z-index: 10;
   padding: 5px 15px;
   padding-right: 165px;
   background-color: rgba(35, 31, 32, 0.6);
