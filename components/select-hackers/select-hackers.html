@@ -29,6 +29,10 @@
         margin: 5px;
         border: 2px solid green;
       }
+      .tag.bad {
+        color: red;
+        border-color: red;
+      }
       .right {
         float: right;
       }
@@ -107,6 +111,9 @@
               <template is="dom-if" if="[[hacker.mentor]]">
                 <div class="tag">Wants to Mentor</div>
               </template>
+              <template is="dom-if" if="[[hacker.duplicate]]">
+                <div class="tag bad">Multiple Submissions</div>
+              </template>
               </table>
             </div>
             <div class="card-actions">
@@ -156,7 +163,20 @@ Polymer({
     hackers.sort(function(a, b) {
       return a.id - b.id;
     });
+    var dedup = {};
+    hackers.forEach(function(hacker) {
+      var email = hacker.email.toLowerCase().trim();
+      dedup[email] = (dedup[email] || 0) + 1;
+    });
+    hackers.forEach(function(hacker) {
+      var email = hacker.email.toLowerCase().trim();
+      if (dedup[email] > 1) {
+        hacker.duplicate = true;
+      }
+    });
     this.hackers = hackers;
+  },
+  cleanEmail: function(email) {
   },
   hackersChange: function(hackers) {
     this.lunr = lunr(function () {

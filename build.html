@@ -3786,6 +3786,10 @@ star {
         margin: 5px;
         border: 2px solid green;
       }
+      .tag.bad {
+        color: red;
+        border-color: red;
+      }
       .right {
         float: right;
       }
@@ -3863,6 +3867,9 @@ star {
               </template>
               <template is="dom-if" if="[[hacker.mentor]]">
                 <div class="tag">Wants to Mentor</div>
+              </template>
+              <template is="dom-if" if="[[hacker.duplicate]]">
+                <div class="tag bad">Multiple Submissions</div>
               </template>
               
             </div>

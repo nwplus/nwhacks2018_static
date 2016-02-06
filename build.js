@@ -19553,7 +19553,20 @@ Polymer({
     hackers.sort(function(a, b) {
       return a.id - b.id;
     });
+    var dedup = {};
+    hackers.forEach(function(hacker) {
+      var email = hacker.email.toLowerCase().trim();
+      dedup[email] = (dedup[email] || 0) + 1;
+    });
+    hackers.forEach(function(hacker) {
+      var email = hacker.email.toLowerCase().trim();
+      if (dedup[email] > 1) {
+        hacker.duplicate = true;
+      }
+    });
     this.hackers = hackers;
+  },
+  cleanEmail: function(email) {
   },
   hackersChange: function(hackers) {
     this.lunr = lunr(function () {
