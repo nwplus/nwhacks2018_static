@@ -19548,6 +19548,13 @@ Polymer({
   observers: [
     'hackersChange(hackers)'
   ],
+  handleResponse: function(e, req) {
+    var hackers = req.xhr.response;
+    hackers.sort(function(a, b) {
+      return a.id - b.id;
+    });
+    this.hackers = hackers;
+  },
   hackersChange: function(hackers) {
     this.lunr = lunr(function () {
       this.ref('index')

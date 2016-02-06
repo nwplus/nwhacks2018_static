@@ -3878,7 +3878,7 @@ star {
         </div>
       </template>
     </iron-list>
-    <iron-ajax auto="" url="/api/register/" handle-as="json" last-response="{{hackers}}"></iron-ajax>
+    <iron-ajax auto="" url="/api/register/" handle-as="json" on-response="handleResponse"></iron-ajax>
   </template>
   </dom-module>
 <dom-module id="sponsor-page" assetpath="/static/components/sponsor-page/">
