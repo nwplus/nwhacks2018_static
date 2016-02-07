@@ -3,13 +3,13 @@
     <style>
     </style>
     <h1>RSVP</h1>
-    <paper-dialog id="rsvping" modal>
+    <paper-dialog no-cancel-on-esc-key id="rsvping" modal>
       <h2>Submitting RSVP...</h2>
       <p>
         <paper-progress indeterminate></paper-progress>
       </p>
     </paper-dialog>
-    <paper-dialog id="rsvperror" modal>
+    <paper-dialog no-cancel-on-esc-key id="rsvperror" modal>
       <h2>Error submitting RSVP</h2>
       <p>[[error]]</p>
       <p>Please try again later or use a different browser.</p>
@@ -17,7 +17,7 @@
         <a href="#!/"><paper-button dialog-confirm autofocus>Return Home</paper-button></a>
       </div>
     </paper-dialog>
-    <paper-dialog id="rsvped" modal>
+    <paper-dialog no-cancel-on-esc-key id="rsvped" modal>
       <h2>RSVPed</h2>
       <p>
         <template is="dom-if" if="{{eq(status, 1)}}">
