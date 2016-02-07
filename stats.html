@@ -20,15 +20,16 @@
   </h1>
   <p class="flow-text">This page refreshes every 5 minutes. If the page doesn't load you might need to <a href="/api/admin/login/?next=/static/stats.html">login</a>.</p>
   <p class="flow-text">Total Registrations: <span id="registrations">Loading...</span>,
-  De-duplicated (by email): <span id="regDeDup">Loading...</span>
+  De-duplicated (by email): <span id="regDeDup">Loading...</span>,
+  Accepted: <span id="accepted">Loading...</span>
   </p>
   <h2>University</h2>
   <div class="chart-container">
-    <canvas id="university" width="2000" height="700"></canvas>
+    <canvas id="university" width="3000" height="700"></canvas>
   </div>
   <h2>City</h2>
   <div class="chart-container">
-    <canvas id="city" width="2000" height="700"></canvas>
+    <canvas id="city" width="3000" height="700"></canvas>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
@@ -73,6 +74,7 @@
       var students = {};
       var cities = {};
       var deDupStudents = 0;
+      var acceptedStudents = 0;
       _.each(data, function(datum) {
         // Cleanup step
         _.each(patterns, function(pattern, remap) {
@@ -90,9 +92,17 @@
           });
         });
 
+        var email = datum.email.toLowerCase().trim();
+        if (students[email] && datum.status != 1) {
+          return;
+        }
+        deDupStudents++;
+        students[email] = datum;
+
         if (!univs[datum.school]) {
           univs[datum.school] = {
             name: datum.school,
+            accepted: 0,
             total: 0
           };
         }
@@ -101,17 +111,22 @@
         if (!cities[location]) {
           cities[location] = {
             name: location,
+            accepted: 0,
             total: 0
           }
         }
         cities[location].total += 1;
-        var email = datum.email.toLowerCase().trim();
-        if (!students[email]) {
-          deDupStudents++;
+        if (datum.status == 1) {
+          univs[datum.school].accepted += 1;
+          cities[location].accepted += 1;
+          acceptedStudents++;
         }
-        students[email] = datum;
       });
+
       document.getElementById("regDeDup").innerText = deDupStudents;
+      document.getElementById("accepted").innerText = acceptedStudents;
+
+      // Univerisities
       var data = {
         labels: [],
         datasets: [
@@ -123,15 +138,26 @@
           highlightStroke: "rgba(20,0,0,1)",
           data: []
         },
+        {
+          label: "Accepted Students",
+          fillColor: "rgba(0,0,220,0.5)",
+          strokeColor: "rgba(0,0,220,0.8)",
+          highlightFill: "rgba(0,0,220,0.75)",
+          highlightStroke: "rgba(0,0,220,1)",
+          data: []
+        },
         ]
       };
-      var sortedUnivs = _(univs).toArray().sortBy('total').reverse().value();
+      var sortedUnivs = _(univs).toArray().sortBy('accepted').reverse().value();
       _.each(sortedUnivs, function(v) {
         data.labels.push(v.name);
         data.datasets[0].data.push(v.total);
+        data.datasets[1].data.push(v.accepted);
       });
       var ctx = document.getElementById("university").getContext("2d");
       charts.push(new Chart(ctx).Bar(data, {}));
+
+      // Cities
 
       var dataCities = {
         labels: [],
@@ -144,12 +170,21 @@
           highlightStroke: "rgba(0,220,0,1)",
           data: []
         },
+        {
+          label: "Accepted Students",
+          fillColor: "rgba(0,0,220,0.5)",
+          strokeColor: "rgba(0,0,220,0.8)",
+          highlightFill: "rgba(0,0,220,0.75)",
+          highlightStroke: "rgba(0,0,220,1)",
+          data: []
+        },
         ]
       };
-      var sortedCities = _(cities).toArray().sortBy('total').reverse().value();
+      var sortedCities = _(cities).toArray().sortBy('accepted').reverse().value();
       _.each(sortedCities, function(v) {
         dataCities.labels.push(v.name);
         dataCities.datasets[0].data.push(v.total);
+        dataCities.datasets[1].data.push(v.accepted);
       });
       var ctx = document.getElementById("city").getContext("2d");
       charts.push(new Chart(ctx).Bar(dataCities, {}));
