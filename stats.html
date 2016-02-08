@@ -3,9 +3,15 @@
   <title>nwHacks Live Registration Stats</title>
   <meta name="viewport" content="width=device-width">
   <style>
-    h1, h2, h3, p, canvas {
+    h1, h2, h3, p, canvas, table {
       margin-left: 16px;
       margin-right: 16px;
+    }
+    table {
+      width: auto;
+    }
+    table td:first-child {
+      font-weight: bold;
     }
     .chart-container {
       margin: 0;
@@ -19,10 +25,34 @@
     nwHacks Live Registration Stats
   </h1>
   <p class="flow-text">This page refreshes every 5 minutes. If the page doesn't load you might need to <a href="/api/admin/login/?next=/static/stats.html">login</a>.</p>
-  <p class="flow-text">Total Registrations: <span id="registrations">Loading...</span>,
-  De-duplicated (by email): <span id="regDeDup">Loading...</span>,
-  Accepted: <span id="accepted">Loading...</span>
+  <table class="striped">
+    <thead>
+      <th></th>
+      <th>Count</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Total Registrations</td>
+        <td id="registrations">Loading...</td>
+      </tr>
+      <tr>
+        <td>De-duplicated (by email)</td>
+        <td id="regDeDup">Loading...</td>
+      </tr>
+      <tr>
+        <td>Offered</td>
+        <td id="accepted">Loading...</td>
+      </tr>
+      <tr>
+        <td>Offered and Going</td>
+        <td id="going">Loading...</td>
+      </tr>
+  </table>
   </p>
+  <h2>Response</h2>
+  <div class="chart-container">
+    <canvas id="response" width="500" height="500"></canvas>
+  </div>
   <h2>University</h2>
   <div class="chart-container">
     <canvas id="university" width="3000" height="700"></canvas>
@@ -78,6 +108,34 @@
       var cities = {};
       var deDupStudents = 0;
       var acceptedStudents = 0;
+
+      var responseData = [
+        {
+          value: 0,
+          color:"#666",
+          highlight: "#888",
+          label: "No Response"
+        },
+        {
+          value: 0,
+          color: "#4BAE74",
+          highlight: "#377F54",
+          label: "Going"
+        },
+        {
+          value: 0,
+          color:"#FF6B6B",
+          highlight: "#D74343",
+          label: "Not Going"
+        },
+        {
+          value: 0,
+          color: "#FDB45C",
+          highlight: "#FFC870",
+          label: "Need Reimbursement"
+        }
+      ];
+
       _.each(data, function(datum) {
         // Cleanup step
         _.each(patterns, function(pattern, remap) {
@@ -95,8 +153,15 @@
           });
         });
 
-        var email = datum.email.toLowerCase().trim();
-        if (students[email] && datum.status != 1 || students[email] && students[email].status == 1) {
+        datum.email = datum.email.toLowerCase().trim();
+        var email = datum.email;
+        var isDuplicate = students[email] && datum.status != 1 || students[email] && students[email].status == 1;
+
+        if (datum.status == 1 && !(isDuplicate && datum.response == 0)) {
+          responseData[datum.response].value++;
+        }
+
+        if (isDuplicate) {
           return;
         }
         deDupStudents++;
@@ -191,6 +256,10 @@
       });
       var ctx = document.getElementById("city").getContext("2d");
       charts.push(new Chart(ctx).Bar(dataCities, {}));
+
+      var ctx = document.getElementById("response").getContext("2d");
+      charts.push(new Chart(ctx).Doughnut(responseData, {}));
+      document.getElementById("going").innerText = responseData[1].value;
     }
     // https://stackoverflow.com/questions/4878756/javascript-how-to-capitalize-first-letter-of-each-word-like-a-2-word-city
     function toTitleCase(str) {
