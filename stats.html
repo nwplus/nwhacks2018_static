@@ -8,7 +8,7 @@
       margin-right: 16px;
     }
     table {
-      width: auto;
+      width: calc(100% - 32px);
     }
     table td:first-child {
       font-weight: bold;
@@ -25,33 +25,38 @@
     nwHacks Live Registration Stats
   </h1>
   <p class="flow-text">This page refreshes every 5 minutes. If the page doesn't load you might need to <a href="/api/admin/login/?next=/static/stats.html">login</a>.</p>
-  <table class="striped">
-    <thead>
-      <th></th>
-      <th>Count</th>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Total Registrations</td>
-        <td id="registrations">Loading...</td>
-      </tr>
-      <tr>
-        <td>De-duplicated (by email)</td>
-        <td id="regDeDup">Loading...</td>
-      </tr>
-      <tr>
-        <td>Offered</td>
-        <td id="accepted">Loading...</td>
-      </tr>
-      <tr>
-        <td>Offered and Going</td>
-        <td id="going">Loading...</td>
-      </tr>
-  </table>
+  <center>
+    <table class="striped">
+      <thead>
+        <th></th>
+        <th>Count</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Total Registrations</td>
+          <td id="registrations">Loading...</td>
+        </tr>
+        <tr>
+          <td>De-duplicated (by email)</td>
+          <td id="regDeDup">Loading...</td>
+        </tr>
+        <tr>
+          <td>Offered</td>
+          <td id="accepted">Loading...</td>
+        </tr>
+        <tr>
+          <td>Offered and Going</td>
+          <td id="going">Loading...</td>
+        </tr>
+      </tbody>
+    </table>
+  </center>
   </p>
   <h2>Response</h2>
   <div class="chart-container">
-    <canvas id="response" width="500" height="500"></canvas>
+    <center>
+      <canvas id="response" width="500" height="500"></canvas>
+    </center>
   </div>
   <h2>University</h2>
   <div class="chart-container">
