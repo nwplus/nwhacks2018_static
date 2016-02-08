@@ -19524,6 +19524,8 @@ Polymer({
 'use strict';
 const categories = ['applied', 'accepted', 'waitlisted', 'rejected'];
 Object.freeze(categories);
+const responseCategories = ['no response', 'going', 'not going', 'need reimbursement'];
+Object.freeze(responseCategories);
 Polymer({
   is: "select-hackers",
 
@@ -19536,6 +19538,10 @@ Polymer({
       type: String,
       value: '',
     },
+    response: {
+      type: String,
+      value: '',
+    },
     incr: {
       type: Number,
       value: 0,
@@ -19543,6 +19549,10 @@ Polymer({
     categories: {
       type: Array,
       value: categories,
+    },
+    responseCategories: {
+      type:Array,
+      value: responseCategories,
     },
   },
   observers: [
@@ -19594,7 +19604,7 @@ Polymer({
   title: function(hacker) {
     return hacker.name + ' ('+hacker.email+')';
   },
-  filter: function(hackers, status, search, filterMentor, filterFirst, filterReimbursement) {
+  filter: function(hackers, status, search, filterMentor, filterFirst, filterReimbursement, _, response) {
     var results = hackers;
     this.totalCount = hackers.length;
     if (search.length > 0) {
@@ -19603,8 +19613,11 @@ Polymer({
         return hackers[result.ref];
       });
     }
+    console.log('response', response);
+    var responseIdx = this.responded(response);
     var filtered = results.filter(function(hacker, b, c) {
-      var good = status === '' || status === 'null' || status === 'All' || status === hacker.status;
+      var good = (status === '' || status === 'null' || status === 'All' || status === hacker.status) &&
+        (response === '' || response === 'null' || response === 'All' || responseIdx === hacker.response);
       if (filterMentor) {
         good = good && hacker.mentor;
       }
@@ -19633,6 +19646,13 @@ Polymer({
   },
   selected: function(status) {
     var index = categories.indexOf(status);
+    if (index >= 0) {
+      return index;
+    }
+    return 0;
+  },
+  responded: function(status) {
+    var index = responseCategories.indexOf(status);
     if (index >= 0) {
       return index;
     }

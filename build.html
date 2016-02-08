@@ -3811,10 +3811,17 @@ star {
             </paper-listbox>
           </paper-dropdown-menu>
           &nbsp;
+          <paper-dropdown-menu label="Response" selected-item-label="{{response}}">
+            <paper-listbox class="dropdown-content" selected="[[responded(hacker.response)]]">
+              <paper-item>All</paper-item>
+              <template is="dom-repeat" items="[[responseCategories]]">
+                <paper-item>[[item]]</paper-item>
+              </template>
+            </paper-listbox>
+          </paper-dropdown-menu>
+          &nbsp;
           <paper-input label="Search" value="{{search}}"></paper-input>
 
-
-          &nbsp;
           Showing
           <span>{{filteredCount}}</span>
           of
@@ -3828,7 +3835,7 @@ star {
       </paper-card>
     </div>
     
-    <iron-list items="[[filter(hackers, status, search, filterMentor, filterFirst, filterReimbursement, incr)]]" as="hacker">
+    <iron-list items="[[filter(hackers, status, search, filterMentor, filterFirst, filterReimbursement, incr, response)]]" as="hacker">
       <template>
         <div>
           <paper-card heading="[[title(hacker)]]">
