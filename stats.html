@@ -65,6 +65,9 @@
     setInterval(fetchData, 5*60*1000);
 
     function renderData(data) {
+      data.sort(function(a,b) {
+        return b.id-a.id;
+      });
       _.each(charts, function(chart) {
         chart.destroy();
       });
@@ -93,7 +96,7 @@
         });
 
         var email = datum.email.toLowerCase().trim();
-        if (students[email] && datum.status != 1) {
+        if (students[email] && datum.status != 1 || students[email] && students[email].status == 1) {
           return;
         }
         deDupStudents++;
