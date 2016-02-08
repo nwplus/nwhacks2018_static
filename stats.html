@@ -18,6 +18,18 @@
       width: 100%;
       overflow-x: auto;
     }
+    .bar-legend span, .doughnut-legend span {
+      height: 1em;
+      width: 1em;
+      display: inline-block;
+      margin-right: 5px;
+      vertical-align: top;
+    }
+    .bar-legend li, .doughnut-legend li {
+      display: inline-block;
+      margin: 10px;
+      line-height: 1em;
+    }
   </style>
 </head>
 <body>
@@ -55,15 +67,18 @@
   <h2>Response</h2>
   <div class="chart-container">
     <center>
+      <div id="response-legend"></div>
       <canvas id="response" width="500" height="500"></canvas>
     </center>
   </div>
   <h2>University</h2>
   <div class="chart-container">
+    <div id="university-legend"></div>
     <canvas id="university" width="3000" height="700"></canvas>
   </div>
   <h2>City</h2>
   <div class="chart-container">
+    <div id="city-legend"></div>
     <canvas id="city" width="3000" height="700"></canvas>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
@@ -176,6 +191,7 @@
           univs[datum.school] = {
             name: datum.school,
             accepted: 0,
+            acceptedResp: 0,
             total: 0
           };
         }
@@ -185,6 +201,7 @@
           cities[location] = {
             name: location,
             accepted: 0,
+            acceptedResp: 0,
             total: 0
           }
         }
@@ -193,6 +210,10 @@
           univs[datum.school].accepted += 1;
           cities[location].accepted += 1;
           acceptedStudents++;
+        }
+        if (datum.response == 1) {
+          univs[datum.school].acceptedResp += 1;
+          cities[location].acceptedResp += 1;
         }
       });
 
@@ -212,11 +233,19 @@
           data: []
         },
         {
-          label: "Accepted Students",
+          label: "Offered Students",
           fillColor: "rgba(0,0,220,0.5)",
           strokeColor: "rgba(0,0,220,0.8)",
           highlightFill: "rgba(0,0,220,0.75)",
           highlightStroke: "rgba(0,0,220,1)",
+          data: []
+        },
+        {
+          label: "Accepted Students",
+          fillColor: "rgba(0,220,220,0.5)",
+          strokeColor: "rgba(0,220,220,0.8)",
+          highlightFill: "rgba(0,220,220,0.75)",
+          highlightStroke: "rgba(0,220,220,1)",
           data: []
         },
         ]
@@ -226,9 +255,11 @@
         data.labels.push(v.name);
         data.datasets[0].data.push(v.total);
         data.datasets[1].data.push(v.accepted);
+        data.datasets[2].data.push(v.acceptedResp);
       });
       var ctx = document.getElementById("university").getContext("2d");
       charts.push(new Chart(ctx).Bar(data, {}));
+      document.getElementById("university-legend").innerHTML = charts[charts.length-1].generateLegend();
 
       // Cities
 
@@ -244,11 +275,19 @@
           data: []
         },
         {
-          label: "Accepted Students",
+          label: "Offered Students",
           fillColor: "rgba(0,0,220,0.5)",
           strokeColor: "rgba(0,0,220,0.8)",
           highlightFill: "rgba(0,0,220,0.75)",
           highlightStroke: "rgba(0,0,220,1)",
+          data: []
+        },
+        {
+          label: "Accepted Students",
+          fillColor: "rgba(0,220,220,0.5)",
+          strokeColor: "rgba(0,220,220,0.8)",
+          highlightFill: "rgba(0,220,220,0.75)",
+          highlightStroke: "rgba(0,220,220,1)",
           data: []
         },
         ]
@@ -258,13 +297,16 @@
         dataCities.labels.push(v.name);
         dataCities.datasets[0].data.push(v.total);
         dataCities.datasets[1].data.push(v.accepted);
+        dataCities.datasets[2].data.push(v.acceptedResp);
       });
       var ctx = document.getElementById("city").getContext("2d");
       charts.push(new Chart(ctx).Bar(dataCities, {}));
+      document.getElementById("city-legend").innerHTML = charts[charts.length-1].generateLegend();
 
       var ctx = document.getElementById("response").getContext("2d");
       charts.push(new Chart(ctx).Doughnut(responseData, {}));
       document.getElementById("going").innerText = responseData[1].value;
+      document.getElementById("response-legend").innerHTML = charts[charts.length-1].generateLegend();
     }
     // https://stackoverflow.com/questions/4878756/javascript-how-to-capitalize-first-letter-of-each-word-like-a-2-word-city
     function toTitleCase(str) {
