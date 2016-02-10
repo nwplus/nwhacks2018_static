@@ -19556,7 +19556,7 @@ Polymer({
     },
   },
   observers: [
-    'hackersChange(hackers)'
+    'hackersChange(hackers)',
   ],
   handleResponse: function(e, req) {
     var hackers = req.xhr.response;
@@ -19578,9 +19578,15 @@ Polymer({
   },
   cleanEmail: function(email) {
   },
+  responseCat: function(i) {
+    return this.responseCategories[i];
+  },
+  eq: function(a, b) {
+    return a == b;
+  },
   hackersChange: function(hackers) {
     this.lunr = lunr(function () {
-      this.ref('index')
+      this.ref('index');
       this.field('city');
       this.field('email');
       this.field('github');
@@ -19679,10 +19685,26 @@ Polymer({
       }).done(function(e) {
         console.log('done', e);
       }).fail(function(e) {
-        console.log('error', e)
-        alert( "error");
+        console.log('error', e);
+        alert("error", e);
       });
     }
+  },
+  checkIn: function(e) {
+    var hacker = e.model.hacker;
+    var data = {
+      checked_in: hacker.checked_in,
+    };
+    $.ajax({
+      url : '/api/register/'+hacker.id+'/',
+      type : 'PATCH',
+      data : data,
+    }).done(function(e) {
+      console.log('done', e);
+    }).fail(function(e) {
+      console.log('error', e);
+      alert("error", e);
+    });
   },
   refreshList: function() {
     this.incr++;

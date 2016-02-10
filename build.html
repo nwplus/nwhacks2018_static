@@ -3793,8 +3793,15 @@ star {
         color: red;
         border-color: red;
       }
+      .tag.warn {
+        color: orange;
+        border-color: orange;
+      }
       .right {
         float: right;
+      }
+      .card-actions paper-checkbox {
+        margin-left: 8px;
       }
     </style>
     <h1>Select Hackers</h1>
@@ -3881,6 +3888,15 @@ star {
               <template is="dom-if" if="[[hacker.duplicate]]">
                 <div class="tag bad">Multiple Submissions</div>
               </template>
+              <template is="dom-if" if="[[eq(hacker.response, 1)]]">
+                <div class="tag">Going</div>
+              </template>
+              <template is="dom-if" if="[[eq(hacker.response, 2)]]">
+                <div class="tag bad">Not Going</div>
+              </template>
+              <template is="dom-if" if="[[eq(hacker.response, 3)]]">
+                <div class="tag warn">Need Reimbursement</div>
+              </template>
               
             </div>
             <div class="card-actions">
@@ -3889,6 +3905,7 @@ star {
                   <option selected$="[[eq(item, hacker.status)]]">[[item]]</option>
                 </template>
               </select>
+              <paper-checkbox checked="{{hacker.checked_in}}" on-change="checkIn">Checked In</paper-checkbox>
               <span class="right">#<span>[[hacker.id]]</span></span>
             </div>
           </paper-card>
