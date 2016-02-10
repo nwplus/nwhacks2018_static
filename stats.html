@@ -81,6 +81,12 @@
     <div id="city-legend"></div>
     <canvas id="city" width="3000" height="700"></canvas>
   </div>
+  <h2>T-Shirt</h2>
+  <p class="flow-text">This is tshirt information that everyone that we sent an acceptance to.</p>
+  <div class="chart-container">
+    <div id="tshirt-legend"></div>
+    <canvas id="tshirt" width="300" height="500"></canvas>
+  </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
@@ -128,6 +134,21 @@
       var cities = {};
       var deDupStudents = 0;
       var acceptedStudents = 0;
+
+      // T-Shirts
+      var tshirtData = {
+        labels: ['S', 'M', 'L', 'XL'],
+        datasets: [
+        {
+          label: "Offered Sizes",
+          fillColor: "rgba(220,0,0,0.5)",
+          strokeColor: "rgba(220,0,0,0.8)",
+          highlightFill: "rgba(220,0,0,0.75)",
+          highlightStroke: "rgba(20,0,0,1)",
+          data: [0, 0, 0, 0]
+        },
+        ]
+      };
 
       var responseData = [
         {
@@ -186,6 +207,10 @@
         }
         deDupStudents++;
         students[email] = datum;
+        if (datum.status == 1) {
+          var index = tshirtData.labels.indexOf(datum.tshirt);
+          tshirtData.datasets[0].data[index] += 1;
+        }
 
         if (!univs[datum.school]) {
           univs[datum.school] = {
@@ -302,6 +327,10 @@
       var ctx = document.getElementById("city").getContext("2d");
       charts.push(new Chart(ctx).Bar(dataCities, {}));
       document.getElementById("city-legend").innerHTML = charts[charts.length-1].generateLegend();
+
+      var ctx = document.getElementById("tshirt").getContext("2d");
+      charts.push(new Chart(ctx).Bar(tshirtData, {}));
+      document.getElementById("tshirt-legend").innerHTML = charts[charts.length-1].generateLegend();
 
       var ctx = document.getElementById("response").getContext("2d");
       charts.push(new Chart(ctx).Doughnut(responseData, {}));
