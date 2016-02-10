@@ -19812,6 +19812,9 @@ Polymer({
 });
 'use strict';
       var app = document.querySelector("#app");
+      if(window.location.hash.startsWith('#%21')) {
+        window.location.hash="#!"+window.location.hash.substr(4);
+      }
       page('*', function(ctx, next) {
         next();
         setTimeout(function() {
