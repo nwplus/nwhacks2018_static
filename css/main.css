@@ -355,12 +355,14 @@ star {
   max-width: inherit;
   text-align: center; }
   #sponsors a.duo {
-    position: relative; }
+    position: relative;
+    display: inline-block; }
     #sponsors a.duo img, #sponsors a.duo svg {
       transition: opacity 0.5s; }
       #sponsors a.duo img.solid, #sponsors a.duo svg.solid {
         position: absolute;
         left: 0;
+        top: 0;
         opacity: 0;
         -webkit-filter: none;
         -moz-filter: none;

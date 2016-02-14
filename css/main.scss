@@ -464,11 +464,13 @@ star {
 
   a.duo {
     position: relative;
+    display: inline-block;
     img, svg {
       transition: opacity 0.5s;
       &.solid {
         position: absolute;
         left: 0;
+        top: 0;
         opacity: 0;
         -webkit-filter: none;
         -moz-filter: none;
