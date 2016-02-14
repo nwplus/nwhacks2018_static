@@ -405,25 +405,25 @@ star {
       -o-filter: none;
       filter: none; }
   #sponsors .sponsors-giga img, #sponsors .sponsors-giga svg {
-    max-width: 600px; }
-    @media screen and (max-width: 660px) {
+    max-width: 575px; }
+    @media screen and (max-width: 635px) {
       #sponsors .sponsors-giga img, #sponsors .sponsors-giga svg {
         max-width: calc(100% - 60px); } }
   #sponsors .sponsors-mega img, #sponsors .sponsors-mega svg {
-    max-width: 500px; }
-    @media screen and (max-width: 560px) {
+    max-width: 450px; }
+    @media screen and (max-width: 510px) {
       #sponsors .sponsors-mega img, #sponsors .sponsors-mega svg {
         max-width: calc(100% - 60px); } }
   #sponsors .sponsors-kilo img, #sponsors .sponsors-kilo svg {
-    max-width: 400px;
-    max-height: 140px; }
-    @media screen and (max-width: 460px) {
+    max-width: 350px;
+    max-height: 120px; }
+    @media screen and (max-width: 410px) {
       #sponsors .sponsors-kilo img, #sponsors .sponsors-kilo svg {
         max-width: calc(100% - 60px); } }
   #sponsors .sponsors-micro img, #sponsors .sponsors-micro svg {
-    max-width: 300px;
-    max-height: 100px; }
-    @media screen and (max-width: 360px) {
+    max-width: 230px;
+    max-height: 80px; }
+    @media screen and (max-width: 290px) {
       #sponsors .sponsors-micro img, #sponsors .sponsors-micro svg {
         max-width: calc(100% - 60px); } }
   #sponsors .partners img, #sponsors .partners svg {
