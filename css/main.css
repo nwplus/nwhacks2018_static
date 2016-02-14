@@ -421,9 +421,9 @@ star {
       #sponsors .sponsors-kilo img, #sponsors .sponsors-kilo svg {
         max-width: calc(100% - 60px); } }
   #sponsors .sponsors-micro img, #sponsors .sponsors-micro svg {
-    max-width: 230px;
+    max-width: 190px;
     max-height: 80px; }
-    @media screen and (max-width: 290px) {
+    @media screen and (max-width: 250px) {
       #sponsors .sponsors-micro img, #sponsors .sponsors-micro svg {
         max-width: calc(100% - 60px); } }
   #sponsors .partners img, #sponsors .partners svg {
