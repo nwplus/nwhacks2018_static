@@ -66,6 +66,7 @@ Polymer({
       this.ref('index');
       this.field('city');
       this.field('email');
+      this.field('emailSplit');
       this.field('github');
       this.field('personalsite');
       this.field('linkedin');
@@ -81,6 +82,7 @@ Polymer({
         hacker.status = categories[hacker.status];
       }
       hacker.index = i;
+      hacker.emailSplit = hacker.email.replace(/@/g, ' ');
       self.lunr.add(hacker);
     });
   },
@@ -100,7 +102,7 @@ Polymer({
     var responseIdx = this.responded(response);
     var filtered = results.filter(function(hacker, b, c) {
       var good = (status === '' || status === 'null' || status === 'All' || status === hacker.status) &&
-        (response === '' || response === 'null' || response === 'All' || responseIdx === hacker.response);
+        (response === '' || response === 'null' || response === 'All' || hacker.acceptance_sent && responseIdx === hacker.response);
       if (filterMentor) {
         good = good && hacker.mentor;
       }
@@ -143,6 +145,10 @@ Polymer({
   },
   eq: function(a, b) {
     return a === b;
+  },
+  respondedWith: function(hacker, response) {
+    console.log(hacker.response, response);
+    return hacker.acceptance_sent && hacker.response === response;
   },
   onSelect: function(e) {
     var index = e.target.selectedIndex;

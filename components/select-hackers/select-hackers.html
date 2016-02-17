@@ -128,13 +128,17 @@
               <template is="dom-if" if="[[hacker.duplicate]]">
                 <div class="tag bad">Multiple Submissions</div>
               </template>
-              <template is="dom-if" if="[[eq(hacker.response, 1)]]">
+
+              <template is="dom-if" if="[[respondedWith(hacker, 0)]]">
+                <div class="tag bad">No Response</div>
+              </template>
+              <template is="dom-if" if="[[respondedWith(hacker, 1)]]">
                 <div class="tag">Going</div>
               </template>
-              <template is="dom-if" if="[[eq(hacker.response, 2)]]">
+              <template is="dom-if" if="[[respondedWith(hacker, 2)]]">
                 <div class="tag bad">Not Going</div>
               </template>
-              <template is="dom-if" if="[[eq(hacker.response, 3)]]">
+              <template is="dom-if" if="[[respondedWith(hacker, 3)]]">
                 <div class="tag warn">Need Reimbursement</div>
               </template>
               </table>
