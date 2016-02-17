@@ -61,6 +61,19 @@ Polymer({
   eq: function(a, b) {
     return a == b;
   },
+  export: function() {
+    var csv = new CSV(this.filtered, { header: true }).encode();
+    this.downloadFile("applicants_export.csv", csv);
+  },
+  downloadFile: function(filename, content) {
+    var blob = new Blob([content]);
+    var evt = document.createEvent("HTMLEvents");
+    evt.initEvent("click");
+    $("<a>", {
+      download: filename,
+      href: webkitURL.createObjectURL(blob)
+    }).get(0).dispatchEvent(evt);
+  },
   hackersChange: function(hackers) {
     this.lunr = lunr(function () {
       this.ref('index');
@@ -114,6 +127,7 @@ Polymer({
       }
       return good
     });
+    this.filtered = filtered;
     this.filteredCount = filtered.length;
     return filtered;
   },

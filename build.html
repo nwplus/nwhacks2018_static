@@ -3814,6 +3814,9 @@ star {
       .card-actions paper-checkbox {
         margin-left: 8px;
       }
+      a {
+        cursor: pointer;
+      }
     </style>
     <h1>Select Hackers</h1>
     <div class="content">
@@ -3849,6 +3852,7 @@ star {
           <paper-checkbox checked="{{filterMentor}}">Wants to Mentor</paper-checkbox> &nbsp;
           <paper-checkbox checked="{{filterFirst}}">First Time</paper-checkbox> &nbsp;
           <paper-checkbox checked="{{filterReimbursement}}">Needs Reimbursement</paper-checkbox> &nbsp;
+          <a on-tap="export">Export to CSV</a>
         </div>
       </paper-card>
     </div>

@@ -40,6 +40,7 @@
     "paper-listbox": "polymerelements/paper-listbox#~1.1.0",
     "lunr.js": "~0.6.0",
     "iron-list": "PolymerElements/iron-list#~1.1.7",
-    "iron-selector": "PolymerElements/iron-selector#~1.2.1"
+    "iron-selector": "PolymerElements/iron-selector#~1.2.1",
+    "comma-separated-values": "~3.6.4"
   }
 }

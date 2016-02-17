@@ -43,6 +43,9 @@
       .card-actions paper-checkbox {
         margin-left: 8px;
       }
+      a {
+        cursor: pointer;
+      }
     </style>
     <h1>Select Hackers</h1>
     <div class="content">
@@ -78,6 +81,7 @@
           <paper-checkbox checked="{{filterMentor}}">Wants to Mentor</paper-checkbox> &nbsp;
           <paper-checkbox checked="{{filterFirst}}">First Time</paper-checkbox> &nbsp;
           <paper-checkbox checked="{{filterReimbursement}}">Needs Reimbursement</paper-checkbox> &nbsp;
+          <a on-tap="export">Export to CSV</a>
         </div>
       </paper-card>
     </div>
@@ -158,5 +162,6 @@
     </iron-list>
     <iron-ajax auto url="/api/register/" handle-as="json" on-response="handleResponse"></iron-ajax>
   </template>
+  <script src="/static/bower_components/comma-separated-values/csv.min.js"></script>
   <script src="./select-hackers.js"></script>
 </dom-module>
