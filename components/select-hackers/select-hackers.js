@@ -205,5 +205,8 @@ Polymer({
   },
   refreshList: function() {
     this.incr++;
-  }
+  },
+  handleErr: function(a,b,c) {
+    alert(b.error + "\n\nYou may need to login at:\nhttps://www.nwhacks.io/api/admin/");
+  },
 });

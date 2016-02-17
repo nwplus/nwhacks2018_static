@@ -22,7 +22,7 @@
     <link rel="import" href="/static/bower_components/iron-form/iron-form.html">
     <link rel="import" href="/static/bower_components/iron-image/iron-image.html">
     <link rel="import" href="/static/bower_components/iron-list/iron-list.html">
-    <link rel="import" href="/static/bower_components/iron-pages/iron-pages.html">
+    <link rel="import" href="/static/bower_components/lazy-pages/lazy-pages.html">
     <link rel="import" href="/static/bower_components/paper-button/paper-button.html">
     <link rel="import" href="/static/bower_components/paper-card/paper-card.html">
     <link rel="import" href="/static/bower_components/paper-checkbox/paper-checkbox.html">
@@ -39,7 +39,7 @@
     <link rel="import" href="/static/bower_components/paper-toolbar/paper-toolbar.html">
 
     <link rel="import" href="/static/components/index-page/index-page.html">
-    <link rel="import" href="/static/components/register/register.html">
+    <link rel="import" href="/static/components/register-closed/register-closed.html">
     <link rel="import" href="/static/components/select-hackers/select-hackers.html">
     <link rel="import" href="/static/components/sponsor-page/sponsor-page.html">
     <link rel="import" href="/static/components/schedule-box/schedule-box.html">
@@ -69,9 +69,11 @@
         <!--<a href="https://q.nwhacks.io">
           <paper-button>helpq</paper-button>
           </a>-->
+          <!--
           <a href="/register#register" class="right med">
             <paper-button>register</paper-button>
           </a>
+          -->
       </nav>
       <div id="header">
         <div id="title">
@@ -94,7 +96,7 @@
           </div>
         </div>
         <div id="buttons">
-          <a href="/register#register"><paper-button class="register">Register</paper-button></a>
+          <!-- <a href="/register#register"><paper-button class="register">Register</paper-button></a> -->
           <a href="https://s2015nwhacks.devpost.com/"><paper-button class="button">previous hacks</paper-button></a>
           <br>
           <br>
@@ -103,14 +105,26 @@
         </div>
       </div>
       <div class="wrapper" id="begin">
-        <iron-pages attr-for-selected="data-route" selected="{{route}}">
-          <index-page data-route="home"></index-page>
-          <register-form data-route="register"></register-form>
-          <select-hackers data-route="select"></select-hackers>
-          <sponsor-page data-route="sponsors"></sponsor-page>
-          <review-page data-route="review"></review-page>
-          <rsvp-page data-route="rsvp" params="{{params}}"></rsvp-page>
-        </iron-pages>
+        <lazy-pages attr-for-selected="data-route" selected="{{route}}">
+          <template is="dom-if" restamp data-route="home">
+            <index-page></index-page>
+          </template>
+          <template is="dom-if" restamp data-route="register">
+            <register-closed></register-closed>
+          </template>
+          <template is="dom-if" restamp data-route="select">
+            <select-hackers></select-hackers>
+          </template>
+          <template is="dom-if" restamp data-route="sponsors">
+            <sponsor-page></sponsor-page>
+          </template>
+          <template is="dom-if" restamp data-route="review">
+            <review-page></review-page>
+          </template>
+          <template is="dom-if" restamp data-route="rsvp">
+            <rsvp-page params="{{params}}"></rsvp-page>
+          </template>
+        </lazy-pages>
       </div>
       <footer>
         <div class="skyline">
@@ -173,8 +187,8 @@
       }
       page('*', function(ctx, next) {
         next();
+        stars();
         setTimeout(function() {
-          renderStars();
           var hash;
           var match = window.location.hash.match(/\#\w+/);
           if (match != null) {

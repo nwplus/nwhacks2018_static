@@ -580,3 +580,7 @@ star {
     }
   }
 }
+
+lazy-pages, lazy-pages > * {
+  position: inherit !important;
+}

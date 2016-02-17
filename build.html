@@ -460,6 +460,9 @@ star {
       #sponsors .partners img, #sponsors .partners svg {
         max-width: calc(100% - 60px); } }
 
+lazy-pages, lazy-pages > * {
+  position: inherit !important; }
+
 /*# sourceMappingURL=main.css.map */
 
 </style>
@@ -1199,8 +1202,6 @@ star {
   }
 
 </style>
-
-
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,700">
 <style is="custom-style">
@@ -1445,26 +1446,36 @@ star {
   </template>
 </dom-module>
 
-<dom-module id="iron-pages" assetpath="/static/bower_components/iron-pages/">
-
-  <style>
-
-    :host {
-      display: block;
-    }
-
-    :host > ::content > :not(.iron-selected) {
-      display: none !important;
-    }
-
-  </style>
-
+<dom-module id="lazy-pages" assetpath="/static/bower_components/lazy-pages/">
   <template>
+    <style>
 
-    <content></content>
+      :host {
+        display: block;
+        position: relative;
+        overflow: hidden; /* because http://stackoverflow.com/questions/32639639/ios-9-mobile-safari-has-a-blinking-bug-with-transform-scale3d-and-translate3d */
+      }
 
+      :host > ::content > * {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        height: 100%;
+      }
+
+      :host > ::content > :not(.iron-selected):not(.neon-animating) {
+        display: none !important;
+      }
+
+      :host > ::content > .neon-animating {
+        pointer-events: none;
+      }
+
+    </style>
+    <content id="content"></content>
   </template>
-
 </dom-module>
 
 <dom-module id="paper-material-shared-styles" assetpath="/static/bower_components/paper-material/">
@@ -3500,7 +3511,7 @@ star {
         <p>A hackathon is an event where teams of 2-5 people collaborate on an application within the specified time limit (nwHacks is 24 hours long). Prizes are awarded to the most creative, polished and theme-specific projects or "hacks". The winners will be chosen by a panel of judges comprised of top industry professionals.</p>
 
         <h2>HOW CAN I OFFICIALLY SIGN UP?</h2>
-        <p>Awesome! Register <a href="/register#register">here</a>.</p>
+        <p>Registration is now closed. Hopefully we'll see you at the next nwHacks!</p>
 
         <h2>WHAT SHOULD I BRING?</h2>
         <p>nwHacks is a 24h event, which means that hackers should be prepared to sleep overnight at the venue. Be sure to bring everything you need to stay the night, including a sleeping bag! All food will be provided at event so don't worry about that!</p>
@@ -3652,7 +3663,7 @@ star {
   </template>
 
   </dom-module>
-<dom-module id="register-form" assetpath="/static/components/register/">
+<dom-module id="register-closed" assetpath="/static/components/register-closed/">
   <template>
     <style>
       :root {
@@ -3686,85 +3697,13 @@ star {
       .invalid {
         color: red;
       }
+      p {
+        text-align: center;
+      }
     </style>
-    <iron-ajax auto="" url="{{githubURL}}" handle-as="json" last-response="{{githubDetails}}" debounce-duration="300"></iron-ajax>
-    <iron-ajax auto="" url="{{citiesURL}}" handle-as="json" last-response="{{cities}}" debounce-duration="300"></iron-ajax>
 
-    <h1 id="register">nwHacks Registration</h1>
-    <form is="iron-form" id="form" method="post" content-type="multipart/form-data" on-iron-form-response="register" action="/api/register/" on-iron-form-presubmit="formPreSubmit" on-iron-form-submit="submitting" on-iron-form-error="formError" on-iron-form-invalid="formInvalid">
-      <paper-input required="" auto-validate="" maxlength="200" error-message="Required" label="What is your name?" name="name" value="{{data.name}}"></paper-input>
-      <paper-input required="" auto-validate="" maxlength="200" error-message="Invalid Email" type="email" label="What is your email?" name="email" value="{{data.email}}"></paper-input>
-      <paper-input required="" auto-validate="" maxlength="200" error-message="Required" label="Where do you go to school?" name="school" value="{{data.school}}"></paper-input>
-      <paper-input required="" auto-validate="" maxlength="200" error-message="Required" label="Where are you traveling from?" name="city" value="{{data.city}}" focused="{{cityFocused}}"></paper-input>
-      <template is="dom-repeat" items="[[citiesClean]]">
-        <paper-item on-tap="selectCity">[[item.matching_full_name]]</paper-item>
-      </template>
-      <paper-input maxlength="200" label="GitHub" name="github" value="{{data.github}}">
-        <div prefix="">https://github.com/</div>
-      </paper-input>
-      <template is="dom-if" if="[[githubDetails]]">
-        <paper-icon-item>
-          <img src="{{githubDetails.avatar_url}}" item-icon="">
-          <span>{{githubDetails.name}}</span>
-        </paper-icon-item>
-      </template>
-
-      <paper-input maxlength="200" label="LinkedIn" name="linkedin" value="{{data.linkedin}}">
-        <div prefix="">https://linkedin.com/in/</div>
-      </paper-input>
-      <paper-input maxlength="200" label="Personal Site" name="personalsite" auto-validate="" error-message="Invalid URL" value="{{data.personalsite}}" type="url"></paper-input>
-
-      <paper-input always-float-label="" type="file" label="Resume" name="resume" value="{{data.resume}}"></paper-input>
-
-      <paper-dropdown-menu id="shirtSize" required="" auto-validate="" error-message="Required" label="T-Shirt Size" name="tshirt" selected-item-label="{{data.tshirt}}">
-        <paper-menu class="dropdown-content">
-          <paper-item>S</paper-item>
-          <paper-item>M</paper-item>
-          <paper-item>L</paper-item>
-          <paper-item>XL</paper-item>
-        </paper-menu>
-      </paper-dropdown-menu>
-      <paper-checkbox name="travel_reimbursement">Do you need travel reimbursements?</paper-checkbox>
-      <paper-checkbox name="first_hackathon">Is this your first hackathon?</paper-checkbox>
-      <paper-checkbox name="mentor">Would you like to be a mentor?</paper-checkbox>
-      <paper-textarea required="" auto-validate="" error-message="Required" label="Why do you want to come to nwHacks?" name="reason" value="{{data.reason}}"></paper-textarea>
-
-      <p>
-        We participate in Major League Hacking (MLH) as a MLH Member Event. You authorize us to share certain application/registration information for event administration, ranking, MLH administration, and occasional messages about hackathons in line with the
-        <a target="_blank" href="https://mlh.io/privacy">MLH Privacy Policy</a>.
-      </p>
-      <paper-checkbox id="mlhCOC" name="mlh" required="" auto-validate="" error-message="Required">
-        I will at all times abide by and conform to the <a target="_blank" href="http://mlh.io/code-of-conduct">Major League Hacking Code of Conduct</a> while at the event.
-      </paper-checkbox>
-      <p class="invalid" hidden$="{{valid}}">
-        You must fill out all required fields.
-      </p>
-      <center>
-      <paper-button elevation="1" on-tap="submit" class="register">Register</paper-button>
-      </center>
-    </form>
-
-    <paper-dialog id="registered" modal="">
-      <h2>Registered</h2>
-      <p>All set! We'll get back to you in a few weeks with a decision.</p>
-      <div class="buttons">
-        <a href="#!/"><paper-button dialog-confirm="" autofocus="">Return Home</paper-button></a>
-      </div>
-    </paper-dialog>
-    <paper-dialog id="submitting" modal="">
-      <h2>Registering...</h2>
-      <p>
-        <paper-progress indeterminate=""></paper-progress>
-      </p>
-    </paper-dialog>
-    <paper-dialog id="error" modal="">
-      <h2>Error Registering</h2>
-      <p>[[error]]</p>
-      <p>Please try again later or use a different browser.</p>
-      <div class="buttons">
-        <paper-button dialog-confirm="" autofocus="">close</paper-button>
-      </div>
-    </paper-dialog>
+    <h1 id="register">Registration is now closed!</h1>
+    <p>If you didn't register in time, hopefully we'll see you at the next nwHacks!</p>
 
   </template>
 
@@ -3931,7 +3870,7 @@ star {
         </div>
       </template>
     </iron-list>
-    <iron-ajax auto="" url="/api/register/" handle-as="json" on-response="handleResponse"></iron-ajax>
+    <iron-ajax auto="" url="/api/register/" handle-as="json" on-response="handleResponse" on-error="handleErr"></iron-ajax>
   </template>
   </dom-module>
 <dom-module id="sponsor-page" assetpath="/static/components/sponsor-page/">
@@ -4145,9 +4084,7 @@ star {
           <paper-button>sponsors</paper-button>
         </a>
         
-          <a href="/register#register" class="right med">
-            <paper-button>register</paper-button>
-          </a>
+          
       </nav>
       <div id="header">
         <div id="title">
@@ -4170,7 +4107,7 @@ star {
           </div>
         </div>
         <div id="buttons">
-          <a href="/register#register"><paper-button class="register">Register</paper-button></a>
+          
           <a href="https://s2015nwhacks.devpost.com/"><paper-button class="button">previous hacks</paper-button></a>
           <br>
           <br>
@@ -4179,14 +4116,26 @@ star {
         </div>
       </div>
       <div class="wrapper" id="begin">
-        <iron-pages attr-for-selected="data-route" selected="{{route}}">
-          <index-page data-route="home"></index-page>
-          <register-form data-route="register"></register-form>
-          <select-hackers data-route="select"></select-hackers>
-          <sponsor-page data-route="sponsors"></sponsor-page>
-          <review-page data-route="review"></review-page>
-          <rsvp-page data-route="rsvp" params="{{params}}"></rsvp-page>
-        </iron-pages>
+        <lazy-pages attr-for-selected="data-route" selected="{{route}}">
+          <template is="dom-if" restamp="" data-route="home">
+            <index-page></index-page>
+          </template>
+          <template is="dom-if" restamp="" data-route="register">
+            <register-closed></register-closed>
+          </template>
+          <template is="dom-if" restamp="" data-route="select">
+            <select-hackers></select-hackers>
+          </template>
+          <template is="dom-if" restamp="" data-route="sponsors">
+            <sponsor-page></sponsor-page>
+          </template>
+          <template is="dom-if" restamp="" data-route="review">
+            <review-page></review-page>
+          </template>
+          <template is="dom-if" restamp="" data-route="rsvp">
+            <rsvp-page params="{{params}}"></rsvp-page>
+          </template>
+        </lazy-pages>
       </div>
       <footer>
         <div class="skyline">

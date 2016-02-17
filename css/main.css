@@ -433,4 +433,7 @@ star {
       #sponsors .partners img, #sponsors .partners svg {
         max-width: calc(100% - 60px); } }
 
+lazy-pages, lazy-pages > * {
+  position: inherit !important; }
+
 /*# sourceMappingURL=main.css.map */
