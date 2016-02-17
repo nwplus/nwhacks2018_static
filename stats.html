@@ -203,7 +203,7 @@
         var email = datum.email;
         var isDuplicate = students[email] && datum.status != 1 || students[email] && students[email].status == 1;
 
-        if (datum.status == 1 && !(isDuplicate && datum.response == 0)) {
+        if (datum.acceptance_sent) {
           responseData[datum.response].value++;
         }
 
