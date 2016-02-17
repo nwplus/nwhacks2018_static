@@ -57,18 +57,6 @@ Polymer({
   },
   attached: function() {
     var self = this;
-    this.parentElement.addEventListener('iron-select', function(e) {
-      if (e.detail.item == self) {
-        self.select();
-      }
-    });
-    this.parentElement.addEventListener('iron-deselect', function() {
-      self.deselect();
-    });
-  },
-  select: function() {
-    console.log("select");
-    var self = this;
     this.status = this.params.status;
     this.$.rsvping.open();
     $.post( "/api/rsvp/"+this.params.id+"/"+this.params.token+"/"+this.params.status, function(resp) {
