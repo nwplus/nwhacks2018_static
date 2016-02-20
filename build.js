@@ -20135,6 +20135,9 @@ Polymer({
   handleErr: function(a,b,c) {
     alert(b.error + "\n\nYou may need to login at:\nhttps://www.nwhacks.io/api/admin/");
   },
+  hackerAdminURL: function(hacker) {
+    return '/api/admin/nwhacks/registration/'+hacker.id+'/change/';
+  },
 });
 // element registration
 Polymer({

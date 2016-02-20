@@ -154,7 +154,10 @@
                 </template>
               </select>
               <paper-checkbox checked="{{hacker.checked_in}}" on-change="checkIn">Checked In</paper-checkbox>
-              <span class="right">#<span>[[hacker.id]]</span></span>
+              <span class="right">
+                <a target="_blank" href="[[hackerAdminURL(hacker)]]">Edit in Admin Console</a>
+                #<span>[[hacker.id]]</span>
+              </span>
             </div>
           </paper-card>
         </div>
