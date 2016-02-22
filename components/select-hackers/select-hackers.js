@@ -102,6 +102,10 @@ Polymer({
     });
     var self = this;
     $.each(hackers, function(i, hacker) {
+      var lowerSchool = hacker.school.toLowerCase();
+      if (lowerSchool.indexOf('secondary') >= 0 || lowerSchool.indexOf('high') >= 0) {
+        hacker.hs = true;
+      }
       if (!hacker.status) {
         hacker.status = 'applied';
       } else {

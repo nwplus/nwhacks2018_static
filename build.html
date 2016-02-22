@@ -4054,6 +4054,10 @@ lazy-pages, lazy-pages > * {
               <template is="dom-if" if="[[respondedWith(hacker, 3)]]">
                 <div class="tag warn">Need Reimbursement</div>
               </template>
+
+              <template is="dom-if" if="[[hacker.hs]]">
+                <div class="tag bad">Minor</div>
+              </template>
               
             </div>
             <div class="card-actions">
