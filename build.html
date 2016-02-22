@@ -3432,6 +3432,80 @@ lazy-pages, lazy-pages > * {
   </template>
 
   </dom-module>
+<dom-module id="dayof-page" assetpath="/static/components/dayof-page/">
+  <template>
+    <style>
+      .left {
+        width: 520px;
+        display: inline-block;
+      }
+      .right {
+        width: calc(100% - 550px);
+        display: inline-block;
+        float: right;
+      }
+      .half {
+        width: calc(50% - 5px);
+        display: inline-block;
+        float: left;
+      }
+      .left, .right, .half {
+        padding-bottom: 100px;
+      }
+      @media (max-width: 1250px) {
+        .left, .right, .half {
+          width: 100%;
+          max-width: 900px;
+          display: block;
+          float: inherit;
+          margin: 0 auto;
+        }
+      }
+      #twitter {
+        text-align: center;
+      }
+    </style>
+    <center>
+      <br>
+      <a href="https://nwhacks2016.devpost.com/">
+        <paper-button class="register">submit hack</paper-button>
+      </a>
+      <a href="https://q.nwhacks.io/">
+        <paper-button class="button">get help</paper-button>
+      </a>
+    </center>
+    <div id="twitter" class="left">
+      <h1>UPDATES</h1>
+      <a class="twitter-timeline" href="https://twitter.com/nwHacks" data-widget-id="701669388655562756">Tweets by @nwHacks</a>
+      </div>
+    <schedule-box class="right"></schedule-box>
+    <div id="prizes" class="half">
+      <h1>PRIZES</h1>
+      <ul>
+        <li>
+          <h2>TBD Prize</h2>
+          <p>
+          100 bars of gold!
+          </p>
+        </li>
+      </ul>
+    </div>
+    <div id="hardware" class="half">
+      <h1>AVAILABLE HARDWARE</h1>
+      <p>
+        Due to limited amount of hardware the availability is not guaranteed.
+      </p>
+      <ul>
+        <li>
+          <h2>TBD Hardware</h2>
+          <p>
+          100 Raspberry Pi's
+          </p>
+        </li>
+      </ul>
+    </div>
+  </template>
+  </dom-module>
 <dom-module id="index-page" assetpath="/static/components/index-page/">
   <template>
     <style>
@@ -4172,6 +4246,9 @@ lazy-pages, lazy-pages > * {
           </template>
           <template is="dom-if" restamp="" data-route="select">
             <select-hackers></select-hackers>
+          </template>
+          <template is="dom-if" restamp="" data-route="dayof">
+            <dayof-page></dayof-page>
           </template>
           <template is="dom-if" restamp="" data-route="sponsors">
             <sponsor-page></sponsor-page>

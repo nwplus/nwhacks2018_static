@@ -39,6 +39,7 @@
     <link rel="import" href="/static/bower_components/paper-progress/paper-progress.html">
     <link rel="import" href="/static/bower_components/paper-toolbar/paper-toolbar.html">
 
+    <link rel="import" href="/static/components/dayof-page/dayof-page.html">
     <link rel="import" href="/static/components/index-page/index-page.html">
     <link rel="import" href="/static/components/nwhacks-footer/nwhacks-footer.html">
     <link rel="import" href="/static/components/nwhacks-header/nwhacks-header.html">
@@ -47,6 +48,7 @@
     <link rel="import" href="/static/components/schedule-box/schedule-box.html">
     <link rel="import" href="/static/components/select-hackers/select-hackers.html">
     <link rel="import" href="/static/components/sponsor-page/sponsor-page.html">
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
   </head>
   <body>
@@ -83,6 +85,9 @@
           </template>
           <template is="dom-if" restamp data-route="select">
             <select-hackers></select-hackers>
+          </template>
+          <template is="dom-if" restamp data-route="dayof">
+            <dayof-page></dayof-page>
           </template>
           <template is="dom-if" restamp data-route="sponsors">
             <sponsor-page></sponsor-page>
@@ -132,6 +137,10 @@
       });
       page('/sponsors*', function() {
         app.route = 'sponsors';
+      });
+      page('/dayof*', function() {
+        app.hideHeader = true;
+        app.route = 'dayof';
       });
       page('/rsvp/:id/:token/:status', function(e) {
         app.route = 'rsvp';

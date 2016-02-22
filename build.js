@@ -19912,6 +19912,10 @@ Polymer({
         return barJustify + (barJustify === 'justified' ? '' : '-justified');
       }
     });
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+Polymer({
+  is: "dayof-page",
+});
 // element registration
 Polymer({
   is: "index-page",
@@ -20305,6 +20309,10 @@ Polymer({
       });
       page('/sponsors*', function() {
         app.route = 'sponsors';
+      });
+      page('/dayof*', function() {
+        app.hideHeader = true;
+        app.route = 'dayof';
       });
       page('/rsvp/:id/:token/:status', function(e) {
         app.route = 'rsvp';
