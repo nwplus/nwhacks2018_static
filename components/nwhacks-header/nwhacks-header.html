@@ -1,0 +1,38 @@
+<dom-module id="nwhacks-header">
+  <template>
+    <div id="header">
+      <div id="title">
+        <div id="logos">
+          <a href="/">
+            <object data="/static/svg/NWHacks-Web-Logo.svg" type="image/svg+xml"></object>
+          </a>
+          <span class="title-sponsor">sponsored by
+            <a href="https://www.privateinternetaccess.com/">
+              <span class="home-top-brand-sponsor-logo">
+                <img src="/static/svg/logos/pia-logo-orig.svg" alt="Private Internet Access">
+              </span>
+            </a>
+          </span>
+        </div>
+        <br>
+        <div class="large-trapezoid">
+          <h1>WESTERN CANADA'S LARGEST HACKATHON</h1>
+          <h2>FEBRUARY 27-28 @ Fred Kaiser Building, UBC</h2>
+        </div>
+      </div>
+      <div id="buttons">
+        <!-- <a href="/register#register"><paper-button class="register">Register</paper-button></a> -->
+        <a href="https://s2015nwhacks.devpost.com/"><paper-button class="button">previous hacks</paper-button></a>
+        <br>
+        <br>
+        <br>
+        <a href="/sponsors#sponsor" class="link">Interested in becoming a sponsor?</a>
+      </div>
+    </div>
+  </template>
+  <script>
+Polymer({
+  is: "nwhacks-header",
+});
+  </script>
+</dom-module>

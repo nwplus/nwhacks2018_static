@@ -8,6 +8,7 @@
     <meta property="og:title" content="nwHacks Spring 2016" />
     <meta property="og:url" content="https://www.nwhacks.io" />
     <meta property="fb:app_id" content="1656637327959014" />
+    <title>nwHacks 2016</title>
 
     <link rel="icon" type="image/png" href="/static/favicon.png" />
     <link rel="stylesheet" href="/static/css/main.css">
@@ -39,12 +40,13 @@
     <link rel="import" href="/static/bower_components/paper-toolbar/paper-toolbar.html">
 
     <link rel="import" href="/static/components/index-page/index-page.html">
+    <link rel="import" href="/static/components/nwhacks-footer/nwhacks-footer.html">
+    <link rel="import" href="/static/components/nwhacks-header/nwhacks-header.html">
     <link rel="import" href="/static/components/register-closed/register-closed.html">
+    <link rel="import" href="/static/components/rsvp-page/rsvp-page.html">
+    <link rel="import" href="/static/components/schedule-box/schedule-box.html">
     <link rel="import" href="/static/components/select-hackers/select-hackers.html">
     <link rel="import" href="/static/components/sponsor-page/sponsor-page.html">
-    <link rel="import" href="/static/components/schedule-box/schedule-box.html">
-    <link rel="import" href="/static/components/rsvp-page/rsvp-page.html">
-    <title>nwHacks 2016</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
   </head>
   <body>
@@ -66,44 +68,11 @@
         <a href="#sponsors" class="big">
           <paper-button>sponsors</paper-button>
         </a>
-        <!--<a href="https://q.nwhacks.io">
-          <paper-button>helpq</paper-button>
-          </a>-->
-          <!--
-          <a href="/register#register" class="right med">
-            <paper-button>register</paper-button>
-          </a>
-          -->
+        <a href="https://q.nwhacks.io">
+          <paper-button>mentor</paper-button>
+        </a>
       </nav>
-      <div id="header">
-        <div id="title">
-          <div id="logos">
-            <a href="/">
-              <object data="/static/svg/NWHacks-Web-Logo.svg" type="image/svg+xml"></object>
-            </a>
-            <span class="title-sponsor">sponsored by
-              <a href="https://www.privateinternetaccess.com/">
-                <span class="home-top-brand-sponsor-logo">
-                  <img src="/static/svg/logos/pia-logo-orig.svg" alt="Private Internet Access">
-                </span>
-              </a>
-            </span>
-          </div>
-          <br>
-          <div class="large-trapezoid">
-            <h1>WESTERN CANADA'S LARGEST HACKATHON</h1>
-            <h2>FEBRUARY 27-28 @ Fred Kaiser Building, UBC</h2>
-          </div>
-        </div>
-        <div id="buttons">
-          <!-- <a href="/register#register"><paper-button class="register">Register</paper-button></a> -->
-          <a href="https://s2015nwhacks.devpost.com/"><paper-button class="button">previous hacks</paper-button></a>
-          <br>
-          <br>
-          <br>
-          <a href="/sponsors#sponsor" class="link">Interested in becoming a sponsor?</a>
-        </div>
-      </div>
+      <nwhacks-header hidden$="[[hideHeader]]"></nwhacks-header>
       <div class="wrapper" id="begin">
         <lazy-pages attr-for-selected="data-route" selected="{{route}}">
           <template is="dom-if" restamp data-route="home">
@@ -126,57 +95,7 @@
           </template>
         </lazy-pages>
       </div>
-      <footer>
-        <div class="skyline">
-          <object data="/static/svg/Skyline-Footer-Cropped.svg" type="image/svg+xml"></object>
-        </div>
-        <table class="foot">
-          <tbody>
-            <tr>
-              <td class="small-middle">
-                nwHacks Team
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <a href="https://www.facebook.com/atsushi.yamamoto.7798">Atsushi Yamamoto</a>
-                        <a href="https://www.facebook.com/davidbaldwin123">David Baldwynn</a>
-                        <a href="https://www.rasky.co">Jerome Rasky</a>
-                        <a href="https://www.facebook.com/lansichu">Lansi Chu</a>
-                      </td>
-                      <td>
-                        <a href="https://www.facebook.com/ixxuul">Luxi Xu</a>
-                        <a href="https://fn.lc">Tristan Rice</a>
-                        <a href="https://www.facebook.com/max.leung.31">Max Leung</a>
-                      </td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-                <br>
-              </td>
-              <td class="small-first">
-                <nav class="grid-container">
-                  <a href="/sponsors#sponsor">Become a Sponsor</a>
-                  <a href="mailto:sponsorship@nwhacks.io">Email Us</a>
-                  <a href="http://mlh.io/code-of-conduct">Code of Conduct </a>
-                </nav>
-                <br>
-              </td>
-              <td class="small-middle">
-                <a href="https://www.facebook.com/nwHacks">Facebook</a>
-                <a href="https://twitter.com/nwHacks">Twitter</a>
-                <a href="https://medium.com/@nwHacks">Medium</a>
-                <a href="https://www.instagram.com/nwhacksvancouver">Instagram</a>
-                <br>
-              </td>
-              <td class="small-last">
-                Organised and held by <a href="http://www.startupstorm.org/" target="_blank">StartupStorm</a>
-              </td>
-            </tr>
-            <tbody>
-        </table>
-      </footer>
+      <nwhacks-footer hidden$="[[hideFooter]]"></nwhacks-footer>
       <div id="starContainer"></div>
     </template>
     <script>
@@ -203,6 +122,11 @@
           }
         },100);
       });
+      page('/*', function(_, next) {
+        app.hideHeader = false;
+        app.hideFooter = false;
+        next();
+      });
       page('/register*', function() {
         app.route = 'register';
       });
@@ -214,6 +138,8 @@
         app.params = e.params;
       });
       page('/select*', function() {
+        app.hideHeader = true;
+        app.hideFooter = true;
         app.route = 'select';
       });
       page('/*', function() {

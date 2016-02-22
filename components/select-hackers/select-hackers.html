@@ -4,6 +4,7 @@
       iron-list {
         margin-top: 20px;
         height: 1000px;
+        overflow-x: hidden;
       }
       paper-input {
         display: inline-block;
@@ -47,7 +48,6 @@
         cursor: pointer;
       }
     </style>
-    <h1>Select Hackers</h1>
     <div class="content">
       <paper-card>
         <div class="card-content">
@@ -86,7 +86,7 @@
       </paper-card>
     </div>
     <!-- <template is="dom-repeat" items="{{hackers}}" as="hacker" filter="{{filter(status)}}" observe="status"> -->
-    <iron-list items="[[filter(hackers, status, search, filterMentor, filterFirst, filterReimbursement, incr, response)]]" as="hacker">
+    <iron-list id="list" items="[[filter(hackers, status, search, filterMentor, filterFirst, filterReimbursement, incr, response)]]" as="hacker">
       <template>
         <div>
           <paper-card heading="[[title(hacker)]]">

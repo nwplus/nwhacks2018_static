@@ -22,6 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta property="og:title" content="nwHacks Spring 2016">
     <meta property="og:url" content="https://www.nwhacks.io">
     <meta property="fb:app_id" content="1656637327959014">
+    <title>nwHacks 2016</title>
 
     <link rel="icon" type="image/png" href="/static/favicon.png">
     <style>
@@ -1360,8 +1361,7 @@ lazy-pages, lazy-pages > * {
   }
 
 </style>
-<title>nwHacks 2016</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
   </head>
   <body><div hidden="" by-vulcanize=""><dom-module id="iron-image" assetpath="/static/bower_components/iron-image/">
 
@@ -3666,6 +3666,95 @@ lazy-pages, lazy-pages > * {
   </template>
 
   </dom-module>
+<dom-module id="nwhacks-footer" assetpath="/static/components/nwhacks-footer/">
+  <template>
+    <footer>
+      <div class="skyline">
+        <object data="/static/svg/Skyline-Footer-Cropped.svg" type="image/svg+xml"></object>
+      </div>
+      <table class="foot">
+        <tbody>
+          <tr>
+            <td class="small-middle">
+              nwHacks Team
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <a href="https://www.facebook.com/atsushi.yamamoto.7798">Atsushi Yamamoto</a>
+                      <a href="https://www.facebook.com/davidbaldwin123">David Baldwynn</a>
+                      <a href="https://www.rasky.co">Jerome Rasky</a>
+                      <a href="https://www.facebook.com/lansichu">Lansi Chu</a>
+                    </td>
+                    <td>
+                      <a href="https://www.facebook.com/ixxuul">Luxi Xu</a>
+                      <a href="https://fn.lc">Tristan Rice</a>
+                      <a href="https://www.facebook.com/max.leung.31">Max Leung</a>
+                    </td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <br>
+            </td>
+            <td class="small-first">
+              <nav class="grid-container">
+                <a href="/sponsors#sponsor">Become a Sponsor</a>
+                <a href="mailto:sponsorship@nwhacks.io">Email Us</a>
+                <a href="http://mlh.io/code-of-conduct">Code of Conduct </a>
+              </nav>
+              <br>
+            </td>
+            <td class="small-middle">
+              <a href="https://www.facebook.com/nwHacks">Facebook</a>
+              <a href="https://twitter.com/nwHacks">Twitter</a>
+              <a href="https://medium.com/@nwHacks">Medium</a>
+              <a href="https://www.instagram.com/nwhacksvancouver">Instagram</a>
+              <br>
+            </td>
+            <td class="small-last">
+              Organised and held by <a href="http://www.startupstorm.org/" target="_blank">StartupStorm</a>
+            </td>
+          </tr>
+          </tbody><tbody>
+      </tbody></table>
+    </footer>
+
+  </template>
+  </dom-module>
+<dom-module id="nwhacks-header" assetpath="/static/components/nwhacks-header/">
+  <template>
+    <div id="header">
+      <div id="title">
+        <div id="logos">
+          <a href="/">
+            <object data="/static/svg/NWHacks-Web-Logo.svg" type="image/svg+xml"></object>
+          </a>
+          <span class="title-sponsor">sponsored by
+            <a href="https://www.privateinternetaccess.com/">
+              <span class="home-top-brand-sponsor-logo">
+                <img src="/static/svg/logos/pia-logo-orig.svg" alt="Private Internet Access">
+              </span>
+            </a>
+          </span>
+        </div>
+        <br>
+        <div class="large-trapezoid">
+          <h1>WESTERN CANADA'S LARGEST HACKATHON</h1>
+          <h2>FEBRUARY 27-28 @ Fred Kaiser Building, UBC</h2>
+        </div>
+      </div>
+      <div id="buttons">
+        
+        <a href="https://s2015nwhacks.devpost.com/"><paper-button class="button">previous hacks</paper-button></a>
+        <br>
+        <br>
+        <br>
+        <a href="/sponsors#sponsor" class="link">Interested in becoming a sponsor?</a>
+      </div>
+    </div>
+  </template>
+  </dom-module>
 <dom-module id="register-closed" assetpath="/static/components/register-closed/">
   <template>
     <style>
@@ -3686,12 +3775,145 @@ lazy-pages, lazy-pages > * {
   </template>
 
   </dom-module>
+<dom-module id="rsvp-page" assetpath="/static/components/rsvp-page/">
+  <template>
+    <style>
+    </style>
+    <h1>RSVP</h1>
+    <paper-dialog no-cancel-on-esc-key="" id="rsvping" modal="">
+      <h2>Submitting RSVP...</h2>
+      <p>
+        <paper-progress indeterminate=""></paper-progress>
+      </p>
+    </paper-dialog>
+    <paper-dialog no-cancel-on-esc-key="" id="rsvperror" modal="">
+      <h2>Error submitting RSVP</h2>
+      <p>[[error]]</p>
+      <p>Please try again later or use a different browser.</p>
+      <div class="buttons">
+        <a href="#!/"><paper-button dialog-confirm="" autofocus="">Return Home</paper-button></a>
+      </div>
+    </paper-dialog>
+    <paper-dialog no-cancel-on-esc-key="" id="rsvped" modal="">
+      <h2>RSVPed</h2>
+      <p>
+        <template is="dom-if" if="{{eq(status, 1)}}">
+          All set!
+          See you at nwHacks!
+        </template>
+        <template is="dom-if" if="{{eq(status, 2)}}">
+          Sorry to hear that. Hopefully we'll see you at nwHacks next year!
+        </template>
+        <template is="dom-if" if="{{eq(status, 3)}}">
+          All set!
+          We'll let you know about travel reimbursements shortly.
+        </template>
+      </p>
+      <div class="buttons">
+        <a href="#!/"><paper-button dialog-confirm="" autofocus="">Return Home</paper-button></a>
+      </div>
+    </paper-dialog>
+  </template>
+  </dom-module>
+<dom-module id="schedule-box" assetpath="/static/components/schedule-box/">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      h1 {
+        text-align: center;
+      }
+      .day {
+        margin-top: 0;
+        text-align: center;
+      }
+      .day .row {
+        text-align: left;
+      }
+      .day .row > div {
+        padding: 5px 10px;
+      }
+      .day .row > div:first-child {
+        white-space: nowrap;
+        font-weight: 500;
+        min-width: 74px;
+      }
+      .day .time {
+        font-size: 20pt;
+      }
+      .day .period {
+        text-transform: uppercase;
+        font-size: 10pt;
+        margin-left: 2px;
+      }
+      .day .row > div {
+        display: inline-block;
+        line-height: 32px;
+        height: 32px;
+        vertical-align: middle;
+      }
+      .day .row > div:last-child {
+        white-space: nowrap;
+        float: right;
+      }
+      .card-content {
+        padding: 0px 16px;
+        color: #444;
+      }
+      .content {
+        min-height: 448px;
+      }
+      .center {
+        text-align: center;
+      }
+      .gcal {
+        margin: 30px 0;
+      }
+      @media (min-width: 768px) {
+        .day {
+          width: calc(50% - 10px);
+          display: inline-block;
+        }
+        .day:first-of-type {
+          float: left;
+          margin-right: 20px;
+        }
+      }
+    </style>
+    <h1>SCHEDULE</h1>
+    <div class="content">
+      <template is="dom-repeat" items="[[days]]">
+        <div class="day">
+          <div class="small-trapezoid">[[item.name]]</div>
+          <div class="card-content">
+            <template is="dom-repeat" items="[[item.events]]">
+              <div class="row">
+                <div>
+                  <span class="time">[[item.displayTime]]</span><span class="period">[[item.timePeriod]]</span>
+                </div>
+                <div>[[item.name]]</div>
+                <div><a href="[[map(item.location)]]">[[item.location]]</a></div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </template>
+      <div class="center gcal">
+        <a href="https://calendar.google.com/calendar/embed?src=outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com&amp;ctz=America/Los_Angeles">Google Calendar</a>
+      </div>
+    </div>
+    <iron-ajax auto="" url="https://www.googleapis.com/calendar/v3/calendars/outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com/events?key=%20AIzaSyAdbxoL7d-fe9rFUh898TTCx-ZERREDhKg" handle-as="json" last-response="{{gcal}}"></iron-ajax>
+  </template>
+
+  </dom-module>
 <dom-module id="select-hackers" assetpath="/static/components/select-hackers/">
   <template>
     <style>
       iron-list {
         margin-top: 20px;
         height: 1000px;
+        overflow-x: hidden;
       }
       paper-input {
         display: inline-block;
@@ -3735,7 +3957,6 @@ lazy-pages, lazy-pages > * {
         cursor: pointer;
       }
     </style>
-    <h1>Select Hackers</h1>
     <div class="content">
       <paper-card>
         <div class="card-content">
@@ -3774,7 +3995,7 @@ lazy-pages, lazy-pages > * {
       </paper-card>
     </div>
     
-    <iron-list items="[[filter(hackers, status, search, filterMentor, filterFirst, filterReimbursement, incr, response)]]" as="hacker">
+    <iron-list id="list" items="[[filter(hackers, status, search, filterMentor, filterFirst, filterReimbursement, incr, response)]]" as="hacker">
       <template>
         <div>
           <paper-card heading="[[title(hacker)]]">
@@ -3913,138 +4134,6 @@ lazy-pages, lazy-pages > * {
   </template>
 
   </dom-module>
-<dom-module id="schedule-box" assetpath="/static/components/schedule-box/">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-      h1 {
-        text-align: center;
-      }
-      .day {
-        margin-top: 0;
-        text-align: center;
-      }
-      .day .row {
-        text-align: left;
-      }
-      .day .row > div {
-        padding: 5px 10px;
-      }
-      .day .row > div:first-child {
-        white-space: nowrap;
-        font-weight: 500;
-        min-width: 74px;
-      }
-      .day .time {
-        font-size: 20pt;
-      }
-      .day .period {
-        text-transform: uppercase;
-        font-size: 10pt;
-        margin-left: 2px;
-      }
-      .day .row > div {
-        display: inline-block;
-        line-height: 32px;
-        height: 32px;
-        vertical-align: middle;
-      }
-      .day .row > div:last-child {
-        white-space: nowrap;
-        float: right;
-      }
-      .card-content {
-        padding: 0px 16px;
-        color: #444;
-      }
-      .content {
-        min-height: 448px;
-      }
-      .center {
-        text-align: center;
-      }
-      .gcal {
-        margin: 30px 0;
-      }
-      @media (min-width: 768px) {
-        .day {
-          width: calc(50% - 10px);
-          display: inline-block;
-        }
-        .day:first-of-type {
-          float: left;
-          margin-right: 20px;
-        }
-      }
-    </style>
-    <h1>SCHEDULE</h1>
-    <div class="content">
-      <template is="dom-repeat" items="[[days]]">
-        <div class="day">
-          <div class="small-trapezoid">[[item.name]]</div>
-          <div class="card-content">
-            <template is="dom-repeat" items="[[item.events]]">
-              <div class="row">
-                <div>
-                  <span class="time">[[item.displayTime]]</span><span class="period">[[item.timePeriod]]</span>
-                </div>
-                <div>[[item.name]]</div>
-                <div><a href="[[map(item.location)]]">[[item.location]]</a></div>
-              </div>
-            </template>
-          </div>
-        </div>
-      </template>
-      <div class="center gcal">
-        <a href="https://calendar.google.com/calendar/embed?src=outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com&amp;ctz=America/Los_Angeles">Google Calendar</a>
-      </div>
-    </div>
-    <iron-ajax auto="" url="https://www.googleapis.com/calendar/v3/calendars/outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com/events?key=%20AIzaSyAdbxoL7d-fe9rFUh898TTCx-ZERREDhKg" handle-as="json" last-response="{{gcal}}"></iron-ajax>
-  </template>
-
-  </dom-module>
-<dom-module id="rsvp-page" assetpath="/static/components/rsvp-page/">
-  <template>
-    <style>
-    </style>
-    <h1>RSVP</h1>
-    <paper-dialog no-cancel-on-esc-key="" id="rsvping" modal="">
-      <h2>Submitting RSVP...</h2>
-      <p>
-        <paper-progress indeterminate=""></paper-progress>
-      </p>
-    </paper-dialog>
-    <paper-dialog no-cancel-on-esc-key="" id="rsvperror" modal="">
-      <h2>Error submitting RSVP</h2>
-      <p>[[error]]</p>
-      <p>Please try again later or use a different browser.</p>
-      <div class="buttons">
-        <a href="#!/"><paper-button dialog-confirm="" autofocus="">Return Home</paper-button></a>
-      </div>
-    </paper-dialog>
-    <paper-dialog no-cancel-on-esc-key="" id="rsvped" modal="">
-      <h2>RSVPed</h2>
-      <p>
-        <template is="dom-if" if="{{eq(status, 1)}}">
-          All set!
-          See you at nwHacks!
-        </template>
-        <template is="dom-if" if="{{eq(status, 2)}}">
-          Sorry to hear that. Hopefully we'll see you at nwHacks next year!
-        </template>
-        <template is="dom-if" if="{{eq(status, 3)}}">
-          All set!
-          We'll let you know about travel reimbursements shortly.
-        </template>
-      </p>
-      <div class="buttons">
-        <a href="#!/"><paper-button dialog-confirm="" autofocus="">Return Home</paper-button></a>
-      </div>
-    </paper-dialog>
-  </template>
-  </dom-module>
 </div>
     <template is="dom-bind" id="app">
       <a id="mlh-trust-badge" style="position:fixed;top:0;right:50px;max-width:100px;width:10%;min-width: 60px;display:block;z-index:50" href="https://mlh.io/seasons/s2016/events?utm_source=s2016&amp;utm_medium=TrustBadge&amp;utm_campaign=s2016" target="_blank"><img src="https://s3.amazonaws.com/logged-assets/trust-badge/s2016.png" alt="MLH Official - Spring 2016" style="width:100%;"></a>
@@ -4064,38 +4153,11 @@ lazy-pages, lazy-pages > * {
         <a href="#sponsors" class="big">
           <paper-button>sponsors</paper-button>
         </a>
-        
-          
+        <a href="https://q.nwhacks.io">
+          <paper-button>mentor</paper-button>
+        </a>
       </nav>
-      <div id="header">
-        <div id="title">
-          <div id="logos">
-            <a href="/">
-              <object data="/static/svg/NWHacks-Web-Logo.svg" type="image/svg+xml"></object>
-            </a>
-            <span class="title-sponsor">sponsored by
-              <a href="https://www.privateinternetaccess.com/">
-                <span class="home-top-brand-sponsor-logo">
-                  <img src="/static/svg/logos/pia-logo-orig.svg" alt="Private Internet Access">
-                </span>
-              </a>
-            </span>
-          </div>
-          <br>
-          <div class="large-trapezoid">
-            <h1>WESTERN CANADA'S LARGEST HACKATHON</h1>
-            <h2>FEBRUARY 27-28 @ Fred Kaiser Building, UBC</h2>
-          </div>
-        </div>
-        <div id="buttons">
-          
-          <a href="https://s2015nwhacks.devpost.com/"><paper-button class="button">previous hacks</paper-button></a>
-          <br>
-          <br>
-          <br>
-          <a href="/sponsors#sponsor" class="link">Interested in becoming a sponsor?</a>
-        </div>
-      </div>
+      <nwhacks-header hidden$="[[hideHeader]]"></nwhacks-header>
       <div class="wrapper" id="begin">
         <lazy-pages attr-for-selected="data-route" selected="{{route}}">
           <template is="dom-if" restamp="" data-route="home">
@@ -4118,57 +4180,7 @@ lazy-pages, lazy-pages > * {
           </template>
         </lazy-pages>
       </div>
-      <footer>
-        <div class="skyline">
-          <object data="/static/svg/Skyline-Footer-Cropped.svg" type="image/svg+xml"></object>
-        </div>
-        <table class="foot">
-          <tbody>
-            <tr>
-              <td class="small-middle">
-                nwHacks Team
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <a href="https://www.facebook.com/atsushi.yamamoto.7798">Atsushi Yamamoto</a>
-                        <a href="https://www.facebook.com/davidbaldwin123">David Baldwynn</a>
-                        <a href="https://www.rasky.co">Jerome Rasky</a>
-                        <a href="https://www.facebook.com/lansichu">Lansi Chu</a>
-                      </td>
-                      <td>
-                        <a href="https://www.facebook.com/ixxuul">Luxi Xu</a>
-                        <a href="https://fn.lc">Tristan Rice</a>
-                        <a href="https://www.facebook.com/max.leung.31">Max Leung</a>
-                      </td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-                <br>
-              </td>
-              <td class="small-first">
-                <nav class="grid-container">
-                  <a href="/sponsors#sponsor">Become a Sponsor</a>
-                  <a href="mailto:sponsorship@nwhacks.io">Email Us</a>
-                  <a href="http://mlh.io/code-of-conduct">Code of Conduct </a>
-                </nav>
-                <br>
-              </td>
-              <td class="small-middle">
-                <a href="https://www.facebook.com/nwHacks">Facebook</a>
-                <a href="https://twitter.com/nwHacks">Twitter</a>
-                <a href="https://medium.com/@nwHacks">Medium</a>
-                <a href="https://www.instagram.com/nwhacksvancouver">Instagram</a>
-                <br>
-              </td>
-              <td class="small-last">
-                Organised and held by <a href="http://www.startupstorm.org/" target="_blank">StartupStorm</a>
-              </td>
-            </tr>
-            </tbody><tbody>
-        </tbody></table>
-      </footer>
+      <nwhacks-footer hidden$="[[hideFooter]]"></nwhacks-footer>
       <div id="starContainer"></div>
     </template>
     </body></html>

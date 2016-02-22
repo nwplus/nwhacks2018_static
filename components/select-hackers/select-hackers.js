@@ -32,6 +32,19 @@ Polymer({
       value: responseCategories,
     },
   },
+  attached: function() {
+    var self = this;
+    setTimeout(function() {
+      self.resize();
+    }, 100);
+    window.addEventListener("resize", function() {
+      self.resize();
+    });
+  },
+  resize: function() {
+    var top = this.$.list.getBoundingClientRect().top;
+    this.$.list.style.height = window.innerHeight - top + 'px';
+  },
   observers: [
     'hackersChange(hackers)',
   ],
