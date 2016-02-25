@@ -11,14 +11,6 @@ Polymer({
       type: Array,
       value: [],
     },
-    status: {
-      type: String,
-      value: '',
-    },
-    response: {
-      type: String,
-      value: '',
-    },
     incr: {
       type: Number,
       value: 0,
@@ -27,10 +19,21 @@ Polymer({
       type: Array,
       value: categories,
     },
+    filters: {
+      type: Object,
+      value: function(){return {
+        search: '',
+        status: '',
+        response: '',
+      }; },
+    },
     responseCategories: {
       type:Array,
       value: responseCategories,
     },
+  },
+  refresh: function() {
+    this.incr++;
   },
   attached: function() {
     var self = this;
@@ -47,6 +50,13 @@ Polymer({
   },
   observers: [
     'hackersChange(hackers)',
+    'refresh(filters.status)',
+    'refresh(filters.checked_in)',
+    'refresh(filters.response)',
+    'refresh(filters.search)',
+    'refresh(filters.mentor)',
+    'refresh(filters.first)',
+    'refresh(filters.reimbursement)',
   ],
   handleResponse: function(e, req) {
     var hackers = req.xhr.response;
@@ -119,33 +129,38 @@ Polymer({
   title: function(hacker) {
     return hacker.name + ' ('+hacker.email+')';
   },
-  filter: function(hackers, status, search, filterMentor, filterFirst, filterReimbursement, _, response) {
+  filter: function(hackers, filters, _) {
     var results = hackers;
     this.totalCount = hackers.length;
-    if (search.length > 0) {
-      var rawResults = this.lunr.search(search);
+    if (filters.search.length > 0) {
+      var rawResults = this.lunr.search(filters.search);
       results = rawResults.map(function(result) {
         return hackers[result.ref];
       });
     }
-    console.log('response', response);
+    var status = filters.status;
+    var response = filters.response;
     var responseIdx = this.responded(response);
     var filtered = results.filter(function(hacker, b, c) {
       var good = (status === '' || status === 'null' || status === 'All' || status === hacker.status) &&
         (response === '' || response === 'null' || response === 'All' || hacker.acceptance_sent && responseIdx === hacker.response);
-      if (filterMentor) {
+      if (filters.mentor) {
         good = good && hacker.mentor;
       }
-      if (filterReimbursement) {
+      if (filters.checked_in) {
+        good = good && hacker.checked_in;
+      }
+      if (filters.reimbursement) {
         good = good && hacker.travel_reimbursement;
       }
-      if (filterFirst) {
+      if (filters.first) {
         good = good && hacker.first_hackathon;
       }
       return good
     });
     this.filtered = filtered;
     this.filteredCount = filtered.length;
+    console.log('filtered', filtered);
     return filtered;
   },
   githubLink: function(username) {
@@ -186,29 +201,25 @@ Polymer({
     var status = categories[index];
     var hacker = e.model.hacker;
     if (hacker.status !== status) {
-      console.log(hacker);
       this.set('hackers.'+hacker.index+'.status',status);
-
-      var data = {
+      this.patchHacker(hacker, {
         status: categories.indexOf(hacker.status),
-      };
-      $.ajax({
-        url : '/api/register/'+hacker.id+'/',
-        type : 'PATCH',
-        data : data,
-      }).done(function(e) {
-        console.log('done', e);
-      }).fail(function(e) {
-        console.log('error', e);
-        alert("error", e);
       });
     }
   },
+  phoneChange: function(e) {
+    var hacker = e.model.hacker;
+    this.patchHacker(hacker, {
+      phone: hacker.phone,
+    });
+  },
   checkIn: function(e) {
     var hacker = e.model.hacker;
-    var data = {
+    this.patchHacker(hacker, {
       checked_in: hacker.checked_in,
-    };
+    });
+  },
+  patchHacker: function(hacker, data) {
     $.ajax({
       url : '/api/register/'+hacker.id+'/',
       type : 'PATCH',

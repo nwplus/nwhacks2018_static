@@ -52,7 +52,7 @@
       <paper-card>
         <div class="card-content">
           Filters &nbsp;
-          <paper-dropdown-menu label="Status" selected-item-label="{{status}}">
+          <paper-dropdown-menu label="Status" selected-item-label="{{filters.status}}">
             <paper-listbox class="dropdown-content" selected="[[selected(hacker.status)]]">
               <paper-item>All</paper-item>
               <template is="dom-repeat" items="[[categories]]">
@@ -61,7 +61,7 @@
             </paper-listbox>
           </paper-dropdown-menu>
           &nbsp;
-          <paper-dropdown-menu label="Response" selected-item-label="{{response}}">
+          <paper-dropdown-menu label="Response" selected-item-label="{{filters.response}}">
             <paper-listbox class="dropdown-content" selected="[[responded(hacker.response)]]">
               <paper-item>All</paper-item>
               <template is="dom-repeat" items="[[responseCategories]]">
@@ -70,7 +70,7 @@
             </paper-listbox>
           </paper-dropdown-menu>
           &nbsp;
-          <paper-input label="Search" value="{{search}}"></paper-input>
+          <paper-input label="Search" value="{{filters.search}}"></paper-input>
 
           Showing
           <span>{{filteredCount}}</span>
@@ -78,15 +78,16 @@
           <span>{{totalCount}}</span>
 
           <br>
-          <paper-checkbox checked="{{filterMentor}}">Wants to Mentor</paper-checkbox> &nbsp;
-          <paper-checkbox checked="{{filterFirst}}">First Time</paper-checkbox> &nbsp;
-          <paper-checkbox checked="{{filterReimbursement}}">Needs Reimbursement</paper-checkbox> &nbsp;
+          <paper-checkbox checked="{{filters.mentor}}">Wants to Mentor</paper-checkbox> &nbsp;
+          <paper-checkbox checked="{{filters.first}}">First Time</paper-checkbox> &nbsp;
+          <paper-checkbox checked="{{filters.reimbursement}}">Needs Reimbursement</paper-checkbox> &nbsp;
+          <paper-checkbox checked="{{filters.checked_in}}">Checked In</paper-checkbox> &nbsp;
           <a on-tap="export">Export to CSV</a>
         </div>
       </paper-card>
     </div>
     <!-- <template is="dom-repeat" items="{{hackers}}" as="hacker" filter="{{filter(status)}}" observe="status"> -->
-    <iron-list id="list" items="[[filter(hackers, status, search, filterMentor, filterFirst, filterReimbursement, incr, response)]]" as="hacker">
+    <iron-list id="list" items="[[filter(hackers, filters, incr)]]" as="hacker">
       <template>
         <div>
           <paper-card heading="[[title(hacker)]]">
@@ -149,10 +150,13 @@
               <template is="dom-if" if="[[hacker.hs]]">
                 <div class="tag bad">Minor</div>
               </template>
+
+              <br>
+              <paper-input label="Phone Number" type="tel" on-change="phoneChange" value="{{hacker.phone}}"></paper-input>
               </table>
             </div>
             <div class="card-actions">
-              <select selected="{{selected(hacker.status)}}" on-change="onSelect">
+              <select selected="{{selected(hacker.status)}}" on-change="onSelect" disabled$="[[hacker.acceptance_sent]]">
                 <template is="dom-repeat" items="[[categories]]">
                   <option selected$="[[eq(item, hacker.status)]]">[[item]]</option>
                 </template>
