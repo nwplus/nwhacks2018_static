@@ -19988,7 +19988,7 @@ Polymer({
     },
   },
   map: function(location) {
-    return "https://fn.lc/campus/#"+location;
+    return "https://campus.fn.lc/#"+(location || '').replace(/ /g, '+');
   },
   calendarDisplay: function() {
     console.log(this.gcal);
