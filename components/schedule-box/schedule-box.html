@@ -13,14 +13,21 @@
       }
       .day .row {
         text-align: left;
+        color: white;
+      }
+      .day .row .time-col {
+        padding-right: 0;
       }
       .day .row > div {
-        padding: 5px 10px;
+        padding: 10px 10px 5px;
       }
       .day .row > div:first-child {
+        padding-top: 5px;
         white-space: nowrap;
         font-weight: 500;
         min-width: 86px;
+        min-height: 32px;
+        padding-bottom: 0;
       }
       .day .time {
         font-size: 20pt;
@@ -32,11 +39,9 @@
       }
       .day .row > div {
         display: inline-block;
-        line-height: 32px;
-        height: 32px;
-        vertical-align: middle;
+        vertical-align: top;
       }
-      .day .row > div:last-child {
+      .day .row > div.location {
         white-space: nowrap;
         float: right;
       }
@@ -53,6 +58,14 @@
       .gcal {
         margin: 30px 0;
       }
+      .desc {
+        font-style: italic;
+        display: block;
+        font-size: 0.9em;
+        margin-left: 110px;
+        margin-top: -10px;
+        margin-bottom: -16px;
+      }
       @media (min-width: 768px) {
         .day {
           width: calc(50% - 10px);
@@ -63,6 +76,13 @@
           margin-right: 20px;
         }
       }
+      .day .row .name {
+        padding: 10px 0 0;
+          display: inline-block;
+      }
+      .day .row .info {
+        display: inline;
+      }
     </style>
     <h1>SCHEDULE</h1>
     <div class="content">
@@ -72,11 +92,19 @@
           <div class="card-content">
             <template is="dom-repeat" items="[[item.events]]">
               <div class="row">
-                <div>
+                <div class="time-col">
                   <span class="time">[[item.displayTime]]</span><span class="period">[[item.timePeriod]]</span>
                 </div>
-                <div>[[item.name]]</div>
-                <div><a href="[[map(item.location)]]">[[item.location]]</a></div>
+                <div class="location">
+                  <template is="dom-repeat" items="[[item.locations]]">
+                    <a href="[[map(item)]]">[[item]]</a>
+                    <br>
+                  </template>
+                </div>
+                <div class="info">
+                  <span class="name">[[item.name]]</span>
+                  <span class="desc">[[item.desc]]</span>
+                </div>
               </div>
             </template>
           </div>
@@ -134,12 +162,17 @@ Polymer({
       if (minute !== '00') {
         displayTime += ':' + minute;
       }
+      var locations = [];
+      (item.location || '').split(',').forEach(function(location) {
+        locations.push(location.trim());
+      });
       var event = {
         name: item.summary,
         start: start,
         displayTime: displayTime,
         timePeriod: start.format("a"),
-        location: item.location,
+        locations: locations,
+        desc: item.description,
       }
       day.events.push(event);
     });

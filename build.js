@@ -20034,12 +20034,17 @@ Polymer({
       if (minute !== '00') {
         displayTime += ':' + minute;
       }
+      var locations = [];
+      (item.location || '').split(',').forEach(function(location) {
+        locations.push(location.trim());
+      });
       var event = {
         name: item.summary,
         start: start,
         displayTime: displayTime,
         timePeriod: start.format("a"),
-        location: item.location,
+        locations: locations,
+        desc: item.description,
       }
       day.events.push(event);
     });
