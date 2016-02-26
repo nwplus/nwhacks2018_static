@@ -1,108 +1,283 @@
 <dom-module id="dayof-page">
   <template>
     <style>
-      .left {
-        width: 520px;
-        display: inline-block;
-      }
-      .right {
-        width: calc(100% - 550px);
-        display: inline-block;
-        float: right;
-      }
-      .half {
-        width: calc(33% - 5px);
-        display: inline-block;
-        float: left;
-      }
-      .left, .right, .half {
-        padding-bottom: 100px;
-      }
-      @media (max-width: 1250px) {
-        .left, .right, .half {
-          width: 100%;
-          max-width: 900px;
-          display: block;
-          float: inherit;
-          margin: 0 auto;
-        }
-      }
       #twitter {
         text-align: center;
       }
+      .grid-container {
+        width : 100%;
+        max-width : 1600px;
+        margin: 0 auto;
+      }
+      paper-button iron-icon {
+        margin: -0.5em 0;
+      }
+      .row:before,
+      .row:after {
+        content:"";
+        display: table ;
+        clear:both;
+      }
+      [class*='col-'] {
+        float: left;
+        min-height: 1px;
+        width: 33.33%;
+        padding: 12px;
+        box-sizing: border-box;
+
+        margin-top: 13px;
+        margin-bottom: 100px;
+      }
+      .row .row [class*='col-'] {
+        margin-bottom: 0;
+        margin-top: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+      h2:first-child {
+        margin-top: 0;
+      }
+      .col-33{
+        width: 33.33%;
+      }
+      .col-50{
+        width: 50%;
+      }
+      .col-66{
+        width: 66.66%;
+      }
+      .col-100{
+        width: 100%;
+      }
+      .top-buttons {
+        margin-top: 50px;
+      }
+      code {
+        font-family: monospace;
+        background-color: rgba(0,0,0,0.5);
+        font-size: 14pt;
+        padding: 6px;
+        margin: 0 5px;
+      }
+      code.block {
+        display: block;
+        margin: 20px 0;
+        padding: 12px;
+      }
+      @media (max-width: 1200px) {
+        .col-33 {
+          width: 70%;
+          margin-right: 15%;
+          margin-left: 15%;
+        }
+        .col-66 {
+          width: 100%;
+        }
+      }
+      @media (max-width: 768px) {
+        .col-33 {
+          width: 100%;
+          margin-right: 0;
+          margin-left: 0;
+        }
+      }
+      .bottom a {
+        color: #2F794E;
+      }
     </style>
+
+    <div class="top-buttons">
     <center>
-      <br>
-      <a href="https://nwhacks2016.devpost.com/">
-        <paper-button class="register">submit hack</paper-button>
-      </a>
-      <a href="https://q.nwhacks.io/">
-        <paper-button class="button">get help</paper-button>
-      </a>
+      <a href="https://nwhacks2016.devpost.com/"><paper-button class="register">submit hack</paper-button></a>
+      <a href="https://nwhacks2016attendees.slack.com"><paper-button class="button">#slack</paper-button></a>
+      <a href="https://static.nwhacks.io/Info-Package-V3.pdf"><paper-button class="button">
+          <iron-icon icon="image:picture-as-pdf"></iron-icon>
+          info package
+        </paper-button></a>
+      <a href="https://campus.fn.lc/#KAIS+ATRIUM"><paper-button class="button">
+          <iron-icon icon="maps:map"></iron-icon>
+          map
+        </paper-button></a>
+
     </center>
-    <div id="twitter" class="left">
-      <h1>UPDATES</h1>
-      <a class="twitter-timeline" href="https://twitter.com/nwHacks" data-widget-id="701669388655562756">Tweets by @nwHacks</a>
-      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
     </div>
-    <schedule-box class="right"></schedule-box>
-    <div id="prizes" class="half">
-      <h1>PRIZES</h1>
-      <ul>
-        <li>
-          <h2>TBD Prize</h2>
+    <div class="grid-container">
+      <div class="row">
+        <div class="col-33">
+          <h1>IMPORTANT INFO</h1>
+
+          <h2>COMMUNICATION</h2>
+          <p>Most of the announcements during the hackathon will be through our Slack. If you don't have an account check your email or ask one of your friends to invite you.</p>
+          <p><a href="https://nwhacks2016attendees.slack.com/messages/general/">Slack #general</a></p>
+
+          <h2>NEED HELP?</h2>
           <p>
-          100 bars of gold!
+          To find a mentor just you can use the <code>/mentor</code> command in <a href="https://nwhacks2016attendees.slack.com">Slack</a>.
+          <code class="block">
+            /mentor I need help making pancakes!
+          </code>
+          For more information <a href="https://static.nwhacks.io/mentorinfo.pdf">click here</a>.
           </p>
-        </li>
-      </ul>
-    </div>
-    <div id="api" class="half">
-      <h1>SPONSOR APIs</h1>
-      <p>
-      Check out the APIs provided by our awesome sponsors!
-      </p>
-      <ul>
-        <li>
+          <h2>WIFI SSID
+            <p><code class="block">ubcvisitor / eduroam / ubcsecure</code></p>
+            </center>
+        </div>
+        <schedule-box class="col-66"></schedule-box>
+      </div>
+      <div class="row">
+        <div id="twitter" class="col-33">
+          <h1>UPDATES</h1>
+          <a class="twitter-timeline" href="https://twitter.com/nwHacks" data-widget-id="701669388655562756">Tweets by @nwHacks</a>
+          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+        </div>
+        <div id="prizes" class="col-66">
+          <h1>PRIZES</h1>
+          <div class="row">
+            <div class="col-50">
+              <h2>Overall Best</h2>
+              <p>
+              <ul>
+                <li>1st Place: Dell Tablets for each team member </li>
+                <li>2nd Place: $1000 CAD for the entire team </li>
+                <li>3rd Place: $500 CAD for the entire team</li>
+              </ul>
+              </p>
+              <h2>PIA: Best Privacy, Security or Crypto Hack</h2>
+              <p>
+              Hacks will be judged based on: Implementation, Ease of use, and Uniqueness of idea.
+              <ul>
+                <li>1st place: $2000 </li>
+                <li>2nd place: $1000 </li>
+                <li>3rd place: $500.</li>
+              </ul>
+              </p>
+              <h2>Orbis: Solving or Improving a Social Problem Using Data Analytics</h2>
+              <p>
+              <ul>
+                <li>$400 for the team</li>
+              </ul>
+              </p>
+              <h2> Best App using Microsoft Azure</h2>
+              <p>
+              <ul>
+                <li>HP Pro Tablets for each team member</li>
+              </ul>
+              </p>
+              <h2>Best Use of Wolfram Technology</h2>
+              <p>
+              <ul>
+                <li>1 year of Wolfram Development Platform (Developer Level) </li>
+                <li>1 year of Wolfram Mathematica Student Edition </li>
+                <li>1 year subscription to Computational Knowledge Engine (Wolfram|Alpha Pro)</li>
+              </ul>
+              </p>
+            </div>
+            <div class="col-50">
+              <h2> MLH: Best Domain Name from Domain.com</h2>
+              <p>
+              <ul>
+                <li>Swag Bags with Sparkfun Redboards</li>
+              </ul>
+              </p>
+              <h2>MLH: Best Use of AWS</h2>
+              <p>
+              <ul>
+                <li>1TB hard drives for each team member</li>
+              </ul>
+              </p>
+              <h2>MLH: Best Developer Tool</h2>
+              <p>
+              <ul>
+                <li>GitHub Octocat statue</li>
+              </ul>
+              </p>
+              <h2>Indico: Best use of API and Machine Learning</h2>
+              <p>
+              <ul>
+                <li>$1000 Indico API credits for each team member</li>
+              </ul>
+              </p>
+              <h2> Zenefits</h2>
+              <p>
+              <ul>
+                <li> Backpacks for each team member </li>
+              </ul>
+              </p>
+              <h2>JetBrains</h2>
+              <p>
+              <ul>
+                <li>IntelliJ IDEA Ultimate personal license for each team member</li>
+              </ul>
+              </p>
+              <h2> Archiact</h2>
+              <p>
+              <ul>
+                <li> 30 tickets to CVR </li>
+              </ul>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row bottom">
+        <div id="hardware" class="col-50">
+          <h1>HARDWARE</h1>
+          <p>
+          Due to limited amount of hardware the availability is not guaranteed.
+          <ul>
+            <li> 4	Alienware 13</li>
+            <li>  6	Arduino Uno</li>
+            <li>  10	Base Shield</li>
+            <li>  3	Dell Monitor</li>
+            <li>  2	Dell XPS 13 (Ubuntu)</li>
+            <li>  2	Dell XPS 13 (Windows)</li>
+            <li>  3	Fire Phone</li>
+            <li>  1	Grove Starter Kit</li>
+            <li>  10	Intel Edison</li>
+            <li>  10	Leap Motion</li>
+            <li>  3	Muse Headband</li>
+            <li>  24	Myos</li>
+            <li>  1	Nest Cam</li>
+            <li>  1	Nest Thermostat Kit</li>
+            <li>  12	Oculus Rift DK2</li>
+            <li>  15	Pebble Classic</li>
+            <li>  5	Pebble Time Steel</li>
+            <li>  10	Spark Core</li>
+            <li>  1	TV</li>
+          </ul>
+          </p>
+        </div>
+        <div id="api" class="col-50">
+          <h1>SPONSOR APIs</h1>
+          <p>
+          Check out the APIs provided by our awesome sponsors!
+          </p>
           <h2>Lob</h2>
           <p>
-          TODO: Description
+          Lob enables you to seamlessly print and mail documents, postcards, checks, and more via an API. Integrate easily into your web or mobile application today.
+          <br>
+          <a href="https://lob.com/docs">https://lob.com/docs</a>
           </p>
-        </li>
-        <li>
-          <h2>Clairfai</h2>
+          <h2>clairfai</h2>
           <p>
-          TODO: Description
+          Real Solutions, Artificial Intelligence. Understand every image and video with the world's best visual recognition technology.
+          <br>
+          <a href="http://www.clarifai.com/api">http://www.clarifai.com/api</a>
           </p>
-        </li>
-        <li>
           <h2>Wolfram</h2>
           <p>
-          TODO: Description
+          Access the Wolfram|Alpha platform at multiple levels—from individual results to complete Wolfram|Alpha output pages. The API operates as a high-performance REST-style webservice, with convenient bindings for popular languages and platforms.
+          <br>
+          <a href="http://products.wolframalpha.com/api/">http://products.wolframalpha.com/api/</a>
           </p>
-        </li>
-        <li>
           <h2>Namecheap</h2>
           <p>
-          TODO: Description
+          The Namecheap API allows you to build web and desktop applications that integrate with your Namecheap account. It enables you to programmatically perform operations such as domain search, domain registration, SSL purchase etc., from within your application.
+          <br>
+          <a href="https://www.namecheap.com/support/api/intro.aspx">https://www.namecheap.com/support/api/intro.aspx</a>
           </p>
-        </li>
-      </ul>
-    </div>
-    <div id="hardware" class="half">
-      <h1>HARDWARE</h1>
-      <p>
-        Due to limited amount of hardware the availability is not guaranteed.
-      </p>
-      <ul>
-        <li>
-          <h2>TODO: 100 Raspberry Pi's</h2>
-          <p>
-          Who doesn't love Raspberry Pi?
-          </p>
-        </li>
-      </ul>
-    </div>
+        </div>
+      </div>
   </template>
   <script>
 Polymer({

@@ -257,7 +257,7 @@ h1 {
   .h1-container h1 {
     display: inline-block; }
 
-h2, p {
+h2, p, ul, ol {
   font-size: 14pt; }
 
 h2 + p {
