@@ -3655,6 +3655,20 @@ lazy-pages, lazy-pages > * {
   </template>
 
   </dom-module>
+<dom-module id="minimizable-box" assetpath="/static/components/">
+  <template>
+    <style>
+      paper-icon-button {
+        float: left;
+        margin: -8px 0;
+      }
+    </style>
+    <paper-icon-button icon="[[icon(hidden)]]" on-tap="toggle"></paper-icon-button>
+    <div hidden$="{{hidden}}">
+    <content></content>
+    </div>
+  </template>
+  </dom-module>
 <dom-module id="dayof-page" assetpath="/static/components/dayof-page/">
   <template>
     <style>
@@ -4428,7 +4442,10 @@ lazy-pages, lazy-pages > * {
       paper-card {
         color: black;
         max-width: 900px;
-        margin: 20px auto;
+        margin: 0px auto 5px;
+      }
+      #filters .card-content {
+        margin-top: 16px;
       }
       table {
         text-align: left;
@@ -4463,42 +4480,50 @@ lazy-pages, lazy-pages > * {
       a {
         cursor: pointer;
       }
+      [label="Status"] {
+        width: 100px;
+      }
+      [label="Response"] {
+        width: 170px;
+      }
     </style>
     <div class="content">
-      <paper-card>
+      <paper-card id="filters">
         <div class="card-content">
           Filters &nbsp;
-          <paper-dropdown-menu label="Status" selected-item-label="{{filters.status}}">
-            <paper-listbox class="dropdown-content" selected="[[selected(hacker.status)]]">
-              <paper-item>All</paper-item>
-              <template is="dom-repeat" items="[[categories]]">
-                <paper-item>[[item]]</paper-item>
-              </template>
-            </paper-listbox>
-          </paper-dropdown-menu>
-          &nbsp;
-          <paper-dropdown-menu label="Response" selected-item-label="{{filters.response}}">
-            <paper-listbox class="dropdown-content" selected="[[responded(hacker.response)]]">
-              <paper-item>All</paper-item>
-              <template is="dom-repeat" items="[[responseCategories]]">
-                <paper-item>[[item]]</paper-item>
-              </template>
-            </paper-listbox>
-          </paper-dropdown-menu>
-          &nbsp;
-          <paper-input label="Search" value="{{filters.search}}"></paper-input>
+          <minimizable-box>
+            <paper-dropdown-menu label="Status" selected-item-label="{{filters.status}}">
+              <paper-listbox class="dropdown-content" selected="[[selected(hacker.status)]]">
+                <paper-item>All</paper-item>
+                <template is="dom-repeat" items="[[categories]]">
+                  <paper-item>[[item]]</paper-item>
+                </template>
+              </paper-listbox>
+            </paper-dropdown-menu>
+            &nbsp;
+            <paper-dropdown-menu label="Response" selected-item-label="{{filters.response}}">
+              <paper-listbox class="dropdown-content" selected="[[responded(hacker.response)]]">
+                <paper-item>All</paper-item>
+                <template is="dom-repeat" items="[[responseCategories]]">
+                  <paper-item>[[item]]</paper-item>
+                </template>
+              </paper-listbox>
+            </paper-dropdown-menu>
+            &nbsp;
+            <paper-input label="Search" value="{{filters.search}}"></paper-input>
 
-          Showing
-          <span>{{filteredCount}}</span>
-          of
-          <span>{{totalCount}}</span>
+            Showing
+            <span>{{filteredCount}}</span>
+            of
+            <span>{{totalCount}}</span>
 
-          <br>
-          <paper-checkbox checked="{{filters.mentor}}">Wants to Mentor</paper-checkbox> &nbsp;
-          <paper-checkbox checked="{{filters.first}}">First Time</paper-checkbox> &nbsp;
-          <paper-checkbox checked="{{filters.reimbursement}}">Needs Reimbursement</paper-checkbox> &nbsp;
-          <paper-checkbox checked="{{filters.checked_in}}">Checked In</paper-checkbox> &nbsp;
-          <a on-tap="export">Export to CSV</a>
+            <br>
+            <paper-checkbox checked="{{filters.mentor}}">Wants to Mentor</paper-checkbox> &nbsp;
+            <paper-checkbox checked="{{filters.first}}">First Time</paper-checkbox> &nbsp;
+            <paper-checkbox checked="{{filters.reimbursement}}">Needs Reimbursement</paper-checkbox> &nbsp;
+            <paper-checkbox checked="{{filters.checked_in}}">Checked In</paper-checkbox> &nbsp;
+            <a on-tap="export">Export to CSV</a>
+          </minimizable-box>
         </div>
       </paper-card>
     </div>

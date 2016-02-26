@@ -1,0 +1,28 @@
+<dom-module id="minimizable-box">
+  <template>
+    <style>
+      paper-icon-button {
+        float: left;
+        margin: -8px 0;
+      }
+    </style>
+    <paper-icon-button icon="[[icon(hidden)]]" on-tap="toggle"></paper-icon-button>
+    <div hidden$="{{hidden}}">
+    <content></content>
+    </div>
+  </template>
+  <script>
+Polymer({
+  is: 'minimizable-box',
+  attached: function() {
+    this.hidden = window.innerWidth < 600;
+  },
+  icon: function(hidden) {
+    return hidden ? 'expand-more' : 'expand-less'
+  },
+  toggle: function() {
+    this.hidden = !this.hidden;
+  },
+});
+  </script>
+</dom-module>
