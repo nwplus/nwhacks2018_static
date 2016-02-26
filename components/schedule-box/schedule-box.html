@@ -88,7 +88,7 @@
     </div>
     <iron-ajax
       auto
-      url="https://www.googleapis.com/calendar/v3/calendars/outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com/events?key=%20AIzaSyAdbxoL7d-fe9rFUh898TTCx-ZERREDhKg"
+      url="https://www.googleapis.com/calendar/v3/calendars/outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com/events?key=%20AIzaSyAdbxoL7d-fe9rFUh898TTCx-ZERREDhKg&timeZone=America/Los_Angeles"
       handle-as="json"
       last-response="{{gcal}}"></iron-ajax>
   </template>
@@ -117,7 +117,7 @@ Polymer({
     var days = {};
     var daysArr = [];
     this.gcal.items.forEach(function(item) {
-      var start = moment(item.start.dateTime);
+      var start = moment(item.start.dateTime).tz('America/Los_Angeles');
       var dayTitle = start.format("dddd, MMM Do");
       var day = days[dayTitle];
       if (!day) {

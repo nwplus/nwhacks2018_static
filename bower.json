@@ -42,6 +42,7 @@
     "iron-list": "PolymerElements/iron-list#~1.1.7",
     "iron-selector": "PolymerElements/iron-selector#~1.2.1",
     "comma-separated-values": "~3.6.4",
-    "lazy-pages": "~0.8.5"
+    "lazy-pages": "~0.8.5",
+    "moment-timezone": "~0.5.0"
   }
 }
