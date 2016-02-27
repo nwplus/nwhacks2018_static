@@ -204,7 +204,11 @@
         var isDuplicate = students[email] && datum.status != 1 || students[email] && students[email].status == 1;
 
         if (datum.acceptance_sent) {
-          responseData[datum.response].value++;
+          if (responseData[datum.response]) {
+            responseData[datum.response].value++;
+          } else {
+            console.log("that fucker", datum.response);
+          }
         }
 
         if (isDuplicate) {
