@@ -1,5 +1,5 @@
 build:
-	vulcanize --abspath . --strip-comments --inline-scripts --inline-css app.html | crisper --html build.html --js build.js
+	vulcanize --abspath . --strip-comments --inline-scripts --inline-css app.html | crisper --html index.html --js index.js
 
 deps:
 	bower install
