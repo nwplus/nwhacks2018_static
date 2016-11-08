@@ -77,6 +77,7 @@ paper-card .card-content {
 
 paper-button {
   color: #444;
+  text-decoration: none;
   letter-spacing: 2px;
   border-radius: 0; }
   paper-button.register, paper-button.button {
@@ -111,6 +112,9 @@ a {
   text-decoration: none; }
   a:hover {
     text-decoration: underline; }
+
+a.none:hover {
+  text-decoration: none; }
 
 .title a {
   color: inherit;
@@ -432,6 +436,9 @@ star {
     @media screen and (max-width: 410px) {
       #sponsors .partners img, #sponsors .partners svg {
         max-width: calc(100% - 60px); } }
+
+lazy-pages {
+  overflow: visible !important; }
 
 lazy-pages, lazy-pages > * {
   position: inherit !important; }

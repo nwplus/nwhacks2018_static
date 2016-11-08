@@ -93,6 +93,7 @@ paper-card .card-content {
 paper-button {
   color: #444;
 
+  text-decoration: none;
   letter-spacing: 2px;
   border-radius: 0;
   &.register, &.button {
@@ -138,6 +139,9 @@ a {
   &:hover {
     text-decoration: underline;
   }
+}
+a.none:hover {
+  text-decoration: none;
 }
 
 .title a {
@@ -581,6 +585,9 @@ star {
   }
 }
 
+lazy-pages {
+  overflow: visible !important;
+}
 lazy-pages, lazy-pages > * {
   position: inherit !important;
 }
