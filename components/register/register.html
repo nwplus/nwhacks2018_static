@@ -47,9 +47,11 @@
             debounce-duration="300"></iron-ajax>
 
     <h1 id="register">nwHacks Registration</h1>
-    <form is="iron-form" id="form" method="post" content-type="multipart/form-data" on-iron-form-response="register" action="/api/register/" on-iron-form-presubmit="formPreSubmit" on-iron-form-submit="submitting" on-iron-form-error="formError" on-iron-form-invalid="formInvalid">
+    <form is="iron-form" id="form" method="post" content-type="multipart/form-data" on-iron-form-response="register" on-iron-form-presubmit="formPreSubmit" on-iron-form-submit="submitting" on-iron-form-error="formError" on-iron-form-invalid="formInvalid">
       <paper-input required auto-validate maxlength="200" error-message="Required" label="What is your name?" name="name" value="{{data.name}}"></paper-input>
       <paper-input required auto-validate maxlength="200" error-message="Invalid Email" type="email" label="What is your email?" name="email" value="{{data.email}}"></paper-input>
+      <paper-input required auto-validate maxlength="201"
+        error-message="Invalid Phone Number" label="What is your emergency contact phone number?" type="phone" name="phone" value="{{data.phone}}"></paper-input>
       <paper-input required auto-validate maxlength="200" error-message="Required" label="Where do you go to school?" name="school" value="{{data.school}}"></paper-input>
       <paper-input required auto-validate maxlength="200" error-message="Required" label="Where are you traveling from?" name="city" value="{{data.city}}" focused="{{cityFocused}}"></paper-input>
       <template is="dom-repeat" items="[[citiesClean]]">
@@ -70,7 +72,7 @@
       </paper-input>
       <paper-input maxlength="200" label="Personal Site" name="personalsite" auto-validate error-message="Invalid URL" value="{{data.personalsite}}" type="url"></paper-input>
 
-      <paper-input always-float-label type="file" label="Resume" name="resume" value="{{data.resume}}"></paper-input>
+      <paper-input always-float-label type="file" label="Resume" id="resume" name="resume" value="{{data.resume}}"></paper-input>
 
       <paper-dropdown-menu id="shirtSize" required auto-validate error-message="Required" label="T-Shirt Size" name="tshirt" selected-item-label="{{data.tshirt}}">
         <paper-menu class="dropdown-content">
@@ -80,6 +82,8 @@
           <paper-item>XL</paper-item>
         </paper-menu>
       </paper-dropdown-menu>
+      <br/>
+      <br/>
       <paper-checkbox name="travel_reimbursement" >Do you need travel reimbursements?</paper-checkbox>
       <paper-checkbox name="first_hackathon">Is this your first hackathon?</paper-checkbox>
       <paper-checkbox name="mentor">Would you like to be a mentor?</paper-checkbox>
@@ -121,9 +125,9 @@
         <paper-button dialog-confirm autofocus>close</paper-button>
       </div>
     </paper-dialog>
-
   </template>
 
+  <script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
   <script>
 // element registration
 Polymer({
@@ -187,7 +191,31 @@ Polymer({
     this.set('data.city', e.model.item.matching_full_name);
   },
   submit: function() {
-    this.$.form.submit();
+    //this.$.form.submit();
+    if (this.$.form.validate()) {
+      this.submitting();
+      const userKey = firebase.database().ref('ids').push().key;
+      const files = this.$.resume.inputElement.files;
+      let filePromise = Promise.resolve();
+      if (files.length > 0) {
+        const file = files[0];
+        const fileName = file.name;
+        const filePath = "resumes/"+userKey+"-"+fileName;
+        this.data.resume = filePath;
+        filePromise = firebase.storage().ref(filePath).put(file);
+      }
+      filePromise.then(() => {
+        return firebase.database().ref('registrations').child(userKey).set(this.data);
+      }).then((e) => {
+        console.log('Push!', e);
+        this.register();
+      }).catch((err) => {
+        console.log('Error!', err);
+        this.error = err;
+        this.$.submitting.close();
+        this.$.error.open();
+      });
+    }
   },
   convertFileInputToFormData: function(){
     regexp = /^[^[\]]+/;
@@ -234,5 +262,14 @@ Polymer({
     this.valid = false;
   }
 });
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyBou6z9QA7zvCpxUFLoTbwQZcWuBn47yEA",
+  authDomain: "nwhacks-96701.firebaseapp.com",
+  databaseURL: "https://nwhacks-96701.firebaseio.com",
+  storageBucket: "nwhacks-96701.appspot.com",
+  messagingSenderId: "874137730051"
+};
+firebase.initializeApp(config);
   </script>
 </dom-module>
