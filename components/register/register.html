@@ -47,17 +47,16 @@
             debounce-duration="300"></iron-ajax>
 
     <h1 id="register">nwHacks Registration</h1>
-    <form is="iron-form" id="form" method="post" content-type="multipart/form-data" on-iron-form-response="register" on-iron-form-presubmit="formPreSubmit" on-iron-form-submit="submitting" on-iron-form-error="formError" on-iron-form-invalid="formInvalid">
-      <paper-input required auto-validate maxlength="200" error-message="Required" label="What is your name?" name="name" value="{{data.name}}"></paper-input>
-      <paper-input required auto-validate maxlength="200" error-message="Invalid Email" type="email" label="What is your email?" name="email" value="{{data.email}}"></paper-input>
-      <paper-input required auto-validate maxlength="201"
-        error-message="Invalid Phone Number" label="What is your emergency contact phone number?" type="phone" name="phone" value="{{data.phone}}"></paper-input>
-      <paper-input required auto-validate maxlength="200" error-message="Required" label="Where do you go to school?" name="school" value="{{data.school}}"></paper-input>
-      <paper-input required auto-validate maxlength="200" error-message="Required" label="Where are you traveling from?" name="city" value="{{data.city}}" focused="{{cityFocused}}"></paper-input>
+    <form is="iron-form" id="form">
+      <paper-input required auto-validate maxlength="200" error-message="Required" label="What is your legal name?" value="{{data.name}}"></paper-input>
+      <paper-input required auto-validate maxlength="200" error-message="Invalid Email" type="email" label="What is your email?" value="{{data.email}}"></paper-input>
+      <paper-input required auto-validate maxlength="200" error-message="Invalid Phone Number" label="What is your emergency contact phone number?" type="tel"  value="{{data.phone}}"></paper-input>
+      <paper-input required auto-validate maxlength="200" error-message="Required" label="Where do you go to school?" value="{{data.school}}"></paper-input>
+      <paper-input required auto-validate maxlength="200" error-message="Required" label="Where are you traveling from?" value="{{data.city}}" focused="{{cityFocused}}"></paper-input>
       <template is="dom-repeat" items="[[citiesClean]]">
         <paper-item on-tap="selectCity">[[item.matching_full_name]]</paper-item>
       </template>
-      <paper-input maxlength="200" label="GitHub" name="github" value="{{data.github}}">
+      <paper-input maxlength="200" label="GitHub" value="{{data.github}}">
         <div prefix>https://github.com/</div>
       </paper-input>
       <template is="dom-if" if="[[githubDetails]]">
@@ -67,14 +66,14 @@
         </paper-icon-item>
       </template>
 
-      <paper-input maxlength="200" label="LinkedIn" name="linkedin" value="{{data.linkedin}}">
+      <paper-input maxlength="200" label="LinkedIn" value="{{data.linkedin}}">
         <div prefix>https://linkedin.com/in/</div>
       </paper-input>
-      <paper-input maxlength="200" label="Personal Site" name="personalsite" auto-validate error-message="Invalid URL" value="{{data.personalsite}}" type="url"></paper-input>
+      <paper-input maxlength="200" label="Personal Site" auto-validate error-message="Invalid URL" value="{{data.personalsite}}" type="url"></paper-input>
 
-      <paper-input always-float-label type="file" label="Resume" id="resume" name="resume" value="{{data.resume}}"></paper-input>
+      <paper-input always-float-label type="file" label="Resume" id="resume"></paper-input>
 
-      <paper-dropdown-menu id="shirtSize" required auto-validate error-message="Required" label="T-Shirt Size" name="tshirt" selected-item-label="{{data.tshirt}}">
+      <paper-dropdown-menu id="shirtSize" required auto-validate error-message="Required" label="T-Shirt Size" selected-item-label="{{data.tshirt}}">
         <paper-menu class="dropdown-content">
           <paper-item>S</paper-item>
           <paper-item>M</paper-item>
@@ -84,16 +83,16 @@
       </paper-dropdown-menu>
       <br/>
       <br/>
-      <paper-checkbox name="travel_reimbursement" >Do you need travel reimbursements?</paper-checkbox>
-      <paper-checkbox name="first_hackathon">Is this your first hackathon?</paper-checkbox>
-      <paper-checkbox name="mentor">Would you like to be a mentor?</paper-checkbox>
-      <paper-textarea required auto-validate error-message="Required" label="Why do you want to come to nwHacks?" name="reason" value="{{data.reason}}"></paper-textarea>
+      <paper-checkbox checked="{{data.travel_reimbursement}}">Do you need travel reimbursements?</paper-checkbox>
+      <paper-checkbox checked="{{data.first_hackathon}}">Is this your first hackathon?</paper-checkbox>
+      <paper-checkbox checked="{{data.mentor}}">Would you like to be a mentor?</paper-checkbox>
+      <paper-textarea required auto-validate error-message="Required" label="Why do you want to come to nwHacks?" value="{{data.reason}}"></paper-textarea>
 
       <p>
         We participate in Major League Hacking (MLH) as a MLH Member Event. You authorize us to share certain application/registration information for event administration, ranking, MLH administration, and occasional messages about hackathons in line with the
         <a target="_blank" href="https://mlh.io/privacy">MLH Privacy Policy</a>.
       </p>
-      <paper-checkbox id="mlhCOC" name="mlh" required auto-validate error-message="Required">
+      <paper-checkbox id="mlhCOC" required auto-validate error-message="Required">
         I will at all times abide by and conform to the <a target="_blank" href="http://mlh.io/code-of-conduct">Major League Hacking Code of Conduct</a> while at the event.
       </paper-checkbox>
       <p class="invalid" hidden$="{{valid}}">
@@ -138,77 +137,80 @@ Polymer({
       type: Boolean,
       value: function() { return true; }
     },
+
     githubURL: {
       computed: 'updateGithubURL(data.github)'
     },
+
     citiesURL: {
       computed: 'updateCitiesURL(data.city, cityFocused)'
     },
+
     citiesClean: {
       computed: 'cleanCities(cities)'
     },
+
     data: {
       type: Object,
       notify: true,
       value: function() { return {}; }
-    },
+    }
   },
+
   attached: function() {
-    this.$.shirtSize.invalid = true;
-    this.$.mlhCOC.invalid = true;
+		setTimeout(() => {
+			this.$.form.validate();
+		}, 1);
   },
+
   updateGithubURL: function(github) {
     if (!github) {
       return "";
     }
     return "https://api.github.com/users/"+github;
   },
+
   updateCitiesURL: function(city, focused) {
     if (!city || !focused) {
       return "";
     }
     return "https://api.teleport.org/api/cities/?limit=5&search="+city;
   },
+
   cleanCities: function(cities) {
     return cities && cities._embedded['city:search-results'];
   },
-  submitting: function(e) {
-    console.log(e);
-    this.$.submitting.open();
-  },
-  register: function(e) {
-    console.log(e);
-    this.$.submitting.close();
-    this.$.registered.open();
-  },
-  formError: function(e) {
-    console.log('Error!', e);
-    this.error = e.detail.error.message;
-    this.$.submitting.close();
-    this.$.error.open();
-  },
+
   selectCity: function(e) {
     this.set('data.city', e.model.item.matching_full_name);
   },
+
+	cleanFileName: function(name) {
+		return name.replace(/[^A-Za-z0-9\.\-\(\)]+/g, '-');
+	},
+
   submit: function() {
-    //this.$.form.submit();
-    if (this.$.form.validate()) {
-      this.submitting();
+		this.valid = this.$.form.validate();
+    if (this.valid) {
+			this.$.submitting.open();
       const userKey = firebase.database().ref('ids').push().key;
+
       const files = this.$.resume.inputElement.files;
       let filePromise = Promise.resolve();
       if (files.length > 0) {
         const file = files[0];
-        const fileName = file.name;
+        const fileName = this.cleanFileName(file.name);
         const filePath = "resumes/"+userKey+"-"+fileName;
         this.data.resume = filePath;
         filePromise = firebase.storage().ref(filePath).put(file);
       }
+
       filePromise.then(() => {
         return firebase.database().ref('registrations').child(userKey).set(this.data);
       }).then((e) => {
-        console.log('Push!', e);
-        this.register();
+				console.log('Registered', e);
+				this.$.submitting.close();
+				this.$.registered.open();
       }).catch((err) => {
         console.log('Error!', err);
         this.error = err;
@@ -216,50 +218,6 @@ Polymer({
         this.$.error.open();
       });
     }
-  },
-  convertFileInputToFormData: function(){
-    regexp = /^[^[\]]+/;
-    var fileInput = $('input[type="file"]');
-    var fileInputName = regexp.exec( fileInput.attr('name') );
-    // make files available
-    var data = new FormData();
-    jQuery.each($(fileInput)[0].files, function(i, file) {
-      data.append(fileInputName, file);
-    });
-    $('#form input:not([type="file"]), paper-textarea, paper-dropdown-menu').each(function(i, input) {
-      var $input = $(input);
-      var name = $input.attr('name');
-      if (!(typeof name === "undefined")) {
-        data.append(name, $input.val());
-      }
-    });
-    $('paper-checkbox').each(function(i, input) {
-      var $input = $(input);
-      var name = $input.attr('name');
-      if (!(typeof name === "undefined")) {
-        data.append(name, $input[0].checked);
-      }
-    });
-    return data;
-  },
-  formPreSubmit: function(event){
-    var form = document.getElementById('form');
-    // here you convert to formData calling our function
-    var data = this.convertFileInputToFormData();
-
-    form.request.method = "post";
-    // set undefined to prevent default json content type
-    form.request.contentType = undefined;
-    // here you append your formData to the iron-ajax body
-    form.request.body = data;
-    form.request.url = "/api/register/"
-
-    form.request.debounceDuration = 300;
-    this.valid = true;
-  },
-  formInvalid: function(event) {
-    console.log(event);
-    this.valid = false;
   }
 });
 // Initialize Firebase
