@@ -57,11 +57,32 @@ Polymer({
     'refresh(filters.mentor)',
     'refresh(filters.first)',
     'refresh(filters.reimbursement)',
+    'warnNotAdmin(signedIn, isAdmin)',
+		'handleRegistrations(registrations)',
+    'signIn(signedIn)'
   ],
-  handleResponse: function(e, req) {
-    var hackers = req.xhr.response;
+	signIn: function(signedIn) {
+		if (!signedIn) {
+			this.$.auth.signInWithPopup();
+		}
+	},
+  warnNotAdmin: function(signedIn, isAdmin) {
+		if (signedIn && isAdmin === true) {
+			this.$.error.close();
+		} else if (signedIn){
+			this.error = "You are not an admin.";
+			this.$.error.open();
+		}
+	},
+  handleRegistrations: function(registrations) {
+    var hackers = [];
+		for (let id in registrations) {
+			var hacker = registrations[id];
+			hacker.id = id;
+			hackers.push(hacker);
+		}
     hackers.sort(function(a, b) {
-      return a.id - b.id;
+      return a.id < b.id;
     });
     var dedup = {};
     hackers.forEach(function(hacker) {
@@ -235,9 +256,14 @@ Polymer({
     this.incr++;
   },
   handleErr: function(a,b,c) {
-    alert(b.error + "\n\nYou may need to login at:\nhttps://www.nwhacks.io/api/admin/");
+    this.handleError(a, b.error);
   },
   hackerAdminURL: function(hacker) {
     return '/api/admin/nwhacks/registration/'+hacker.id+'/change/';
   },
+  handleError: function(e, err) {
+		console.log('Error', err);
+		this.error = err;
+    this.$.error.open();
+  }
 });

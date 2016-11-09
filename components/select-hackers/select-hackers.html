@@ -1,3 +1,8 @@
+<link rel="import" href="/bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="/bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="/bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="/bower_components/polymerfire/firebase-query.html">
+
 <dom-module id="select-hackers">
   <template>
     <style>
@@ -182,7 +187,31 @@
         </div>
       </template>
     </iron-list>
-    <iron-ajax auto url="/api/register/" handle-as="json" on-response="handleResponse" on-error="handleErr"></iron-ajax>
+
+    <paper-dialog id="error" modal>
+      <h2>Error</h2>
+      <p>[[error]]</p>
+      <p>Please try again later or use a different browser.</p>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus>close</paper-button>
+      </div>
+    </paper-dialog>
+
+    <!--<iron-ajax auto url="/api/register/" handle-as="json" on-response="handleResponse" on-error="handleErr"></iron-ajax>-->
+
+		<firebase-app auth-domain="nwhacks-96701.firebaseapp.com"
+								database-url="https://nwhacks-96701.firebaseio.com"
+				api-key="AIzaSyBou6z9QA7zvCpxUFLoTbwQZcWuBn47yEA">
+		</firebase-app>
+		<firebase-auth id="auth" user="{{user}}" provider="google" on-error="handleError" signed-in="{{signedIn}}">
+		</firebase-auth>
+
+		<firebase-document path="/admins/[[user.uid]]" data="{{isAdmin}}">
+		</firebase-document>
+
+		<firebase-document path="/registrations" data="{{registrations}}">
+		</firebase-document>
+
   </template>
   <script src="/bower_components/comma-separated-values/csv.min.js"></script>
   <script src="./select-hackers.js"></script>
