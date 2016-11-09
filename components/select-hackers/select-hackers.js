@@ -1,10 +1,11 @@
 'use strict';
 const categories = ['applied', 'accepted', 'waitlisted', 'rejected'];
 Object.freeze(categories);
-const responseCategories = ['no response', 'going', 'not going', 'need reimbursement'];
+const responseCategories =
+    ['no response', 'going', 'not going', 'need reimbursement'];
 Object.freeze(responseCategories);
 Polymer({
-  is: "select-hackers",
+  is: 'select-hackers',
 
   properties: {
     hackers: {
@@ -21,35 +22,29 @@ Polymer({
     },
     filters: {
       type: Object,
-      value: function(){return {
-        search: '',
-        status: '',
-        response: '',
-      }; },
+      value: function() {
+	return {
+	  search: '',
+	  status: '',
+	  response: '',
+	};
+      },
     },
     responseCategories: {
-      type:Array,
+      type: Array,
       value: responseCategories,
     },
   },
-  refresh: function() {
-    this.incr++;
-  },
+  refresh: function() { this.incr++; },
   attached: function() {
-    var self = this;
-    setTimeout(function() {
-      self.resize();
-    }, 100);
-    window.addEventListener("resize", function() {
-      self.resize();
-    });
+    setTimeout(() => { this.resize(); }, 100);
+    window.addEventListener('resize', () => { this.resize(); });
   },
   resize: function() {
     var top = this.$.list.getBoundingClientRect().top;
     this.$.list.style.height = window.innerHeight - top + 'px';
   },
   observers: [
-    'hackersChange(hackers)',
     'refresh(filters.status)',
     'refresh(filters.checked_in)',
     'refresh(filters.response)',
@@ -58,68 +53,45 @@ Polymer({
     'refresh(filters.first)',
     'refresh(filters.reimbursement)',
     'warnNotAdmin(signedIn, isAdmin)',
-		'handleRegistrations(registrations)',
-    'signIn(signedIn)'
+    'handleRegistrations(registrations)',
+    'signIn(signedIn)',
   ],
-	signIn: function(signedIn) {
-		if (!signedIn) {
-			this.$.auth.signInWithPopup();
-		}
-	},
+  signIn: function(signedIn) {
+    if (!signedIn) {
+      this.$.auth.signInWithPopup();
+    }
+  },
   warnNotAdmin: function(signedIn, isAdmin) {
-		if (signedIn && isAdmin === true) {
-			this.$.error.close();
-		} else if (signedIn){
-			this.error = "You are not an admin.";
-			this.$.error.open();
-		}
-	},
+    if (signedIn && isAdmin === true) {
+      this.$.error.close();
+    } else if (signedIn) {
+      this.error = 'You are not an admin.';
+      this.$.error.open();
+    }
+  },
   handleRegistrations: function(registrations) {
     var hackers = [];
-		for (let id in registrations) {
-			var hacker = registrations[id];
-			hacker.id = id;
-			hackers.push(hacker);
-		}
-    hackers.sort(function(a, b) {
-      return a.id < b.id;
-    });
+    for (let id in registrations) {
+      var hacker = registrations[id];
+      hacker.id = id;
+      hackers.push(hacker);
+    }
+    hackers.sort(function(a, b) { return a.id < b.id; });
     var dedup = {};
-    hackers.forEach(function(hacker) {
+    hackers.forEach(function(hacker, i) {
+      hacker.index = i;
+
       var email = hacker.email.toLowerCase().trim();
       dedup[email] = (dedup[email] || 0) + 1;
     });
     hackers.forEach(function(hacker) {
       var email = hacker.email.toLowerCase().trim();
       if (dedup[email] > 1) {
-        hacker.duplicate = true;
+	hacker.duplicate = true;
       }
     });
-    this.hackers = hackers;
-  },
-  cleanEmail: function(email) {
-  },
-  responseCat: function(i) {
-    return this.responseCategories[i];
-  },
-  eq: function(a, b) {
-    return a == b;
-  },
-  export: function() {
-    var csv = new CSV(this.filtered, { header: true }).encode();
-    this.downloadFile("applicants_export.csv", csv);
-  },
-  downloadFile: function(filename, content) {
-    var blob = new Blob([content]);
-    var evt = document.createEvent("HTMLEvents");
-    evt.initEvent("click");
-    $("<a>", {
-      download: filename,
-      href: webkitURL.createObjectURL(blob)
-    }).get(0).dispatchEvent(evt);
-  },
-  hackersChange: function(hackers) {
-    this.lunr = lunr(function () {
+
+    const search = lunr(function() {
       this.ref('index');
       this.field('city');
       this.field('email');
@@ -129,60 +101,80 @@ Polymer({
       this.field('linkedin');
       this.field('name');
       this.field('reason');
-      this.field('school')
+      this.field('school');
     });
-    var self = this;
-    $.each(hackers, function(i, hacker) {
+    hackers.forEach((hacker, i) => {
       var lowerSchool = hacker.school.toLowerCase();
-      if (lowerSchool.indexOf('secondary') >= 0 || lowerSchool.indexOf('high') >= 0) {
-        hacker.hs = true;
+      if (lowerSchool.indexOf('secondary') >= 0 ||
+	  lowerSchool.indexOf('high') >= 0) {
+	hacker.hs = true;
       }
       if (!hacker.status) {
-        hacker.status = 'applied';
-      } else {
-        hacker.status = categories[hacker.status];
+	hacker.status = 'applied';
+      } else if (categories.indexOf(hacker.status) == -1) {
+	hacker.status = categories[hacker.status];
       }
-      hacker.index = i;
       hacker.emailSplit = hacker.email.replace(/@/g, ' ');
-      self.lunr.add(hacker);
+      search.add(hacker);
     });
+    this.lunr = search;
+    console.log("hackers update");
+    const scroll = this.$.list.scrollTop;
+    this.hackers = hackers;
+    this.$.list.scroll(0, scroll);
   },
-  title: function(hacker) {
-    return hacker.name + ' ('+hacker.email+')';
+  cleanEmail: function(email) {},
+  responseCat: function(i) { return this.responseCategories[i]; },
+  eq: function(a, b) { return a == b; },
+  export: function() {
+    var csv = new CSV(this.filtered, {header: true}).encode();
+    this.downloadFile('applicants_export.csv', csv);
   },
+  downloadFile: function(filename, content) {
+    var blob = new Blob([content]);
+    var evt = document.createEvent('HTMLEvents');
+    evt.initEvent('click');
+    $('<a>', {download: filename, href: webkitURL.createObjectURL(blob)})
+	.get(0)
+	.dispatchEvent(evt);
+  },
+  title: function(hacker) { return hacker.name + ' (' + hacker.email + ')'; },
   filter: function(hackers, filters, _) {
     var results = hackers;
     this.totalCount = hackers.length;
     if (filters.search.length > 0) {
       var rawResults = this.lunr.search(filters.search);
-      results = rawResults.map(function(result) {
-        return hackers[result.ref];
-      });
+      results =
+	  rawResults.map(function(result) { return hackers[result.ref]; });
     }
     var status = filters.status;
     var response = filters.response;
     var responseIdx = this.responded(response);
     var filtered = results.filter(function(hacker, b, c) {
-      var good = (status === '' || status === 'null' || status === 'All' || status === hacker.status) &&
-        (response === '' || response === 'null' || response === 'All' || hacker.acceptance_sent && responseIdx === hacker.response);
+      var good = (status === '' || status === 'null' || status === 'All' ||
+		  status === hacker.status) &&
+	  (response === '' || response === 'null' || response === 'All' ||
+	   hacker.acceptance_sent && responseIdx === hacker.response);
       if (filters.mentor) {
-        good = good && hacker.mentor;
+	good = good && hacker.mentor;
       }
       if (filters.checked_in) {
-        good = good && hacker.checked_in;
+	good = good && hacker.checked_in;
       }
       if (filters.reimbursement) {
-        good = good && hacker.travel_reimbursement;
+	good = good && hacker.travel_reimbursement;
       }
       if (filters.first) {
-        good = good && hacker.first_hackathon;
+	good = good && hacker.first_hackathon;
       }
-      return good
+      return good;
     });
     this.filtered = filtered;
     this.filteredCount = filtered.length;
-    console.log('filtered', filtered);
     return filtered;
+  },
+  resumeLink: function(resume) {
+    return "https://firebasestorage.googleapis.com/v0/b/nwhacks-96701.appspot.com/o/"+encodeURIComponent(resume)+"?alt=media";
   },
   githubLink: function(username) {
     if (username.indexOf('github.com') > 0) {
@@ -210,11 +202,8 @@ Polymer({
     }
     return 0;
   },
-  eq: function(a, b) {
-    return a === b;
-  },
+  eq: function(a, b) { return a === b; },
   respondedWith: function(hacker, response) {
-    console.log(hacker.response, response);
     return hacker.acceptance_sent && hacker.response === response;
   },
   onSelect: function(e) {
@@ -222,48 +211,29 @@ Polymer({
     var status = categories[index];
     var hacker = e.model.hacker;
     if (hacker.status !== status) {
-      this.set('hackers.'+hacker.index+'.status',status);
-      this.patchHacker(hacker, {
-        status: categories.indexOf(hacker.status),
-      });
+      this.set('hackers.' + hacker.index + '.status', status);
+      this.patchHacker(hacker);
     }
   },
   phoneChange: function(e) {
     var hacker = e.model.hacker;
-    this.patchHacker(hacker, {
-      phone: hacker.phone,
-    });
+    this.patchHacker(hacker);
   },
   checkIn: function(e) {
     var hacker = e.model.hacker;
-    this.patchHacker(hacker, {
-      checked_in: hacker.checked_in,
-    });
+    this.patchHacker(hacker);
   },
-  patchHacker: function(hacker, data) {
-    $.ajax({
-      url : '/api/register/'+hacker.id+'/',
-      type : 'PATCH',
-      data : data,
-    }).done(function(e) {
-      console.log('done', e);
-    }).fail(function(e) {
-      console.log('error', e);
-      alert("error", e);
-    });
+  patchHacker: function(hacker) {
+    this.$.regs.setStoredValue('/registrations/'+hacker.id, hacker);
   },
-  refreshList: function() {
-    this.incr++;
-  },
-  handleErr: function(a,b,c) {
-    this.handleError(a, b.error);
-  },
+  refreshList: function() { this.incr++; },
+  handleErr: function(a, b, c) { this.handleError(a, b.error); },
   hackerAdminURL: function(hacker) {
-    return '/api/admin/nwhacks/registration/'+hacker.id+'/change/';
+    return '/api/admin/nwhacks/registration/' + hacker.id + '/change/';
   },
   handleError: function(e, err) {
-		console.log('Error', err);
-		this.error = err;
+    console.log('Error', err);
+    this.error = err;
     this.$.error.open();
-  }
+  },
 });

@@ -9,13 +9,14 @@ index.html: bower_components components app.html css/main.css $(JS) $(HTML)
 	html-minifier --collapse-whitespace --conservative-collapse --html5 --minify-css true --remove-comments --remove-tag-whitespace index.html -o index.html
 
 index.js: index.html
-	mv index.js /tmp/index.js
+	babel index.js > /tmp/index.js
 	uglifyjs -cm -- /tmp/index.js > index.js
 
 css/main.css: $(SCSS)
 	sass css/main.scss:css/main.css
 
 deps:
+	npm install
 	bower install
 	gem install sass
 	sudo npm install -g vulcanize uglify-js html-minifier

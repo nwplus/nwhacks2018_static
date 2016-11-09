@@ -1,3 +1,5 @@
+<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+
 <dom-module id="minimizable-box">
   <template>
     <style>
@@ -7,9 +9,9 @@
       }
     </style>
     <paper-icon-button icon="[[icon(hidden)]]" on-tap="toggle"></paper-icon-button>
-    <div hidden$="{{hidden}}">
-    <content></content>
-    </div>
+    <span hidden$="{{hidden}}">
+      <content></content>
+    </span>
   </template>
   <script>
 Polymer({

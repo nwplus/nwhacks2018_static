@@ -2,3 +2,4 @@
 .sass_cache/
 .sass-cache/
 media/
+node_modules

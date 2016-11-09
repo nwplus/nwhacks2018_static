@@ -7,7 +7,7 @@
   <template>
     <style>
       iron-list {
-        margin-top: 20px;
+        margin: 20px -15px 0;
         height: 1000px;
         overflow-x: hidden;
       }
@@ -18,6 +18,7 @@
         color: black;
         max-width: 900px;
         margin: 0px auto 5px;
+        display: block;
       }
       #filters .card-content {
         margin-top: 16px;
@@ -122,12 +123,24 @@
                   <tr>
                     <td>[[hacker.school]]</td>
                     <td>[[hacker.city]]</td>
-                    <td><a target="_blank" href="[[githubLink(hacker.github)]]">[[hacker.github]]</a></td>
-                    <td><a target="_blank" href="[[linkedinLink(hacker.linkedin)]]">[[hacker.linkedin]]</a></td>
-                    <td><a target="_blank" href="[[hacker.personalsite]]">[[hacker.personalsite]]</a></td>
+                    <td>
+                      <template is="dom-if" if="[[hacker.github]]">
+                        <a target="_blank" href="[[githubLink(hacker.github)]]">[[hacker.github]]</a>
+                      </template>
+                    </td>
+                    <td>
+                      <template is="dom-if" if="[[hacker.linkedin]]">
+                        <a target="_blank" href="[[linkedinLink(hacker.linkedin)]]">[[hacker.linkedin]]</a>
+                      </template>
+                    </td>
+                    <td>
+                      <template is="dom-if" if="[[hacker.personalsite]]">
+                        <a target="_blank" href="[[hacker.personalsite]]">[[hacker.personalsite]]</a>
+                      </template>
+                    </td>
                     <td>
                       <template is="dom-if" if="[[hacker.resume]]">
-                        <a target="_blank" href="[[hacker.resume]]">Resume</a>
+                        <a target="_blank" href="[[resumeLink(hacker.resume)]]">Resume</a>
                       </template>
                     </td>
                     <td>[[hacker.tshirt]]</td>
@@ -179,7 +192,6 @@
               </select>
               <paper-checkbox checked="{{hacker.checked_in}}" on-change="checkIn">Checked In</paper-checkbox>
               <span class="right">
-                <a target="_blank" href="[[hackerAdminURL(hacker)]]">Edit in Admin Console</a>
                 #<span>[[hacker.id]]</span>
               </span>
             </div>
@@ -209,7 +221,7 @@
 		<firebase-document path="/admins/[[user.uid]]" data="{{isAdmin}}">
 		</firebase-document>
 
-		<firebase-document path="/registrations" data="{{registrations}}">
+		<firebase-document id="regs" path="/registrations" data="{{registrations}}">
 		</firebase-document>
 
   </template>
