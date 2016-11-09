@@ -20,9 +20,6 @@
         margin: 0px auto 5px;
         display: block;
       }
-      #filters .card-content {
-        margin-top: 16px;
-      }
       table {
         text-align: left;
         width: 100%;
@@ -61,6 +58,9 @@
       }
       [label="Response"] {
         width: 170px;
+      }
+      #filters paper-input, #filters paper-dropdown-menu {
+        margin-top: -15px;
       }
     </style>
     <div class="content">
@@ -211,18 +211,23 @@
 
     <!--<iron-ajax auto url="/api/register/" handle-as="json" on-response="handleResponse" on-error="handleErr"></iron-ajax>-->
 
-		<firebase-app auth-domain="nwhacks-96701.firebaseapp.com"
-								database-url="https://nwhacks-96701.firebaseio.com"
-				api-key="AIzaSyBou6z9QA7zvCpxUFLoTbwQZcWuBn47yEA">
-		</firebase-app>
-		<firebase-auth id="auth" user="{{user}}" provider="google" on-error="handleError" signed-in="{{signedIn}}">
-		</firebase-auth>
+    <firebase-app auth-domain="nwhacks-96701.firebaseapp.com"
+                  database-url="https://nwhacks-96701.firebaseio.com"
+                  api-key="AIzaSyBou6z9QA7zvCpxUFLoTbwQZcWuBn47yEA">
+    </firebase-app>
+    <firebase-auth id="auth"
+                   user="{{user}}"
+                   provider="google"
+                   on-error="handleError"
+                   signed-in="{{signedIn}}"
+                   status-known="{{statusKnown}}">
+    </firebase-auth>
 
-		<firebase-document path="/admins/[[user.uid]]" data="{{isAdmin}}">
-		</firebase-document>
+    <firebase-document path="/admins/[[user.uid]]" data="{{isAdmin}}">
+    </firebase-document>
 
-		<firebase-document id="regs" path="/registrations" data="{{registrations}}">
-		</firebase-document>
+    <firebase-document id="regs" path="/registrations" data="{{registrations}}">
+    </firebase-document>
 
   </template>
   <script src="/bower_components/comma-separated-values/csv.min.js"></script>

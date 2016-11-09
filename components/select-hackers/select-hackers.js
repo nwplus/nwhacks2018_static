@@ -52,16 +52,19 @@ Polymer({
     'refresh(filters.mentor)',
     'refresh(filters.first)',
     'refresh(filters.reimbursement)',
-    'warnNotAdmin(signedIn, isAdmin)',
+    'warnNotAdmin(signedIn, isAdmin, statusKnown)',
     'handleRegistrations(registrations)',
-    'signIn(signedIn)',
+    'signIn(signedIn, statusKnown)',
   ],
-  signIn: function(signedIn) {
-    if (!signedIn) {
+  signIn: function(signedIn, statusKnown) {
+    if (statusKnown && !signedIn) {
       this.$.auth.signInWithPopup();
     }
   },
-  warnNotAdmin: function(signedIn, isAdmin) {
+  warnNotAdmin: function(signedIn, isAdmin, statusKnown) {
+    if (!statusKnown) {
+      return;
+    }
     if (signedIn && isAdmin === true) {
       this.$.error.close();
     } else if (signedIn) {
@@ -177,12 +180,18 @@ Polymer({
     return "https://firebasestorage.googleapis.com/v0/b/nwhacks-96701.appspot.com/o/"+encodeURIComponent(resume)+"?alt=media";
   },
   githubLink: function(username) {
+    if (!username) {
+      return;
+    }
     if (username.indexOf('github.com') > 0) {
       return username;
     }
     return 'https://github.com/' + username;
   },
   linkedinLink: function(username) {
+    if (!username) {
+      return;
+    }
     if (username.indexOf('linkedin.com') > 0) {
       return username;
     }
