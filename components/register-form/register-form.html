@@ -1,3 +1,13 @@
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="/bower_components/iron-form/iron-form.html">
+<link rel="import" href="/bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="/bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+<link rel="import" href="/bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="/bower_components/paper-item/paper-item.html">
+<link rel="import" href="/bower_components/paper-listbox/paper-listbox.html">
+
 <dom-module id="register-form">
   <template>
     <style>
@@ -74,12 +84,12 @@
       <paper-input always-float-label type="file" label="Resume" id="resume"></paper-input>
 
       <paper-dropdown-menu id="shirtSize" required auto-validate error-message="Required" label="T-Shirt Size" selected-item-label="{{data.tshirt}}">
-        <paper-menu class="dropdown-content">
+        <paper-listbox class="dropdown-content">
           <paper-item>S</paper-item>
           <paper-item>M</paper-item>
           <paper-item>L</paper-item>
           <paper-item>XL</paper-item>
-        </paper-menu>
+        </paper-listbox>
       </paper-dropdown-menu>
       <br/>
       <br/>
@@ -153,7 +163,13 @@ Polymer({
     data: {
       type: Object,
       notify: true,
-      value: function() { return {}; }
+      value: () => {
+        return {
+          travel_reimbursement: false,
+          first_hackathon: false,
+          mentor: false
+        };
+      }
     }
   },
 

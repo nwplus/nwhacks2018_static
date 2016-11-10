@@ -1,0 +1,24 @@
+{
+  "entrypoint": "app.html",
+  "shell": "components/main-app/main-app.html",
+  "fragments": [
+    "components/dayof-page/dayof-page.html",
+    "components/index-page/index-page.html",
+    "components/register-form/register-form.html",
+    "components/rsvp-page/rsvp-page.html",
+    "components/select-hackers/select-hackers.html",
+    "components/sponsor-page/sponsor-page.html"
+  ],
+  "sources": [
+    "bower_components/**/*",
+    "components/**/*",
+    "img/**/*",
+    "css/**/*",
+    "svg/**/*",
+    "documents/**/*",
+    "bower.json"
+  ],
+  "includeDependencies": [
+    "bower_components/webcomponentsjs/webcomponents-lite.js"
+  ]
+}

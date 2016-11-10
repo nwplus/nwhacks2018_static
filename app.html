@@ -14,25 +14,21 @@
     <link rel="stylesheet" href="/css/main.css">
 
     <script src="/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="bower_components/polymer/polymer.html">
+
+    <!--
     <script src="/bower_components/moment/min/moment.min.js"></script>
     <script src="/bower_components/moment-timezone/builds/moment-timezone-with-data.min.js"></script>
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/bower_components/page/page.js"></script>
     <script src="/bower_components/lunr.js/lunr.min.js"></script>
 
-    <link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
-    <link rel="import" href="/bower_components/iron-form/iron-form.html">
     <link rel="import" href="/bower_components/iron-icons/maps-icons.html">
     <link rel="import" href="/bower_components/iron-icons/image-icons.html">
     <link rel="import" href="/bower_components/iron-image/iron-image.html">
-    <link rel="import" href="/bower_components/iron-list/iron-list.html">
-    <link rel="import" href="/bower_components/lazy-pages/lazy-pages.html">
-    <link rel="import" href="/bower_components/paper-button/paper-button.html">
-    <link rel="import" href="/bower_components/paper-card/paper-card.html">
     <link rel="import" href="/bower_components/paper-checkbox/paper-checkbox.html">
     <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
     <link rel="import" href="/bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
-    <link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
     <link rel="import" href="/bower_components/paper-input/paper-input.html">
     <link rel="import" href="/bower_components/paper-input/paper-textarea.html">
     <link rel="import" href="/bower_components/paper-item/paper-icon-item.html">
@@ -44,198 +40,18 @@
 
     <link rel="import" href="/components/minimizable-box.html">
     <link rel="import" href="/components/dayof-page/dayof-page.html">
-    <link rel="import" href="/components/index-page/index-page.html">
-    <link rel="import" href="/components/nwhacks-footer/nwhacks-footer.html">
-    <link rel="import" href="/components/nwhacks-header/nwhacks-header.html">
-    <link rel="import" href="/components/register/register.html">
-    <link rel="import" href="/components/rsvp-page/rsvp-page.html">
     <link rel="import" href="/components/schedule-box/schedule-box.html">
-    <link rel="import" href="/components/select-hackers/select-hackers.html">
-    <link rel="import" href="/components/sponsor-page/sponsor-page.html">
+    <link rel="import" href="/components/rsvp-page/rsvp-page.html">
+
+    -->
+
+    <link rel="import" href="components/main-app/main-app.html">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
   </head>
   <body>
-    <template is="dom-bind" id="app">
-      <a id="mlh-trust-badge" style="display:block;max-width:100px;min-width:60px;position:fixed;right:50px;top:0;width:10%;z-index:50" href="https://mlh.io/seasons/na-2017/events?utm_source=na-2017&amp;utm_medium=TrustBadge&amp;utm_campaign=na-2017&amp;utm_content=black" target="_blank"><img src="https://s3.amazonaws.com/logged-assets/trust-badge/2017/black.svg" alt="Major League Hacking 2017 Hackathon Season" style="width:100%"></a>
-      <nav id="menu">
-        <a href="/#title">
-          <paper-icon-button src="/svg/NWHacks-NavBar-Logo.svg"></paper-icon-button>
-        </a>
-        <a href="#intro" class="big">
-          <paper-button>about</paper-button>
-        </a>
-        <a href="#faq" class="med">
-          <paper-button>faq</paper-button>
-        </a>
-        <!--
-        <a href="#calendar" class="med">
-          <paper-button>schedule</paper-button>
-        </a>
-        -->
-        <a href="#sponsors" class="big">
-          <paper-button>sponsors</paper-button>
-        </a>
-      </nav>
-      <nwhacks-header hidden$="[[hideHeader]]"></nwhacks-header>
-      <div class="wrapper" id="begin">
-        <lazy-pages attr-for-selected="data-route" selected="{{route}}">
-          <template is="dom-if" restamp data-route="home">
-            <index-page></index-page>
-          </template>
-          <template is="dom-if" restamp data-route="register">
-            <register-form></register-form>
-          </template>
-          <template is="dom-if" restamp data-route="select">
-            <select-hackers></select-hackers>
-          </template>
-          <template is="dom-if" restamp data-route="dayof">
-            <dayof-page></dayof-page>
-          </template>
-          <template is="dom-if" restamp data-route="sponsors">
-            <sponsor-page></sponsor-page>
-          </template>
-          <template is="dom-if" restamp data-route="review">
-            <review-page></review-page>
-          </template>
-          <template is="dom-if" restamp data-route="rsvp">
-            <rsvp-page params="{{params}}"></rsvp-page>
-          </template>
-        </lazy-pages>
-      </div>
-      <nwhacks-footer hidden$="[[hideFooter]]"></nwhacks-footer>
-      <div id="starContainer"></div>
-    </template>
-    <script>
-      'use strict';
-      var app = document.querySelector("#app");
-      if(window.location.hash.startsWith('#%21')) {
-        window.location.hash="#!"+window.location.hash.substr(4);
-      }
-      page('*', function(ctx, next) {
-        next();
-        stars();
-        setTimeout(function() {
-          var hash;
-          var match = window.location.hash.match(/\#\w+/);
-          if (match != null) {
-            hash = match[0];
-          }
-          if (hash != null) {
-            var elem = document.querySelector(hash);
-            if (elem == null || elem.offsetTop == 0) {
-              return;
-            }
-            window.scrollTo(0,elem.offsetTop - 100);
-          }
-        },100);
-      });
-      page('/*', function(_, next) {
-        app.hideHeader = false;
-        app.hideFooter = false;
-        next();
-      });
-      page('/register*', function() {
-        app.route = 'register';
-      });
-      page('/sponsors*', function() {
-        app.route = 'sponsors';
-      });
-      page('/dayof*', function() {
-        app.hideHeader = true;
-        app.route = 'dayof';
-      });
-      page('/rsvp/:id/:token/:status', function(e) {
-        app.route = 'rsvp';
-        app.params = e.params;
-      });
-      page('/select*', function() {
-        app.hideHeader = true;
-        app.hideFooter = true;
-        app.route = 'select';
-      });
-      page('/*', function() {
-        app.route = 'home';
-      });
-      // 404
-      page('*', function() {
-        console.log("404!");
-        page.redirect(app.baseUrl);
-      });
-      // add #! before urls
-      page({
-        hashbang: true
-      });
-      function posValid(boxes, x, y) {
-        for (var i = 0; i < boxes.length; i++) {
-          var box = boxes[i];
-          if (box.left < x && box.right > x && box.top < y && box.bottom > y) {
-            return false;
-          }
-        }
-        return true;
-      }
-      function renderStars() {
-        var starsDiv = document.querySelector("#starContainer");
-        if (!starsDiv) {
-          return;
-        }
-        starsDiv.innerHTML = "";
-        if (app.route !== 'home') {
-          return;
-        }
-        var trapezoid = document.querySelector("#title .large-trapezoid");
-        if (!trapezoid) {
-          return;
-        }
-        var top = trapezoid.offsetTop;
-        var bottom = document.querySelector("#faq h1").offsetTop + 30;
-        var starSize = 20;
-        var margin = 15;
-        var elems = document.querySelectorAll("h1, paper-button, p, .large-trapezoid, .link");
-        var body = document.body.getBoundingClientRect();
-        console.log(body);
-        var boxes = Array.prototype.map.call(elems, function(obj) {
-          var elem = obj.getBoundingClientRect();
-          return {
-            left: elem.left - body.left - starSize - margin,
-            top: elem.top - body.top - starSize - margin,
-            right: elem.right - body.left + margin,
-            bottom: elem.bottom - body.top + margin,
-          };
-        });
-        console.log(boxes);
-        var starHTML = "";
-        var starCount = window.innerWidth/ 30;
-        for(var i=0; i<starCount; i++) {
-          var x = 0;
-          var y = 0;
-          while ((x == 0 && y == 0) || !posValid(boxes, x, y)) {
-            x = Math.random() * (window.innerWidth-starSize-margin*2)+margin;
-            y = Math.random() * (bottom-top) + top;
-          }
-          var size = (Math.random() * starSize).toFixed(0);
-          starHTML += '<star style="width:'+size+'px;height:'+size+'px;left:'+x.toFixed(0)+'px;top:'+y.toFixed(0)+'px"></star>';
-        }
-        starsDiv.innerHTML = starHTML;
-      }
-      var timeout;
-      function stars() {
-        clearTimeout(timeout);
-        timeout = setTimeout(renderStars, 100);
-      }
-      var lastWidth = window.innerWidth;
-      window.addEventListener("resize", function() {
-        if (window.innerWidth !== lastWidth) {
-          stars();
-          lastWidth = window.innerWidth;
-        }
-      });
-      window.addEventListener('WebComponentsReady', function(e) {
-        console.log('WebComponentsReady');
-        stars();
-      });
-    </script>
+    <main-app></main-app>
+
     <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

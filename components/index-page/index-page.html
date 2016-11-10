@@ -141,9 +141,89 @@
 // element registration
 Polymer({
   is: "index-page",
-
   properties: {
-  }
+  },
+  attached: function() {
+    this.handleResizeBound = this.handleResize.bind(this);
+    window.addEventListener('resize', this.handleResizeBound);
+    this.handleResize();
+  },
+  detached: function() {
+    window.removeEventListener('resize', this.handleResizeBound);
+    this.clearStars();
+  },
+  handleResize: function() {
+    if (window.innerWidth !== this.lastWidth) {
+      this.stars();
+      this.lastWidth = window.innerWidth;
+    }
+  },
+  posValid: function (boxes, x, y) {
+    for (var i = 0; i < boxes.length; i++) {
+      var box = boxes[i];
+      if (box.left < x && box.right > x && box.top < y && box.bottom > y) {
+        return false;
+      }
+    }
+    return true;
+  },
+  stars: function() {
+    clearTimeout(this.timeout);
+    timeout = setTimeout(this.renderStars.bind(this), 100);
+  },
+  clearStars: function() {
+    var starsDiv = document.querySelector('#starContainer');
+    if (!starsDiv) {
+      return;
+    }
+    starsDiv.innerHTML = '';
+  },
+  renderStars: function() {
+    var starsDiv = document.querySelector('#starContainer');
+    if (!starsDiv) {
+      return;
+    }
+    this.clearStars();
+    var trapezoid = document.querySelector('#title .large-trapezoid');
+    if (!trapezoid) {
+      return;
+    }
+    var top = trapezoid.offsetTop;
+    var faq = document.querySelector('#faq h1');
+    if (!faq) {
+      return;
+    }
+    var bottom = faq.offsetTop + 30;
+    var starSize = 20;
+    var margin = 15;
+    var elems = document.querySelectorAll(
+        'h1, paper-button, p, .large-trapezoid, .link');
+    var body = document.body.getBoundingClientRect();
+    var boxes = Array.prototype.map.call(elems, function(obj) {
+      var elem = obj.getBoundingClientRect();
+      return {
+        left: elem.left - body.left - starSize - margin,
+        top: elem.top - body.top - starSize - margin,
+        right: elem.right - body.left + margin,
+        bottom: elem.bottom - body.top + margin,
+      };
+    });
+    var starHTML = '';
+    var starCount = window.innerWidth / 30;
+    for (var i = 0; i < starCount; i++) {
+      var x = 0;
+      var y = 0;
+      while ((x == 0 && y == 0) || !this.posValid(boxes, x, y)) {
+        x = Math.random() * (window.innerWidth - starSize - margin * 2) +
+          margin;
+        y = Math.random() * (bottom - top) + top;
+      }
+      var size = (Math.random() * starSize).toFixed(0);
+      starHTML += '<star style="width:' + size + 'px;height:' + size +
+        'px;left:' + x.toFixed(0) + 'px;top:' + y.toFixed(0) + 'px"></star>';
+    }
+    starsDiv.innerHTML = starHTML;
+  },
 });
   </script>
 

@@ -27,7 +27,6 @@ $form-focused: $link;
 @import "./etica.scss";
 
 body {
-  font-family: 'LFT Etica', 'Roboto', 'Sans';
   color: $dark-fg;
 
   background: rgb(91,99,119); /* Old browsers */
@@ -45,6 +44,9 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+body, * {
+  font-family: 'LFT Etica', 'Roboto', sans-serif !important;
 }
 html {
   min-height: 100%;
@@ -77,7 +79,7 @@ register-form #form {
       border-color: $link;
     }
   }
-  paper-menu paper-item {
+  paper-dropdown-menu paper-item {
     color: $light-fg;
   }
 }
