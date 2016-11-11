@@ -56,7 +56,7 @@ Polymer({
     // 404
     page('*', this.handle404.bind(this));
     // add #! before urls
-    page({hashbang: true, click: false});
+    page({hashbang: true});
   },
   loadPage: function(route) {
     const pageURL = 'components/' + route + '/' + route + '.html';
