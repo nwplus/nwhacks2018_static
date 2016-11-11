@@ -10,10 +10,6 @@ Polymer({
       window.location.hash = '#!' + window.location.hash.substr(4);
     }
 
-    if (window.location.pathname !== '/') {
-      page.base(window.location.pathname);
-    }
-
     page('*', function(ctx, next) {
       next();
       setTimeout(function() {
