@@ -19,6 +19,7 @@
   ],
   "includeDependencies": [
     "CNAME",
+    "404.html",
     "bower_components/webcomponentsjs/webcomponents-lite.min.js"
   ]
 }
