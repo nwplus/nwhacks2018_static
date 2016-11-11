@@ -6,8 +6,9 @@
     "components/index-page/index-page.html",
     "components/register-form/register-form.html",
     "components/rsvp-page/rsvp-page.html",
+    "components/sponsor-page/sponsor-page.html",
     "components/select-hackers/select-hackers.html",
-    "components/sponsor-page/sponsor-page.html"
+    "components/stats-page/stats-page.html"
   ],
   "sources": [
     "components/**/*",

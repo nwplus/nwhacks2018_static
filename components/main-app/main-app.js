@@ -26,11 +26,9 @@ Polymer({
           window.scrollTo(0, elem.offsetTop - 100);
         }
       }, 100);
-    });
-    page('/*', function(_, next) {
+
       this.hideHeader = false;
       this.hideFooter = false;
-      next();
     });
     const self = this;
     page('/register*', function() { self.route = 'register-form'; });
@@ -43,11 +41,19 @@ Polymer({
       self.route = 'rsvp-page';
       self.params = e.params;
     });
-    page('/select*', function() {
+
+    page('/admin/*', function(_, next) {
       self.hideHeader = true;
       self.hideFooter = true;
+      next();
+    });
+    page('/admin/select', function() {
       self.route = 'select-hackers';
     });
+    page('/admin/stats', function() {
+      self.route = 'stats-page';
+    });
+
     page('/*', function() { self.route = 'index-page'; });
     // 404
     page('*', this.handle404.bind(this));

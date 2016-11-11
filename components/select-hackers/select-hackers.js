@@ -53,26 +53,8 @@ Polymer({
     'refresh(filters.mentor)',
     'refresh(filters.first)',
     'refresh(filters.reimbursement)',
-    'warnNotAdmin(signedIn, isAdmin, statusKnown)',
     'handleRegistrations(registrations)',
-    'signIn(signedIn, statusKnown)',
   ],
-  signIn: function(signedIn, statusKnown) {
-    if (statusKnown && !signedIn) {
-      this.$.auth.signInWithPopup();
-    }
-  },
-  warnNotAdmin: function(signedIn, isAdmin, statusKnown) {
-    if (!statusKnown) {
-      return;
-    }
-    if (signedIn && isAdmin === true) {
-      this.$.error.close();
-    } else if (signedIn) {
-      this.error = 'You are not an admin.';
-      this.$.error.open();
-    }
-  },
   handleRegistrations: function(registrations) {
     var hackers = [];
     for (var id in registrations) {

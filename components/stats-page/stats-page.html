@@ -1,0 +1,89 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../firebase-config/firebase-config.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
+
+<dom-module id="stats-page">
+  <template>
+    <style>
+    table {
+      width: calc(100% - 32px);
+    }
+    table td:first-child {
+      font-weight: bold;
+    }
+    .chart-container {
+      margin: 15px 0;
+      width: 100%;
+      overflow-x: auto;
+    }
+    canvas {
+      background-color: white;
+    }
+    </style>
+    <h1>
+      nwHacks Live Registration Stats
+    </h1>
+    <center>
+      <table class="striped">
+        <thead>
+          <th></th>
+          <th>Count</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total Registrations</td>
+            <td>[[registrationCount]]</td>
+          </tr>
+          <tr>
+            <td>De-duplicated (by email)</td>
+            <td id="regDeDup">Loading...</td>
+          </tr>
+          <tr>
+            <td>Accepted</td>
+            <td id="accepted">Loading...</td>
+          </tr>
+          <tr>
+            <td>Offered</td>
+            <td id="offered">Loading...</td>
+          </tr>
+          <tr>
+            <td>Offered and Going</td>
+            <td id="going">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+    </center>
+    </p>
+    <h2>Response</h2>
+    <div class="chart-container">
+      <center>
+        <canvas id="response" width="640" height="480"></canvas>
+      </center>
+    </div>
+    <h2>University</h2>
+    <div class="chart-container">
+      <canvas id="university" width="3000" height="700"></canvas>
+    </div>
+    <h2>City</h2>
+    <div class="chart-container">
+      <canvas id="city" width="3000" height="700"></canvas>
+    </div>
+    <h2>T-Shirt</h2>
+    <p>This is tshirt information that everyone that we sent an acceptance to.</p>
+    <div class="chart-container">
+      <canvas id="tshirt" width="640" height="480"></canvas>
+    </div>
+
+    <firebase-config is-admin="{{isAdmin}}" >
+    </firebase-config>
+
+    <template is="dom-if" if="[[isAdmin]]">
+      <firebase-document id="regs" path="/registrations" data="{{registrations}}">
+      </firebase-document>
+    </template>
+  </template>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.0.1/lodash.min.js"></script>
+  <script src="stats-page.js"></script>
+</dom-module>

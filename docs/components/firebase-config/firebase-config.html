@@ -1,0 +1,28 @@
+<html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
+
+</head><body><dom-module id="firebase-config">
+  <template>
+    <paper-dialog id="error" modal="">
+      <h2>Error</h2>
+      <p>[[error]]</p>
+      <p>Please try again later or use a different browser.</p>
+      <div class="buttons">
+        <paper-button dialog-confirm="" autofocus="">close</paper-button>
+      </div>
+    </paper-dialog>
+
+    <firebase-app auth-domain="nwhacks-96701.firebaseapp.com" database-url="https://nwhacks-96701.firebaseio.com" api-key="AIzaSyBou6z9QA7zvCpxUFLoTbwQZcWuBn47yEA">
+    </firebase-app>
+    <firebase-auth id="auth" user="{{user}}" provider="google" on-error="handleError" signed-in="{{signedIn}}" status-known="{{statusKnown}}">
+    </firebase-auth>
+
+    <firebase-document path="/admins/[[user.uid]]" data="{{isAdmin}}">
+    </firebase-document>
+  </template>
+
+  <script>Polymer({is:"firebase-config",properties:{isAdmin:{notify:!0},statusKnown:{notify:!0},user:{notify:!0},signedIn:{notify:!0}},observers:["signIn(signedIn, statusKnown)","warnNotAdmin(signedIn, isAdmin, statusKnown)"],signIn:function(n,i){i&&!n&&this.$.auth.signInWithPopup()},warnNotAdmin:function(n,i,s){s&&(n&&i===!0?this.$.error.close():n&&(this.error="You are not an admin.",this.$.error.open()))}});</script>
+</dom-module>
+</body></html>
