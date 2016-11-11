@@ -9,6 +9,11 @@ Polymer({
     if (window.location.hash.startsWith('#%21')) {
       window.location.hash = '#!' + window.location.hash.substr(4);
     }
+
+    if (window.location.pathname !== '/') {
+      page.base(window.location.pathname);
+    }
+
     page('*', function(ctx, next) {
       next();
       setTimeout(function() {
@@ -26,7 +31,6 @@ Polymer({
         }
       }, 100);
     });
-    page.base(window.location.pathname);
     page('/*', function(_, next) {
       this.hideHeader = false;
       this.hideFooter = false;
@@ -50,7 +54,7 @@ Polymer({
     });
     page('/*', function() { self.route = 'index-page'; });
     // 404
-    page('*', this.handle404);
+    page('*', this.handle404.bind(this));
     // add #! before urls
     page({hashbang: true});
   },
@@ -59,6 +63,7 @@ Polymer({
     this.importHref(pageURL, null, this.handle404, true);
   },
   handle404: function() {
+    console.log('404!', this.route);
     page.redirect('/');
   }
 });

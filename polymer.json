@@ -18,6 +18,7 @@
     "bower.json"
   ],
   "includeDependencies": [
+    "CNAME",
     "bower_components/webcomponentsjs/webcomponents-lite.min.js"
   ]
 }
