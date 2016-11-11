@@ -64,7 +64,7 @@ register-form #form {
   .is-invalid  .focused-line {
     background: $form-error;
   }
-  paper-input-error {
+  paper-input-error, .invalid {
     color: $form-error;
   }
   .focused-line {

@@ -59,7 +59,7 @@ register-form #form .unfocused-line {
   background: #FFFFFF; }
 register-form #form .is-invalid .focused-line {
   background: #D74343; }
-register-form #form paper-input-error {
+register-form #form paper-input-error, register-form #form .invalid {
   color: #D74343; }
 register-form #form .focused-line {
   background: #90cfaa; }

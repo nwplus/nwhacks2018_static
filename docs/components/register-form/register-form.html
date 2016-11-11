@@ -140,9 +140,6 @@
       .register {
         margin-top: 50px;
       }
-      .invalid {
-        color: red;
-      }
     </style>
     <iron-ajax auto="" url="{{githubURL}}" handle-as="json" last-response="{{githubDetails}}" debounce-duration="300"></iron-ajax>
     <iron-ajax auto="" url="{{citiesURL}}" handle-as="json" last-response="{{cities}}" debounce-duration="300"></iron-ajax>
@@ -151,6 +148,12 @@
     <form is="iron-form" id="form">
       <paper-input required="" auto-validate="" maxlength="200" error-message="Required" label="What is your legal name?" value="{{data.name}}"></paper-input>
       <paper-input required="" auto-validate="" maxlength="200" error-message="Invalid Email" type="email" label="What is your email?" value="{{data.email}}"></paper-input>
+
+      <p class="invalid" hidden$="{{!alreadyRegistered}}">
+      You've already registered once. You can do so again, but only your last
+      submission will be considered.
+      </p>
+
       <paper-input required="" auto-validate="" maxlength="200" error-message="Invalid Phone Number" label="What is your emergency contact phone number?" type="tel" value="{{data.phone}}"></paper-input>
       <paper-input required="" auto-validate="" maxlength="200" error-message="Required" label="Where do you go to school?" value="{{data.school}}"></paper-input>
       <paper-input required="" auto-validate="" maxlength="200" error-message="Required" label="Where are you traveling from?" value="{{data.city}}" focused="{{cityFocused}}"></paper-input>
@@ -188,6 +191,9 @@
       <paper-checkbox checked="{{data.first_hackathon}}">Is this your first hackathon?</paper-checkbox>
       <paper-checkbox checked="{{data.mentor}}">Would you like to be a mentor?</paper-checkbox>
       <paper-textarea required="" auto-validate="" error-message="Required" label="Why do you want to come to nwHacks?" value="{{data.reason}}"></paper-textarea>
+
+      <paper-input label="Enter email addresses of your teammates to be considered as a group (max 4, comma-separated)." value="{{data.teammates}}">
+      </paper-input>
 
       <p>
         We participate in Major League Hacking (MLH) as a MLH Member Event. You authorize us to share certain application/registration information for event administration, ranking, MLH administration, and occasional messages about hackathons in line with the
@@ -228,6 +234,6 @@
   </template>
 
   <script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
-  <script>Polymer({is:"register-form",properties:{valid:{type:Boolean,value:function(){return!0}},githubURL:{computed:"updateGithubURL(data.github)"},citiesURL:{computed:"updateCitiesURL(data.city, cityFocused)"},citiesClean:{computed:"cleanCities(cities)"},data:{type:Object,notify:!0,value:function(){return{travel_reimbursement:!1,first_hackathon:!1,mentor:!1}}}},attached:function(){var e=this;setTimeout(function(){e.$.form.validate()},1)},updateGithubURL:function(e){return e?"https://api.github.com/users/"+e:""},updateCitiesURL:function(e,t){return e&&t?"https://api.teleport.org/api/cities/?limit=5&search="+e:""},cleanCities:function(e){return e&&e._embedded["city:search-results"]},selectCity:function(e){this.set("data.city",e.model.item.matching_full_name)},cleanFileName:function(e){return e.replace(/[^A-Za-z0-9\.\-\(\)]+/g,"-")},submit:function(){var e=this;if(this.valid=this.$.form.validate(),this.valid){this.$.submitting.open();const t=firebase.database().ref("ids").push().key,i=this.$.resume.inputElement.files;var a=Promise.resolve();if(i.length>0){const s=i[0],n=this.cleanFileName(s.name),r="resumes/"+t+"-"+n;this.data.resume=r,a=firebase.storage().ref(r).put(s)}a.then(function(){return firebase.database().ref("registrations").child(t).set(e.data)}).then(function(t){console.log("Registered",t),e.$.submitting.close(),e.$.registered.open()}).catch(function(t){console.log("Error!",t),e.error=t,e.$.submitting.close(),e.$.error.open()})}}});var config={apiKey:"AIzaSyBou6z9QA7zvCpxUFLoTbwQZcWuBn47yEA",authDomain:"nwhacks-96701.firebaseapp.com",databaseURL:"https://nwhacks-96701.firebaseio.com",storageBucket:"nwhacks-96701.appspot.com",messagingSenderId:"874137730051"};firebase.initializeApp(config);</script>
+  <script>Polymer({is:"register-form",properties:{valid:{type:Boolean,value:function(){return!0}},githubURL:{computed:"updateGithubURL(data.github)"},citiesURL:{computed:"updateCitiesURL(data.city, cityFocused)"},citiesClean:{computed:"cleanCities(cities)"},data:{type:Object,notify:!0,value:function(){return{travel_reimbursement:!1,first_hackathon:!1,mentor:!1}}},alreadyRegistered:{value:!1}},observers:["checkEmail(data.email)"],checkEmail:function(e){if(console.log("email",e),this.checkEmailTimeout&&(clearTimeout(this.checkEmailTimeout),this.checkEmailTimeout=!1),e){var t=this;this.checkEmailTimeout=setTimeout(function(){t.checkEmailTimeout=!1,firebase.database().ref("emails").child(btoa(t.data.email)).once("value").then(function(e){var i=e.val();t.alreadyRegistered=!!i})},200)}},attached:function(){var e=this;setTimeout(function(){e.$.form.validate()},1)},updateGithubURL:function(e){return e?"https://api.github.com/users/"+e:""},updateCitiesURL:function(e,t){return e&&t?"https://api.teleport.org/api/cities/?limit=5&search="+e:""},cleanCities:function(e){return e&&e._embedded["city:search-results"]},selectCity:function(e){this.set("data.city",e.model.item.matching_full_name)},cleanFileName:function(e){return e.replace(/[^A-Za-z0-9\.\-\(\)]+/g,"-")},submit:function(){var e=this;if(this.valid=this.$.form.validate(),this.valid){this.$.submitting.open();const t=firebase.database().ref("ids").push().key,i=this.$.resume.inputElement.files;var a=Promise.resolve();if(i.length>0){const s=i[0],n=this.cleanFileName(s.name),r="resumes/"+t+"-"+n;this.data.resume=r,a=firebase.storage().ref(r).put(s)}a.then(function(){return firebase.database().ref("registrations").child(t).set(e.data)}).then(function(){return firebase.database().ref("emails").child(btoa(e.data.email)).set(!0)}).then(function(t){console.log("Registered",t),e.$.submitting.close(),e.$.registered.open()}).catch(function(t){console.log("Error!",t),e.error=t,e.$.submitting.close(),e.$.error.open()})}}});var config={apiKey:"AIzaSyBou6z9QA7zvCpxUFLoTbwQZcWuBn47yEA",authDomain:"nwhacks-96701.firebaseapp.com",databaseURL:"https://nwhacks-96701.firebaseio.com",storageBucket:"nwhacks-96701.appspot.com",messagingSenderId:"874137730051"};firebase.initializeApp(config);</script>
 </dom-module>
 </body></html>
