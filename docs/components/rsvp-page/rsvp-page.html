@@ -1,0 +1,42 @@
+<html><head><meta charset="UTF-8"><link rel="import" href="../main-app/main-app.html"></head><body><dom-module id="rsvp-page">
+  <template>
+    <style>
+    </style>
+    <h1>RSVP</h1>
+    <paper-dialog no-cancel-on-esc-key="" id="rsvping" modal="">
+      <h2>Submitting RSVP...</h2>
+      <p>
+        <paper-progress indeterminate=""></paper-progress>
+      </p>
+    </paper-dialog>
+    <paper-dialog no-cancel-on-esc-key="" id="rsvperror" modal="">
+      <h2>Error submitting RSVP</h2>
+      <p>[[error]]</p>
+      <p>Please try again later or use a different browser.</p>
+      <div class="buttons">
+        <a href="#!/"><paper-button dialog-confirm="" autofocus="">Return Home</paper-button></a>
+      </div>
+    </paper-dialog>
+    <paper-dialog no-cancel-on-esc-key="" id="rsvped" modal="">
+      <h2>RSVPed</h2>
+      <p>
+        <template is="dom-if" if="{{eq(status, 1)}}">
+          All set!
+          See you at nwHacks!
+        </template>
+        <template is="dom-if" if="{{eq(status, 2)}}">
+          Sorry to hear that. Hopefully we'll see you at nwHacks next year!
+        </template>
+        <template is="dom-if" if="{{eq(status, 3)}}">
+          All set!
+          We'll let you know about travel reimbursements shortly.
+        </template>
+      </p>
+      <div class="buttons">
+        <a href="#!/"><paper-button dialog-confirm="" autofocus="">Return Home</paper-button></a>
+      </div>
+    </paper-dialog>
+  </template>
+  <script>"use strict";const respCategories=["No Response","Going","Travel Reimbursement Required","Not Going"];Object.freeze(respCategories),Polymer({is:"rsvp-page",properties:{categories:{type:Array,value:respCategories},params:{type:Object,value:function(){return{}}}},attached:function(){var s=this;this.status=this.params.status,this.$.rsvping.open(),$.post("/api/rsvp/"+this.params.id+"/"+this.params.token+"/"+this.params.status,function(e){s.$.rsvped.open()}).fail(function(e,t,r){s.error=e.status+" - "+r,s.$.rsvperror.open()}).always(function(){s.$.rsvping.close()})},deselect:function(){this.$.rsvped.close(),this.$.rsvperror.close(),this.$.rsvping.close()},eq:function(s,e){return s==e}});</script>
+</dom-module>
+</body></html>

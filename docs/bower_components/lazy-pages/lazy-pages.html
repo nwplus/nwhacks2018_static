@@ -1,0 +1,39 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../neon-animation/neon-animation-runner-behavior.html">
+<link rel="import" href="../neon-animation/animations/opaque-animation.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
+
+</head><body><dom-module id="lazy-pages">
+  <template>
+    <style>
+
+      :host {
+        display: block;
+        position: relative;
+        overflow: hidden; /* because http://stackoverflow.com/questions/32639639/ios-9-mobile-safari-has-a-blinking-bug-with-transform-scale3d-and-translate3d */
+      }
+
+      :host > ::content > * {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        height: 100%;
+      }
+
+      :host > ::content > :not(.iron-selected):not(.neon-animating) {
+        display: none !important;
+      }
+
+      :host > ::content > .neon-animating {
+        pointer-events: none;
+      }
+
+    </style>
+    <content id="content"></content>
+  </template>
+</dom-module>
+
+<script>!function(){"use strict";var e=function(e){this.lazy=e,this._boundDomChange=this.handleDomChange.bind(this)};e.prototype={start:function(e,t,n){this.entryPage=this.entryInstance=e,this.exitPage=this.exitInstance=t,this.entrySelected=n,this.isTemplate(this.exitPage)&&(this.exitInstance=this.lazy._getInstanceElement(this.exitPage)),this.exitInstance&&(Polymer.dom(this.exitInstance).classList.add("neon-animating"),Polymer.dom(this.exitInstance).classList.remove("iron-selected")),this.lazy._setSelectedItem(this.entryPage),this.isTemplate(this.entryPage)?(this.entryPage.addEventListener("dom-change",this._boundDomChange),this.entryPage.if&&console.warn("transitioning to already showing template"),this.entryPage.if=!0):(this.entryInstance=this.lazy._getInstanceElement(this.entryPage),this.startAnimation())},stop:function(){if(!this.done){if(this._boundAnimationFinish){if(this.lazy._player&&this.lazy._player.onfinish){var e=this.lazy._player.onfinish;this.lazy._player.onfinish=function(){},e.apply(this.lazy._player)}this.lazy.cancelAnimation()}this.cleanup()}},handleDomChange:function(e){this.done||(this.entryPage.removeEventListener("dom-change",this._boundDomChange),this.entryInstance=this.lazy._getInstanceElement(this.entryPage,!0),this.entryInstance||console.error("template missing an instance",this.entryPage),window.setTimeout(function(){this.startAnimation()}.bind(this),0))},startAnimation:function(){if(!this.done){this.entryInstance&&(this.lazy.fire("lazy-pages-transition-ready",{page:this.entryInstance,selected:this.entrySelected}),Polymer.dom(this.entryInstance).classList.add("iron-selected"));var e=this.lazy._getAnimations(this.entryPage,this.exitPage),t=[];e.entry&&(t.push({name:"opaque-animation",node:this.entryInstance}),t.push(e.entry)),e.exit&&t.push(e.exit),t.length>0?(this.lazy.animationConfig=t,this._boundAnimationFinish=this.animationFinish.bind(this),this.lazy.addEventListener("neon-animation-finish",this._boundAnimationFinish),this.lazy.playAnimation(null,this)):this.cleanup()}},animationFinish:function(e){e.detail==this&&this.cleanup()},cleanup:function(){this.done||(this.done=!0,this._boundAnimationFinish&&(this.lazy.removeEventListener("neon-animation-finish",this._boundAnimationFinish),delete this._boundAnimationFinish),this.exitInstance&&(this.isTemplate(this.exitPage)&&(this.exitPage.if=!1),Polymer.dom(this.exitInstance).classList.remove("neon-animating")),this.lazy._lazyTransition===this&&(this.lazy._lazyTransition=null),this.lazy._notifyPageResize())},isTemplate:function(e){return e&&"TEMPLATE"===e.nodeName}},Polymer({is:"lazy-pages",behaviors:[Polymer.NeonAnimationRunnerBehavior,Polymer.IronResizableBehavior],properties:{selected:{type:String,notify:!0,observer:"_selectedChanged"},attrForSelected:{type:String,value:null},selectedItem:{type:Object,readOnly:!0,notify:!0},animateInitialSelection:{type:Boolean,value:!1},animationOracle:{type:Function},rescueSelection:{type:String}},_selectedChanged:function(e,t){if(null!=e){var n=this._findPageBySelected(e);n?this._selectPage(n,e):void 0===this.rescueSelection?console.warn("you should set rescueSelection attribute on lazy-pages to guard against bad selection",e):(n=this._findPageBySelected(this.rescueSelection),n?this.debounce("setselected",function(){this.selected=this._pageToSelected(n)}.bind(this)):console.error("rescueSelection page not found"))}},_pageToSelected:function(e){return this.attrForSelected?e.getAttribute(this.attrForSelected):this.items().indexOf(e)},items:function(){for(var e=Polymer.dom(this.$.content).getDistributedNodes(),t=[],n=new WeakMap,i=0;i<e.length;i++)if(1===e[i].nodeType&&"LINK"!=e[i].nodeName){var s=e[i];"TEMPLATE"===s.nodeName&&s._instance&&n.set(this._getInstanceElement(s),!0),t.push(s)}for(var i=t.length-1;i>=0;i--)n.has(t[i])&&t.splice(i--,1);return t},_findPageBySelected:function(e){var t=this.items();if(!this.attrForSelected)return t[e];for(var n=0;n<t.length;n++)if(t[n].getAttribute(this.attrForSelected)==e)return t[n];return null},_findCurrentSelected:function(){for(var e=this.items(),t=0;t<e.length;t++)if(Polymer.dom(e[t]).classList.contains("iron-selected"))return e[t];return null},_getAnimations:function(e,t){if(!t&&!this.animateInitialSelection)return{};var n,i=e?this._getInstanceElement(e):null,s=t?this._getInstanceElement(t):null;return this.animationOracle&&(n=this.animationOracle(e,t,i,s))?n:(n={},i&&(this.entryAnimation?n.entry={name:this.entryAnimation,node:i}:i.getAnimationConfig&&(n.entry={animatable:i,type:"entry"})),s&&(this.exitAnimation?n.exit={name:this.exitAnimation,node:s}:s.getAnimationConfig&&(n.exit={animatable:s,type:"exit"})),n)},_selectPage:function(t,n){t!==this.selectedItem&&(this._lazyTransition&&this._lazyTransition.stop(),this._lazyTransition=new e(this),this._lazyTransition.start(t,this.selectedItem,n))},_getInstanceElement:function(e,t){if(!e)return console.warn("template is null",e),null;if("TEMPLATE"!==e.nodeName)return e;if(!e._instance)return console.warn("template instance is null",e),null;for(var n=e._instance,i=null,s=0;s<n._children.length;s++)1===n._children[s].nodeType&&"LINK"!==n._children[s].nodeName?null!=i?console.warn("dom-if children inside lazy-pages can only have a single element",e):i=n._children[s]:1===n._children[s].nodeType&&t&&console.warn('<link rel="import"> elements inside templates do not work in IE11 and Edge');return i||console.warn("template instance without element children",n),i},_loadImports:function(e){if(!e._lazyLoadedImports){e._lazyLoadedImports=!0;for(var t=e._instance,n=0;n<t._children.length;n++){var i=t._children[n];1===i.nodeType&&"LINK"===i.nodeName&&"import"===i.getAttribute("rel")&&(Polymer.Base.importHref(i.href,function(){console.log("import success")},function(){console.log("import fail")}),t._children.splice(n,1),n-=1)}}},_notifyPageResize:function(){if(this.selectedItem){this._getInstanceElement(this.selectedItem);this.notifyResize()}}})}();</script>
+</body></html>

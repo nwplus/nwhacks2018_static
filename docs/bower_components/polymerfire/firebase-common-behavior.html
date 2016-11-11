@@ -1,0 +1,5 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../app-storage/app-network-status-behavior.html">
+<link rel="import" href="firebase-app-script.html">
+<script>!function(){"use strict";Polymer.FirebaseCommonBehaviorImpl={properties:{app:{type:Object,notify:!0,observer:"__appChanged"},appName:{type:String,notify:!0,value:"",observer:"__appNameChanged"}},__appNameChanged:function(e){if(!this.app||this.app.name!==e)try{null==e?this.app=firebase.app():this.app=firebase.app(e)}catch(e){}},__appChanged:function(e){e&&e.name===this.appName||(this.appName=e?e.name:"")},__onError:function(e){this.fire("error",e)}},Polymer.FirebaseCommonBehavior=[Polymer.AppNetworkStatusBehavior,Polymer.FirebaseCommonBehaviorImpl]}();</script>
+</head><body></body></html>

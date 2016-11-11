@@ -1,12 +1,13 @@
-<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="/bower_components/iron-form/iron-form.html">
-<link rel="import" href="/bower_components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="/bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
-<link rel="import" href="/bower_components/paper-input/paper-input.html">
-<link rel="import" href="/bower_components/paper-input/paper-textarea.html">
-<link rel="import" href="/bower_components/paper-item/paper-item.html">
-<link rel="import" href="/bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 
 <dom-module id="register-form">
   <template>
@@ -163,7 +164,7 @@ Polymer({
     data: {
       type: Object,
       notify: true,
-      value: () => {
+      value: function() {
         return {
           travel_reimbursement: false,
           first_hackathon: false,
@@ -174,9 +175,10 @@ Polymer({
   },
 
   attached: function() {
-		setTimeout(() => {
-			this.$.form.validate();
-		}, 1);
+    var self = this;
+    setTimeout(function() {
+      self.$.form.validate();
+    }, 1);
   },
 
   updateGithubURL: function(github) {
@@ -206,13 +208,14 @@ Polymer({
 	},
 
   submit: function() {
-		this.valid = this.$.form.validate();
+    var self = this;
+    this.valid = this.$.form.validate();
     if (this.valid) {
-			this.$.submitting.open();
+      this.$.submitting.open();
       const userKey = firebase.database().ref('ids').push().key;
 
       const files = this.$.resume.inputElement.files;
-      let filePromise = Promise.resolve();
+      var filePromise = Promise.resolve();
       if (files.length > 0) {
         const file = files[0];
         const fileName = this.cleanFileName(file.name);
@@ -221,17 +224,17 @@ Polymer({
         filePromise = firebase.storage().ref(filePath).put(file);
       }
 
-      filePromise.then(() => {
-        return firebase.database().ref('registrations').child(userKey).set(this.data);
-      }).then((e) => {
-				console.log('Registered', e);
-				this.$.submitting.close();
-				this.$.registered.open();
-      }).catch((err) => {
+      filePromise.then(function() {
+        return firebase.database().ref('registrations').child(userKey).set(self.data);
+      }).then(function(e) {
+        console.log('Registered', e);
+        self.$.submitting.close();
+        self.$.registered.open();
+      }).catch(function(err) {
         console.log('Error!', err);
-        this.error = err;
-        this.$.submitting.close();
-        this.$.error.open();
+        self.error = err;
+        self.$.submitting.close();
+        self.$.error.open();
       });
     }
   }

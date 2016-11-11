@@ -1,0 +1,128 @@
+<html><head></head><body><dom-module id="schedule-box">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      h1 {
+        text-align: center;
+      }
+      .day {
+        margin-top: 0;
+        text-align: center;
+      }
+      .day .row {
+        text-align: left;
+        color: white;
+      }
+      .day .row .time-col {
+        padding-right: 0;
+      }
+      .day .row > div {
+        padding: 10px 10px 5px;
+      }
+      .day .row > div:first-child {
+        padding-top: 5px;
+        white-space: nowrap;
+        font-weight: 500;
+        min-width: 86px;
+        min-height: 32px;
+        padding-bottom: 0;
+      }
+      .day .time {
+        font-size: 20pt;
+      }
+      .day .period {
+        text-transform: uppercase;
+        font-size: 10pt;
+        margin-left: 2px;
+      }
+      .day .row > div {
+        display: inline-block;
+        vertical-align: top;
+      }
+      .day .row > div.location {
+        white-space: nowrap;
+        float: right;
+      }
+      .card-content {
+        padding: 0px 16px;
+        color: #444;
+      }
+      .content {
+        min-height: 448px;
+      }
+      .center {
+        text-align: center;
+      }
+      .gcal {
+        margin: 30px 0;
+      }
+      .desc {
+        font-style: italic;
+        display: block;
+        font-size: 0.9em;
+        margin-left: 110px;
+        margin-top: -10px;
+        margin-bottom: -16px;
+      }
+      @media (max-width: 480px) {
+        .desc {
+          margin-top: 0px;
+          margin-left: 10px;
+        }
+      }
+      @media (min-width: 950px) {
+        .day {
+          width: calc(50% - 10px);
+          display: inline-block;
+        }
+        .day:first-of-type {
+          float: left;
+          margin-right: 20px;
+        }
+      }
+      .day .row .name {
+        padding: 10px 0 0;
+          display: inline-block;
+      }
+      .day .row .info {
+        display: inline;
+      }
+    </style>
+    <h1>SCHEDULE</h1>
+    <div class="content">
+      <template is="dom-repeat" items="[[days]]">
+        <div class="day">
+          <div class="small-trapezoid">[[item.name]]</div>
+          <div class="card-content">
+            <template is="dom-repeat" items="[[item.events]]">
+              <div class="row">
+                <div class="time-col">
+                  <span class="time">[[item.displayTime]]</span><span class="period">[[item.timePeriod]]</span>
+                </div>
+                <div class="location">
+                  <template is="dom-repeat" items="[[item.locations]]">
+                    <a href="[[map(item)]]">[[item]]</a>
+                    <br>
+                  </template>
+                </div>
+                <div class="info">
+                  <span class="name">[[item.name]]</span>
+                  <span class="desc">[[item.desc]]</span>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </template>
+      <div class="center gcal">
+        <a href="https://calendar.google.com/calendar/embed?src=outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com&amp;ctz=America/Los_Angeles">Google Calendar</a>
+      </div>
+    </div>
+    <iron-ajax auto="" url="https://www.googleapis.com/calendar/v3/calendars/outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com/events?key=%20AIzaSyAdbxoL7d-fe9rFUh898TTCx-ZERREDhKg&amp;timeZone=America/Los_Angeles" handle-as="json" last-response="{{gcal}}"></iron-ajax>
+  </template>
+
+  <script>Polymer({is:"schedule-box",properties:{days:{type:Array,computed:"calendarDisplay(gcal)"},gcal:{type:Object,value:function(){return{}}}},map:function(t){return"https://campus.fn.lc/#"+(t||"").replace(/ /g,"+")},calendarDisplay:function(){if(console.log(this.gcal),!this.gcal.items)return[];var t={},r=[];return this.gcal.items.forEach(function(a){var e=moment(a.start.dateTime).tz("America/Los_Angeles"),s=e.format("dddd, MMM Do"),n=t[s];n||(n={name:s,start:e,events:[]},r.push(n),t[s]=n);var o=e.format("h"),c=e.format("mm");"00"!==c&&(o+=":"+c);var i=[];(a.location||"").split(",").forEach(function(t){i.push(t.trim())});var l={name:a.summary,start:e,displayTime:o,timePeriod:e.format("a"),locations:i,desc:a.description};n.events.push(l)}),r.sort(function(t,r){return t.start-r.start}),r.forEach(function(t){t.events.sort(function(t,r){return t.start-r.start})}),console.log(r),r}});</script>
+</dom-module>
+</body></html>

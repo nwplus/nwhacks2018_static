@@ -2,24 +2,21 @@ HTML := $(shell find bower_components components -name \*.html -print)
 JS := $(shell find bower_components components -name \*.js -print)
 SCSS := $(shell find css -name \*.scss -print)
 
-build: index.html index.js
+build: docs/index.html
 
-index.html: bower_components components app.html css/main.css $(JS) $(HTML)
-	vulcanize --abspath . --strip-comments --inline-scripts --inline-css app.html | crisper --html index.html --js index.js
-	html-minifier --collapse-whitespace --conservative-collapse --html5 --minify-css true --remove-comments --remove-tag-whitespace index.html -o index.html
+build/: bower_components components index.html css/main.css $(JS) $(HTML) polymer.json
+	rm -r build; polymer build
 
-index.js: index.html
-	babel index.js > /tmp/index.js
-	uglifyjs -cm -- /tmp/index.js > index.js
+docs/index.html: build/
+	rm -r docs; cp -R build/bundled/ docs
 
 css/main.css: $(SCSS)
 	sass css/main.scss:css/main.css
 
 deps:
-	npm install
 	bower install
 	gem install sass
-	sudo npm install -g vulcanize uglify-js html-minifier
+	sudo npm install -g polymer-cli
 
 watch:
 	while true; do \

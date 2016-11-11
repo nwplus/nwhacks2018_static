@@ -3,3 +3,4 @@
 .sass-cache/
 media/
 node_modules
+build/

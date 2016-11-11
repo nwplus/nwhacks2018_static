@@ -1,0 +1,6 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../app-storage/app-storage-behavior.html">
+<link rel="import" href="firebase-common-behavior.html">
+<link rel="import" href="firebase-database-script.html">
+<script>!function(){"use strict";Polymer.FirebaseDatabaseBehaviorImpl={properties:{db:{type:Object,computed:"__computeDb(app)"},ref:{type:Object,computed:"__computeRef(db, path, disabled)"},path:{type:String,observer:"__pathChanged",value:null},disabled:{type:Boolean,value:!1}},observers:["__onlineChanged(online)"],_setFirebaseValue:function(e,t){this._log("Setting Firebase value at",e,"to",t);var a=t&&t.$key,i=t&&t.hasOwnProperty("$val");a&&(t.$key=null);var n=this.db.ref(e).set(i?t.$val:t);return a&&(t.$key=a),n},__computeDb:function(e){return e?e.database():null},__computeRef:function(e,t){return null==e||null==t||!this.__pathReady(t)||this.disabled?null:e.ref(t)},__pathChanged:function(e,t){null!=t&&!this.disabled&&this.__pathReady(e)&&this.syncToMemory(function(){this.data=this.zeroValue})},__pathReady:function(e){return e&&e.split("/").slice(1).indexOf("")<0},__onlineChanged:function(e){this.ref&&(e?this.db.goOnline():this.db.goOffline())}},Polymer.FirebaseDatabaseBehavior=[Polymer.AppStorageBehavior,Polymer.FirebaseCommonBehavior,Polymer.FirebaseDatabaseBehaviorImpl]}();</script>
+</head><body></body></html>

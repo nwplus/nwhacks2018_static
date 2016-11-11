@@ -37,8 +37,9 @@ Polymer({
   },
   refresh: function() { this.incr++; },
   attached: function() {
-    setTimeout(() => { this.resize(); }, 100);
-    window.addEventListener('resize', () => { this.resize(); });
+    var self = this;
+    setTimeout(function() { self.resize(); }, 100);
+    window.addEventListener('resize', function() { self.resize(); });
   },
   resize: function() {
     var top = this.$.list.getBoundingClientRect().top;
@@ -74,7 +75,7 @@ Polymer({
   },
   handleRegistrations: function(registrations) {
     var hackers = [];
-    for (let id in registrations) {
+    for (var id in registrations) {
       var hacker = registrations[id];
       hacker.id = id;
       hackers.push(hacker);
@@ -106,7 +107,7 @@ Polymer({
       this.field('reason');
       this.field('school');
     });
-    hackers.forEach((hacker, i) => {
+    hackers.forEach(function(hacker, i) {
       var lowerSchool = hacker.school.toLowerCase();
       if (lowerSchool.indexOf('secondary') >= 0 ||
 	  lowerSchool.indexOf('high') >= 0) {

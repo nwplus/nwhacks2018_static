@@ -27,27 +27,28 @@ Polymer({
       }, 100);
     });
     page.base(window.location.pathname);
-    page('/*', (_, next) => {
+    page('/*', function(_, next) {
       this.hideHeader = false;
       this.hideFooter = false;
       next();
     });
-    page('/register*', () => { this.route = 'register-form'; });
-    page('/sponsors*', () => { this.route = 'sponsor-page'; });
-    page('/dayof*', () => {
-      this.hideHeader = true;
-      this.route = 'dayof-page';
+    const self = this;
+    page('/register*', function() { self.route = 'register-form'; });
+    page('/sponsors*', function() { self.route = 'sponsor-page'; });
+    page('/dayof*', function() {
+      self.hideHeader = true;
+      self.route = 'dayof-page';
     });
-    page('/rsvp/:id/:token/:status', (e) => {
-      this.route = 'rsvp-page';
-      this.params = e.params;
+    page('/rsvp/:id/:token/:status', function(e) {
+      self.route = 'rsvp-page';
+      self.params = e.params;
     });
-    page('/select*', () => {
-      this.hideHeader = true;
-      this.hideFooter = true;
-      this.route = 'select-hackers';
+    page('/select*', function() {
+      self.hideHeader = true;
+      self.hideFooter = true;
+      self.route = 'select-hackers';
     });
-    page('/*', () => { this.route = 'index-page'; });
+    page('/*', function() { self.route = 'index-page'; });
     // 404
     page('*', this.handle404);
     // add #! before urls

@@ -1,5 +1,5 @@
 {
-  "entrypoint": "app.html",
+  "entrypoint": "index.html",
   "shell": "components/main-app/main-app.html",
   "fragments": [
     "components/dayof-page/dayof-page.html",
@@ -10,7 +10,6 @@
     "components/sponsor-page/sponsor-page.html"
   ],
   "sources": [
-    "bower_components/**/*",
     "components/**/*",
     "img/**/*",
     "css/**/*",
@@ -19,6 +18,6 @@
     "bower.json"
   ],
   "includeDependencies": [
-    "bower_components/webcomponentsjs/webcomponents-lite.js"
+    "bower_components/webcomponentsjs/webcomponents-lite.min.js"
   ]
 }
