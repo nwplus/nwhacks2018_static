@@ -129,7 +129,16 @@
       }
       form {
         max-width: 640px;
-        margin: 0 auto;
+        margin: 0 auto 30px;
+        background-color: rgba(104, 117, 137, 0.5);
+        padding: 15px;
+        border-radius: 3px;
+        box-shadow: 0 0 15px rgba(104, 117, 137, 0.5);
+      }
+      @media (max-width: 640px) {
+        form {
+          margin: 0 -15px 30px;
+        }
       }
       div[prefix] {
         opacity: 0.6;
