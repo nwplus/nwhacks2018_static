@@ -25,6 +25,6 @@ watch:
 	done
 
 clean:
-	rm -f index.html index.js
+	rm -r build/ docs/
 
 .PHONY: build deps watch clean
