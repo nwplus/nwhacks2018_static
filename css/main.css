@@ -416,7 +416,8 @@ star {
       #sponsors .sponsors-giga img, #sponsors .sponsors-giga svg {
         max-width: calc(100% - 60px); } }
   #sponsors .sponsors-mega img, #sponsors .sponsors-mega svg {
-    max-width: 450px; }
+    max-width: 450px;
+    max-height: 200px; }
     @media screen and (max-width: 510px) {
       #sponsors .sponsors-mega img, #sponsors .sponsors-mega svg {
         max-width: calc(100% - 60px); } }

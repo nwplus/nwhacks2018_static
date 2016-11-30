@@ -553,6 +553,7 @@ star {
   .sponsors-mega {
     img, svg {
       max-width: 450px;
+      max-height: 200px;
       @media screen and (max-width: 510px) {
         max-width: calc(100% - 60px);
       }
