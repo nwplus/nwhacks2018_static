@@ -29,7 +29,7 @@
 
 
 /* eslint-disable quotes, comma-spacing */
-var PrecacheConfig = [["/components/dayof-page/dayof-page.html","de8ffba4fc905218d4a81eceed280a6f"],["/components/index-page/index-page.html","b9df4c619d7b5990d78220856dd7e7d8"],["/components/main-app/main-app.html","0935d276a3af0030fcf34cc3088d37fa"],["/components/register-form/register-form.html","53877b6c915e36572051646002b5c2cd"],["/components/rsvp-page/rsvp-page.html","053fc13f8b01a68cc80d9549c588f09c"],["/components/select-hackers/select-hackers.html","8f813052ad894c8854f1e30d0e246155"],["/components/sponsor-page/sponsor-page.html","e8f4e1ba45cba74a09862e761d2c1373"],["/components/stats-page/stats-page.html","f96a2a7fa7b26d11f3581614ccdded95"],["/index.html","16fb3355ebd30e99722aa6c48d84f384"]];
+var PrecacheConfig = [["/components/dayof-page/dayof-page.html","de8ffba4fc905218d4a81eceed280a6f"],["/components/index-page/index-page.html","028cf0b2c8dab1c8d6badf6c563c8bc2"],["/components/main-app/main-app.html","c33b120cfddbf26a483f7704040a4b97"],["/components/register-form/register-form.html","53877b6c915e36572051646002b5c2cd"],["/components/rsvp-page/rsvp-page.html","053fc13f8b01a68cc80d9549c588f09c"],["/components/select-hackers/select-hackers.html","8f813052ad894c8854f1e30d0e246155"],["/components/sponsor-page/sponsor-page.html","e8f4e1ba45cba74a09862e761d2c1373"],["/components/stats-page/stats-page.html","f96a2a7fa7b26d11f3581614ccdded95"],["/index.html","16fb3355ebd30e99722aa6c48d84f384"]];
 /* eslint-enable quotes, comma-spacing */
 var CacheNamePrefix = 'sw-precache-v1--' + (self.registration ? self.registration.scope : '') + '-';
 
