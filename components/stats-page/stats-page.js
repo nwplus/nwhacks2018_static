@@ -198,7 +198,7 @@ Polymer({
         },
       ]
     };
-    var sortedUnivs = _(univs).toArray().sortBy('accepted').reverse().value();
+    var sortedUnivs = _(univs).toArray().sortBy(['accepted', 'total']).reverse().value();
     _.each(sortedUnivs, function(v) {
       data.labels.push(v.name);
       data.datasets[0].data.push(v.total);
@@ -210,6 +210,9 @@ Polymer({
         ctx, {
           type: 'bar',
           data: data,
+          options: {
+            responsive: false
+          }
         },
         {}));
 
@@ -238,7 +241,7 @@ Polymer({
         },
       ]
     };
-    var sortedCities = _(cities).toArray().sortBy('accepted').reverse().value();
+    var sortedCities = _(cities).toArray().sortBy(['accepted', 'total']).reverse().value();
     _.each(sortedCities, function(v) {
       dataCities.labels.push(v.name);
       dataCities.datasets[0].data.push(v.total);
@@ -250,6 +253,9 @@ Polymer({
         ctx, {
           type: 'bar',
           data: dataCities,
+          options: {
+            responsive: false
+          }
         },
         {}));
 
@@ -258,6 +264,9 @@ Polymer({
         ctx, {
           type: 'bar',
           data: tshirtData,
+          options: {
+            responsive: false
+          }
         },
         {}));
 
@@ -266,6 +275,9 @@ Polymer({
         ctx, {
           type: 'doughnut',
           data: responseData,
+          options: {
+            responsive: false
+          }
         },
         {}));
     this.$.going.innerText = responseData.datasets[0].data[1];
