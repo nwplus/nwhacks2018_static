@@ -468,7 +468,7 @@ star {
   max-width: inherit;
   text-align: center;
 
-  a.duo {
+  a.duo, a[duo] {
     position: relative;
     display: inline-block;
     img, svg {
@@ -540,50 +540,6 @@ star {
       -moz-filter: none;
       -o-filter: none;
       filter: none;
-    }
-  }
-  .sponsors-giga {
-    img, svg {
-      max-width: 575px;
-      @media screen and (max-width: 635px) {
-        max-width: calc(100% - 60px);
-      }
-    }
-  }
-  .sponsors-mega {
-    img, svg {
-      max-width: 450px;
-      max-height: 200px;
-      @media screen and (max-width: 510px) {
-        max-width: calc(100% - 60px);
-      }
-    }
-  }
-  .sponsors-kilo {
-    img, svg {
-      max-width: 350px;
-      max-height: 120px;
-      @media screen and (max-width: 410px) {
-        max-width: calc(100% - 60px);
-      }
-    }
-  }
-  .sponsors-micro {
-    img, svg {
-      max-width: 190px;
-      max-height: 80px;
-      @media screen and (max-width: 250px) {
-        max-width: calc(100% - 60px);
-      }
-    }
-  }
-  .partners {
-    img, svg {
-      max-height: 140px;
-      max-width: 350px;
-      @media screen and (max-width: 410px) {
-        max-width: calc(100% - 60px);
-      }
     }
   }
 }

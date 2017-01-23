@@ -360,12 +360,12 @@ star {
 #sponsors {
   max-width: inherit;
   text-align: center; }
-  #sponsors a.duo {
+  #sponsors a.duo, #sponsors a[duo] {
     position: relative;
     display: inline-block; }
-    #sponsors a.duo img, #sponsors a.duo svg {
+    #sponsors a.duo img, #sponsors a.duo svg, #sponsors a[duo] img, #sponsors a[duo] svg {
       transition: opacity 0.5s; }
-      #sponsors a.duo img.solid, #sponsors a.duo svg.solid {
+      #sponsors a.duo img.solid, #sponsors a.duo svg.solid, #sponsors a[duo] img.solid, #sponsors a[duo] svg.solid {
         position: absolute;
         left: 0;
         top: 0;
@@ -374,12 +374,12 @@ star {
         -moz-filter: none;
         -o-filter: none;
         filter: none; }
-      #sponsors a.duo img.transparent, #sponsors a.duo svg.transparent {
+      #sponsors a.duo img.transparent, #sponsors a.duo svg.transparent, #sponsors a[duo] img.transparent, #sponsors a[duo] svg.transparent {
         pointer-events: none;
         opacity: 1; }
-    #sponsors a.duo:hover img.solid, #sponsors a.duo:hover svg.solid {
+    #sponsors a.duo:hover img.solid, #sponsors a.duo:hover svg.solid, #sponsors a[duo]:hover img.solid, #sponsors a[duo]:hover svg.solid {
       opacity: 1; }
-    #sponsors a.duo:hover img.transparent, #sponsors a.duo:hover svg.transparent {
+    #sponsors a.duo:hover img.transparent, #sponsors a.duo:hover svg.transparent, #sponsors a[duo]:hover img.transparent, #sponsors a[duo]:hover svg.transparent {
       opacity: 0; }
   #sponsors img, #sponsors svg {
     vertical-align: middle;
@@ -410,35 +410,6 @@ star {
       -moz-filter: none;
       -o-filter: none;
       filter: none; }
-  #sponsors .sponsors-giga img, #sponsors .sponsors-giga svg {
-    max-width: 575px; }
-    @media screen and (max-width: 635px) {
-      #sponsors .sponsors-giga img, #sponsors .sponsors-giga svg {
-        max-width: calc(100% - 60px); } }
-  #sponsors .sponsors-mega img, #sponsors .sponsors-mega svg {
-    max-width: 450px;
-    max-height: 200px; }
-    @media screen and (max-width: 510px) {
-      #sponsors .sponsors-mega img, #sponsors .sponsors-mega svg {
-        max-width: calc(100% - 60px); } }
-  #sponsors .sponsors-kilo img, #sponsors .sponsors-kilo svg {
-    max-width: 350px;
-    max-height: 120px; }
-    @media screen and (max-width: 410px) {
-      #sponsors .sponsors-kilo img, #sponsors .sponsors-kilo svg {
-        max-width: calc(100% - 60px); } }
-  #sponsors .sponsors-micro img, #sponsors .sponsors-micro svg {
-    max-width: 190px;
-    max-height: 80px; }
-    @media screen and (max-width: 250px) {
-      #sponsors .sponsors-micro img, #sponsors .sponsors-micro svg {
-        max-width: calc(100% - 60px); } }
-  #sponsors .partners img, #sponsors .partners svg {
-    max-height: 140px;
-    max-width: 350px; }
-    @media screen and (max-width: 410px) {
-      #sponsors .partners img, #sponsors .partners svg {
-        max-width: calc(100% - 60px); } }
 
 lazy-pages {
   overflow: visible !important; }
