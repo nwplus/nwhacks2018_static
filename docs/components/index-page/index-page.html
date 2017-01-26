@@ -8,48 +8,7 @@
       </template>
     </a>
   </template>
-  <script>
-Polymer({
-  is: 'area-img',
-  properties: {
-    src: {
-      type: String,
-      value: "",
-    },
-    href: {
-      type: String,
-      value: "",
-    },
-    srcSolid: {
-      type: String,
-      value: "",
-    },
-    area: {
-      type: Number,
-      value: 43200,
-    },
-    isDuo: {
-      type: Boolean,
-      computed: 'computeDuo(srcSolid)',
-    }
-  },
-  observers: [
-    'updateSize(height, width)'
-  ],
-  attached: function() {
-    this.hidden = window.innerWidth < 600;
-  },
-  updateSize: function(height, width) {
-    const scalingFactor = Math.sqrt(this.area/(height*width));
-    this.computedHeight = scalingFactor*height;
-    this.computedWidth = scalingFactor*width;
-    console.log(this.href, this.area, this.computedHeight*this.computedWidth);
-  },
-  computeDuo(srcSolid) {
-    return srcSolid.length > 0;
-  }
-});
-  </script>
+  <script>Polymer({is:"area-img",properties:{src:{type:String,value:""},href:{type:String,value:""},srcSolid:{type:String,value:""},area:{type:Number,value:43200},isDuo:{type:Boolean,computed:"computeDuo(srcSolid)"}},observers:["updateSize(height, width)"],attached:function(){this.hidden=window.innerWidth<600},updateSize:function(t,e){const i=Math.sqrt(this.area/(t*e));this.computedHeight=i*t,this.computedWidth=i*e,console.log(this.href,this.area,this.computedHeight*this.computedWidth)},computeDuo:function(t){return t.length>0}});</script>
 </dom-module>
 </div><dom-module id="index-page">
   <template>

@@ -29,9 +29,11 @@
       <a href="/#sponsors" class="big">
         <paper-button>sponsors</paper-button>
       </a>
+      <!--
       <a href="/register#begin" class="small right">
         <paper-button>register</paper-button>
       </a>
+      -->
     </nav>
     <nwhacks-header hidden$="[[hideHeader]]"></nwhacks-header>
     <div class="wrapper" id="begin">
@@ -41,6 +43,9 @@
         </template>
         <template is="dom-if" restamp data-route="register-form">
           <register-form></register-form>
+        </template>
+        <template is="dom-if" restamp data-route="register-closed">
+          <register-closed></register-closed>
         </template>
         <template is="dom-if" restamp data-route="select-hackers">
           <select-hackers></select-hackers>

@@ -31,7 +31,7 @@ Polymer({
       this.hideFooter = false;
     });
     const self = this;
-    page('/register*', function() { self.route = 'register-form'; });
+    page('/register*', function() { self.route = 'register-closed'; });
     page('/sponsors*', function() { self.route = 'sponsor-page'; });
     page('/dayof*', function() {
       self.hideHeader = true;
