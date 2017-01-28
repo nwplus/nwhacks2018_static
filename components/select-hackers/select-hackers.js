@@ -118,11 +118,11 @@ Polymer({
   },
   downloadFile: function(filename, content) {
     var blob = new Blob([content]);
-    var evt = document.createEvent('HTMLEvents');
-    evt.initEvent('click');
-    $('<a>', {download: filename, href: webkitURL.createObjectURL(blob)})
-	.get(0)
-	.dispatchEvent(evt);
+    const a = document.createElement("a");
+    a.setAttribute('download', filename);
+    a.setAttribute('href', URL.createObjectURL(blob));
+    document.body.appendChild(a);
+    a.click();
   },
   title: function(hacker) { return hacker.name + ' (' + hacker.email + ')'; },
   filter: function(hackers, filters, _) {
