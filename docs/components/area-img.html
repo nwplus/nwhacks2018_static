@@ -2,9 +2,9 @@
   <template>
     <style></style>
     <a href="[[href]]" duo$="[[isDuo]]">
-      <img src="[[src]]" class="transparent" natural-height="{{height::load}}" natural-width="{{width::load}}" height="[[computedHeight]]" width="[[computedWidth]]">
+      <img src="[[src]]" class="transparent" natural-height="{{height::load}}" natural-width="{{width::load}}" width="[[computedWidth]]">
       <template is="dom-if" if="[[srcSolid]]">
-        <img src="[[srcSolid]]" class="solid" height="[[computedHeight]]" width="[[computedWidth]]">
+        <img src="[[srcSolid]]" class="solid" width="[[computedWidth]]">
       </template>
     </a>
   </template>

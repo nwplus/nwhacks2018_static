@@ -6,12 +6,10 @@
            class="transparent"
            natural-height="{{height::load}}"
            natural-width="{{width::load}}"
-           height="[[computedHeight]]"
            width="[[computedWidth]]">
       <template is="dom-if" if="[[srcSolid]]">
         <img src="[[srcSolid]]"
              class="solid"
-             height="[[computedHeight]]"
              width="[[computedWidth]]">
       </template>
     </a>

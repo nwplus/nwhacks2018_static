@@ -468,6 +468,10 @@ star {
   max-width: inherit;
   text-align: center;
 
+  & > div {
+    margin: 50px 0;
+  }
+
   a.duo, a[duo] {
     position: relative;
     display: inline-block;

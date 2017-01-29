@@ -360,6 +360,8 @@ star {
 #sponsors {
   max-width: inherit;
   text-align: center; }
+  #sponsors > div {
+    margin: 50px 0; }
   #sponsors a.duo, #sponsors a[duo] {
     position: relative;
     display: inline-block; }
