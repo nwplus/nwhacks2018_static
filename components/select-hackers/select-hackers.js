@@ -55,6 +55,9 @@ Polymer({
     'refresh(filters.reimbursement)',
     'handleRegistrations(registrations)',
   ],
+  cleanEmail: function(email) {
+    return email.toLowerCase().trim();
+  },
   handleRegistrations: function(registrations) {
     var hackers = [];
     for (var id in registrations) {
@@ -64,21 +67,27 @@ Polymer({
     }
     hackers.sort(function(a, b) { return a.id < b.id; });
     var dedup = {};
-    hackers.forEach(function(hacker, i) {
+    hackers.forEach((hacker, i) => {
       hacker.index = i;
 
-      var email = hacker.email.toLowerCase().trim();
-      dedup[email] = (dedup[email] || 0) + 1;
+      const email = this.cleanEmail(hacker.email);
+      const {count} = (dedup[email] || {count: 0});
+      dedup[email] = {
+	last: hacker.id,
+	count: count+1
+      };
     });
-    hackers.forEach(function(hacker) {
-      var email = hacker.email.toLowerCase().trim();
-      if (dedup[email] > 1) {
+    hackers.forEach((hacker, i) => {
+      const email = this.cleanEmail(hacker.email);
+      const {last, count} = dedup[email];
+      if (count > 1 && last !== hacker.id) {
 	hacker.duplicate = true;
       }
     });
 
     const search = lunr(function() {
       this.ref('index');
+      this.field('id');
       this.field('city');
       this.field('email');
       this.field('emailSplit');
@@ -109,10 +118,13 @@ Polymer({
     this.hackers = hackers;
     this.$.list.scroll(0, scroll);
   },
-  cleanEmail: function(email) {},
   responseCat: function(i) { return this.responseCategories[i]; },
   eq: function(a, b) { return a == b; },
   export: function() {
+    const copy = JSON.parse(JSON.stringify(this.filtered));
+    copy.forEach((hacker) => {
+      hacker.resume = this.resumeLink(hacker.resume);
+    });
     var csv = new CSV(this.filtered, {header: true}).encode();
     this.downloadFile('applicants_export.csv', csv);
   },
@@ -140,7 +152,8 @@ Polymer({
       var good = (status === '' || status === 'null' || status === 'All' ||
 		  status === hacker.status) &&
 	  (response === '' || response === 'null' || response === 'All' ||
-	   hacker.acceptance_sent && responseIdx === hacker.response);
+	   hacker.acceptance_sent && responseIdx === hacker.response) &&
+	  !hacker.duplicate;
       if (filters.mentor) {
 	good = good && hacker.mentor;
       }

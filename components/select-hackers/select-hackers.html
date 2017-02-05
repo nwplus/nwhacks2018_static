@@ -118,39 +118,49 @@
           <paper-card heading="[[title(hacker)]]">
             <div class="card-content">
               <table>
-                <thead>
-                  <th> School </th>
-                  <th>City</th>
-                  <th>GitHub</th>
-                  <th>LinkedIn</th>
-                  <th>Personal Site</th>
-                  <th>Resume</th>
-                  <th>T-Shirt Size</th>
-                </thead>
                 <tbody>
                   <tr>
+                    <th> School </th>
                     <td>[[hacker.school]]</td>
+                  </tr>
+                  <tr>
+                    <th>City</th>
                     <td>[[hacker.city]]</td>
-                    <td>
-                      <template is="dom-if" if="[[hacker.github]]">
+                  </tr>
+                  <template is="dom-if" if="[[hacker.github]]">
+                    <tr>
+                      <th>GitHub</th>
+                      <td>
                         <a target="_blank" href="[[githubLink(hacker.github)]]">[[hacker.github]]</a>
-                      </template>
-                    </td>
-                    <td>
-                      <template is="dom-if" if="[[hacker.linkedin]]">
+                      </td>
+                    </tr>
+                  </template>
+                  <template is="dom-if" if="[[hacker.linkedin]]">
+                    <tr>
+                      <th>LinkedIn</th>
+                      <td>
                         <a target="_blank" href="[[linkedinLink(hacker.linkedin)]]">[[hacker.linkedin]]</a>
-                      </template>
-                    </td>
-                    <td>
-                      <template is="dom-if" if="[[hacker.personalsite]]">
+                      </td>
+                    </tr>
+                  </template>
+                  <template is="dom-if" if="[[hacker.personalsite]]">
+                    <tr>
+                      <th>Personal Site</th>
+                      <td>
                         <a target="_blank" href="[[hacker.personalsite]]">[[hacker.personalsite]]</a>
-                      </template>
-                    </td>
-                    <td>
-                      <template is="dom-if" if="[[hacker.resume]]">
+                      </td>
+                    </tr>
+                  </template>
+                  <template is="dom-if" if="[[hacker.resume]]">
+                    <tr>
+                      <th>Resume</th>
+                      <td>
                         <a target="_blank" href="[[resumeLink(hacker.resume)]]">Resume</a>
-                      </template>
-                    </td>
+                      </td>
+                    </tr>
+                  </template>
+                  <tr>
+                    <th>T-Shirt Size</th>
                     <td>[[hacker.tshirt]]</td>
                   </tr>
                 </tbody>
@@ -200,7 +210,7 @@
               </select>
               <paper-checkbox checked="{{hacker.checked_in}}" on-change="checkIn">Checked In</paper-checkbox>
               <span class="right">
-                #<span>[[hacker.id]]</span>
+                ID: <span>[[hacker.id]]</span>, #<span>[[hacker.index]]</span
               </span>
             </div>
           </paper-card>
