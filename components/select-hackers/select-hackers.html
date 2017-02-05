@@ -159,6 +159,14 @@
                       </td>
                     </tr>
                   </template>
+                  <template is="dom-if" if="[[hacker.teammates]]">
+                    <tr>
+                      <th>Team</th>
+                      <td>
+                        [[hacker.teammates]]
+                      </td>
+                    </tr>
+                  </template>
                   <tr>
                     <th>T-Shirt Size</th>
                     <td>[[hacker.tshirt]]</td>

@@ -59,6 +59,7 @@ Polymer({
     return email.toLowerCase().trim();
   },
   handleRegistrations: function(registrations) {
+    // Convert {[id]: hacker} to hacker[] sorted by ID.
     var hackers = [];
     for (var id in registrations) {
       var hacker = registrations[id];
@@ -66,11 +67,14 @@ Polymer({
       hackers.push(hacker);
     }
     hackers.sort(function(a, b) { return a.id < b.id; });
+
+    // Deduplicate hackers
     var dedup = {};
     hackers.forEach((hacker, i) => {
       hacker.index = i;
 
       const email = this.cleanEmail(hacker.email);
+      hacker.cleanEmail = email;
       const {count} = (dedup[email] || {count: 0});
       dedup[email] = {
 	last: hacker.id,
@@ -78,13 +82,46 @@ Polymer({
       };
     });
     hackers.forEach((hacker, i) => {
-      const email = this.cleanEmail(hacker.email);
-      const {last, count} = dedup[email];
+      const {last, count} = dedup[hacker.cleanEmail];
       if (count > 1 && last !== hacker.id) {
 	hacker.duplicate = true;
       }
     });
 
+    // Add required fields and unmunge status
+    if (lowerSchool.indexOf('secondary') >= 0 ||
+	lowerSchool.indexOf('high') >= 0) {
+      hacker.hs = true;
+    }
+    if (!hacker.status) {
+      hacker.status = 'applied';
+    } else if (categories.indexOf(hacker.status) == -1) {
+      hacker.status = categories[hacker.status];
+    }
+
+    // Update search
+    this.updateLunrIndex(hackers);
+
+    console.log("hackers update");
+    const scroll = this.$.list.scrollTop;
+    this.hackers = hackers;
+    this.$.list.scroll(0, scroll);
+  },
+
+  clusterTeams: function(hackers) {
+    const emailIndex = {};
+    hackers.forEach((hacker) => {
+      emailIndex[hacker.cleanEmail] = hacker;
+    });
+    hackers.forEach((hacker) => {
+      if (!hacker.teammates || hacker.teammates.trim().length === 0) {
+	return;
+      }
+      const teammates = hacker.teammates.split(",").map((a) => this.cleanEmail(a));
+    });
+  },
+
+  updateLunrIndex: function(hackers) {
     const search = lunr(function() {
       this.ref('index');
       this.field('id');
@@ -97,27 +134,16 @@ Polymer({
       this.field('name');
       this.field('reason');
       this.field('school');
+      this.field('teammates');
     });
     hackers.forEach(function(hacker, i) {
-      var lowerSchool = hacker.school.toLowerCase();
-      if (lowerSchool.indexOf('secondary') >= 0 ||
-	  lowerSchool.indexOf('high') >= 0) {
-	hacker.hs = true;
-      }
-      if (!hacker.status) {
-	hacker.status = 'applied';
-      } else if (categories.indexOf(hacker.status) == -1) {
-	hacker.status = categories[hacker.status];
-      }
+      var lowerSchool = this.cleanEmail(hacker.school);
       hacker.emailSplit = hacker.email.replace(/@/g, ' ');
       search.add(hacker);
     });
     this.lunr = search;
-    console.log("hackers update");
-    const scroll = this.$.list.scrollTop;
-    this.hackers = hackers;
-    this.$.list.scroll(0, scroll);
-  },
+  }),
+
   responseCat: function(i) { return this.responseCategories[i]; },
   eq: function(a, b) { return a == b; },
   export: function() {
