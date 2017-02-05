@@ -142,7 +142,7 @@ Polymer({
       search.add(hacker);
     });
     this.lunr = search;
-  }),
+  },
 
   responseCat: function(i) { return this.responseCategories[i]; },
   eq: function(a, b) { return a == b; },
