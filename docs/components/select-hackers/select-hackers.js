@@ -102,6 +102,8 @@ Polymer({
       }
     });
 
+    this.clusters = this.clusterTeams(hackers);
+
     // Update search
     this.updateLunrIndex(hackers);
 
@@ -111,17 +113,44 @@ Polymer({
     this.$.list.scroll(0, scroll);
   },
 
+  // clusterTeams returns a {[email: string]: Set[email: string]}
   clusterTeams: function(hackers) {
     const emailIndex = {};
     hackers.forEach((hacker) => {
+      if (hacker.duplicate) {
+	return;
+      }
       emailIndex[hacker.cleanEmail] = hacker;
     });
+    const clusters = {};
     hackers.forEach((hacker) => {
-      if (!hacker.teammates || hacker.teammates.trim().length === 0) {
+      if (hacker.duplicate || !hacker.teammates || hacker.teammates.trim().length === 0) {
 	return;
       }
       const teammates = hacker.teammates.split(",").map((a) => this.cleanEmail(a));
+      teammates.forEach((teammate) => {
+	if (!emailIndex[teammate]) {
+	  return;
+	}
+        this.addPersonToCluster(clusters, hacker.cleanEmail, teammate);
+      });
     });
+    return clusters;
+  },
+
+  addPersonToCluster: function(clusters, key, email) {
+    const targetCluster = (clusters[key] || new Set());
+    const existingCluster = clusters[email];
+    targetCluster.add(key);
+    targetCluster.add(email);
+    if (existingCluster && targetCluster !== existingCluster) {
+      existingCluster.forEach((e) => {
+	targetCluster.add(e);
+	clusters[e] = targetCluster;
+      });
+    }
+    clusters[key] = targetCluster;
+    clusters[email] = targetCluster;
   },
 
   updateLunrIndex: function(hackers) {
@@ -268,5 +297,26 @@ Polymer({
     console.log('Error', err);
     this.error = err;
     this.$.error.open();
+  },
+
+  hasTeammates: function(clusters, hacker) {
+    return !!clusters[hacker.cleanEmail];
+  },
+
+  teammates: function(clusters, hacker) {
+    const cluster = clusters[hacker.cleanEmail];
+    if (cluster) {
+      return Array.from(cluster).sort();
+    }
+    return [];
+  },
+
+  scrollToEmail: function(e) {
+    const email = e.model.item;
+    this.filtered.forEach((hacker, i) => {
+      if (hacker.cleanEmail === email) {
+	this.$.list.scrollToIndex(i);
+      }
+    });
   },
 });

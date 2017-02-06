@@ -119,6 +119,16 @@
             <div class="card-content">
               <table>
                 <tbody>
+                  <template is="dom-if" if="[[hasTeammates(clusters, hacker)]]">
+                    <tr>
+                      <th>Team</th>
+                      <td>
+                        <template is="dom-repeat" items="[[teammates(clusters, hacker)]]">
+                          <a on-tap="scrollToEmail">[[item]]</a>
+                        </template>
+                      </td>
+                    </tr>
+                  </template>
                   <tr>
                     <th> School </th>
                     <td>[[hacker.school]]</td>
@@ -156,14 +166,6 @@
                       <th>Resume</th>
                       <td>
                         <a target="_blank" href="[[resumeLink(hacker.resume)]]">Resume</a>
-                      </td>
-                    </tr>
-                  </template>
-                  <template is="dom-if" if="[[hacker.teammates]]">
-                    <tr>
-                      <th>Team</th>
-                      <td>
-                        [[hacker.teammates]]
                       </td>
                     </tr>
                   </template>
