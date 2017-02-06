@@ -170,6 +170,10 @@
                     </tr>
                   </template>
                   <tr>
+                    <th>Phone Number</th>
+                    <td>[[hacker.phone]]</td>
+                  </tr>
+                  <tr>
                     <th>T-Shirt Size</th>
                     <td>[[hacker.tshirt]]</td>
                   </tr>
@@ -237,7 +241,7 @@
       </div>
     </paper-dialog>
 
-    <firebase-config is-admin="{{isAdmin}}" >
+    <firebase-config is-admin="{{isAdmin}}" handle-error="[[handleError]]">
     </firebase-config>
 
     <firebase-document id="regs" disabled="[[!isAdmin]]" path="/registrations" data="{{registrations}}">
