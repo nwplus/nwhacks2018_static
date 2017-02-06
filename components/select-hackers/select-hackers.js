@@ -89,15 +89,18 @@ Polymer({
     });
 
     // Add required fields and unmunge status
-    if (lowerSchool.indexOf('secondary') >= 0 ||
-	lowerSchool.indexOf('high') >= 0) {
-      hacker.hs = true;
-    }
-    if (!hacker.status) {
-      hacker.status = 'applied';
-    } else if (categories.indexOf(hacker.status) == -1) {
-      hacker.status = categories[hacker.status];
-    }
+    hackers.forEach((hacker) => {
+      const lowerSchool = this.cleanEmail(hacker.school);
+      if (lowerSchool.indexOf('secondary') >= 0 ||
+	  lowerSchool.indexOf('high') >= 0) {
+	hacker.hs = true;
+      }
+      if (!hacker.status) {
+	hacker.status = 'applied';
+      } else if (categories.indexOf(hacker.status) == -1) {
+	hacker.status = categories[hacker.status];
+      }
+    });
 
     // Update search
     this.updateLunrIndex(hackers);
@@ -137,7 +140,6 @@ Polymer({
       this.field('teammates');
     });
     hackers.forEach(function(hacker, i) {
-      var lowerSchool = this.cleanEmail(hacker.school);
       hacker.emailSplit = hacker.email.replace(/@/g, ' ');
       search.add(hacker);
     });
