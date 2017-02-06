@@ -571,7 +571,7 @@ Polymer({
     copy.forEach((hacker) => {
       hacker.resume = this.resumeLink(hacker.resume);
     });
-    var csv = new CSV(this.filtered, {header: true}).encode();
+    var csv = new CSV(copy, {header: true}).encode();
     this.downloadFile('applicants_export.csv', csv);
   },
   downloadFile: function(filename, content) {
