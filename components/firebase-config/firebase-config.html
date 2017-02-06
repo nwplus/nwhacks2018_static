@@ -58,10 +58,14 @@ Polymer({
     if (signedIn && isAdmin === true) {
       this.$.error.close();
     } else if (signedIn) {
-      this.error = 'You are not an admin.';
+      this.error = 'You are not an admin or data is still loading.';
       this.$.error.open();
     }
   },
+
+  handleError: function(e, err) {
+    this.err = err;
+  }
 });
   </script>
 </dom-module>

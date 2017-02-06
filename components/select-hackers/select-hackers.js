@@ -102,6 +102,8 @@ Polymer({
       }
     });
 
+    this.updateEmailIndex(hackers);
+
     this.clusters = this.clusterTeams(hackers);
 
     // Update search
@@ -115,13 +117,6 @@ Polymer({
 
   // clusterTeams returns a {[email: string]: Set[email: string]}
   clusterTeams: function(hackers) {
-    const emailIndex = {};
-    hackers.forEach((hacker) => {
-      if (hacker.duplicate) {
-	return;
-      }
-      emailIndex[hacker.cleanEmail] = hacker;
-    });
     const clusters = {};
     hackers.forEach((hacker) => {
       if (hacker.duplicate || !hacker.teammates || hacker.teammates.trim().length === 0) {
@@ -129,7 +124,7 @@ Polymer({
       }
       const teammates = hacker.teammates.split(",").map((a) => this.cleanEmail(a));
       teammates.forEach((teammate) => {
-	if (!emailIndex[teammate]) {
+	if (!this.emailIndex[teammate]) {
 	  return;
 	}
         this.addPersonToCluster(clusters, hacker.cleanEmail, teammate);
@@ -153,7 +148,23 @@ Polymer({
     clusters[email] = targetCluster;
   },
 
+  updateEmailIndex: function(hackers) {
+    const emailIndex = {};
+    hackers.forEach((hacker) => {
+      if (hacker.duplicate) {
+	return;
+      }
+      emailIndex[hacker.cleanEmail] = hacker;
+    });
+    this.emailIndex = emailIndex;
+  },
+
   updateLunrIndex: function(hackers) {
+    if (this.lastLunrIndexCount === hackers.length) {
+      return;
+    }
+    this.lastLunrIndexCount = hackers.length;
+
     const search = lunr(function() {
       this.ref('index');
       this.field('id');
@@ -268,15 +279,32 @@ Polymer({
   respondedWith: function(hacker, response) {
     return hacker.acceptance_sent && hacker.response === response;
   },
+
   onSelect: function(e) {
-    var index = e.target.selectedIndex;
-    var status = categories[index];
-    var hacker = e.model.hacker;
+    const index = e.target.selectedIndex;
+    const status = categories[index];
+    const hacker = e.model.hacker;
+    this.setHackerStatus(hacker, status);
+  },
+
+  onSelectTeam: function(e) {
+    const index = e.target.selectedIndex;
+    const status = categories[index];
+    const hacker = e.model.hacker;
+    const teammates = this.teammates(hacker);
+    teammates.forEach((email) => {
+      const h = this.emailIndex[email];
+      this.setHackerStatus(h, status);
+    });
+  },
+
+  setHackerStatus: function(hacker, status) {
     if (hacker.status !== status) {
       this.set('hackers.' + hacker.index + '.status', status);
       this.patchHacker(hacker);
     }
   },
+
   phoneChange: function(e) {
     var hacker = e.model.hacker;
     this.patchHacker(hacker);
@@ -299,12 +327,12 @@ Polymer({
     this.$.error.open();
   },
 
-  hasTeammates: function(clusters, hacker) {
-    return !!clusters[hacker.cleanEmail];
+  hasTeammates: function(hacker) {
+    return !!this.clusters[hacker.cleanEmail];
   },
 
-  teammates: function(clusters, hacker) {
-    const cluster = clusters[hacker.cleanEmail];
+  teammates: function(hacker) {
+    const cluster = this.clusters[hacker.cleanEmail];
     if (cluster) {
       return Array.from(cluster).sort();
     }

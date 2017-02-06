@@ -119,11 +119,11 @@
             <div class="card-content">
               <table>
                 <tbody>
-                  <template is="dom-if" if="[[hasTeammates(clusters, hacker)]]">
+                  <template is="dom-if" if="[[hasTeammates(hacker)]]">
                     <tr>
                       <th>Team</th>
                       <td>
-                        <template is="dom-repeat" items="[[teammates(clusters, hacker)]]">
+                        <template is="dom-repeat" items="[[teammates(hacker)]]">
                           <a on-tap="scrollToEmail">[[item]]</a>
                         </template>
                       </td>
@@ -223,6 +223,15 @@
                 </template>
               </select>
               <paper-checkbox checked="{{hacker.checked_in}}" on-change="checkIn">Checked In</paper-checkbox>
+
+              <template is="dom-if" if="[[hasTeammates(hacker)]]">
+                Team:
+                <select selected="{{selected(hacker.status)}}" on-change="onSelectTeam" disabled$="[[hacker.acceptance_sent]]">
+                  Team: <template is="dom-repeat" items="[[categories]]">
+                    <option selected$="[[eq(item, hacker.status)]]">[[item]]</option>
+                  </template>
+                </select>
+              </template>
               <span class="right">
                 ID: <span>[[hacker.id]]</span>, #<span>[[hacker.index]]</span
               </span>
