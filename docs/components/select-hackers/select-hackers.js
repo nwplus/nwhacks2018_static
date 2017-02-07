@@ -36,15 +36,18 @@ Polymer({
     },
   },
   refresh: function() { this.incr++; },
+
   attached: function() {
     var self = this;
     setTimeout(function() { self.resize(); }, 100);
     window.addEventListener('resize', function() { self.resize(); });
   },
+
   resize: function() {
     var top = this.$.list.getBoundingClientRect().top;
     this.$.list.style.height = window.innerHeight - top + 'px';
   },
+
   observers: [
     'refresh(filters.status)',
     'refresh(filters.checked_in)',
@@ -54,19 +57,29 @@ Polymer({
     'refresh(filters.first)',
     'refresh(filters.reimbursement)',
     'handleRegistrations(registrations)',
+    'handleRegistrations(registrations.*)',
   ],
+
   cleanEmail: function(email) {
     return email.toLowerCase().trim();
   },
-  handleRegistrations: function(registrations) {
-    // Convert {[id]: hacker} to hacker[] sorted by ID.
-    var hackers = [];
-    for (var id in registrations) {
-      var hacker = registrations[id];
-      hacker.id = id;
-      hackers.push(hacker);
+
+  handleRegistrations: function() {
+    if (this.lastRender) {
+      clearTimeout(this.lastRender);
     }
-    hackers.sort(function(a, b) { return a.id < b.id; });
+    this.lastRender = setTimeout(this.handleRegistrationsInternal.bind(this), 300);
+  },
+
+  handleRegistrationsInternal: function() {
+    console.log('rendering!');
+
+    // Convert {[id]: hacker} to hacker[] sorted by ID.
+    const hackers = this.registrations.map((a) => {
+      a.id = a.$key;
+      return a;
+    });
+    hackers.sort(function(a, b) { return a.id < b.id ? -1 : 1; });
 
     // Deduplicate hackers
     var dedup = {};
@@ -314,7 +327,9 @@ Polymer({
     this.patchHacker(hacker);
   },
   patchHacker: function(hacker) {
+    delete hacker.$key;
     this.$.regs.setStoredValue('/registrations/'+hacker.id, hacker);
+    const hackers = this.hackers;
   },
   refreshList: function() { this.incr++; },
   handleErr: function(a, b, c) { this.handleError(a, b.error); },
