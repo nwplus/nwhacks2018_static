@@ -9,6 +9,7 @@ build/: bower_components components index.html css/main.css $(JS) $(HTML) polyme
 
 docs/index.html: build/
 	rm -r docs; cp -R build/bundled/ docs
+	svgo -f docs/svg/logos/
 
 docs/favicon.png: favicon.png
 	cp favicon.png docs/
@@ -19,7 +20,7 @@ css/main.css: $(SCSS)
 deps:
 	bower install
 	gem install sass
-	sudo npm install -g polymer-cli
+	sudo npm install -g polymer-cli svgo
 
 watch:
 	while true; do \
