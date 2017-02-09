@@ -58,6 +58,8 @@ Polymer({
     'refresh(filters.reimbursement)',
     'handleRegistrations(registrations)',
     'handleRegistrations(registrations.*)',
+    'handlePartials(registrations.*)',
+    'filter(hackers, filters, incr, hackers.*)',
   ],
 
   cleanEmail: function(email) {
@@ -69,6 +71,27 @@ Polymer({
       clearTimeout(this.lastRender);
     }
     this.lastRender = setTimeout(this.handleRegistrationsInternal.bind(this), 300);
+  },
+
+  handlePartials: function(change) {
+    const path = change.path;
+    if (!this.hasPrefix(path, "registrations.#")) {
+      return;
+    }
+    const bits = path.split(".");
+    const item = bits.slice(0, 2).join(".");
+    const hacker = this.get(item);
+    const filteredIndex = hacker.filteredIndex;
+    if (this.filtered[filteredIndex] !== hacker) {
+      return;
+    }
+    const filteredPath = "filtered.#"+filteredIndex+"."+bits.slice(2).join(".");
+    console.log(filteredPath);
+    this.notifyPath(filteredPath);
+  },
+
+  hasPrefix: function(a, prefix) {
+    return a.slice(0, prefix.length) == prefix;
   },
 
   handleRegistrationsInternal: function() {
@@ -123,9 +146,7 @@ Polymer({
     this.updateLunrIndex(hackers);
 
     console.log("hackers update");
-    const scroll = this.$.list.scrollTop;
     this.hackers = hackers;
-    this.$.list.scroll(0, scroll);
   },
 
   // clusterTeams returns a {[email: string]: Set[email: string]}
@@ -209,6 +230,7 @@ Polymer({
     var csv = new CSV(copy, {header: true}).encode();
     this.downloadFile('applicants_export.csv', csv);
   },
+
   downloadFile: function(filename, content) {
     var blob = new Blob([content]);
     const a = document.createElement("a");
@@ -217,11 +239,13 @@ Polymer({
     document.body.appendChild(a);
     a.click();
   },
+
   title: function(hacker) { return hacker.name + ' (' + hacker.email + ')'; },
+
   filter: function(hackers, filters, _) {
     var results = hackers;
     this.totalCount = hackers.length;
-    if (filters.search.length > 0) {
+    if (filters.search.length >= 3) {
       var rawResults = this.lunr.search(filters.search);
       results =
 	  rawResults.map(function(result) { return hackers[result.ref]; });
@@ -249,13 +273,22 @@ Polymer({
       }
       return good;
     });
+
+    filtered.forEach((hacker, i) => {
+      hacker.filteredIndex = i;
+    });
+
+    // Maintain scroll position;
+    const scroll = this.$.list.scrollTop;
     this.filtered = filtered;
     this.filteredCount = filtered.length;
-    return filtered;
+    this.$.list.scroll(0, scroll);
   },
+
   resumeLink: function(resume) {
     return "https://firebasestorage.googleapis.com/v0/b/nwhacks-96701.appspot.com/o/"+encodeURIComponent(resume)+"?alt=media";
   },
+
   githubLink: function(username) {
     if (!username) {
       return;
@@ -265,6 +298,7 @@ Polymer({
     }
     return 'https://github.com/' + username;
   },
+
   linkedinLink: function(username) {
     if (!username) {
       return;
@@ -274,6 +308,7 @@ Polymer({
     }
     return 'https://linkedin.com/in/' + username;
   },
+
   selected: function(status) {
     var index = categories.indexOf(status);
     if (index >= 0) {
@@ -281,6 +316,7 @@ Polymer({
     }
     return 0;
   },
+
   responded: function(status) {
     var index = responseCategories.indexOf(status);
     if (index >= 0) {
@@ -288,21 +324,22 @@ Polymer({
     }
     return 0;
   },
+
   eq: function(a, b) { return a === b; },
+
   respondedWith: function(hacker, response) {
     return hacker.acceptance_sent && hacker.response === response;
   },
 
   onSelect: function(e) {
-    const index = e.target.selectedIndex;
-    const status = categories[index];
+    const status = e.target.value;
     const hacker = e.model.hacker;
     this.setHackerStatus(hacker, status);
   },
 
   onSelectTeam: function(e) {
-    const index = e.target.selectedIndex;
-    const status = categories[index];
+    const status = e.target.value;
+    e.target.value = "";
     const hacker = e.model.hacker;
     const teammates = this.teammates(hacker);
     teammates.forEach((email) => {
@@ -312,8 +349,14 @@ Polymer({
   },
 
   setHackerStatus: function(hacker, status) {
+    if (categories.indexOf(status) === -1) {
+      console.log('ignoring status:', status);
+      return;
+    }
+
     if (hacker.status !== status) {
-      this.set('hackers.' + hacker.index + '.status', status);
+      //this.set('hackers.' + hacker.index + '.status', status);
+      this.set('filtered.' + hacker.filteredIndex + '.status', status);
       this.patchHacker(hacker);
     }
   },
