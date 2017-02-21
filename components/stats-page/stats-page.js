@@ -80,20 +80,20 @@ Polymer({
     };
 
     var responseData = {
-      labels: ['No Response', 'Going', 'Not Going', 'Need Reimbursement'],
+      labels: ['No Response', 'Going'],
       datasets: [{
-        data: [0, 0, 0, 0],
+        data: [0, 0],
         backgroundColor: [
           '#666',
           '#4BAE74',
-          '#FF6B6B',
-          '#FDB45C',
+          /*'#FF6B6B',
+          '#FDB45C',*/
         ],
         hoverBackgroundColor: [
           '#888',
           '#377F54',
-          '#D74343',
-          '#FFC870',
+          /*'#D74343',
+          '#FFC870',*/
         ],
       }]
     };
@@ -122,13 +122,9 @@ Polymer({
       var isDuplicate = students[email] && datum.status != 'accepted' ||
           students[email] && students[email].status == 'accepted';
 
-      if (datum.acceptance_sent) {
-        var index = datum.response || 0;
-        if (responseData.datasets[0].data[index]) {
-          responseData.datasets[0].data[index].value++;
-        } else {
-          console.log('that fucker', index);
-        }
+      if (datum.acceptance_sent && datum.status == 'accepted') {
+        const index = datum.rsvp ? 1 : 0;
+        responseData.datasets[0].data[index]++;
       }
 
       if (isDuplicate) {
@@ -136,7 +132,7 @@ Polymer({
       }
       deDupStudents++;
       students[email] = datum;
-      if (datum.status == 'accepted') {
+      if (datum.status == 'accepted' && datum.rsvp) {
         var index = tshirtData.labels.indexOf(datum.tshirt);
         tshirtData.datasets[0].data[index] += 1;
       }
@@ -164,7 +160,7 @@ Polymer({
       if (datum.acceptance_sent) {
         offeredStudents++;
       }
-      if (datum.response == 'going') {
+      if (datum.rsvp) {
         univs[datum.school].acceptedResp += 1;
         cities[location].acceptedResp += 1;
       }
