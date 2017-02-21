@@ -433,7 +433,7 @@
       </div>
     </paper-dialog>
 
-    <firebase-config is-admin="{{isAdmin}}" handle-error="[[handleError]]">
+    <firebase-config is-admin="{{isAdmin}}" handle-error="[[handleError]]" auth="">
     </firebase-config>
 
     <firebase-query id="regs" disabled="[[!isAdmin]]" path="/registrations" data="{{registrations}}">

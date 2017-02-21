@@ -1,8 +1,315 @@
-<html><head><meta charset="UTF-8"><link rel="import" href="../main-app/main-app.html"></head><body><dom-module id="rsvp-page">
+<html><head><meta charset="UTF-8"><link rel="import" href="../main-app/main-app.html"></head><body><div hidden="" by-vulcanize=""><script>Polymer.IronMenubarBehaviorImpl={hostAttributes:{role:"menubar"},keyBindings:{left:"_onLeftKey",right:"_onRightKey"},_onUpKey:function(e){this.focusedItem.click(),e.detail.keyboardEvent.preventDefault()},_onDownKey:function(e){this.focusedItem.click(),e.detail.keyboardEvent.preventDefault()},get _isRTL(){return"rtl"===window.getComputedStyle(this).direction},_onLeftKey:function(e){this._isRTL?this._focusNext():this._focusPrevious(),e.detail.keyboardEvent.preventDefault()},_onRightKey:function(e){this._isRTL?this._focusPrevious():this._focusNext(),e.detail.keyboardEvent.preventDefault()},_onKeydown:function(e){this.keyboardEventMatchesKeys(e,"up down left right esc")||this._focusWithKeyboardEvent(e)}},Polymer.IronMenubarBehavior=[Polymer.IronMenuBehavior,Polymer.IronMenubarBehaviorImpl];</script><dom-module id="paper-radio-button" assetpath="../../bower_components/paper-radio-button/">
+  <template strip-whitespace="">
+    <style>
+      :host {
+        display: inline-block;
+        line-height: 0;
+        white-space: nowrap;
+        cursor: pointer;
+        @apply(--paper-font-common-base);
+        --calculated-paper-radio-button-size: var(--paper-radio-button-size, 16px);
+        /* -1px is a sentinel for the default and is replace in `attached`. */
+        --calculated-paper-radio-button-ink-size: var(--paper-radio-button-ink-size, -1px);
+      }
+
+      :host(:focus) {
+        outline: none;
+      }
+
+      #radioContainer {
+        @apply(--layout-inline);
+        @apply(--layout-center-center);
+        position: relative;
+        width: var(--calculated-paper-radio-button-size);
+        height: var(--calculated-paper-radio-button-size);
+        vertical-align: middle;
+      }
+
+      #ink {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        right: auto;
+        width: var(--calculated-paper-radio-button-ink-size);
+        height: var(--calculated-paper-radio-button-ink-size);
+        color: var(--paper-radio-button-unchecked-ink-color, --primary-text-color);
+        opacity: 0.6;
+        pointer-events: none;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+      }
+
+      #ink[checked] {
+        color: var(--paper-radio-button-checked-ink-color, --primary-color);
+      }
+
+      #offRadio, #onRadio {
+        position: absolute;
+        box-sizing: border-box;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+
+      #offRadio {
+        border: 2px solid var(--paper-radio-button-unchecked-color, --primary-text-color);
+        background-color: var(--paper-radio-button-unchecked-background-color, transparent);
+        transition: border-color 0.28s;
+      }
+
+      #onRadio {
+        background-color: var(--paper-radio-button-checked-color, --primary-color);
+        -webkit-transform: scale(0);
+        transform: scale(0);
+        transition: -webkit-transform ease 0.28s;
+        transition: transform ease 0.28s;
+        will-change: transform;
+      }
+
+      :host([checked]) #offRadio {
+        border-color: var(--paper-radio-button-checked-color, --primary-color);
+      }
+
+      :host([checked]) #onRadio {
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
+      }
+
+      #radioLabel {
+        line-height: normal;
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: var(--paper-radio-button-label-spacing, 10px);
+        white-space: normal;
+        color: var(--paper-radio-button-label-color, --primary-text-color);
+      }
+
+      :host-context([dir="rtl"]) #radioLabel {
+        margin-left: 0;
+        margin-right: var(--paper-radio-button-label-spacing, 10px);
+      }
+
+      #radioLabel[hidden] {
+        display: none;
+      }
+
+      /* disabled state */
+
+      :host([disabled]) #offRadio {
+        border-color: var(--paper-radio-button-unchecked-color, --primary-text-color);
+        opacity: 0.5;
+      }
+
+      :host([disabled][checked]) #onRadio {
+        background-color: var(--paper-radio-button-unchecked-color, --primary-text-color);
+        opacity: 0.5;
+      }
+
+      :host([disabled]) #radioLabel {
+        /* slightly darker than the button, so that it's readable */
+        opacity: 0.65;
+      }
+    </style>
+
+    <div id="radioContainer">
+      <div id="offRadio"></div>
+      <div id="onRadio"></div>
+    </div>
+
+    <div id="radioLabel"><content></content></div>
+  </template>
+
+  <script>Polymer({is:"paper-radio-button",behaviors:[Polymer.PaperCheckedElementBehavior],hostAttributes:{role:"radio","aria-checked":!1,tabindex:0},properties:{ariaActiveAttribute:{type:String,value:"aria-checked"}},ready:function(){this._rippleContainer=this.$.radioContainer},attached:function(){var t=this.getComputedStyleValue("--calculated-paper-radio-button-ink-size").trim();if("-1px"===t){var e=parseFloat(this.getComputedStyleValue("--calculated-paper-radio-button-size").trim()),a=Math.floor(3*e);a%2!==e%2&&a++,this.customStyle["--paper-radio-button-ink-size"]=a+"px",this.updateStyles()}}});</script>
+</dom-module>
+<dom-module id="paper-radio-group" assetpath="../../bower_components/paper-radio-group/">
   <template>
     <style>
+      :host {
+        display: inline-block;
+      }
+
+      :host ::content > * {
+        padding: var(--paper-radio-group-item-padding, 12px);
+      }
     </style>
-    <h1>RSVP</h1>
+
+    <content id="items" select="*"></content>
+  </template>
+</dom-module>
+
+<script>Polymer({is:"paper-radio-group",behaviors:[Polymer.IronMenubarBehavior],hostAttributes:{role:"radiogroup",tabindex:0},properties:{attrForSelected:{type:String,value:"name"},selectedAttribute:{type:String,value:"checked"},selectable:{type:String,value:"paper-radio-button"},allowEmptySelection:{type:Boolean,value:!1}},select:function(e){var t=this._valueToItem(e);if(!t||!t.hasAttribute("disabled")){if(this.selected){var i=this._valueToItem(this.selected);if(this.selected==e){if(!this.allowEmptySelection)return void(i&&(i.checked=!0));e=""}i&&(i.checked=!1)}Polymer.IronSelectableBehavior.select.apply(this,[e]),this.fire("paper-radio-group-changed")}},_activateFocusedItem:function(){this._itemActivate(this._valueForItem(this.focusedItem),this.focusedItem)},_onUpKey:function(e){this._focusPrevious(),e.preventDefault(),this._activateFocusedItem()},_onDownKey:function(e){this._focusNext(),e.preventDefault(),this._activateFocusedItem()},_onLeftKey:function(e){Polymer.IronMenubarBehaviorImpl._onLeftKey.apply(this,arguments),this._activateFocusedItem()},_onRightKey:function(e){Polymer.IronMenubarBehaviorImpl._onRightKey.apply(this,arguments),this._activateFocusedItem()}});</script>
+<dom-module id="radio-group" assetpath="../">
+  <template>
+    <style>
+      paper-radio-button {
+        display: block;
+      }
+      paper-radio-button paper-input {
+        display: inline-block;
+        margin: -40px 5px;
+        position: relative;
+        top: 3px;
+      }
+      h2 {
+        margin-bottom: 0;
+      }
+    </style>
+
+    <h2>
+      [[label]]
+      <template is="dom-if" if="[[required]]">
+        <span class="invalid">*</span>
+      </template>
+    </h2>
+
+    <paper-radio-group selected="{{_selected}}">
+      <template is="dom-repeat" items="[[options]]">
+        <paper-radio-button name="[[item]]" invalid="[[invalid]]">[[item]]</paper-radio-button>
+      </template>
+      <template is="dom-if" if="[[other]]">
+        <paper-radio-button name="Other" invalid="[[invalid]]">
+          Other:
+          <paper-input value="{{otherValue}}" invalid="[[invalid]]"></paper-input>
+        </paper-radio-button>
+      </template>
+    </paper-radio-group>
+  </template>
+  <script>
+'use strict';
+Polymer({
+  is: "radio-group",
+
+  behaviors: [Polymer.IronFormElementBehavior, Polymer.IronValidatableBehavior],
+
+  properties: {
+    label: {
+      type: String,
+    },
+    options: {
+      type: Array,
+      value: () => [],
+    },
+    _selected: {
+      type: String,
+      observer: 'updateValue'
+    },
+    otherValue: {
+      type: String,
+      observer: 'updateValue',
+    },
+    other: {
+      type: Boolean,
+      value: false
+    }
+  },
+
+  updateValue: function() {
+    if (this.other && this._selected === "Other") {
+      this.value = this.otherValue;
+    } else {
+      this.value = this._selected;
+    }
+    if (this.invalid) {
+      this.validate();
+    }
+  },
+
+  _getValidity: function() {
+    return !!this.value && this.value.length > 0;
+  }
+});
+  </script>
+</dom-module>
+</div><dom-module id="rsvp-page">
+  <template>
+    <style>
+      :root {
+        --primary-text-color: white;
+        --paper-input-container-color: white;
+        --primary-color: #90cfaa;
+      }
+      :host {
+        display: block;
+      }
+      form > h2 {
+        margin-bottom: 0;
+      }
+      form > h2:first-child {
+        margin-top: 0;
+      }
+      form > paper-input:not([label]) {
+        margin-top: -1em;
+      }
+      paper-radio-button {
+        display: block;
+      }
+      paper-radio-button paper-input {
+        display: inline-block;
+        margin: -40px 5px;
+        position: relative;
+        top: 3px;
+      }
+      form {
+        max-width: 640px;
+        margin: 0 auto 30px;
+        background-color: rgba(104, 117, 137, 0.5);
+        padding: 15px;
+        border-radius: 3px;
+        box-shadow: 0 0 15px rgba(104, 117, 137, 0.5);
+      }
+      @media (max-width: 640px) {
+        form {
+          margin: 0 -15px 30px;
+        }
+      }
+    </style>
+    <h1 id="top">RSVP to nwHacks!</h1>
+
+    <form is="iron-form" id="form">
+      <radio-group label="Faculty" required="" other="" value="{{form.faculty}}" options="[&quot;Arts&quot;,&quot;Science&quot;,&quot;Engineering&quot;, &quot;Sauder&quot;, &quot;Forestry&quot;, &quot;Kinesiology&quot;]">
+      </radio-group>
+
+      <radio-group label="Year" required="" other="" value="{{form.year}}" options="[&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,&quot;Graduate&quot;,&quot;High School&quot;]">
+      </radio-group>
+
+      <radio-group label="Gender" required="" other="" value="{{form.gender}}" options="[&quot;Male&quot;, &quot;Female&quot;, &quot;Prefer to not say&quot;]">
+      </radio-group>
+
+      <radio-group label="Do you have any dietary restrictions?" required="" other="" value="{{form.dietary}}" options="[&quot;None&quot;, &quot;Vegetarian&quot;, &quot;Vegan&quot;, &quot;Gluten-free&quot;, &quot;Dairy-free&quot;, &quot;Pescetarian&quot;]">
+      </radio-group>
+
+      <radio-group label="If you are an international attendee, do you have a valid passport (or
+        will you be able to get one before March 18)?" required="" value="{{form.passport}}" options="[&quot;Yes&quot;,&quot;No&quot;,&quot;I'm from Canada!&quot;]">
+      </radio-group>
+
+      <radio-group label="Are you over the age of majority? (If not, no worries, you'll just
+        need to get parental consent to participate)" required="" value="{{form.age}}" options="[&quot;Yes, I'm 18+&quot;,&quot;No, I'm under 18&quot;]">
+      </radio-group>
+
+      <h2>Anything else you'd like us to know?</h2>
+      <paper-input value="{{form.anything_else}}"></paper-input>
+
+      <p class="invalid" hidden$="{{valid}}">
+        You must fill out all required fields.
+      </p>
+      <center>
+      <paper-button elevation="1" on-tap="submit" class="register">RSVP</paper-button>
+      </center>
+    </form>
+
+    <paper-dialog no-cancel-on-esc-key="" id="invalidid" modal="">
+      <h2>Invalid ID</h2>
+      <p>
+        Sorry, we can't find a valid person matching your ID!
+      </p>
+      <p>
+        Please try again, or contact <a href="mailto:apply@nwhacks.io">apply@nwhacks.io</a>.
+      </p>
+    </paper-dialog>
+
     <paper-dialog no-cancel-on-esc-key="" id="rsvping" modal="">
       <h2>Submitting RSVP...</h2>
       <p>
@@ -14,29 +321,99 @@
       <p>[[error]]</p>
       <p>Please try again later or use a different browser.</p>
       <div class="buttons">
-        <a href="/"><paper-button dialog-confirm="" autofocus="">Return Home</paper-button></a>
+        <a class="none" href="/"><paper-button dialog-confirm="" autofocus="">Return Home</paper-button></a>
       </div>
     </paper-dialog>
     <paper-dialog no-cancel-on-esc-key="" id="rsvped" modal="">
-      <h2>RSVPed</h2>
+      <h2>RSVP Successful</h2>
       <p>
-        <template is="dom-if" if="{{eq(status, 1)}}">
-          All set!
-          See you at nwHacks!
-        </template>
-        <template is="dom-if" if="{{eq(status, 2)}}">
-          Sorry to hear that. Hopefully we'll see you at nwHacks next year!
-        </template>
-        <template is="dom-if" if="{{eq(status, 3)}}">
-          All set!
-          We'll let you know about travel reimbursements shortly.
-        </template>
+        All set!
+        See you at nwHacks!
       </p>
       <div class="buttons">
-        <a href="/"><paper-button dialog-confirm="" autofocus="">Return Home</paper-button></a>
+        <a class="none" href="/"><paper-button dialog-confirm="" autofocus="">Return Home</paper-button></a>
       </div>
     </paper-dialog>
+
+    <firebase-config></firebase-config>
+    <firebase-document id="rsvp" path="[[hackerStatusKey(params.id)]]" data="{{status}}" zero-value="{{zero}}">
+    </firebase-document>
   </template>
-  <script>"use strict";const respCategories=["No Response","Going","Travel Reimbursement Required","Not Going"];Object.freeze(respCategories),Polymer({is:"rsvp-page",properties:{categories:{type:Array,value:respCategories},params:{type:Object,value:function(){return{}}}},attached:function(){var s=this;this.status=this.params.status,this.$.rsvping.open(),$.post("/api/rsvp/"+this.params.id+"/"+this.params.token+"/"+this.params.status,function(e){s.$.rsvped.open()}).fail(function(e,t,r){s.error=e.status+" - "+r,s.$.rsvperror.open()}).always(function(){s.$.rsvping.close()})},deselect:function(){this.$.rsvped.close(),this.$.rsvperror.close(),this.$.rsvping.close()},eq:function(s,e){return s==e}});</script>
+  <script>
+'use strict';
+const respCategories = ['No Response', 'Going', 'Travel Reimbursement Required', 'Not Going'];
+Object.freeze(respCategories);
+Polymer({
+  is: "rsvp-page",
+
+  properties: {
+    categories: {
+      type: Array,
+      value: respCategories,
+    },
+    params: {
+      type: Object,
+      value: function() { return {}; },
+    },
+    valid: {
+      type: Boolean,
+      value: true,
+    },
+    form: {
+      type: Object,
+      value: function() { return {}; },
+    },
+    status: {
+      type: String,
+      observer: 'handleStatus',
+    },
+    zero: {
+      type: Object,
+      value: false,
+    }
+  },
+
+  handleStatus: function(status, oldStatus) {
+    if (!oldStatus) {
+      return;
+    }
+    if (status === "accepted") {
+      this.$.invalidid.close();
+    } else {
+      this.$.invalidid.open();
+    }
+  },
+
+  validate: function() {
+    if(!this.$.form.validate()) {
+      return false;
+    }
+    if (!this.form.age || !this.form.passport || !this.form.dietary) {
+      return false;
+    }
+    return true;
+  },
+
+  submit: function() {
+    this.valid = this.validate();
+    if (!this.valid) {
+      return;
+    }
+    this.$.rsvping.open();
+    this.$.rsvp.setStoredValue('/registrations/'+this.params.id+'/rsvp', this.form).then(() => {
+      this.$.rsvping.close();
+      this.$.rsvped.open();
+    }).catch((e) => {
+      this.error = e;
+      this.$.rsvping.close();
+      this.$.rsvperror.open();
+    });
+  },
+
+  hackerStatusKey: function(id) {
+    return '/registrations/'+id+'/status';
+  }
+});
+  </script>
 </dom-module>
 </body></html>

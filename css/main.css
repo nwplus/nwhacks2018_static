@@ -53,22 +53,25 @@ html {
 paper-dialog {
   color: #444 !important; }
 
-register-form #form label {
+paper-radio-button[invalid] #offRadio {
+  border-color: #D74343 !important; }
+paper-radio-button[invalid] #onRadio {
+  background-color: #D74343 !important; }
+
+register-form #form label, rsvp-page #form label {
   color: #FFFFFF; }
-register-form #form .unfocused-line {
-  background: #FFFFFF; }
-register-form #form .is-invalid .focused-line {
+register-form #form .is-invalid .focused-line, rsvp-page #form .is-invalid .focused-line {
   background: #D74343; }
-register-form #form paper-input-error, register-form #form .invalid {
+register-form #form paper-input-error, register-form #form .invalid, rsvp-page #form paper-input-error, rsvp-page #form .invalid {
   color: #D74343; }
-register-form #form .focused-line {
+register-form #form .focused-line, rsvp-page #form .focused-line {
   background: #90cfaa; }
-register-form #form paper-checkbox #checkboxLabel.paper-checkbox {
+register-form #form paper-checkbox #checkboxLabel.paper-checkbox, rsvp-page #form paper-checkbox #checkboxLabel.paper-checkbox {
   pointer-events: auto; }
-register-form #form paper-checkbox #checkbox.checked.paper-checkbox {
+register-form #form paper-checkbox #checkbox.checked.paper-checkbox, rsvp-page #form paper-checkbox #checkbox.checked.paper-checkbox {
   background-color: #90cfaa;
   border-color: #90cfaa; }
-register-form #form paper-dropdown-menu paper-item {
+register-form #form paper-dropdown-menu paper-item, rsvp-page #form paper-dropdown-menu paper-item {
   color: #444; }
 
 paper-toolbar.tall {

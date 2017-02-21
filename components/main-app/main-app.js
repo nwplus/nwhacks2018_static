@@ -37,7 +37,7 @@ Polymer({
       self.hideHeader = true;
       self.route = 'dayof-page';
     });
-    page('/rsvp/:id/:token/:status', function(e) {
+    page('/rsvp/:id', function(e) {
       self.route = 'rsvp-page';
       self.params = e.params;
     });
