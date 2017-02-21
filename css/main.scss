@@ -54,12 +54,22 @@ html {
 paper-dialog {
   color: $light-fg !important;
 }
-register-form #form {
+
+paper-radio-button[invalid] {
+  #offRadio {
+    border-color: $form-error !important;
+  }
+  #onRadio {
+    background-color: $form-error !important;
+  }
+}
+
+register-form #form, rsvp-page #form {
   label {
     color: $dark-fg;
   }
   .unfocused-line {
-    background: $dark-fg;
+    //background: $dark-fg;
   }
   .is-invalid  .focused-line {
     background: $form-error;

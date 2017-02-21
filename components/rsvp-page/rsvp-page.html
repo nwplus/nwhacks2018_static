@@ -1,10 +1,116 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../radio-group.html">
+<link rel="import" href="../firebase-config/firebase-config.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
 
 <dom-module id="rsvp-page">
   <template>
     <style>
+      :root {
+        --primary-text-color: white;
+        --paper-input-container-color: white;
+        --primary-color: #90cfaa;
+      }
+      :host {
+        display: block;
+      }
+      form > h2 {
+        margin-bottom: 0;
+      }
+      form > h2:first-child {
+        margin-top: 0;
+      }
+      form > paper-input:not([label]) {
+        margin-top: -1em;
+      }
+      paper-radio-button {
+        display: block;
+      }
+      paper-radio-button paper-input {
+        display: inline-block;
+        margin: -40px 5px;
+        position: relative;
+        top: 3px;
+      }
+      form {
+        max-width: 640px;
+        margin: 0 auto 30px;
+        background-color: rgba(104, 117, 137, 0.5);
+        padding: 15px;
+        border-radius: 3px;
+        box-shadow: 0 0 15px rgba(104, 117, 137, 0.5);
+      }
+      @media (max-width: 640px) {
+        form {
+          margin: 0 -15px 30px;
+        }
+      }
     </style>
-    <h1>RSVP</h1>
+    <h1 id="top">RSVP to nwHacks!</h1>
+
+    <form is="iron-form" id="form">
+      <radio-group label="Faculty"
+                   required other
+                   value="{{form.faculty}}"
+                   options='["Arts","Science","Engineering", "Sauder", "Forestry", "Kinesiology"]'>
+      </radio-group>
+
+      <radio-group label="Year"
+                   required other
+                   value="{{form.year}}"
+                   options='["1","2","3","4","Graduate","High School"]'>
+      </radio-group>
+
+      <radio-group label="Gender"
+                   required other
+                   value="{{form.gender}}"
+                   options='["Male", "Female", "Prefer to not say"]'>
+      </radio-group>
+
+      <radio-group label="Do you have any dietary restrictions?"
+                   required other
+                   value="{{form.dietary}}"
+                   options='["None", "Vegetarian", "Vegan", "Gluten-free", "Dairy-free", "Pescetarian"]'>
+      </radio-group>
+
+      <radio-group label="If you are an international attendee, do you have a valid passport (or
+        will you be able to get one before March 18)?"
+                   required
+                   value="{{form.passport}}"
+                   options='["Yes","No","I&#39;m from Canada!"]'>
+      </radio-group>
+
+      <radio-group label="Are you over the age of majority? (If not, no worries, you'll just
+        need to get parental consent to participate)"
+                   required
+                   value="{{form.age}}"
+                   options='["Yes, I&#39;m 18+","No, I&#39;m under 18"]'>
+      </radio-group>
+
+      <h2>Anything else you'd like us to know?</h2>
+      <paper-input value="{{form.anything_else}}"></paper-input>
+
+      <p class="invalid" hidden$="{{valid}}">
+        You must fill out all required fields.
+      </p>
+      <center>
+      <paper-button elevation="1" on-tap="submit" class="register">RSVP</paper-button>
+      </center>
+    </form>
+
+    <paper-dialog no-cancel-on-esc-key id="invalidid" modal>
+      <h2>Invalid ID</h2>
+      <p>
+        Sorry, we can't find a valid person matching your ID!
+      </p>
+      <p>
+        Please try again, or contact <a href="mailto:apply@nwhacks.io">apply@nwhacks.io</a>.
+      </p>
+    </paper-dialog>
+
     <paper-dialog no-cancel-on-esc-key id="rsvping" modal>
       <h2>Submitting RSVP...</h2>
       <p>
@@ -16,28 +122,26 @@
       <p>[[error]]</p>
       <p>Please try again later or use a different browser.</p>
       <div class="buttons">
-        <a href="/"><paper-button dialog-confirm autofocus>Return Home</paper-button></a>
+        <a class="none" href="/"><paper-button dialog-confirm autofocus>Return Home</paper-button></a>
       </div>
     </paper-dialog>
     <paper-dialog no-cancel-on-esc-key id="rsvped" modal>
-      <h2>RSVPed</h2>
+      <h2>RSVP Successful</h2>
       <p>
-        <template is="dom-if" if="{{eq(status, 1)}}">
-          All set!
-          See you at nwHacks!
-        </template>
-        <template is="dom-if" if="{{eq(status, 2)}}">
-          Sorry to hear that. Hopefully we'll see you at nwHacks next year!
-        </template>
-        <template is="dom-if" if="{{eq(status, 3)}}">
-          All set!
-          We'll let you know about travel reimbursements shortly.
-        </template>
+        All set!
+        See you at nwHacks!
       </p>
       <div class="buttons">
-        <a href="/"><paper-button dialog-confirm autofocus>Return Home</paper-button></a>
+        <a class="none" href="/"><paper-button dialog-confirm autofocus>Return Home</paper-button></a>
       </div>
     </paper-dialog>
+
+    <firebase-config></firebase-config>
+    <firebase-document id="rsvp"
+                       path="[[hackerStatusKey(params.id)]]"
+                       data="{{status}}"
+                       zero-value="{{zero}}">
+    </firebase-document>
   </template>
   <script>
 'use strict';
@@ -55,32 +159,64 @@ Polymer({
       type: Object,
       value: function() { return {}; },
     },
-
+    valid: {
+      type: Boolean,
+      value: true,
+    },
+    form: {
+      type: Object,
+      value: function() { return {}; },
+    },
+    status: {
+      type: String,
+      observer: 'handleStatus',
+    },
+    zero: {
+      type: Object,
+      value: false,
+    }
   },
-  attached: function() {
-    var self = this;
-    this.status = this.params.status;
+
+  handleStatus: function(status, oldStatus) {
+    if (!oldStatus) {
+      return;
+    }
+    if (status === "accepted") {
+      this.$.invalidid.close();
+    } else {
+      this.$.invalidid.open();
+    }
+  },
+
+  validate: function() {
+    if(!this.$.form.validate()) {
+      return false;
+    }
+    if (!this.form.age || !this.form.passport || !this.form.dietary) {
+      return false;
+    }
+    return true;
+  },
+
+  submit: function() {
+    this.valid = this.validate();
+    if (!this.valid) {
+      return;
+    }
     this.$.rsvping.open();
-    $.post( "/api/rsvp/"+this.params.id+"/"+this.params.token+"/"+this.params.status, function(resp) {
-      self.$.rsvped.open();
-    })
-    .fail(function(e, status, error) {
-      self.error = e.status + ' - ' + error;
-      self.$.rsvperror.open();
-    })
-    .always(function() {
-      self.$.rsvping.close();
+    this.$.rsvp.setStoredValue('/registrations/'+this.params.id+'/rsvp', this.form).then(() => {
+      this.$.rsvping.close();
+      this.$.rsvped.open();
+    }).catch((e) => {
+      this.error = e;
+      this.$.rsvping.close();
+      this.$.rsvperror.open();
     });
+  },
 
-  },
-  deselect: function() {
-    this.$.rsvped.close();
-    this.$.rsvperror.close();
-    this.$.rsvping.close();
-  },
-  eq: function(a, b) {
-    return a == b;
-  },
+  hackerStatusKey: function(id) {
+    return '/registrations/'+id+'/status';
+  }
 });
   </script>
 </dom-module>

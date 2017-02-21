@@ -1,0 +1,86 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+
+<dom-module id="radio-group">
+  <template>
+    <style>
+      paper-radio-button {
+        display: block;
+      }
+      paper-radio-button paper-input {
+        display: inline-block;
+        margin: -40px 5px;
+        position: relative;
+        top: 3px;
+      }
+      h2 {
+        margin-bottom: 0;
+      }
+    </style>
+
+    <h2>
+      [[label]]
+      <template is="dom-if" if="[[required]]">
+        <span class="invalid">*</span>
+      </template>
+    </h2>
+
+    <paper-radio-group selected="{{_selected}}">
+      <template is="dom-repeat" items="[[options]]">
+        <paper-radio-button name="[[item]]" invalid="[[invalid]]">[[item]]</paper-radio-button>
+      </template>
+      <template is="dom-if" if="[[other]]">
+        <paper-radio-button name="Other" invalid="[[invalid]]">
+          Other:
+          <paper-input value="{{otherValue}}" invalid="[[invalid]]"></paper-input>
+        </paper-radio-button>
+      </template>
+    </paper-radio-group>
+  </template>
+  <script>
+'use strict';
+Polymer({
+  is: "radio-group",
+
+  behaviors: [Polymer.IronFormElementBehavior, Polymer.IronValidatableBehavior],
+
+  properties: {
+    label: {
+      type: String,
+    },
+    options: {
+      type: Array,
+      value: () => [],
+    },
+    _selected: {
+      type: String,
+      observer: 'updateValue'
+    },
+    otherValue: {
+      type: String,
+      observer: 'updateValue',
+    },
+    other: {
+      type: Boolean,
+      value: false
+    }
+  },
+
+  updateValue: function() {
+    if (this.other && this._selected === "Other") {
+      this.value = this.otherValue;
+    } else {
+      this.value = this._selected;
+    }
+    if (this.invalid) {
+      this.validate();
+    }
+  },
+
+  _getValidity: function() {
+    return !!this.value && this.value.length > 0;
+  }
+});
+  </script>
+</dom-module>
