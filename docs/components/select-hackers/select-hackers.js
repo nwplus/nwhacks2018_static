@@ -253,12 +253,11 @@ Polymer({
     var status = filters.status;
     var response = filters.response;
     var responseIdx = this.responded(response);
-    var filtered = results.filter(function(hacker, b, c) {
+    var filtered = results.filter((hacker, b, c) => {
       var good = (status === '' || status === 'null' || status === 'All' ||
 		  status === hacker.status) &&
 	  (response === '' || response === 'null' || response === 'All' ||
-	   hacker.acceptance_sent && responseIdx === hacker.response) &&
-	  !hacker.duplicate;
+	   this.respondedWith(hacker, responseIdx)) && !hacker.duplicate;
       if (filters.mentor) {
 	good = good && hacker.mentor;
       }
@@ -328,7 +327,10 @@ Polymer({
   eq: function(a, b) { return a === b; },
 
   respondedWith: function(hacker, response) {
-    return hacker.acceptance_sent && hacker.response === response;
+    if (!hacker.acceptance_sent || hacker.status !== 'accepted') {
+      return false;
+    }
+    return (hacker.rsvp ? 1 : 0) === response;
   },
 
   onSelect: function(e) {

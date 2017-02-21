@@ -197,6 +197,48 @@
                 <div class="tag bad">Multiple Submissions</div>
               </template>
 
+              <template is="dom-if" if="[[hacker.hs]]">
+                <div class="tag bad">Minor</div>
+              </template>
+
+              <template is="dom-if" if="[[hacker.rsvp]]">
+                <h2>Response</h2>
+
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>Faculty</th>
+                      <td>[[hacker.rsvp.faculty]]</td>
+                    </tr>
+                    <tr>
+                      <th>Year</th>
+                      <td>[[hacker.rsvp.year]]</td>
+                    </tr>
+                    <tr>
+                      <th>Gender</th>
+                      <td>[[hacker.rsvp.gender]]</td>
+                    </tr>
+                    <tr>
+                      <th>Do you have any dietary restrictions?</th>
+                      <td>[[hacker.rsvp.dietary]]</td>
+                    </tr>
+                    <tr>
+                      <th>Do you have a valid passport?</th>
+                      <td>[[hacker.rsvp.passport]]</td>
+                    </tr>
+                    <tr>
+                      <th>Are you 19+?</th>
+                      <td>[[hacker.rsvp.age]]</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <template is="dom-if" if="[[hacker.rsvp.anything_else]]">
+                  <h3>Anything else?</h3>
+                  <p>[[hacker.rsvp.anything_else]]</p>
+                </template>
+              </template>
+
               <template is="dom-if" if="[[respondedWith(hacker, 0)]]">
                 <div class="tag bad">No Response</div>
               </template>
@@ -210,13 +252,10 @@
                 <div class="tag warn">Need Reimbursement</div>
               </template>
 
-              <template is="dom-if" if="[[hacker.hs]]">
-                <div class="tag bad">Minor</div>
-              </template>
-
+              <!--
               <br>
               <paper-input label="Phone Number" type="tel" on-change="phoneChange" value="{{hacker.phone}}"></paper-input>
-              </table>
+              -->
             </div>
             <div class="card-actions">
               <!--

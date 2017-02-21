@@ -371,6 +371,48 @@
                 <div class="tag bad">Multiple Submissions</div>
               </template>
 
+              <template is="dom-if" if="[[hacker.hs]]">
+                <div class="tag bad">Minor</div>
+              </template>
+
+              <template is="dom-if" if="[[hacker.rsvp]]">
+                <h2>Response</h2>
+
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>Faculty</th>
+                      <td>[[hacker.rsvp.faculty]]</td>
+                    </tr>
+                    <tr>
+                      <th>Year</th>
+                      <td>[[hacker.rsvp.year]]</td>
+                    </tr>
+                    <tr>
+                      <th>Gender</th>
+                      <td>[[hacker.rsvp.gender]]</td>
+                    </tr>
+                    <tr>
+                      <th>Do you have any dietary restrictions?</th>
+                      <td>[[hacker.rsvp.dietary]]</td>
+                    </tr>
+                    <tr>
+                      <th>Do you have a valid passport?</th>
+                      <td>[[hacker.rsvp.passport]]</td>
+                    </tr>
+                    <tr>
+                      <th>Are you 19+?</th>
+                      <td>[[hacker.rsvp.age]]</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <template is="dom-if" if="[[hacker.rsvp.anything_else]]">
+                  <h3>Anything else?</h3>
+                  <p>[[hacker.rsvp.anything_else]]</p>
+                </template>
+              </template>
+
               <template is="dom-if" if="[[respondedWith(hacker, 0)]]">
                 <div class="tag bad">No Response</div>
               </template>
@@ -384,12 +426,6 @@
                 <div class="tag warn">Need Reimbursement</div>
               </template>
 
-              <template is="dom-if" if="[[hacker.hs]]">
-                <div class="tag bad">Minor</div>
-              </template>
-
-              <br>
-              <paper-input label="Phone Number" type="tel" on-change="phoneChange" value="{{hacker.phone}}"></paper-input>
               
             </div>
             <div class="card-actions">
@@ -697,12 +733,11 @@ Polymer({
     var status = filters.status;
     var response = filters.response;
     var responseIdx = this.responded(response);
-    var filtered = results.filter(function(hacker, b, c) {
+    var filtered = results.filter((hacker, b, c) => {
       var good = (status === '' || status === 'null' || status === 'All' ||
 		  status === hacker.status) &&
 	  (response === '' || response === 'null' || response === 'All' ||
-	   hacker.acceptance_sent && responseIdx === hacker.response) &&
-	  !hacker.duplicate;
+	   this.respondedWith(hacker, responseIdx)) && !hacker.duplicate;
       if (filters.mentor) {
 	good = good && hacker.mentor;
       }
@@ -772,7 +807,10 @@ Polymer({
   eq: function(a, b) { return a === b; },
 
   respondedWith: function(hacker, response) {
-    return hacker.acceptance_sent && hacker.response === response;
+    if (!hacker.acceptance_sent || hacker.status !== 'accepted') {
+      return false;
+    }
+    return (hacker.rsvp ? 1 : 0) === response;
   },
 
   onSelect: function(e) {
