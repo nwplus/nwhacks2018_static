@@ -1,0 +1,92 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="chart-js.html">
+
+<dom-module id="category-chart">
+  <template>
+    <style>
+      canvas {
+        background-color: white;
+      }
+      .chart-container {
+        overflow-x: auto;
+      }
+    </style>
+
+    <h2>
+      [[label]]
+    </h2>
+    <br>
+
+    <div class="chart-container">
+      <center>
+        <canvas id="chart" height="480"></canvas>
+      </center>
+    </div>
+
+  </template>
+  <script>
+'use strict';
+Polymer({
+  is: "category-chart",
+
+  properties: {
+    label: {
+      type: String,
+    },
+
+    data: {
+      type: Array,
+      value: () => [],
+      observer: 'updateChart'
+    },
+  },
+
+  updateChart: function() {
+    const categories = {};
+    this.data.forEach((item) => {
+      categories[item] = (categories[item] || 0) + 1;
+    });
+    const labels = Object.keys(categories);
+    labels.sort((a, b) => {
+      return categories[b] - categories[a];
+    });
+    const data = labels.map((label) => categories[label]);
+    const displayData = {
+      labels: labels,
+      datasets: [{
+        label: this.label,
+        data: data,
+        backgroundColor: 'rgba(220,0,0,0.5)',
+        borderColor: 'rgba(220,0,0,0.8)',
+      }]
+    };
+
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    this.$.chart.width = labels.length * 60;
+    const ctx = this.$.chart.getContext('2d');
+    this.chart = new Chart(
+        ctx, {
+          type: 'bar',
+          data: displayData,
+          options: {
+            responsive: false
+          }
+        },
+        {});
+  },
+
+  // https://stackoverflow.com/questions/25594478/different-color-for-each-bar-in-a-bar-chart-chartjs
+  randomColor: function() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+});
+  </script>
+</dom-module>
