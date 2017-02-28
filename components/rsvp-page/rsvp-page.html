@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../radio-group.html">
+<link rel="import" href="../moment-js.html">
 <link rel="import" href="../firebase-config/firebase-config.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
 
@@ -52,6 +53,12 @@
     <h1 id="top">RSVP to nwHacks!</h1>
 
     <form is="iron-form" id="form">
+      <center>
+        <p class="invalid" hidden$="{{!hasRSVPed}}">
+        <b>You've already RSVPed.</b>
+        </p>
+      </center>
+
       <radio-group label="Faculty"
                    required other
                    value="{{form.faculty}}"
@@ -111,6 +118,19 @@
       </p>
     </paper-dialog>
 
+    <paper-dialog no-cancel-on-esc-key id="toolate" modal>
+      <h2>RSVP Deadline Passed</h2>
+      <p>
+      Sorry, the RSVP deadline has passed for your acceptance ([[deadline]]).
+      Unfortunately, you won't be able to go to nwHacks this year since we have
+      already marked you as not going and have started accepting people from the
+      wait list.
+      </p>
+      <div class="buttons">
+        <a class="none" href="/"><paper-button dialog-confirm autofocus>Return Home</paper-button></a>
+      </div>
+    </paper-dialog>
+
     <paper-dialog no-cancel-on-esc-key id="rsvping" modal>
       <h2>Submitting RSVP...</h2>
       <p>
@@ -140,6 +160,14 @@
     <firebase-document id="rsvp"
                        path="[[hackerStatusKey(params.id)]]"
                        data="{{status}}"
+                       zero-value="{{zero}}">
+    </firebase-document>
+    <firebase-document path="[[hackerAcceptanceSentKey(params.id)]]"
+                       data="{{acceptanceSent}}"
+                       zero-value="{{zero}}">
+    </firebase-document>
+    <firebase-document path="[[hackerRSVPKey(params.id)]]"
+                       data="{{rsvp}}"
                        zero-value="{{zero}}">
     </firebase-document>
   </template>
@@ -174,6 +202,29 @@ Polymer({
     zero: {
       type: Object,
       value: false,
+    },
+    hasRSVPed: {
+      type: Boolean,
+      value: false,
+    }
+  },
+
+  observers: [
+    'blockRegistration(status, rsvp, acceptanceSent)',
+  ],
+
+  blockRegistration: function(status, rsvp, acceptanceSent) {
+    if (status === "accepted" && acceptanceSent.Valid === true) {
+      const hasRSVPed = Object.keys(rsvp).length > 0;
+      this.hasRSVPed = hasRSVPed;
+      const blockedTime = moment(acceptanceSent.Time).add(7, 'days');
+      this.deadline = blockedTime.fromNow();
+      this.missedDeadline = moment().isAfter(blockedTime) && !hasRSVPed;
+      if (this.missedDeadline) {
+        this.$.toolate.open();
+      } else {
+        this.$.toolate.close();
+      }
     }
   },
 
@@ -189,6 +240,9 @@ Polymer({
   },
 
   validate: function() {
+    if (this.missedDeadline) {
+      return false;
+    }
     if(!this.$.form.validate()) {
       return false;
     }
@@ -216,6 +270,14 @@ Polymer({
 
   hackerStatusKey: function(id) {
     return '/registrations/'+id+'/status';
+  },
+
+  hackerAcceptanceSentKey: function(id) {
+    return '/registrations/'+id+'/acceptance_sent';
+  },
+
+  hackerRSVPKey: function(id) {
+    return '/registrations/'+id+'/rsvp';
   }
 });
   </script>
