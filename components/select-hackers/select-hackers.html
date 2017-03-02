@@ -9,6 +9,7 @@
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 
 <link rel="import" href="../firebase-config/firebase-config.html">
+<link rel="import" href="../moment-js.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
 
@@ -55,6 +56,10 @@
       }
       .right {
         float: right;
+      }
+      .card-actions {
+        display: flex;
+        justify-content: space-between;
       }
       .card-actions paper-checkbox {
         margin-left: 8px;
@@ -278,23 +283,35 @@
               </paper-dropdown-menu>
               -->
 
-              <select on-change="onSelect" disabled$="[[hacker.acceptance_sent]]">
-                <template is="dom-repeat" items="[[categories]]">
-                  <option selected$="[[eq(item, hacker.status)]]">[[item]]</option>
-                </template>
-              </select>
+              <template is="dom-if" if="[[!hacker.acceptance_sent]]">
+                <span>
+                  <select on-change="onSelect">
+                    <template is="dom-repeat" items="[[categories]]">
+                      <option selected$="[[eq(item, hacker.status)]]">[[item]]</option>
+                    </template>
+                  </select>
 
-              <template is="dom-if" if="[[hasTeammates(hacker)]]">
-                Team:
-                <select on-change="onSelectTeam" disabled$="[[hacker.acceptance_sent]]">
-                  <option></option>
-                  Team: <template is="dom-repeat" items="[[categories]]">
-                    <option>[[item]]</option>
+                  <template is="dom-if" if="[[hasTeammates(hacker)]]">
+                    Team:
+                    <select on-change="onSelectTeam">
+                      <option></option>
+                      Team: <template is="dom-repeat" items="[[categories]]">
+                        <option>[[item]]</option>
+                      </template>
+                    </select>
                   </template>
-                </select>
+                </span>
               </template>
 
               <paper-checkbox checked="{{hacker.checked_in}}" on-change="checkIn">Checked In</paper-checkbox>
+
+              <template is="dom-if" if="[[acceptanceSent(hacker)]]">
+                <span>
+                  <a on-tap="resetRSVPTime">Reset RSVP Time</a>
+                  (<a target="_blank" href="[[rsvpLink(hacker)]]">Link</a>,
+                  [[timeTo(hacker.acceptance_sent.Time)]])
+                </span>
+              </template>
 
               <span class="right">
                 <span>[[hacker.status]]</span>,

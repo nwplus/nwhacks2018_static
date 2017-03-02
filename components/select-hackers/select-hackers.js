@@ -407,4 +407,22 @@ Polymer({
       }
     });
   },
+
+  acceptanceSent: function(hacker) {
+    return hacker.acceptance_sent && hacker.status === 'accepted';
+  },
+
+  rsvpLink: function(hacker) {
+    return "/rsvp/"+hacker.id+"#begin";
+  },
+
+  resetRSVPTime: function(e) {
+    const hacker = e.model.hacker;
+    e.model.set('hacker.acceptance_sent.Time', moment().format());
+    this.patchHacker(hacker);
+  },
+
+  timeTo: function(time) {
+    return moment(time).add(7,'days').fromNow();
+  }
 });
