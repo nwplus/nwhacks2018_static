@@ -95,11 +95,14 @@
     <category-chart label="Majority" data="[[rsvpMajority]]">
     </category-chart>
 
-    <firebase-config is-admin="{{isAdmin}}" auth>
+    <firebase-config is-admin="{{isAdmin}}" auth name="stats">
     </firebase-config>
 
     <template is="dom-if" if="[[isAdmin]]">
-      <firebase-document id="regs" path="/registrations" data="{{registrations}}">
+      <firebase-document id="regs"
+                         app-name="stats"
+                         path="/registrations"
+                         data="{{registrations}}">
       </firebase-document>
     </template>
   </template>

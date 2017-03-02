@@ -11,7 +11,6 @@ Polymer({
     }
 
     page('*', function(ctx, next) {
-      next();
       setTimeout(function() {
         var hash;
         var match = window.location.hash.match(/\#\w+/);
@@ -27,8 +26,11 @@ Polymer({
         }
       }, 100);
 
-      this.hideHeader = false;
-      this.hideFooter = false;
+      self.hideHeader = false;
+      self.hideFooter = false;
+      self.adminPage = false;
+
+      next();
     });
     const self = this;
     page('/register*', function() { self.route = 'register-closed'; });
@@ -45,6 +47,7 @@ Polymer({
     page('/admin/*', function(_, next) {
       self.hideHeader = true;
       self.hideFooter = true;
+      self.adminPage = true;
       next();
     });
     page('/admin/select', function() {

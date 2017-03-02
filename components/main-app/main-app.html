@@ -34,6 +34,14 @@
         <paper-button>register</paper-button>
       </a>
       -->
+      <template is="dom-if" if="[[adminPage]]">
+        <a href="/admin/stats" class="med right">
+          <paper-button>Stats</paper-button>
+        </a>
+        <a href="/admin/select" class="med right">
+          <paper-button>Hackers</paper-button>
+        </a>
+      </template>
     </nav>
     <nwhacks-header hidden$="[[hideHeader]]"></nwhacks-header>
     <div class="wrapper" id="begin">
@@ -47,12 +55,6 @@
         <template is="dom-if" restamp data-route="register-closed">
           <register-closed></register-closed>
         </template>
-        <template is="dom-if" restamp data-route="select-hackers">
-          <select-hackers></select-hackers>
-        </template>
-        <template is="dom-if" restamp data-route="stats-page">
-          <stats-page></stats-page>
-        </template>
         <template is="dom-if" restamp data-route="dayof-page">
           <dayof-page></dayof-page>
         </template>
@@ -64,6 +66,14 @@
         </template>
         <template is="dom-if" restamp data-route="rsvp-page">
           <rsvp-page params="{{params}}"></rsvp-page>
+        </template>
+
+        <!-- Admin Pages -->
+        <template is="dom-if" data-route="select-hackers">
+          <select-hackers></select-hackers>
+        </template>
+        <template is="dom-if" data-route="stats-page">
+          <stats-page></stats-page>
         </template>
       </lazy-pages>
     </div>
