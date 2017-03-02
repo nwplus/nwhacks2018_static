@@ -27,6 +27,7 @@ Polymer({
 	  search: '',
 	  status: '',
 	  response: '',
+	  missing_passport: false,
 	};
       },
     },
@@ -56,6 +57,7 @@ Polymer({
     'refresh(filters.mentor)',
     'refresh(filters.first)',
     'refresh(filters.reimbursement)',
+    'refresh(filters.missing_passport)',
     'handleRegistrations(registrations)',
     'handleRegistrations(registrations.*)',
     'handlePartials(registrations.*)',
@@ -270,6 +272,9 @@ Polymer({
       if (filters.first) {
 	good = good && hacker.first_hackathon;
       }
+      if (filters.missing_passport) {
+	good = good && hacker.rsvp && hacker.rsvp.passport === "No";
+      }
       return good;
     });
 
@@ -407,4 +412,22 @@ Polymer({
       }
     });
   },
+
+  acceptanceSent: function(hacker) {
+    return hacker.acceptance_sent && hacker.status === 'accepted';
+  },
+
+  rsvpLink: function(hacker) {
+    return "/rsvp/"+hacker.id+"#begin";
+  },
+
+  resetRSVPTime: function(e) {
+    const hacker = e.model.hacker;
+    e.model.set('hacker.acceptance_sent.Time', moment().format());
+    this.patchHacker(hacker);
+  },
+
+  timeTo: function(time) {
+    return moment(time).add(7,'days').fromNow();
+  }
 });
