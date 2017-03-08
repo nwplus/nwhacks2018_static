@@ -1,3 +1,7 @@
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../moment-js.html">
+<link rel="import" href="../moment-timezone-js.html">
+
 <dom-module id="schedule-box">
   <template>
     <style>
@@ -14,16 +18,14 @@
       .day .row {
         text-align: left;
         color: white;
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
       }
       .day .row .time-col {
         padding-right: 0;
       }
-      .day .row > div {
-        padding: 10px 10px 5px;
-      }
       .day .row > div:first-child {
-        padding-top: 5px;
-        white-space: nowrap;
         font-weight: 500;
         min-width: 86px;
         min-height: 32px;
@@ -35,7 +37,6 @@
       .day .period {
         text-transform: uppercase;
         font-size: 10pt;
-        margin-left: 2px;
       }
       .day .row > div {
         display: inline-block;
@@ -43,7 +44,7 @@
       }
       .day .row > div.location {
         white-space: nowrap;
-        float: right;
+        text-align: right;
       }
       .card-content {
         padding: 0px 16px;
@@ -62,9 +63,6 @@
         font-style: italic;
         display: block;
         font-size: 0.9em;
-        margin-left: 110px;
-        margin-top: -10px;
-        margin-bottom: -16px;
       }
       @media (max-width: 480px) {
         .desc {
@@ -75,47 +73,52 @@
       @media (min-width: 950px) {
         .day {
           width: calc(50% - 10px);
-          display: inline-block;
         }
-        .day:first-of-type {
-          float: left;
-          margin-right: 20px;
+        .days {
+          display: flex;
         }
       }
       .day .row .name {
-        padding: 10px 0 0;
-          display: inline-block;
+        display: inline-block;
       }
       .day .row .info {
         display: inline;
+        flex-grow: 1000;
+        padding: 0 5px;
       }
     </style>
     <h1>SCHEDULE</h1>
     <div class="content">
-      <template is="dom-repeat" items="[[days]]">
-        <div class="day">
-          <div class="small-trapezoid">[[item.name]]</div>
-          <div class="card-content">
-            <template is="dom-repeat" items="[[item.events]]">
-              <div class="row">
-                <div class="time-col">
-                  <span class="time">[[item.displayTime]]</span><span class="period">[[item.timePeriod]]</span>
+      <div class="days">
+        <template is="dom-repeat" items="[[days]]">
+          <div class="day">
+            <div class="small-trapezoid">[[item.name]]</div>
+            <div class="card-content">
+              <template is="dom-repeat" items="[[item.events]]">
+                <div class="row">
+                  <div class="time-col">
+                    <span class="time">[[item.displayTime]]</span><span class="period">[[item.timePeriod]]</span>
+                    <!-- <br> &ndash;
+                      <span class="time">[[item.displayTimeEnd]]</span><span
+                      class="period">[[item.timePeriodEnd]]</span>
+                    -->
+                  </div>
+                  <div class="info">
+                    <span class="name">[[item.name]]</span>
+                    <span class="desc">[[item.desc]]</span>
+                  </div>
+                  <div class="location">
+                    <template is="dom-repeat" items="[[item.locations]]">
+                      <a target="_blank" href="[[map(item)]]">[[item]]</a>
+                      <br>
+                    </template>
+                  </div>
                 </div>
-                <div class="location">
-                  <template is="dom-repeat" items="[[item.locations]]">
-                    <a href="[[map(item)]]">[[item]]</a>
-                    <br>
-                  </template>
-                </div>
-                <div class="info">
-                  <span class="name">[[item.name]]</span>
-                  <span class="desc">[[item.desc]]</span>
-                </div>
-              </div>
-            </template>
+              </template>
+            </div>
           </div>
-        </div>
-      </template>
+        </template>
+      </div>
       <div class="center gcal">
         <a href="https://calendar.google.com/calendar/embed?src=outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com&ctz=America/Los_Angeles">Google Calendar</a>
       </div>
@@ -151,7 +154,13 @@ Polymer({
     var days = {};
     var daysArr = [];
     this.gcal.items.forEach(function(item) {
-      var start = moment(item.start.dateTime).tz('America/Los_Angeles');
+      const time = moment(item.start.dateTime);
+      if (time.year() !== 2017) {
+        return;
+      }
+
+      var start = time.tz('America/Los_Angeles');
+      var end = moment(item.end.dateTime).tz('America/Los_Angeles');
       var dayTitle = start.format("dddd, MMM Do");
       var day = days[dayTitle];
       if (!day) {
@@ -163,11 +172,6 @@ Polymer({
         daysArr.push(day);
         days[dayTitle] = day;
       }
-      var displayTime = start.format("h");
-      var minute = start.format("mm");
-      if (minute !== '00') {
-        displayTime += ':' + minute;
-      }
       var locations = [];
       (item.location || '').split(',').forEach(function(location) {
         locations.push(location.trim());
@@ -175,13 +179,15 @@ Polymer({
       var event = {
         name: item.summary,
         start: start,
-        displayTime: displayTime,
-        timePeriod: start.format("a"),
+        displayTime: this.displayTime(start),
+        timePeriod: end.format("a"),
+        displayTimeEnd: this.displayTime(end),
+        timePeriodEnd: start.format("a"),
         locations: locations,
         desc: item.description,
       }
       day.events.push(event);
-    });
+    }, this);
     daysArr.sort(function(a, b) {
       return a.start - b.start;
     });
@@ -192,6 +198,15 @@ Polymer({
     });
     console.log(daysArr);
     return daysArr;
+  },
+
+  displayTime: function(time) {
+    var displayTime = time.format("h");
+    var minute = time.format("mm");
+    if (minute !== '00') {
+      displayTime += ':' + minute;
+    }
+    return displayTime;
   },
 });
   </script>
