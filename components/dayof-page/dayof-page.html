@@ -1,4 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/image-icons.html">
+<link rel="import" href="../schedule-box/schedule-box.html">
 
 <dom-module id="dayof-page">
   <template>
@@ -53,6 +57,8 @@
       }
       .top-buttons {
         margin-top: 50px;
+        display: flex;
+        justify-content: center;
       }
       code {
         font-family: monospace;
@@ -91,18 +97,20 @@
     </style>
 
     <div class="top-buttons">
-    <center>
-      <a href="https://nwhacks2016.devpost.com/"><paper-button class="register">submit hack</paper-button></a>
-      <a href="https://nwhacks2016attendees.slack.com"><paper-button class="button">#slack</paper-button></a>
-      <a href="https://static.nwhacks.io/Info-Package-V4.pdf"><paper-button class="button">
+      <!--
+      <a class="none" href="https://nwhacks2016.devpost.com/"><paper-button class="register">submit hack</paper-button></a>
+      -->
+      <a class="none" href="https://nwhacks17.slack.com"><paper-button class="button">#slack</paper-button></a>
+      <a class="none" href="https://www.nwhacks.io/documents/nwHacks%202017%20Info%20Package.pdf"><paper-button class="button">
           <iron-icon icon="image:picture-as-pdf"></iron-icon>
+          &nbsp;
           info package
         </paper-button></a>
-      <a href="https://campus.fn.lc/#KAIS+ATRIUM"><paper-button class="button">
+      <a class="none" href="https://campus.fn.lc/#LSC"><paper-button class="button">
           <iron-icon icon="maps:map"></iron-icon>
+          &nbsp;
           map
         </paper-button></a>
-    </center>
     </div>
     <div class="grid-container">
       <div class="row">
@@ -111,15 +119,14 @@
 
           <h2>COMMUNICATION</h2>
           <p>Most of the announcements during the hackathon will be through our Slack. If you don't have an account check your email or ask one of your friends to invite you.</p>
-          <p><a href="https://nwhacks2016attendees.slack.com/messages/general/">Slack #general</a></p>
+          <p><a href="https://nwhacks17.slack.com/messages/general/">Slack #general</a></p>
 
           <h2>NEED HELP?</h2>
           <p>
-          To find a mentor just you can use the <code>/mentor</code> command in <a href="https://nwhacks2016attendees.slack.com">Slack</a>.
-          <code class="block">
-            /mentor I need help making pancakes!
-          </code>
-          For more information <a href="https://static.nwhacks.io/mentorinfo.pdf">click here</a>.
+          To find a mentor or ask questions you can visit the
+          <a
+            href="https://nwhacks17.slack.com/messages/ask-mentors/">#ask-mentors
+            Slack channel</a>.
           </p>
           <h2>WIFI DETAILS</h2>
           <p>
@@ -127,11 +134,11 @@
           </p>
           <p>
           <code class="block">
-            nwHACKS / welcometoUBC!
+            To Be Announced
             <br> <br>
             ubcsecure - UBC students
             <br>
-            eduroam &nbsp; - other partner universities
+            eduroam - other partner universities
           </code></p>
           <h2>EMERGENCY?</h2>
           <p>In case of emergency, please call <code>911</code>.</p>
@@ -144,6 +151,7 @@
           <a class="twitter-timeline" href="https://twitter.com/nwHacks" data-widget-id="701669388655562756">Tweets by @nwHacks</a>
           <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
         </div>
+      <!--
         <div id="prizes" class="col-66">
           <h1>PRIZES</h1>
           <div class="row">
@@ -283,6 +291,7 @@
           <a href="http://products.wolframalpha.com/api/">http://products.wolframalpha.com/api/</a>
           </p>
         </div>
+      -->
       </div>
   </template>
   <script>
