@@ -180,9 +180,9 @@ Polymer({
         name: item.summary,
         start: start,
         displayTime: this.displayTime(start),
-        timePeriod: end.format("a"),
+        timePeriod: start.format("a"),
         displayTimeEnd: this.displayTime(end),
-        timePeriodEnd: start.format("a"),
+        timePeriodEnd: end.format("a"),
         locations: locations,
         desc: item.description,
       }
