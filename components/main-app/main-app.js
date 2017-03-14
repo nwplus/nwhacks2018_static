@@ -53,6 +53,9 @@ Polymer({
     page('/admin/select', function() {
       self.route = 'select-hackers';
     });
+    page('/admin/checkin', function() {
+      self.route = 'checkin-page';
+    });
     page('/admin/stats', function() {
       self.route = 'stats-page';
     });

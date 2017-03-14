@@ -36,6 +36,9 @@
         <paper-button>Day Of</paper-button>
       </a>
       <template is="dom-if" if="[[adminPage]]">
+        <a href="/admin/checkin" class="med right">
+          <paper-button>Check-In</paper-button>
+        </a>
         <a href="/admin/stats" class="med right">
           <paper-button>Stats</paper-button>
         </a>
@@ -75,6 +78,9 @@
         </template>
         <template is="dom-if" data-route="stats-page">
           <stats-page></stats-page>
+        </template>
+        <template is="dom-if" data-route="checkin-page">
+          <checkin-page></checkin-page>
         </template>
       </lazy-pages>
     </div>

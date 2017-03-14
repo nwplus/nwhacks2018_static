@@ -1,0 +1,159 @@
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../firebase-config/firebase-config.html">
+<link rel="import" href="../lunr-js.html">
+
+<dom-module id="checkin-page">
+  <template>
+    <style>
+      :host {
+        margin: 0 auto;
+        max-width: 600px;
+        --primary-text-color: #FFFFFF;
+        --secondary-text-color: #CCCCCC;
+        --primary-color: #90cfaa;
+        display: block;
+      }
+      paper-card {
+        width: 100%;
+        color: black;
+      }
+      paper-checkbox {
+        width: 100%;
+        margin-top: 16px;
+        box-sizing: border-box;
+
+        text-decoration: none;
+        letter-spacing: 2px;
+        border-radius: 3px;
+        border: none;
+        font-weight: bold;
+        letter-spacing: 3px;
+        padding: 11px 15px;
+        text-transform: uppercase;
+        cursor: pointer;
+
+        border-bottom: 4px solid #D74343;
+        background-color: #FF6B6B;
+
+        --paper-checkbox-label: {
+          width: 100%;
+          text-align: center;
+          position: absolute;
+          left: 0;
+          padding-left: 0;
+        };
+
+        transition: background-color 140ms, border-color 140ms;
+      }
+      paper-checkbox[checked] {
+        border-color: #4BAE74;
+        background-color: #90cfaa;
+      }
+      [bad] {
+        color: red;
+      }
+      [good] {
+        color: green;
+      }
+      [warn] {
+        color: orange;
+      }
+      .completion {
+        padding: 10px;
+        cursor: pointer;
+      }
+      .completion:hover {
+        background-color: rgba(0,0,0,0.2);
+      }
+      .completion[selected] {
+        background-color: rgba(0,0,0,0.5);
+      }
+      [hidden] {
+        display: none;
+      }
+      code {
+        font-family: monospace;
+        background-color: rgba(0,0,0,0.5);
+        padding: 6px;
+      }
+      h3 {
+        margin-top: 80px;
+      }
+      paper-card p {
+        font-size: 24pt;
+        text-align: center;
+        text-transform: capitalize;
+        padding: 10px;
+        font-weight: lighter;
+        border-radius: 3px;
+      }
+      paper-card p[warn] {
+        background-color: #f28500;
+        color: white;
+      }
+      paper-card p[danger] {
+        background-color: #D74343;
+        color: white;
+      }
+      p:empty {
+        display: none;
+      }
+      p:first-child {
+        margin-top: 0;
+      }
+    </style>
+
+    <h1>
+      Check-In
+    </h1>
+
+    <center>
+      <p>
+      <small>
+        <b>Shortcuts:</b>
+        Search <code>/</code>, Check-In <code>space</code>
+      </small>
+      </p>
+    </center>
+
+    <paper-input label="Search" value="{{query}}" id="search">
+      <iron-icon icon="icons:search" prefix></iron-icon>
+    </paper-input>
+
+    <template is="dom-repeat" items="[[autocomplete]]">
+      <div class="completion"
+           selected$="[[eq(index, autocompleteIndex)]]"
+           on-tap="handleTap">
+        [[name(registrations, item)]] &lt;[[email(registrations, item)]]&gt;
+      </div>
+    </template>
+
+    <paper-card heading="[[heading(display)]]" hidden$="[[!display]]">
+      <div class="card-content">
+        <p warn$="[[warnStatus(display)]]" danger$="[[dangerStatus(display)]]">[[displayStatus(display)]]</p>
+        <p warn$="[[warnAge(display.rsvp.age)]]">[[display.rsvp.age]]</p>
+        <paper-checkbox id="checkbox" checked="{{display.checked_in}}">
+          Checked In
+        </paper-checkbox>
+      </div>
+    </paper-card>
+
+    <firebase-config is-admin="{{isAdmin}}" auth name="checkin">
+    </firebase-config>
+
+    <template is="dom-if" if="[[isAdmin]]">
+      <firebase-document id="regs"
+                         app-name="checkin"
+                         path="/registrations"
+                         data="{{registrations}}">
+      </firebase-document>
+    </template>
+  </template>
+
+  <script src="checkin-page.js"></script>
+</dom-module>
