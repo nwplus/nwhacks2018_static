@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
 
 <dom-module id="firebase-config">
   <template>
@@ -17,6 +18,8 @@
     <firebase-app auth-domain="nwhacks-96701.firebaseapp.com"
                   name="[[name]]"
                   database-url="https://nwhacks-96701.firebaseio.com"
+                  storage-bucket="nwhacks-96701.appspot.com"
+                  messaging-sender-id="874137730051"
                   api-key="AIzaSyBou6z9QA7zvCpxUFLoTbwQZcWuBn47yEA">
     </firebase-app>
     <template is="dom-if" if="[[auth]]">
