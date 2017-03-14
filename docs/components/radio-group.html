@@ -4,20 +4,7 @@
 
 </head><body><dom-module id="radio-group">
   <template>
-    <style>
-      paper-radio-button {
-        display: block;
-      }
-      paper-radio-button paper-input {
-        display: inline-block;
-        margin: -40px 5px;
-        position: relative;
-        top: 3px;
-      }
-      h2 {
-        margin-bottom: 0;
-      }
-    </style>
+    <style>paper-radio-button{display:block;}paper-radio-button paper-input{display:inline-block;margin:-40px 5px;position:relative;top:3px;}h2{margin-bottom:0;}</style>
 
     <h2>
       [[label]]
@@ -38,50 +25,6 @@
       </template>
     </paper-radio-group>
   </template>
-  <script>
-'use strict';
-Polymer({
-  is: "radio-group",
-
-  behaviors: [Polymer.IronFormElementBehavior, Polymer.IronValidatableBehavior],
-
-  properties: {
-    label: {
-      type: String,
-    },
-    options: {
-      type: Array,
-      value: () => [],
-    },
-    _selected: {
-      type: String,
-      observer: 'updateValue'
-    },
-    otherValue: {
-      type: String,
-      observer: 'updateValue',
-    },
-    other: {
-      type: Boolean,
-      value: false
-    }
-  },
-
-  updateValue: function() {
-    if (this.other && this._selected === "Other") {
-      this.value = this.otherValue;
-    } else {
-      this.value = this._selected;
-    }
-    if (this.invalid) {
-      this.validate();
-    }
-  },
-
-  _getValidity: function() {
-    return !!this.value && this.value.length > 0;
-  }
-});
-  </script>
+  <script>'use strict';Polymer({is:'radio-group',behaviors:[Polymer.IronFormElementBehavior,Polymer.IronValidatableBehavior],properties:{label:{type:String},options:{type:Array,value:()=>[]},_selected:{type:String,observer:'updateValue'},otherValue:{type:String,observer:'updateValue'},other:{type:Boolean,value:!1}},updateValue:function(){this.value=this.other&&'Other'===this._selected?this.otherValue:this._selected,this.invalid&&this.validate()},_getValidity:function(){return!!this.value&&0<this.value.length}});</script>
 </dom-module>
 </body></html>

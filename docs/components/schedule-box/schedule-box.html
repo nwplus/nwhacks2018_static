@@ -4,89 +4,7 @@
 
 </head><body><dom-module id="schedule-box">
   <template>
-    <style>
-      :host {
-        display: block;
-      }
-      h1 {
-        text-align: center;
-      }
-      .day {
-        margin-top: 0;
-        text-align: center;
-      }
-      .day .row {
-        text-align: left;
-        color: white;
-        display: flex;
-        align-items: center;
-        margin: 10px 0;
-      }
-      .day .row .time-col {
-        padding-right: 0;
-      }
-      .day .row > div:first-child {
-        font-weight: 500;
-        min-width: 86px;
-        min-height: 32px;
-        padding-bottom: 0;
-      }
-      .day .time {
-        font-size: 20pt;
-      }
-      .day .period {
-        text-transform: uppercase;
-        font-size: 10pt;
-      }
-      .day .row > div {
-        display: inline-block;
-        vertical-align: top;
-      }
-      .day .row > div.location {
-        white-space: nowrap;
-        text-align: right;
-      }
-      .card-content {
-        padding: 0px 16px;
-        color: #444;
-      }
-      .content {
-        min-height: 448px;
-      }
-      .center {
-        text-align: center;
-      }
-      .gcal {
-        margin: 30px 0;
-      }
-      .desc {
-        font-style: italic;
-        display: block;
-        font-size: 0.9em;
-      }
-      @media (max-width: 480px) {
-        .desc {
-          margin-top: 0px;
-          margin-left: 10px;
-        }
-      }
-      @media (min-width: 950px) {
-        .day {
-          width: calc(50% - 10px);
-        }
-        .days {
-          display: flex;
-        }
-      }
-      .day .row .name {
-        display: inline-block;
-      }
-      .day .row .info {
-        display: inline;
-        flex-grow: 1000;
-        padding: 0 5px;
-      }
-    </style>
+    <style>:host{display:block;}h1{text-align:center;}.day{margin-top:0;text-align:center;}.day .row{text-align:left;color:white;display:flex;align-items:center;margin:10px 0;}.day .row .time-col{padding-right:0;}.day .row > div:first-child{font-weight:500;min-width:86px;min-height:32px;padding-bottom:0;}.day .time{font-size:20pt;}.day .period{text-transform:uppercase;font-size:10pt;}.day .row > div{display:inline-block;vertical-align:top;}.day .row > div.location{white-space:nowrap;text-align:right;}.card-content{padding:0px 16px;color:#444;}.content{min-height:448px;}.center{text-align:center;}.gcal{margin:30px 0;}.desc{font-style:italic;display:block;font-size:0.9em;}@media (max-width: 480px){.desc{margin-top:0px;margin-left:10px;}}@media (min-width: 950px){.day{width:calc(50% - 10px);}.days{display:flex;}}.day .row .name{display:inline-block;}.day .row .info{display:inline;flex-grow:1000;padding:0 5px;}</style>
     <h1>SCHEDULE</h1>
     <div class="content">
       <div class="days">
@@ -98,7 +16,10 @@
                 <div class="row">
                   <div class="time-col">
                     <span class="time">[[item.displayTime]]</span><span class="period">[[item.timePeriod]]</span>
-                    
+                    <!-- <br> &ndash;
+                      <span class="time">[[item.displayTimeEnd]]</span><span
+                      class="period">[[item.timePeriodEnd]]</span>
+                    -->
                   </div>
                   <div class="info">
                     <span class="name">[[item.name]]</span>
@@ -123,6 +44,6 @@
     <iron-ajax auto="" url="https://www.googleapis.com/calendar/v3/calendars/outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com/events?key=%20AIzaSyAdbxoL7d-fe9rFUh898TTCx-ZERREDhKg&amp;timeZone=America/Los_Angeles" handle-as="json" last-response="{{gcal}}"></iron-ajax>
   </template>
 
-  <script>Polymer({is:"schedule-box",properties:{days:{type:Array,computed:"calendarDisplay(gcal)"},gcal:{type:Object,value:function(){return{}}}},map:function(t){return"https://campus.fn.lc/#"+(t||"").replace(/ /g,"+")},calendarDisplay:function(){if(console.log(this.gcal),!this.gcal.items)return[];var t={},e=[];return this.gcal.items.forEach(function(a){const r=moment(a.start.dateTime);if(2017===r.year()){var s=r.tz("America/Los_Angeles"),i=moment(a.end.dateTime).tz("America/Los_Angeles"),n=s.format("dddd, MMM Do"),o=t[n];o||(o={name:n,start:s,events:[]},e.push(o),t[n]=o);var c=[];(a.location||"").split(",").forEach(function(t){c.push(t.trim())});var m={name:a.summary,start:s,displayTime:this.displayTime(s),timePeriod:s.format("a"),displayTimeEnd:this.displayTime(i),timePeriodEnd:i.format("a"),locations:c,desc:a.description};o.events.push(m)}},this),e.sort(function(t,e){return t.start-e.start}),e.forEach(function(t){t.events.sort(function(t,e){return t.start-e.start})}),console.log(e),e},displayTime:function(t){var e=t.format("h"),a=t.format("mm");return"00"!==a&&(e+=":"+a),e}});</script>
+  <script>Polymer({is:"schedule-box",properties:{days:{type:Array,computed:"calendarDisplay(gcal)"},gcal:{type:Object,value:function(){return{}}}},map:function(c){return"https://campus.fn.lc/#"+(c||"").replace(/ /g,"+")},calendarDisplay:function(){if(console.log(this.gcal),!this.gcal.items)return[];var c={},d=[];return this.gcal.items.forEach(function(e){const f=moment(e.start.dateTime);if(2017===f.year()){var g=f.tz("America/Los_Angeles"),h=moment(e.end.dateTime).tz("America/Los_Angeles"),i=g.format("dddd, MMM Do"),j=c[i];j||(j={name:i,start:g,events:[]},d.push(j),c[i]=j);var k=[];(e.location||"").split(",").forEach(function(m){k.push(m.trim())});var l={name:e.summary,start:g,displayTime:this.displayTime(g),timePeriod:g.format("a"),displayTimeEnd:this.displayTime(h),timePeriodEnd:h.format("a"),locations:k,desc:e.description};j.events.push(l)}},this),d.sort(function(e,f){return e.start-f.start}),d.forEach(function(e){e.events.sort(function(f,g){return f.start-g.start})}),console.log(d),d},displayTime:function(c){var d=c.format("h"),e=c.format("mm");return"00"!==e&&(d+=":"+e),d}});</script>
 </dom-module>
 </body></html>

@@ -64,7 +64,7 @@ paper-radio-button[invalid] {
   }
 }
 
-register-form #form, rsvp-page #form {
+register-form #form, rsvp-page #form, checkin-page {
   label {
     color: $dark-fg;
   }
@@ -79,6 +79,7 @@ register-form #form, rsvp-page #form {
   }
   .focused-line {
     background: $form-focused;
+    border-color: $form-focused;
   }
   paper-checkbox {
     #checkboxLabel.paper-checkbox  {

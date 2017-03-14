@@ -3,14 +3,7 @@
 
 </head><body><dom-module id="category-chart">
   <template>
-    <style>
-      canvas {
-        background-color: white;
-      }
-      .chart-container {
-        overflow-x: auto;
-      }
-    </style>
+    <style>canvas{background-color:white;}.chart-container{overflow-x:auto;}</style>
 
     <h2>
       [[label]]
@@ -24,70 +17,6 @@
     </div>
 
   </template>
-  <script>
-'use strict';
-Polymer({
-  is: "category-chart",
-
-  properties: {
-    label: {
-      type: String,
-    },
-
-    data: {
-      type: Array,
-      value: () => [],
-      observer: 'updateChart'
-    },
-  },
-
-  updateChart: function() {
-    const categories = {};
-    this.data.forEach((item) => {
-      categories[item] = (categories[item] || 0) + 1;
-    });
-    const labels = Object.keys(categories);
-    labels.sort((a, b) => {
-      return categories[b] - categories[a];
-    });
-    const data = labels.map((label) => categories[label]);
-    const displayData = {
-      labels: labels,
-      datasets: [{
-        label: this.label,
-        data: data,
-        backgroundColor: 'rgba(220,0,0,0.5)',
-        borderColor: 'rgba(220,0,0,0.8)',
-      }]
-    };
-
-    if (this.chart) {
-      this.chart.destroy();
-    }
-
-    this.$.chart.width = labels.length * 60;
-    const ctx = this.$.chart.getContext('2d');
-    this.chart = new Chart(
-        ctx, {
-          type: 'bar',
-          data: displayData,
-          options: {
-            responsive: false
-          }
-        },
-        {});
-  },
-
-  // https://stackoverflow.com/questions/25594478/different-color-for-each-bar-in-a-bar-chart-chartjs
-  randomColor: function() {
-    var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
-});
-  </script>
+  <script>'use strict';Polymer({is:'category-chart',properties:{label:{type:String},data:{type:Array,value:()=>[],observer:'updateChart'}},updateChart:function(){const c={};this.data.forEach(h=>{c[h]=(c[h]||0)+1});const d=Object.keys(c);d.sort((h,j)=>{return c[j]-c[h]});const e=d.map(h=>c[h]),f={labels:d,datasets:[{label:this.label,data:e,backgroundColor:'rgba(220,0,0,0.5)',borderColor:'rgba(220,0,0,0.8)'}]};this.chart&&this.chart.destroy(),this.$.chart.width=60*d.length;const g=this.$.chart.getContext('2d');this.chart=new Chart(g,{type:'bar',data:f,options:{responsive:!1}},{})},randomColor:function(){for(var c='0123456789ABCDEF'.split(''),d='#',e=0;6>e;e++)d+=c[Math.floor(16*Math.random())];return d}});</script>
 </dom-module>
 </body></html>

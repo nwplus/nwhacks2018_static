@@ -1,118 +1,71 @@
-<html><head><meta charset="UTF-8"><link rel="import" href="../main-app/main-app.html"></head><body><div hidden="" by-vulcanize=""><script>Polymer.IronMenubarBehaviorImpl={hostAttributes:{role:"menubar"},keyBindings:{left:"_onLeftKey",right:"_onRightKey"},_onUpKey:function(e){this.focusedItem.click(),e.detail.keyboardEvent.preventDefault()},_onDownKey:function(e){this.focusedItem.click(),e.detail.keyboardEvent.preventDefault()},get _isRTL(){return"rtl"===window.getComputedStyle(this).direction},_onLeftKey:function(e){this._isRTL?this._focusNext():this._focusPrevious(),e.detail.keyboardEvent.preventDefault()},_onRightKey:function(e){this._isRTL?this._focusPrevious():this._focusNext(),e.detail.keyboardEvent.preventDefault()},_onKeydown:function(e){this.keyboardEventMatchesKeys(e,"up down left right esc")||this._focusWithKeyboardEvent(e)}},Polymer.IronMenubarBehavior=[Polymer.IronMenuBehavior,Polymer.IronMenubarBehaviorImpl];</script><dom-module id="paper-radio-button" assetpath="../../bower_components/paper-radio-button/">
+<html><head></head><body><div hidden="" by-polymer-bundler=""><link rel="import" href="../main-app/main-app.html"><!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><script>Polymer.IronMenubarBehaviorImpl={hostAttributes:{role:'menubar'},keyBindings:{left:'_onLeftKey',right:'_onRightKey'},_onUpKey:function(a){this.focusedItem.click(),a.detail.keyboardEvent.preventDefault()},_onDownKey:function(a){this.focusedItem.click(),a.detail.keyboardEvent.preventDefault()},get _isRTL(){return'rtl'===window.getComputedStyle(this).direction},_onLeftKey:function(a){this._isRTL?this._focusNext():this._focusPrevious(),a.detail.keyboardEvent.preventDefault()},_onRightKey:function(a){this._isRTL?this._focusPrevious():this._focusNext(),a.detail.keyboardEvent.preventDefault()},_onKeydown:function(a){this.keyboardEventMatchesKeys(a,'up down left right esc')||this._focusWithKeyboardEvent(a)}},Polymer.IronMenubarBehavior=[Polymer.IronMenuBehavior,Polymer.IronMenubarBehaviorImpl];</script>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><!--
+Material design: [Radio button](https://www.google.com/design/spec/components/selection-controls.html#selection-controls-radio-button)
+
+`paper-radio-button` is a button that can be either checked or unchecked.
+User can tap the radio button to check or uncheck it.
+
+Use a `<paper-radio-group>` to group a set of radio buttons.  When radio buttons
+are inside a radio group, exactly one radio button in the group can be checked
+at any time.
+
+Example:
+
+    <paper-radio-button></paper-radio-button>
+    <paper-radio-button>Item label</paper-radio-button>
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--paper-radio-button-unchecked-background-color` | Radio button background color when the input is not checked | `transparent`
+`--paper-radio-button-unchecked-color` | Radio button color when the input is not checked | `--primary-text-color`
+`--paper-radio-button-unchecked-ink-color` | Selected/focus ripple color when the input is not checked | `--primary-text-color`
+`--paper-radio-button-checked-color` | Radio button color when the input is checked | `--primary-color`
+`--paper-radio-button-checked-ink-color` | Selected/focus ripple color when the input is checked | `--primary-color`
+`--paper-radio-button-size` | Size of the radio button | `16px`
+`--paper-radio-button-ink-size` | Size of the ripple | `48px`
+`--paper-radio-button-label-color` | Label color | `--primary-text-color`
+`--paper-radio-button-label-spacing` | Spacing between the label and the button | `10px`
+
+This element applies the mixin `--paper-font-common-base` but does not import `paper-styles/typography.html`.
+In order to apply the `Roboto` font to this element, make sure you've imported `paper-styles/typography.html`.
+
+@group Paper Elements
+@element paper-radio-button
+@hero hero.svg
+@demo demo/index.html
+-->
+
+<dom-module id="paper-radio-button" assetpath="../../bower_components/paper-radio-button/">
   <template strip-whitespace="">
-    <style>
-      :host {
-        display: inline-block;
-        line-height: 0;
-        white-space: nowrap;
-        cursor: pointer;
-        @apply(--paper-font-common-base);
-        --calculated-paper-radio-button-size: var(--paper-radio-button-size, 16px);
-        /* -1px is a sentinel for the default and is replace in `attached`. */
-        --calculated-paper-radio-button-ink-size: var(--paper-radio-button-ink-size, -1px);
-      }
-
-      :host(:focus) {
-        outline: none;
-      }
-
-      #radioContainer {
-        @apply(--layout-inline);
-        @apply(--layout-center-center);
-        position: relative;
-        width: var(--calculated-paper-radio-button-size);
-        height: var(--calculated-paper-radio-button-size);
-        vertical-align: middle;
-      }
-
-      #ink {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        right: auto;
-        width: var(--calculated-paper-radio-button-ink-size);
-        height: var(--calculated-paper-radio-button-ink-size);
-        color: var(--paper-radio-button-unchecked-ink-color, --primary-text-color);
-        opacity: 0.6;
-        pointer-events: none;
-        -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-      }
-
-      #ink[checked] {
-        color: var(--paper-radio-button-checked-ink-color, --primary-color);
-      }
-
-      #offRadio, #onRadio {
-        position: absolute;
-        box-sizing: border-box;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-      }
-
-      #offRadio {
-        border: 2px solid var(--paper-radio-button-unchecked-color, --primary-text-color);
-        background-color: var(--paper-radio-button-unchecked-background-color, transparent);
-        transition: border-color 0.28s;
-      }
-
-      #onRadio {
-        background-color: var(--paper-radio-button-checked-color, --primary-color);
-        -webkit-transform: scale(0);
-        transform: scale(0);
-        transition: -webkit-transform ease 0.28s;
-        transition: transform ease 0.28s;
-        will-change: transform;
-      }
-
-      :host([checked]) #offRadio {
-        border-color: var(--paper-radio-button-checked-color, --primary-color);
-      }
-
-      :host([checked]) #onRadio {
-        -webkit-transform: scale(0.5);
-        transform: scale(0.5);
-      }
-
-      #radioLabel {
-        line-height: normal;
-        position: relative;
-        display: inline-block;
-        vertical-align: middle;
-        margin-left: var(--paper-radio-button-label-spacing, 10px);
-        white-space: normal;
-        color: var(--paper-radio-button-label-color, --primary-text-color);
-      }
-
-      :host-context([dir="rtl"]) #radioLabel {
-        margin-left: 0;
-        margin-right: var(--paper-radio-button-label-spacing, 10px);
-      }
-
-      #radioLabel[hidden] {
-        display: none;
-      }
-
-      /* disabled state */
-
-      :host([disabled]) #offRadio {
-        border-color: var(--paper-radio-button-unchecked-color, --primary-text-color);
-        opacity: 0.5;
-      }
-
-      :host([disabled][checked]) #onRadio {
-        background-color: var(--paper-radio-button-unchecked-color, --primary-text-color);
-        opacity: 0.5;
-      }
-
-      :host([disabled]) #radioLabel {
-        /* slightly darker than the button, so that it's readable */
-        opacity: 0.65;
-      }
-    </style>
+    <style>:host{display:inline-block;line-height:0;white-space:nowrap;cursor:pointer;@apply (--paper-font-common-base);--calculated-paper-radio-button-size:var(--paper-radio-button-size, 16px);--calculated-paper-radio-button-ink-size:var(--paper-radio-button-ink-size, -1px);}:host(:focus){outline:none;}#radioContainer{@apply (--layout-inline);@apply (--layout-center-center);position:relative;width:var(--calculated-paper-radio-button-size);height:var(--calculated-paper-radio-button-size);vertical-align:middle;}#ink{position:absolute;top:50%;left:50%;right:auto;width:var(--calculated-paper-radio-button-ink-size);height:var(--calculated-paper-radio-button-ink-size);color:var(--paper-radio-button-unchecked-ink-color, --primary-text-color);opacity:0.6;pointer-events:none;-webkit-transform:translate(-50%, -50%);transform:translate(-50%, -50%);}#ink[checked]{color:var(--paper-radio-button-checked-ink-color, --primary-color);}#offRadio, #onRadio{position:absolute;box-sizing:border-box;top:0;left:0;width:100%;height:100%;border-radius:50%;}#offRadio{border:2px solid var(--paper-radio-button-unchecked-color, --primary-text-color);background-color:var(--paper-radio-button-unchecked-background-color, transparent);transition:border-color 0.28s;}#onRadio{background-color:var(--paper-radio-button-checked-color, --primary-color);-webkit-transform:scale(0);transform:scale(0);transition:-webkit-transform ease 0.28s;transition:transform ease 0.28s;will-change:transform;}:host([checked]) #offRadio{border-color:var(--paper-radio-button-checked-color, --primary-color);}:host([checked]) #onRadio{-webkit-transform:scale(0.5);transform:scale(0.5);}#radioLabel{line-height:normal;position:relative;display:inline-block;vertical-align:middle;margin-left:var(--paper-radio-button-label-spacing, 10px);white-space:normal;color:var(--paper-radio-button-label-color, --primary-text-color);}:host-context([dir="rtl"]) #radioLabel{margin-left:0;margin-right:var(--paper-radio-button-label-spacing, 10px);}#radioLabel[hidden]{display:none;}:host([disabled]) #offRadio{border-color:var(--paper-radio-button-unchecked-color, --primary-text-color);opacity:0.5;}:host([disabled][checked]) #onRadio{background-color:var(--paper-radio-button-unchecked-color, --primary-text-color);opacity:0.5;}:host([disabled]) #radioLabel{opacity:0.65;}</style>
 
     <div id="radioContainer">
       <div id="offRadio"></div>
@@ -122,41 +75,61 @@
     <div id="radioLabel"><content></content></div>
   </template>
 
-  <script>Polymer({is:"paper-radio-button",behaviors:[Polymer.PaperCheckedElementBehavior],hostAttributes:{role:"radio","aria-checked":!1,tabindex:0},properties:{ariaActiveAttribute:{type:String,value:"aria-checked"}},ready:function(){this._rippleContainer=this.$.radioContainer},attached:function(){var t=this.getComputedStyleValue("--calculated-paper-radio-button-ink-size").trim();if("-1px"===t){var e=parseFloat(this.getComputedStyleValue("--calculated-paper-radio-button-size").trim()),a=Math.floor(3*e);a%2!==e%2&&a++,this.customStyle["--paper-radio-button-ink-size"]=a+"px",this.updateStyles()}}});</script>
+  <script>Polymer({is:'paper-radio-button',behaviors:[Polymer.PaperCheckedElementBehavior],hostAttributes:{role:'radio','aria-checked':!1,tabindex:0},properties:{ariaActiveAttribute:{type:String,value:'aria-checked'}},ready:function(){this._rippleContainer=this.$.radioContainer},attached:function(){var a=this.getComputedStyleValue('--calculated-paper-radio-button-ink-size').trim();if('-1px'===a){var b=parseFloat(this.getComputedStyleValue('--calculated-paper-radio-button-size').trim()),c=Math.floor(3*b);c%2!=b%2&&c++,this.customStyle['--paper-radio-button-ink-size']=c+'px',this.updateStyles()}}});</script>
 </dom-module>
+<!--
+Material design: [Radio button](https://www.google.com/design/spec/components/selection-controls.html#selection-controls-radio-button)
+
+`paper-radio-group` allows user to select at most one radio button from a set.
+Checking one radio button that belongs to a radio group unchecks any
+previously checked radio button within the same group. Use
+`selected` to get or set the selected radio button.
+
+The <paper-radio-buttons> inside the group must have the `name` attribute
+set.
+
+Example:
+
+    <paper-radio-group selected="small">
+      <paper-radio-button name="small">Small</paper-radio-button>
+      <paper-radio-button name="medium">Medium</paper-radio-button>
+      <paper-radio-button name="large">Large</paper-radio-button>
+    </paper-radio-group>
+
+Radio-button-groups can be made optional, and allow zero buttons to be selected:
+
+    <paper-radio-group selected="small" allow-empty-selection>
+      <paper-radio-button name="small">Small</paper-radio-button>
+      <paper-radio-button name="medium">Medium</paper-radio-button>
+      <paper-radio-button name="large">Large</paper-radio-button>
+    </paper-radio-group>
+
+See <a href="paper-radio-button">paper-radio-button</a> for more
+information about `paper-radio-button`.
+
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--paper-radio-group-item-padding` | The padding of the item | `12px`
+
+@group Paper Elements
+@element paper-radio-group
+@hero hero.svg
+@demo demo/index.html
+-->
+
 <dom-module id="paper-radio-group" assetpath="../../bower_components/paper-radio-group/">
   <template>
-    <style>
-      :host {
-        display: inline-block;
-      }
-
-      :host ::content > * {
-        padding: var(--paper-radio-group-item-padding, 12px);
-      }
-    </style>
+    <style>:host{display:inline-block;}:host ::content > *{padding:var(--paper-radio-group-item-padding, 12px);}</style>
 
     <content id="items" select="*"></content>
   </template>
 </dom-module>
 
-<script>Polymer({is:"paper-radio-group",behaviors:[Polymer.IronMenubarBehavior],hostAttributes:{role:"radiogroup",tabindex:0},properties:{attrForSelected:{type:String,value:"name"},selectedAttribute:{type:String,value:"checked"},selectable:{type:String,value:"paper-radio-button"},allowEmptySelection:{type:Boolean,value:!1}},select:function(e){var t=this._valueToItem(e);if(!t||!t.hasAttribute("disabled")){if(this.selected){var i=this._valueToItem(this.selected);if(this.selected==e){if(!this.allowEmptySelection)return void(i&&(i.checked=!0));e=""}i&&(i.checked=!1)}Polymer.IronSelectableBehavior.select.apply(this,[e]),this.fire("paper-radio-group-changed")}},_activateFocusedItem:function(){this._itemActivate(this._valueForItem(this.focusedItem),this.focusedItem)},_onUpKey:function(e){this._focusPrevious(),e.preventDefault(),this._activateFocusedItem()},_onDownKey:function(e){this._focusNext(),e.preventDefault(),this._activateFocusedItem()},_onLeftKey:function(e){Polymer.IronMenubarBehaviorImpl._onLeftKey.apply(this,arguments),this._activateFocusedItem()},_onRightKey:function(e){Polymer.IronMenubarBehaviorImpl._onRightKey.apply(this,arguments),this._activateFocusedItem()}});</script>
+<script>Polymer({is:'paper-radio-group',behaviors:[Polymer.IronMenubarBehavior],hostAttributes:{role:'radiogroup',tabindex:0},properties:{attrForSelected:{type:String,value:'name'},selectedAttribute:{type:String,value:'checked'},selectable:{type:String,value:'paper-radio-button'},allowEmptySelection:{type:Boolean,value:!1}},select:function(a){var b=this._valueToItem(a);if(!(b&&b.hasAttribute('disabled'))){if(this.selected){var c=this._valueToItem(this.selected);if(this.selected==a)if(this.allowEmptySelection)a='';else return void(c&&(c.checked=!0));c&&(c.checked=!1)}Polymer.IronSelectableBehavior.select.apply(this,[a]),this.fire('paper-radio-group-changed')}},_activateFocusedItem:function(){this._itemActivate(this._valueForItem(this.focusedItem),this.focusedItem)},_onUpKey:function(a){this._focusPrevious(),a.preventDefault(),this._activateFocusedItem()},_onDownKey:function(a){this._focusNext(),a.preventDefault(),this._activateFocusedItem()},_onLeftKey:function(){Polymer.IronMenubarBehaviorImpl._onLeftKey.apply(this,arguments),this._activateFocusedItem()},_onRightKey:function(){Polymer.IronMenubarBehaviorImpl._onRightKey.apply(this,arguments),this._activateFocusedItem()}});</script>
 <dom-module id="radio-group" assetpath="../">
   <template>
-    <style>
-      paper-radio-button {
-        display: block;
-      }
-      paper-radio-button paper-input {
-        display: inline-block;
-        margin: -40px 5px;
-        position: relative;
-        top: 3px;
-      }
-      h2 {
-        margin-bottom: 0;
-      }
-    </style>
+    <style>paper-radio-button{display:block;}paper-radio-button paper-input{display:inline-block;margin:-40px 5px;position:relative;top:3px;}h2{margin-bottom:0;}</style>
 
     <h2>
       [[label]]
@@ -177,95 +150,11 @@
       </template>
     </paper-radio-group>
   </template>
-  <script>
-'use strict';
-Polymer({
-  is: "radio-group",
-
-  behaviors: [Polymer.IronFormElementBehavior, Polymer.IronValidatableBehavior],
-
-  properties: {
-    label: {
-      type: String,
-    },
-    options: {
-      type: Array,
-      value: () => [],
-    },
-    _selected: {
-      type: String,
-      observer: 'updateValue'
-    },
-    otherValue: {
-      type: String,
-      observer: 'updateValue',
-    },
-    other: {
-      type: Boolean,
-      value: false
-    }
-  },
-
-  updateValue: function() {
-    if (this.other && this._selected === "Other") {
-      this.value = this.otherValue;
-    } else {
-      this.value = this._selected;
-    }
-    if (this.invalid) {
-      this.validate();
-    }
-  },
-
-  _getValidity: function() {
-    return !!this.value && this.value.length > 0;
-  }
-});
-  </script>
+  <script>'use strict';Polymer({is:'radio-group',behaviors:[Polymer.IronFormElementBehavior,Polymer.IronValidatableBehavior],properties:{label:{type:String},options:{type:Array,value:()=>[]},_selected:{type:String,observer:'updateValue'},otherValue:{type:String,observer:'updateValue'},other:{type:Boolean,value:!1}},updateValue:function(){this.value=this.other&&'Other'===this._selected?this.otherValue:this._selected,this.invalid&&this.validate()},_getValidity:function(){return!!this.value&&0<this.value.length}});</script>
 </dom-module>
 </div><dom-module id="rsvp-page">
   <template>
-    <style>
-      :root {
-        --primary-text-color: white;
-        --paper-input-container-color: white;
-        --primary-color: #90cfaa;
-      }
-      :host {
-        display: block;
-      }
-      form > h2 {
-        margin-bottom: 0;
-      }
-      form > h2:first-child {
-        margin-top: 0;
-      }
-      form > paper-input:not([label]) {
-        margin-top: -1em;
-      }
-      paper-radio-button {
-        display: block;
-      }
-      paper-radio-button paper-input {
-        display: inline-block;
-        margin: -40px 5px;
-        position: relative;
-        top: 3px;
-      }
-      form {
-        max-width: 640px;
-        margin: 0 auto 30px;
-        background-color: rgba(104, 117, 137, 0.5);
-        padding: 15px;
-        border-radius: 3px;
-        box-shadow: 0 0 15px rgba(104, 117, 137, 0.5);
-      }
-      @media (max-width: 640px) {
-        form {
-          margin: 0 -15px 30px;
-        }
-      }
-    </style>
+    <style>:root{--primary-text-color:white;--paper-input-container-color:white;--primary-color:#90cfaa;}:host{display:block;}form > h2{margin-bottom:0;}form > h2:first-child{margin-top:0;}form > paper-input:not([label]){margin-top:-1em;}paper-radio-button{display:block;}paper-radio-button paper-input{display:inline-block;margin:-40px 5px;position:relative;top:3px;}form{max-width:640px;margin:0 auto 30px;background-color:rgba(104, 117, 137, 0.5);padding:15px;border-radius:3px;box-shadow:0 0 15px rgba(104, 117, 137, 0.5);}@media (max-width: 640px){form{margin:0 -15px 30px;}}</style>
     <h1 id="top">RSVP to nwHacks!</h1>
 
     <form is="iron-form" id="form">
@@ -362,115 +251,6 @@ Polymer({
     <firebase-document path="[[hackerRSVPKey(params.id)]]" data="{{rsvp}}" zero-value="{{zero}}">
     </firebase-document>
   </template>
-  <script>
-'use strict';
-const respCategories = ['No Response', 'Going', 'Travel Reimbursement Required', 'Not Going'];
-Object.freeze(respCategories);
-Polymer({
-  is: "rsvp-page",
-
-  properties: {
-    categories: {
-      type: Array,
-      value: respCategories,
-    },
-    params: {
-      type: Object,
-      value: function() { return {}; },
-    },
-    valid: {
-      type: Boolean,
-      value: true,
-    },
-    form: {
-      type: Object,
-      value: function() { return {}; },
-    },
-    status: {
-      type: String,
-      observer: 'handleStatus',
-    },
-    zero: {
-      type: Object,
-      value: false,
-    },
-    hasRSVPed: {
-      type: Boolean,
-      value: false,
-    }
-  },
-
-  observers: [
-    'blockRegistration(status, rsvp, acceptanceSent)',
-  ],
-
-  blockRegistration: function(status, rsvp, acceptanceSent) {
-    if (status === "accepted" && acceptanceSent.Valid === true) {
-      const hasRSVPed = Object.keys(rsvp).length > 0;
-      this.hasRSVPed = hasRSVPed;
-      const blockedTime = moment(acceptanceSent.Time).add(7, 'days');
-      this.deadline = blockedTime.fromNow();
-      this.missedDeadline = moment().isAfter(blockedTime) && !hasRSVPed;
-      if (this.missedDeadline) {
-        this.$.toolate.open();
-      } else {
-        this.$.toolate.close();
-      }
-    }
-  },
-
-  handleStatus: function(status, oldStatus) {
-    if (!oldStatus) {
-      return;
-    }
-    if (status === "accepted") {
-      this.$.invalidid.close();
-    } else {
-      this.$.invalidid.open();
-    }
-  },
-
-  validate: function() {
-    if (this.missedDeadline) {
-      return false;
-    }
-    if(!this.$.form.validate()) {
-      return false;
-    }
-    if (!this.form.age || !this.form.passport || !this.form.dietary) {
-      return false;
-    }
-    return true;
-  },
-
-  submit: function() {
-    this.valid = this.validate();
-    if (!this.valid) {
-      return;
-    }
-    this.$.rsvping.open();
-    this.$.rsvp.setStoredValue('/registrations/'+this.params.id+'/rsvp', this.form).then(() => {
-      this.$.rsvping.close();
-      this.$.rsvped.open();
-    }).catch((e) => {
-      this.error = e;
-      this.$.rsvping.close();
-      this.$.rsvperror.open();
-    });
-  },
-
-  hackerStatusKey: function(id) {
-    return '/registrations/'+id+'/status';
-  },
-
-  hackerAcceptanceSentKey: function(id) {
-    return '/registrations/'+id+'/acceptance_sent';
-  },
-
-  hackerRSVPKey: function(id) {
-    return '/registrations/'+id+'/rsvp';
-  }
-});
-  </script>
+  <script>'use strict';const respCategories=['No Response','Going','Travel Reimbursement Required','Not Going'];Object.freeze(respCategories),Polymer({is:'rsvp-page',properties:{categories:{type:Array,value:respCategories},params:{type:Object,value:function(){return{}}},valid:{type:Boolean,value:!0},form:{type:Object,value:function(){return{}}},status:{type:String,observer:'handleStatus'},zero:{type:Object,value:!1},hasRSVPed:{type:Boolean,value:!1}},observers:['blockRegistration(status, rsvp, acceptanceSent)'],blockRegistration:function(a,b,c){if('accepted'===a&&!0===c.Valid){const d=0<Object.keys(b).length;this.hasRSVPed=d;const f=moment(c.Time).add(7,'days');this.deadline=f.fromNow(),this.missedDeadline=moment().isAfter(f)&&!d,this.missedDeadline?this.$.toolate.open():this.$.toolate.close()}},handleStatus:function(a,b){b&&('accepted'===a?this.$.invalidid.close():this.$.invalidid.open())},validate:function(){return!this.missedDeadline&&!!this.$.form.validate()&&this.form.age&&this.form.passport&&this.form.dietary},submit:function(){this.valid=this.validate();this.valid&&(this.$.rsvping.open(),this.$.rsvp.setStoredValue('/registrations/'+this.params.id+'/rsvp',this.form).then(()=>{this.$.rsvping.close(),this.$.rsvped.open()}).catch(a=>{this.error=a,this.$.rsvping.close(),this.$.rsvperror.open()}))},hackerStatusKey:function(a){return'/registrations/'+a+'/status'},hackerAcceptanceSentKey:function(a){return'/registrations/'+a+'/acceptance_sent'},hackerRSVPKey:function(a){return'/registrations/'+a+'/rsvp'}});</script>
 </dom-module>
 </body></html>

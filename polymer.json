@@ -8,7 +8,8 @@
     "components/rsvp-page/rsvp-page.html",
     "components/sponsor-page/sponsor-page.html",
     "components/select-hackers/select-hackers.html",
-    "components/stats-page/stats-page.html"
+    "components/stats-page/stats-page.html",
+    "components/checkin-page/checkin-page.html"
   ],
   "sources": [
     "components/**/*",
@@ -18,9 +19,14 @@
     "documents/**/*",
     "bower.json"
   ],
-  "includeDependencies": [
+  "extraDependencies": [
     "CNAME",
     "404.html",
     "bower_components/webcomponentsjs/webcomponents-lite.min.js"
-  ]
+  ],
+  "builds": [{
+    "bundle": true,
+    "js": {"minify": true},
+    "css": {"minify": true}
+  }]
 }

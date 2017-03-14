@@ -1,91 +1,78 @@
-<html><head><meta charset="UTF-8"><link rel="import" href="../main-app/main-app.html"></head><body><div hidden="" by-vulcanize=""><dom-module id="iron-autogrow-textarea" assetpath="../../bower_components/iron-autogrow-textarea/">
+<html><head></head><body><div hidden="" by-polymer-bundler=""><link rel="import" href="../main-app/main-app.html"><!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><!--
+`iron-autogrow-textarea` is an element containing a textarea that grows in height as more
+lines of input are entered. Unless an explicit height or the `maxRows` property is set, it will
+never scroll.
+
+Example:
+
+    <iron-autogrow-textarea></iron-autogrow-textarea>
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--iron-autogrow-textarea` | Mixin applied to the textarea | `{}`
+`--iron-autogrow-textarea-placeholder` | Mixin applied to the textarea placeholder | `{}`
+
+@group Iron Elements
+@hero hero.svg
+@demo demo/index.html
+-->
+
+<dom-module id="iron-autogrow-textarea" assetpath="../../bower_components/iron-autogrow-textarea/">
   <template>
-    <style>
-      :host {
-        display: inline-block;
-        position: relative;
-        width: 400px;
-        border: 1px solid;
-        padding: 2px;
-        -moz-appearance: textarea;
-        -webkit-appearance: textarea;
-        overflow: hidden;
-      }
+    <style>:host{display:inline-block;position:relative;width:400px;border:1px solid;padding:2px;-moz-appearance:textarea;-webkit-appearance:textarea;overflow:hidden;}.mirror-text{visibility:hidden;word-wrap:break-word;}.fit{@apply (--layout-fit);}textarea{position:relative;outline:none;border:none;resize:none;background:inherit;color:inherit;width:100%;height:100%;font-size:inherit;font-family:inherit;line-height:inherit;text-align:inherit;@apply (--iron-autogrow-textarea);}::content textarea:invalid{box-shadow:none;}textarea::-webkit-input-placeholder{@apply (--iron-autogrow-textarea-placeholder);}textarea:-moz-placeholder{@apply (--iron-autogrow-textarea-placeholder);}textarea::-moz-placeholder{@apply (--iron-autogrow-textarea-placeholder);}textarea:-ms-input-placeholder{@apply (--iron-autogrow-textarea-placeholder);}</style>
 
-      .mirror-text {
-        visibility: hidden;
-        word-wrap: break-word;
-      }
-
-      .fit {
-        @apply(--layout-fit);
-      }
-
-      textarea {
-        position: relative;
-        outline: none;
-        border: none;
-        resize: none;
-        background: inherit;
-        color: inherit;
-        /* see comments in template */
-        width: 100%;
-        height: 100%;
-        font-size: inherit;
-        font-family: inherit;
-        line-height: inherit;
-        text-align: inherit;
-        @apply(--iron-autogrow-textarea);
-      }
-
-      ::content textarea:invalid {
-        box-shadow: none;
-      }
-
-      textarea::-webkit-input-placeholder {
-        @apply(--iron-autogrow-textarea-placeholder);
-      }
-
-      textarea:-moz-placeholder {
-        @apply(--iron-autogrow-textarea-placeholder);
-      }
-
-      textarea::-moz-placeholder {
-        @apply(--iron-autogrow-textarea-placeholder);
-      }
-
-      textarea:-ms-input-placeholder {
-        @apply(--iron-autogrow-textarea-placeholder);
-      }
-    </style>
-
-    
-    
+    <!-- the mirror sizes the input/textarea so it grows with typing -->
+    <!-- use &#160; instead &nbsp; of to allow this element to be used in XHTML -->
     <div id="mirror" class="mirror-text" aria-hidden="true">&nbsp;</div>
 
-    
+    <!-- size the input/textarea with a div, because the textarea has intrinsic size in ff -->
     <div class="textarea-container fit">
       <textarea id="textarea" name$="[[name]]" autocomplete$="[[autocomplete]]" autofocus$="[[autofocus]]" inputmode$="[[inputmode]]" placeholder$="[[placeholder]]" readonly$="[[readonly]]" required$="[[required]]" disabled$="[[disabled]]" rows$="[[rows]]" minlength$="[[minlength]]" maxlength$="[[maxlength]]"></textarea>
     </div>
   </template>
 </dom-module>
 
-<script>Polymer({is:"iron-autogrow-textarea",behaviors:[Polymer.IronFormElementBehavior,Polymer.IronValidatableBehavior,Polymer.IronControlState],properties:{bindValue:{observer:"_bindValueChanged",type:String},rows:{type:Number,value:1,observer:"_updateCached"},maxRows:{type:Number,value:0,observer:"_updateCached"},autocomplete:{type:String,value:"off"},autofocus:{type:Boolean,value:!1},inputmode:{type:String},placeholder:{type:String},readonly:{type:String},required:{type:Boolean},minlength:{type:Number},maxlength:{type:Number}},listeners:{input:"_onInput"},observers:["_onValueChanged(value)"],get textarea(){return this.$.textarea},get selectionStart(){return this.$.textarea.selectionStart},get selectionEnd(){return this.$.textarea.selectionEnd},set selectionStart(e){this.$.textarea.selectionStart=e},set selectionEnd(e){this.$.textarea.selectionEnd=e},validate:function(){if(!this.required&&""==this.value)return this.invalid=!1,!0;var e;return this.hasValidator()?e=Polymer.IronValidatableBehavior.validate.call(this,this.value):(e=this.$.textarea.validity.valid,this.invalid=!e),this.fire("iron-input-validate"),e},_bindValueChanged:function(){var e=this.textarea;e&&(e.value!==this.bindValue&&(e.value=this.bindValue||0===this.bindValue?this.bindValue:""),this.value=this.bindValue,this.$.mirror.innerHTML=this._valueForMirror(),this.fire("bind-value-changed",{value:this.bindValue}))},_onInput:function(e){this.bindValue=e.path?e.path[0].value:e.target.value},_constrain:function(e){var t;for(e=e||[""],t=this.maxRows>0&&e.length>this.maxRows?e.slice(0,this.maxRows):e.slice(0);this.rows>0&&t.length<this.rows;)t.push("");return t.join("<br/>")+"&#160;"},_valueForMirror:function(){var e=this.textarea;if(e)return this.tokens=e&&e.value?e.value.replace(/&/gm,"&amp;").replace(/"/gm,"&quot;").replace(/'/gm,"&#39;").replace(/</gm,"&lt;").replace(/>/gm,"&gt;").split("\n"):[""],this._constrain(this.tokens)},_updateCached:function(){this.$.mirror.innerHTML=this._constrain(this.tokens)},_onValueChanged:function(){this.bindValue=this.value}});</script>
+<script>Polymer({is:'iron-autogrow-textarea',behaviors:[Polymer.IronFormElementBehavior,Polymer.IronValidatableBehavior,Polymer.IronControlState],properties:{bindValue:{observer:'_bindValueChanged',type:String},rows:{type:Number,value:1,observer:'_updateCached'},maxRows:{type:Number,value:0,observer:'_updateCached'},autocomplete:{type:String,value:'off'},autofocus:{type:Boolean,value:!1},inputmode:{type:String},placeholder:{type:String},readonly:{type:String},required:{type:Boolean},minlength:{type:Number},maxlength:{type:Number}},listeners:{input:'_onInput'},observers:['_onValueChanged(value)'],get textarea(){return this.$.textarea},get selectionStart(){return this.$.textarea.selectionStart},get selectionEnd(){return this.$.textarea.selectionEnd},set selectionStart(a){this.$.textarea.selectionStart=a},set selectionEnd(a){this.$.textarea.selectionEnd=a},validate:function(){if(!this.required&&''==this.value)return this.invalid=!1,!0;var a;return this.hasValidator()?a=Polymer.IronValidatableBehavior.validate.call(this,this.value):(a=this.$.textarea.validity.valid,this.invalid=!a),this.fire('iron-input-validate'),a},_bindValueChanged:function(){var a=this.textarea;a&&(a.value!==this.bindValue&&(a.value=this.bindValue||0===this.bindValue?this.bindValue:''),this.value=this.bindValue,this.$.mirror.innerHTML=this._valueForMirror(),this.fire('bind-value-changed',{value:this.bindValue}))},_onInput:function(a){this.bindValue=a.path?a.path[0].value:a.target.value},_constrain:function(a){var b;for(a=a||[''],b=0<this.maxRows&&a.length>this.maxRows?a.slice(0,this.maxRows):a.slice(0);0<this.rows&&b.length<this.rows;)b.push('');return b.join('<br/>')+'&#160;'},_valueForMirror:function(){var a=this.textarea;if(a)return this.tokens=a&&a.value?a.value.replace(/&/gm,'&amp;').replace(/"/gm,'&quot;').replace(/'/gm,'&#39;').replace(/</gm,'&lt;').replace(/>/gm,'&gt;').split('\n'):[''],this._constrain(this.tokens)},_updateCached:function(){this.$.mirror.innerHTML=this._constrain(this.tokens)},_onValueChanged:function(){this.bindValue=this.value}});</script>
+<!--
+`<paper-textarea>` is a multi-line text field with Material Design styling.
+
+    <paper-textarea label="Textarea label"></paper-textarea>
+
+See `Polymer.PaperInputBehavior` for more API docs.
+
+### Validation
+
+Currently only `required` and `maxlength` validation is supported.
+
+### Styling
+
+See `Polymer.PaperInputContainer` for a list of custom properties used to
+style this element.
+-->
+
 <dom-module id="paper-textarea" assetpath="../../bower_components/paper-input/">
   <template>
-    <style>
-      :host {
-        display: block;
-      }
-
-      :host([hidden]) {
-        display: none !important;
-      }
-
-      label {
-        pointer-events: none;
-      }
-    </style>
+    <style>:host{display:block;}:host([hidden]){display:none !important;}label{pointer-events:none;}</style>
 
     <paper-input-container no-label-float$="[[noLabelFloat]]" always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]" auto-validate$="[[autoValidate]]" disabled$="[[disabled]]" invalid="[[invalid]]">
 
@@ -105,48 +92,10 @@
   </template>
 </dom-module>
 
-<script>Polymer({is:"paper-textarea",behaviors:[Polymer.PaperInputBehavior,Polymer.IronFormElementBehavior],properties:{_ariaLabelledBy:{observer:"_ariaLabelledByChanged",type:String},_ariaDescribedBy:{observer:"_ariaDescribedByChanged",type:String},rows:{type:Number,value:1},maxRows:{type:Number,value:0}},_ariaLabelledByChanged:function(e){this.$.input.textarea.setAttribute("aria-labelledby",e)},_ariaDescribedByChanged:function(e){this.$.input.textarea.setAttribute("aria-describedby",e)},get _focusableElement(){return this.$.input.textarea}});</script>
+<script>Polymer({is:'paper-textarea',behaviors:[Polymer.PaperInputBehavior,Polymer.IronFormElementBehavior],properties:{_ariaLabelledBy:{observer:'_ariaLabelledByChanged',type:String},_ariaDescribedBy:{observer:'_ariaDescribedByChanged',type:String},rows:{type:Number,value:1},maxRows:{type:Number,value:0}},_ariaLabelledByChanged:function(a){this.$.input.textarea.setAttribute('aria-labelledby',a)},_ariaDescribedByChanged:function(a){this.$.input.textarea.setAttribute('aria-describedby',a)},get _focusableElement(){return this.$.input.textarea}});</script>
 </div><dom-module id="register-form">
   <template>
-    <style>
-      :root {
-        --primary-text-color: white;
-      }
-      :host {
-        display: block;
-      }
-      img[item-icon] {
-        height: 40px;
-        width: 40px;
-        border-radius: 100px;
-      }
-      paper-icon-item {
-        pointer-events: none;
-      }
-      paper-checkbox, input[type="file"] {
-        display: block;
-        padding: 8px 0px;
-      }
-      form {
-        max-width: 640px;
-        margin: 0 auto 30px;
-        background-color: rgba(104, 117, 137, 0.5);
-        padding: 15px;
-        border-radius: 3px;
-        box-shadow: 0 0 15px rgba(104, 117, 137, 0.5);
-      }
-      @media (max-width: 640px) {
-        form {
-          margin: 0 -15px 30px;
-        }
-      }
-      div[prefix] {
-        opacity: 0.6;
-      }
-      .register {
-        margin-top: 50px;
-      }
-    </style>
+    <style>:root{--primary-text-color:white;}:host{display:block;}img[item-icon]{height:40px;width:40px;border-radius:100px;}paper-icon-item{pointer-events:none;}paper-checkbox, input[type="file"]{display:block;padding:8px 0px;}form{max-width:640px;margin:0 auto 30px;background-color:rgba(104, 117, 137, 0.5);padding:15px;border-radius:3px;box-shadow:0 0 15px rgba(104, 117, 137, 0.5);}@media (max-width: 640px){form{margin:0 -15px 30px;}}div[prefix]{opacity:0.6;}.register{margin-top:50px;}</style>
     <iron-ajax auto="" url="{{githubURL}}" handle-as="json" last-response="{{githubDetails}}" debounce-duration="300"></iron-ajax>
     <iron-ajax auto="" url="{{citiesURL}}" handle-as="json" last-response="{{cities}}" debounce-duration="300"></iron-ajax>
 
@@ -240,6 +189,6 @@
   </template>
 
   <script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
-  <script>Polymer({is:"register-form",properties:{valid:{type:Boolean,value:function(){return!0}},githubURL:{computed:"updateGithubURL(data.github)"},citiesURL:{computed:"updateCitiesURL(data.city, cityFocused)"},citiesClean:{computed:"cleanCities(cities)"},data:{type:Object,notify:!0,value:function(){return{travel_reimbursement:!1,first_hackathon:!1,mentor:!1}}},alreadyRegistered:{value:!1}},observers:["checkEmail(data.email)"],checkEmail:function(e){if(console.log("email",e),this.checkEmailTimeout&&(clearTimeout(this.checkEmailTimeout),this.checkEmailTimeout=!1),e){var t=this;this.checkEmailTimeout=setTimeout(function(){t.checkEmailTimeout=!1,firebase.database().ref("emails").child(btoa(t.data.email)).once("value").then(function(e){var i=e.val();t.alreadyRegistered=!!i})},200)}},attached:function(){var e=this;setTimeout(function(){e.$.form.validate()},1)},updateGithubURL:function(e){return e?"https://api.github.com/users/"+e:""},updateCitiesURL:function(e,t){return e&&t?"https://api.teleport.org/api/cities/?limit=5&search="+e:""},cleanCities:function(e){return e&&e._embedded["city:search-results"]},selectCity:function(e){this.set("data.city",e.model.item.matching_full_name)},cleanFileName:function(e){return e.replace(/[^A-Za-z0-9\.\-\(\)]+/g,"-")},submit:function(){var e=this;if(this.valid=this.$.form.validate(),this.valid){this.$.submitting.open();const t=firebase.database().ref("ids").push().key,i=this.$.resume.inputElement.files;var a=Promise.resolve();if(i.length>0){const s=i[0],n=this.cleanFileName(s.name),r="resumes/"+t+"-"+n;this.data.resume=r,a=firebase.storage().ref(r).put(s)}a.then(function(){return firebase.database().ref("registrations").child(t).set(e.data)}).then(function(){return firebase.database().ref("emails").child(btoa(e.data.email)).set(!0)}).then(function(t){console.log("Registered",t),e.$.submitting.close(),e.$.registered.open()}).catch(function(t){console.log("Error!",t),e.error=t,e.$.submitting.close(),e.$.error.open()})}}});var config={apiKey:"AIzaSyBou6z9QA7zvCpxUFLoTbwQZcWuBn47yEA",authDomain:"nwhacks-96701.firebaseapp.com",databaseURL:"https://nwhacks-96701.firebaseio.com",storageBucket:"nwhacks-96701.appspot.com",messagingSenderId:"874137730051"};firebase.initializeApp(config);</script>
+  <script>Polymer({is:'register-form',properties:{valid:{type:Boolean,value:function(){return!0}},githubURL:{computed:'updateGithubURL(data.github)'},citiesURL:{computed:'updateCitiesURL(data.city, cityFocused)'},citiesClean:{computed:'cleanCities(cities)'},data:{type:Object,notify:!0,value:function(){return{travel_reimbursement:!1,first_hackathon:!1,mentor:!1}}},alreadyRegistered:{value:!1}},observers:['checkEmail(data.email)'],checkEmail:function(a){if(console.log('email',a),this.checkEmailTimeout&&(clearTimeout(this.checkEmailTimeout),this.checkEmailTimeout=!1),!!a){var b=this;this.checkEmailTimeout=setTimeout(function(){b.checkEmailTimeout=!1,firebase.database().ref('emails').child(btoa(b.data.email)).once('value').then(function(c){var d=c.val();b.alreadyRegistered=!!d})},200)}},attached:function(){var a=this;setTimeout(function(){a.$.form.validate()},1)},updateGithubURL:function(a){return a?'https://api.github.com/users/'+a:''},updateCitiesURL:function(a,b){return a&&b?'https://api.teleport.org/api/cities/?limit=5&search='+a:''},cleanCities:function(a){return a&&a._embedded['city:search-results']},selectCity:function(a){this.set('data.city',a.model.item.matching_full_name)},cleanFileName:function(a){return a.replace(/[^A-Za-z0-9\.\-\(\)]+/g,'-')},submit:function(){var a=this;if(this.valid=this.$.form.validate(),this.valid){this.$.submitting.open();const c=firebase.database().ref('ids').push().key,d=this.$.resume.inputElement.files;var b=Promise.resolve();if(0<d.length){const f=d[0],g=this.cleanFileName(f.name),h='resumes/'+c+'-'+g;this.data.resume=h,b=firebase.storage().ref(h).put(f)}b.then(function(){return firebase.database().ref('registrations').child(c).set(a.data)}).then(function(){return firebase.database().ref('emails').child(btoa(a.data.email)).set(!0)}).then(function(f){console.log('Registered',f),a.$.submitting.close(),a.$.registered.open()}).catch(function(f){console.log('Error!',f),a.error=f,a.$.submitting.close(),a.$.error.open()})}}});var config={apiKey:'AIzaSyBou6z9QA7zvCpxUFLoTbwQZcWuBn47yEA',authDomain:'nwhacks-96701.firebaseapp.com',databaseURL:'https://nwhacks-96701.firebaseio.com',storageBucket:'nwhacks-96701.appspot.com',messagingSenderId:'874137730051'};firebase.initializeApp(config);</script>
 </dom-module>
 </body></html>

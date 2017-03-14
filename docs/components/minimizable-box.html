@@ -2,17 +2,12 @@
 
 </head><body><dom-module id="minimizable-box">
   <template>
-    <style>
-      paper-icon-button {
-        float: right;
-        margin: -8px 0;
-      }
-    </style>
+    <style>paper-icon-button{float:right;margin:-8px 0;}</style>
     <paper-icon-button icon="[[icon(hidden)]]" on-tap="toggle"></paper-icon-button>
     <span hidden$="{{hidden}}">
       <content></content>
     </span>
   </template>
-  <script>Polymer({is:"minimizable-box",attached:function(){this.hidden=window.innerWidth<600},icon:function(i){return i?"expand-more":"expand-less"},toggle:function(){this.hidden=!this.hidden}});</script>
+  <script>Polymer({is:'minimizable-box',attached:function(){this.hidden=600>window.innerWidth},icon:function(a){return a?'expand-more':'expand-less'},toggle:function(){this.hidden=!this.hidden}});</script>
 </dom-module>
 </body></html>

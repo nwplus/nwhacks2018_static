@@ -1,4 +1,12 @@
-<html><head><meta charset="UTF-8"><link rel="import" href="../main-app/main-app.html"></head><body><div hidden="" by-vulcanize=""><iron-iconset-svg name="maps" size="24">
+<html><head></head><body><div hidden="" by-polymer-bundler=""><link rel="import" href="../main-app/main-app.html"><!--
+@license
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><iron-iconset-svg name="maps" size="24">
 <svg><defs>
 <g id="add-location"><path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zm4 8h-3v3h-2v-3H8V8h3V5h2v3h3v2z"></path></g>
 <g id="beenhere"><path d="M19 1H5c-1.1 0-1.99.9-1.99 2L3 15.93c0 .69.35 1.3.88 1.66L12 23l8.11-5.41c.53-.36.88-.97.88-1.66L21 3c0-1.1-.9-2-2-2zm-9 15l-5-5 1.41-1.41L10 13.17l7.59-7.59L19 7l-9 9z"></path></g>
@@ -70,7 +78,15 @@
 <g id="zoom-out-map"><path d="M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6z"></path></g>
 </defs></svg>
 </iron-iconset-svg>
-<iron-iconset-svg name="image" size="24">
+<!--
+@license
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><iron-iconset-svg name="image" size="24">
 <svg><defs>
 <g id="add-a-photo"><path d="M3 4V1h2v3h3v2H5v3H3V6H0V4h3zm3 6V7h3V4h7l1.83 2H21c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V10h3zm7 9c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-3.2-5c0 1.77 1.43 3.2 3.2 3.2s3.2-1.43 3.2-3.2-1.43-3.2-3.2-3.2-3.2 1.43-3.2 3.2z"></path></g>
 <g id="add-to-photos"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z"></path></g>
@@ -231,98 +247,13 @@
 </iron-iconset-svg>
 </div><dom-module id="dayof-page">
   <template>
-    <style>
-      #twitter {
-        text-align: center;
-      }
-      .grid-container {
-        width : 100%;
-        max-width : 1600px;
-        margin: 0 auto;
-      }
-      paper-button iron-icon {
-        margin: -0.5em 0;
-      }
-      .row:before,
-      .row:after {
-        content:"";
-        display: table ;
-        clear:both;
-      }
-      [class*='col-'] {
-        float: left;
-        min-height: 1px;
-        width: 33.33%;
-        padding: 12px;
-        box-sizing: border-box;
-
-        margin-top: 13px;
-        margin-bottom: 100px;
-      }
-      .row .row [class*='col-'] {
-        margin-bottom: 0;
-        margin-top: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-      }
-      h2:first-child {
-        margin-top: 0;
-      }
-      .col-33{
-        width: 33.33%;
-      }
-      .col-50{
-        width: 50%;
-      }
-      .col-66{
-        width: 66.66%;
-      }
-      .col-100{
-        width: 100%;
-      }
-      .top-buttons {
-        margin-top: 50px;
-        display: flex;
-        justify-content: center;
-      }
-      code {
-        font-family: monospace;
-        background-color: rgba(0,0,0,0.5);
-        font-size: 14pt;
-        padding: 6px;
-      }
-      code.block {
-        display: block;
-        margin: 20px 0;
-        padding: 12px;
-      }
-      @media (max-width: 1200px) {
-        .col-33 {
-          width: 70%;
-          margin-right: 15%;
-          margin-left: 15%;
-        }
-        .col-66 {
-          width: 100%;
-        }
-      }
-      @media (max-width: 768px) {
-        .col-33 {
-          width: 100%;
-          margin-right: 0;
-          margin-left: 0;
-        }
-        .col-50 {
-          width: 100%;
-        }
-      }
-      .bottom a {
-        color: #2F794E;
-      }
-    </style>
+    <style>#twitter{text-align:center;}.grid-container{width :100%;max-width :1600px;margin:0 auto;}paper-button iron-icon{margin:-0.5em 0;}.row:before,
+      .row:after{content:"";display:table;clear:both;}[class*='col-']{float:left;min-height:1px;width:33.33%;padding:12px;box-sizing:border-box;margin-top:13px;margin-bottom:100px;}.row .row [class*='col-']{margin-bottom:0;margin-top:0;padding-top:0;padding-bottom:0;}h2:first-child{margin-top:0;}.col-33{width:33.33%;}.col-50{width:50%;}.col-66{width:66.66%;}.col-100{width:100%;}.top-buttons{margin-top:50px;display:flex;justify-content:center;}code{font-family:monospace;background-color:rgba(0,0,0,0.5);font-size:14pt;padding:6px;}code.block{display:block;margin:20px 0;padding:12px;}@media (max-width: 1200px){.col-33{width:70%;margin-right:15%;margin-left:15%;}.col-66{width:100%;}}@media (max-width: 768px){.col-33{width:100%;margin-right:0;margin-left:0;}.col-50{width:100%;}}.bottom a{color:#2F794E;}</style>
 
     <div class="top-buttons">
-      
+      <!--
+      <a class="none" href="https://nwhacks2016.devpost.com/"><paper-button class="register">submit hack</paper-button></a>
+      -->
       <a class="none" href="https://nwhacks17.slack.com"><paper-button class="button">#slack</paper-button></a>
       <a class="none" href="https://www.nwhacks.io/documents/nwHacks%202017%20Info%20Package.pdf"><paper-button class="button">
           <iron-icon icon="image:picture-as-pdf"></iron-icon>
@@ -372,9 +303,149 @@
         <div id="twitter" class="col-33">
           <h1>UPDATES</h1>
           <a class="twitter-timeline" href="https://twitter.com/nwHacks" data-widget-id="701669388655562756">Tweets by @nwHacks</a>
-          <script>!function(t,e,r){var n,s=t.getElementsByTagName(e)[0],i=/^http:/.test(t.location)?"http":"https";t.getElementById(r)||(n=t.createElement(e),n.id=r,n.src=i+"://platform.twitter.com/widgets.js",s.parentNode.insertBefore(n,s))}(document,"script","twitter-wjs");</script>
+          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
         </div>
-      
+      <!--
+        <div id="prizes" class="col-66">
+          <h1>PRIZES</h1>
+          <div class="row">
+            <div class="col-50">
+              <h2>Overall Best</h2>
+              <ul>
+                <li><b>1st Place:</b> Dell Tablets for each team member </li>
+                <li><b>2nd Place:</b> $1,000 CAD for the team </li>
+                <li><b>3rd Place:</b> $500 CAD for the team</li>
+              </ul>
+              <h2>PIA: Best Privacy, Security or Crypto Hack</h2>
+              <p>
+              Hacks will be judged based on: Implementation, Ease of use, and Uniqueness of idea.
+              </p>
+              <ul>
+                <li><b>1st Place:</b> $2,000 for the team</li>
+                <li><b>2nd Place:</b> $1,000 for the team</li>
+                <li><b>3rd Place:</b> $500 for the team</li>
+              </ul>
+              <h2>Orbis: Solving or Improving a Social Problem Using Data Analytics</h2>
+              <ul>
+                <li>$400 for the team</li>
+              </ul>
+              <h2>Best App using Microsoft Azure</h2>
+              <ul>
+                <li>HP Pro Tablet for each team member</li>
+              </ul>
+              <h2>Best Use of Wolfram Technology</h2>
+              <ul>
+                <li>1 year of Wolfram Development Platform (Developer Level) </li>
+                <li>1 year of Wolfram Mathematica Student Edition </li>
+                <li>1 year subscription to Computational Knowledge Engine (Wolfram|Alpha Pro)</li>
+              </ul>
+              <h2>Best Use of Google APIs</h2>
+              <ul>
+                <li>Chromecast for each team member</li>
+              </ul>
+            </div>
+            <div class="col-50">
+              <h2>CA Technologies: Best IoT App with Mobile Interface</h2>
+              <ul>
+                <li>Drone for each team member</li>
+              </ul>
+              <h2> MLH: Best Domain Name from Domain.com</h2>
+              <ul>
+                <li>Swag Bags with Sparkfun Redboards</li>
+              </ul>
+              <h2>MLH: Best Use of AWS</h2>
+              <ul>
+                <li>1TB hard drive for each team member</li>
+              </ul>
+              <h2>MLH: Best Developer Tool</h2>
+              <ul>
+                <li>GitHub Octocat statue</li>
+              </ul>
+              <h2>Indico: Best use of API and Machine Learning</h2>
+              <ul>
+                <li>$1,000 Indico API credit for each team member</li>
+              </ul>
+              <h2> Zenefits</h2>
+              <ul>
+                <li> Backpack for each team member </li>
+              </ul>
+              <h2>JetBrains</h2>
+              <ul>
+                <li>IntelliJ IDEA Ultimate personal license for each team member</li>
+              </ul>
+              <h2> Archiact</h2>
+              <ul>
+                <li> 30 tickets to CVR </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row bottom">
+        <div id="hardware" class="col-50">
+          <h1>HARDWARE</h1>
+          <p>
+          Due to limited amount of hardware the availability is not guaranteed.
+          <ul>
+            <li> 4	Alienware 13</li>
+            <li>  6	Arduino Uno</li>
+            <li>  10	Base Shield</li>
+            <li>  3	Dell Monitor</li>
+            <li>  2	Dell XPS 13 (Ubuntu)</li>
+            <li>  2	Dell XPS 13 (Windows)</li>
+            <li>  3	Fire Phone</li>
+            <li>  1	Grove Starter Kit</li>
+            <li>  10	Intel Edison</li>
+            <li>  10	Leap Motion</li>
+            <li>  3	Muse Headband</li>
+            <li>  24	Myos</li>
+            <li>  1	Nest Cam</li>
+            <li>  1	Nest Thermostat Kit</li>
+            <li>  12	Oculus Rift DK2</li>
+            <li>  15	Pebble Classic</li>
+            <li>  5	Pebble Time Steel</li>
+            <li>  10	Spark Core</li>
+            <li>  1	TV</li>
+          </ul>
+          </p>
+        </div>
+        <div id="api" class="col-50">
+          <h1>SPONSOR APIs</h1>
+          <p>
+          Check out the APIs provided by our awesome sponsors!
+          </p>
+          <h2>CA Technologies</h2>
+          <p>
+          Digital transformation within the application economy  - from planning to development to management to security.
+          <br>
+          <a href="https://docops.ca.com">https://docops.ca.com</a>
+          </p>
+          <h2>clairfai</h2>
+          <p>
+          Real Solutions, Artificial Intelligence. Understand every image and video with the world's best visual recognition technology.
+          <br>
+          <a href="http://www.clarifai.com/api">https://developer.clarifai.com/signup/nwhacks</a>
+          </p>
+          <h2>Lob</h2>
+          <p>
+          Lob enables you to seamlessly print and mail documents, postcards, checks, and more via an API. Integrate easily into your web or mobile application today.
+          <br>
+          <a href="https://lob.com/docs">https://lob.com/docs</a>
+          </p>
+          <h2>Namecheap</h2>
+          <p>
+          The Namecheap API allows you to build web and desktop applications that integrate with your Namecheap account. It enables you to programmatically perform operations such as domain search, domain registration, SSL purchase etc., from within your application.
+          <br>
+          <a href="https://www.namecheap.com/support/api/intro.aspx">https://www.namecheap.com/support/api/intro.aspx</a>
+          </p>
+          <h2>Wolfram</h2>
+          <p>
+          Access the Wolfram|Alpha platform at multiple levels—from individual results to complete Wolfram|Alpha output pages. The API operates as a high-performance REST-style webservice, with convenient bindings for popular languages and platforms.
+          <br>
+          <a href="http://products.wolframalpha.com/api/">http://products.wolframalpha.com/api/</a>
+          </p>
+        </div>
+      -->
       </div>
   </div></template>
   <script>Polymer({is:"dayof-page"});</script>

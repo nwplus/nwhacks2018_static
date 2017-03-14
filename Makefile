@@ -5,10 +5,10 @@ SCSS := $(shell find css -name \*.scss -print)
 build: docs/index.html docs/favicon.png
 
 build/: bower_components components index.html css/main.css $(JS) $(HTML) polymer.json
-	rm -r build; polymer build
+	polymer build
 
 docs/index.html: build/
-	rm -r docs; cp -R build/bundled/ docs
+	rm -r docs; cp -R build/default/ docs
 	svgo -f docs/svg/logos/
 
 docs/favicon.png: favicon.png
