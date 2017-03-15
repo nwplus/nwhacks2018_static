@@ -123,8 +123,7 @@
         <a href="https://calendar.google.com/calendar/embed?src=outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com&ctz=America/Los_Angeles">Google Calendar</a>
       </div>
     </div>
-    <iron-ajax
-      auto
+    <iron-ajax id="ajax"
       url="https://www.googleapis.com/calendar/v3/calendars/outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com/events?key=%20AIzaSyAdbxoL7d-fe9rFUh898TTCx-ZERREDhKg&timeZone=America/Los_Angeles"
       handle-as="json"
       last-response="{{gcal}}"></iron-ajax>
@@ -142,6 +141,9 @@ Polymer({
       type: Object,
       value: function() { return {}; },
     },
+  },
+  attached: function() {
+    this.$.ajax.generateRequest();
   },
   map: function(location) {
     return "https://campus.fn.lc/#"+(location || '').replace(/ /g, '+');

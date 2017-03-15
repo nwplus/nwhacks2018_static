@@ -1,1 +1,131 @@
-<html><head><link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html"><link rel="import" href="../moment-js.html"><link rel="import" href="../moment-timezone-js.html"></head><body><dom-module id="schedule-box"><template><style>:host{display:block;}h1{text-align:center;}.day{margin-top:0;text-align:center;}.day .row{text-align:left;color:white;display:flex;align-items:center;margin:10px 0;}.day .row .time-col{padding-right:0;}.day .row > div:first-child{font-weight:500;min-width:86px;min-height:32px;padding-bottom:0;}.day .time{font-size:20pt;}.day .period{text-transform:uppercase;font-size:10pt;}.day .row > div{display:inline-block;vertical-align:top;}.day .row > div.location{white-space:nowrap;text-align:right;}.card-content{padding:0px 16px;color:#444;}.content{min-height:448px;}.center{text-align:center;}.gcal{margin:30px 0;}.desc{font-style:italic;display:block;font-size:0.9em;}@media (max-width: 480px){.desc{margin-top:0px;margin-left:10px;}}@media (min-width: 950px){.day{width:calc(50% - 10px);}.days{display:flex;}}.day .row .name{display:inline-block;}.day .row .info{display:inline;flex-grow:1000;padding:0 5px;}</style><h1>SCHEDULE</h1><div class="content"><div class="days"><template is="dom-repeat" items="[[days]]"><div class="day"><div class="small-trapezoid">[[item.name]]</div><div class="card-content"><template is="dom-repeat" items="[[item.events]]"><div class="row"><div class="time-col"><span class="time">[[item.displayTime]]</span><span class="period">[[item.timePeriod]]</span></div><div class="info"><span class="name">[[item.name]]</span> <span class="desc">[[item.desc]]</span></div><div class="location"><template is="dom-repeat" items="[[item.locations]]"><a target="_blank" href="[[map(item)]]">[[item]]</a><br></template></div></div></template></div></div></template></div><div class="center gcal"><a href="https://calendar.google.com/calendar/embed?src=outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com&amp;ctz=America/Los_Angeles">Google Calendar</a></div></div><iron-ajax auto="" url="https://www.googleapis.com/calendar/v3/calendars/outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com/events?key=%20AIzaSyAdbxoL7d-fe9rFUh898TTCx-ZERREDhKg&amp;timeZone=America/Los_Angeles" handle-as="json" last-response="{{gcal}}"></iron-ajax></template><script>Polymer({is:"schedule-box",properties:{days:{type:Array,computed:"calendarDisplay(gcal)"},gcal:{type:Object,value:function(){return{}}}},map:function(c){return"https://campus.fn.lc/#"+(c||"").replace(/ /g,"+")},calendarDisplay:function(){if(console.log(this.gcal),!this.gcal.items)return[];var c={},d=[];return this.gcal.items.forEach(function(e){const f=moment(e.start.dateTime);if(2017===f.year()){var g=f.tz("America/Los_Angeles"),h=moment(e.end.dateTime).tz("America/Los_Angeles"),i=g.format("dddd, MMM Do"),j=c[i];j||(j={name:i,start:g,events:[]},d.push(j),c[i]=j);var k=[];(e.location||"").split(",").forEach(function(m){k.push(m.trim())});var l={name:e.summary,start:g,displayTime:this.displayTime(g),timePeriod:g.format("a"),displayTimeEnd:this.displayTime(h),timePeriodEnd:h.format("a"),locations:k,desc:e.description};j.events.push(l)}},this),d.sort(function(e,f){return e.start-f.start}),d.forEach(function(e){e.events.sort(function(f,g){return f.start-g.start})}),console.log(d),d},displayTime:function(c){var d=c.format("h"),e=c.format("mm");return"00"!==e&&(d+=":"+e),d}});</script></dom-module></body></html>
+<html><head><link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../moment-js.html">
+<link rel="import" href="../moment-timezone-js.html">
+
+</head><body><dom-module id="schedule-box">
+  <template>
+    <style>:host{display:block;}h1{text-align:center;}.day{margin-top:0;text-align:center;}.day .row{text-align:left;color:white;display:flex;align-items:center;margin:10px 0;}.day .row .time-col{padding-right:0;}.day .row > div:first-child{font-weight:500;min-width:86px;min-height:32px;padding-bottom:0;}.day .time{font-size:20pt;}.day .period{text-transform:uppercase;font-size:10pt;}.day .row > div{display:inline-block;vertical-align:top;}.day .row > div.location{white-space:nowrap;text-align:right;}.card-content{padding:0px 16px;color:#444;}.content{min-height:448px;}.center{text-align:center;}.gcal{margin:30px 0;}.desc{font-style:italic;display:block;font-size:0.9em;}@media (max-width: 480px){.desc{margin-top:0px;margin-left:10px;}}@media (min-width: 950px){.day{width:calc(50% - 10px);}.days{display:flex;}}.day .row .name{display:inline-block;}.day .row .info{display:inline;flex-grow:1000;padding:0 5px;}</style>
+    <h1>SCHEDULE</h1>
+    <div class="content">
+      <div class="days">
+        <template is="dom-repeat" items="[[days]]">
+          <div class="day">
+            <div class="small-trapezoid">[[item.name]]</div>
+            <div class="card-content">
+              <template is="dom-repeat" items="[[item.events]]">
+                <div class="row">
+                  <div class="time-col">
+                    <span class="time">[[item.displayTime]]</span><span class="period">[[item.timePeriod]]</span>
+                    <!-- <br> &ndash;
+                      <span class="time">[[item.displayTimeEnd]]</span><span
+                      class="period">[[item.timePeriodEnd]]</span>
+                    -->
+                  </div>
+                  <div class="info">
+                    <span class="name">[[item.name]]</span>
+                    <span class="desc">[[item.desc]]</span>
+                  </div>
+                  <div class="location">
+                    <template is="dom-repeat" items="[[item.locations]]">
+                      <a target="_blank" href="[[map(item)]]">[[item]]</a>
+                      <br>
+                    </template>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+        </template>
+      </div>
+      <div class="center gcal">
+        <a href="https://calendar.google.com/calendar/embed?src=outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com&amp;ctz=America/Los_Angeles">Google Calendar</a>
+      </div>
+    </div>
+    <iron-ajax id="ajax" url="https://www.googleapis.com/calendar/v3/calendars/outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com/events?key=%20AIzaSyAdbxoL7d-fe9rFUh898TTCx-ZERREDhKg&amp;timeZone=America/Los_Angeles" handle-as="json" last-response="{{gcal}}"></iron-ajax>
+  </template>
+
+  <script>
+Polymer({
+  is: "schedule-box",
+  properties: {
+    days: {
+      type: Array,
+      computed: 'calendarDisplay(gcal)',
+    },
+    gcal: {
+      type: Object,
+      value: function() { return {}; },
+    },
+  },
+  attached: function() {
+    this.$.ajax.generateRequest();
+  },
+  map: function(location) {
+    return "https://campus.fn.lc/#"+(location || '').replace(/ /g, '+');
+  },
+  calendarDisplay: function() {
+    console.log(this.gcal);
+    if (!this.gcal.items) {
+      return [];
+    }
+    var days = {};
+    var daysArr = [];
+    this.gcal.items.forEach(function(item) {
+      const time = moment(item.start.dateTime);
+      if (time.year() !== 2017) {
+        return;
+      }
+
+      var start = time.tz('America/Los_Angeles');
+      var end = moment(item.end.dateTime).tz('America/Los_Angeles');
+      var dayTitle = start.format("dddd, MMM Do");
+      var day = days[dayTitle];
+      if (!day) {
+        day = {
+          name: dayTitle,
+          start: start,
+          events: [],
+        };
+        daysArr.push(day);
+        days[dayTitle] = day;
+      }
+      var locations = [];
+      (item.location || '').split(',').forEach(function(location) {
+        locations.push(location.trim());
+      });
+      var event = {
+        name: item.summary,
+        start: start,
+        displayTime: this.displayTime(start),
+        timePeriod: start.format("a"),
+        displayTimeEnd: this.displayTime(end),
+        timePeriodEnd: end.format("a"),
+        locations: locations,
+        desc: item.description,
+      }
+      day.events.push(event);
+    }, this);
+    daysArr.sort(function(a, b) {
+      return a.start - b.start;
+    });
+    daysArr.forEach(function(day) {
+      day.events.sort(function(a, b) {
+        return a.start - b.start;
+      });
+    });
+    console.log(daysArr);
+    return daysArr;
+  },
+
+  displayTime: function(time) {
+    var displayTime = time.format("h");
+    var minute = time.format("mm");
+    if (minute !== '00') {
+      displayTime += ':' + minute;
+    }
+    return displayTime;
+  },
+});
+  </script>
+</dom-module>
+</body></html>

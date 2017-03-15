@@ -1,1 +1,553 @@
-<html><head><link rel="import" href="../polymer/polymer.html"><link rel="import" href="../neon-animation/neon-animation-runner-behavior.html"><link rel="import" href="../neon-animation/animations/opaque-animation.html"><link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html"></head><body><dom-module id="lazy-pages"><template><style>:host{display:block;position:relative;overflow:hidden;}:host > ::content > *{position:absolute;top:0;left:0;bottom:0;right:0;height:100%;}:host > ::content > :not(.iron-selected):not(.neon-animating){display:none !important;}:host > ::content > .neon-animating{pointer-events:none;}</style><content id="content"></content></template></dom-module><script>(function(){'use strict';var a=function(b){this.lazy=b,this._boundDomChange=this.handleDomChange.bind(this)};a.prototype={start:function(b,c,d){this.entryPage=this.entryInstance=b,this.exitPage=this.exitInstance=c,this.entrySelected=d,this.isTemplate(this.exitPage)&&(this.exitInstance=this.lazy._getInstanceElement(this.exitPage));this.exitInstance&&(Polymer.dom(this.exitInstance).classList.add('neon-animating'),Polymer.dom(this.exitInstance).classList.remove('iron-selected')),this.lazy._setSelectedItem(this.entryPage),this.isTemplate(this.entryPage)?(this.entryPage.addEventListener('dom-change',this._boundDomChange),this.entryPage.if&&console.warn('transitioning to already showing template'),this.entryPage.if=!0):(this.entryInstance=this.lazy._getInstanceElement(this.entryPage),this.startAnimation())},stop:function(){if(!this.done){if(this._boundAnimationFinish){if(this.lazy._player&&this.lazy._player.onfinish){var b=this.lazy._player.onfinish;this.lazy._player.onfinish=function(){},b.apply(this.lazy._player)}this.lazy.cancelAnimation()}this.cleanup()}},handleDomChange:function(){this.done||(this.entryPage.removeEventListener('dom-change',this._boundDomChange),this.entryInstance=this.lazy._getInstanceElement(this.entryPage,!0),!this.entryInstance&&console.error('template missing an instance',this.entryPage),window.setTimeout(function(){this.startAnimation()}.bind(this),0))},startAnimation:function(){if(!this.done){this.entryInstance&&(this.lazy.fire('lazy-pages-transition-ready',{page:this.entryInstance,selected:this.entrySelected}),Polymer.dom(this.entryInstance).classList.add('iron-selected'));var b=this.lazy._getAnimations(this.entryPage,this.exitPage),c=[];b.entry&&(c.push({name:'opaque-animation',node:this.entryInstance}),c.push(b.entry)),b.exit&&c.push(b.exit),0<c.length?(this.lazy.animationConfig=c,this._boundAnimationFinish=this.animationFinish.bind(this),this.lazy.addEventListener('neon-animation-finish',this._boundAnimationFinish),this.lazy.playAnimation(null,this)):this.cleanup()}},animationFinish:function(b){b.detail!=this||this.cleanup()},cleanup:function(){this.done||(this.done=!0,this._boundAnimationFinish&&(this.lazy.removeEventListener('neon-animation-finish',this._boundAnimationFinish),delete this._boundAnimationFinish),this.exitInstance&&(this.isTemplate(this.exitPage)&&(this.exitPage.if=!1),Polymer.dom(this.exitInstance).classList.remove('neon-animating')),this.lazy._lazyTransition===this&&(this.lazy._lazyTransition=null),this.lazy._notifyPageResize())},isTemplate:function(b){return b&&'TEMPLATE'===b.nodeName}},'use strict',Polymer({is:'lazy-pages',behaviors:[Polymer.NeonAnimationRunnerBehavior,Polymer.IronResizableBehavior],properties:{selected:{type:String,notify:!0,observer:'_selectedChanged'},attrForSelected:{type:String,value:null},selectedItem:{type:Object,readOnly:!0,notify:!0},animateInitialSelection:{type:Boolean,value:!1},animationOracle:{type:Function},rescueSelection:{type:String}},_selectedChanged:function(b){if(null!=b){var d=this._findPageBySelected(b);d?this._selectPage(d,b):this.rescueSelection===void 0?console.warn('you should set rescueSelection attribute on lazy-pages to guard against bad selection',b):(d=this._findPageBySelected(this.rescueSelection),d?this.debounce('setselected',function(){this.selected=this._pageToSelected(d)}.bind(this)):console.error('rescueSelection page not found'))}},_pageToSelected:function(b){return this.attrForSelected?b.getAttribute(this.attrForSelected):this.items().indexOf(b)},items:function(){for(var b=Polymer.dom(this.$.content).getDistributedNodes(),c=[],d=new WeakMap,e=0;e<b.length;e++)if(1===b[e].nodeType&&'LINK'!=b[e].nodeName){var g=b[e];'TEMPLATE'===g.nodeName&&g._instance&&d.set(this._getInstanceElement(g),!0),c.push(g)}for(var e=c.length-1;0<=e;e--)d.has(c[e])&&c.splice(e--,1);return c},_findPageBySelected:function(b){var c=this.items();if(!this.attrForSelected)return c[b];for(var d=0;d<c.length;d++)if(c[d].getAttribute(this.attrForSelected)==b)return c[d];return null},_findCurrentSelected:function(){for(var b=this.items(),c=0;c<b.length;c++)if(Polymer.dom(b[c]).classList.contains('iron-selected'))return b[c];return null},_getAnimations:function(b,c){if(!c&&!this.animateInitialSelection)return{};var g,d=b?this._getInstanceElement(b):null,e=c?this._getInstanceElement(c):null;return this.animationOracle&&(g=this.animationOracle(b,c,d,e),g)?g:(g={},d&&(this.entryAnimation?g.entry={name:this.entryAnimation,node:d}:d.getAnimationConfig&&(g.entry={animatable:d,type:'entry'})),e&&(this.exitAnimation?g.exit={name:this.exitAnimation,node:e}:e.getAnimationConfig&&(g.exit={animatable:e,type:'exit'})),g)},_selectPage:function(b,c){b===this.selectedItem||(this._lazyTransition&&this._lazyTransition.stop(),this._lazyTransition=new a(this),this._lazyTransition.start(b,this.selectedItem,c))},_getInstanceElement:function(b,c){if(!b)return console.warn('template is null',b),null;if('TEMPLATE'!==b.nodeName)return b;if(!b._instance)return console.warn('template instance is null',b),null;for(var d=b._instance,e=null,g=0;g<d._children.length;g++)1===d._children[g].nodeType&&'LINK'!==d._children[g].nodeName?null==e?e=d._children[g]:console.warn('dom-if children inside lazy-pages can only have a single element',b):1===d._children[g].nodeType&&c&&console.warn('<link rel="import"> elements inside templates do not work in IE11 and Edge');return e||console.warn('template instance without element children',d),e},_loadImports:function(b){if(!b._lazyLoadedImports){b._lazyLoadedImports=!0;for(var e,c=b._instance,d=0;d<c._children.length;d++)e=c._children[d],1===e.nodeType&&'LINK'===e.nodeName&&'import'===e.getAttribute('rel')&&(Polymer.Base.importHref(e.href,function(){console.log('import success')},function(){console.log('import fail')}),c._children.splice(d,1),--d)}},_notifyPageResize:function(){if(this.selectedItem){this._getInstanceElement(this.selectedItem);this.notifyResize()}}})})();</script></body></html>
+<html><head><link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../neon-animation/neon-animation-runner-behavior.html">
+<link rel="import" href="../neon-animation/animations/opaque-animation.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
+
+</head><body><dom-module id="lazy-pages">
+  <template>
+    <style>:host{display:block;position:relative;overflow:hidden;}:host > ::content > *{position:absolute;top:0;left:0;bottom:0;right:0;height:100%;}:host > ::content > :not(.iron-selected):not(.neon-animating){display:none !important;}:host > ::content > .neon-animating{pointer-events:none;}</style>
+    <content id="content"></content>
+  </template>
+</dom-module>
+
+<script>
+
+(function() {
+'use strict';
+
+/**
+ * Helper class for 'lazy-pages'
+ * Animation transition state machine
+ * Cancel by calling stop
+ */
+var LazyTransition = function(lazy) {
+  this.lazy = lazy;
+  this._boundDomChange = this.handleDomChange.bind(this);
+};
+
+LazyTransition.prototype = {
+
+  /**
+   * @param {Node} entryPage -- node we are transitioning to
+   * @param {Node} exitPage -- node we are leaving
+   * @param {*} entrySelected -- selected index for the entry node
+   */
+  start: function(entryPage, exitPage, entrySelected) {
+    this.entryPage = this.entryInstance = entryPage;
+    this.exitPage = this.exitInstance = exitPage;
+    this.entrySelected = entrySelected;
+    if (this.isTemplate(this.exitPage)) {
+      this.exitInstance = this.lazy._getInstanceElement(this.exitPage);
+    };
+
+    // add class to exitInstance to prevent display:none)
+    if (this.exitInstance) {
+      Polymer.dom(this.exitInstance).classList.add('neon-animating');
+      Polymer.dom(this.exitInstance).classList.remove('iron-selected');
+    }
+
+    // start entryPage activation
+    this.lazy._setSelectedItem(this.entryPage);
+    if (this.isTemplate(this.entryPage)) {
+      this.entryPage.addEventListener('dom-change', this._boundDomChange);
+      if (this.entryPage.if)
+        console.warn('transitioning to already showing template');
+      this.entryPage.if = true; // generate the dom
+    }
+    else {
+      this.entryInstance = this.lazy._getInstanceElement(this.entryPage);
+      this.startAnimation();
+    }
+
+  },
+
+  /**
+   * Aborts transition
+   */
+  stop: function() {
+    if (this.done)
+      return;
+
+    if (this._boundAnimationFinish) {
+      // debugger;
+      // Because current webanimations do not call finish on cancel
+      // https://github.com/PolymerElements/neon-animation/issues/81
+      if (this.lazy._player && this.lazy._player.onfinish) {
+        var f = this.lazy._player.onfinish;
+        this.lazy._player.onfinish = function() {};
+        f.apply(this.lazy._player);
+      }
+      this.lazy.cancelAnimation();
+    }
+    this.cleanup();
+  },
+
+  handleDomChange: function(ev) {
+    if (this.done)
+      return;
+    this.entryPage.removeEventListener('dom-change', this._boundDomChange);
+    this.entryInstance = this.lazy._getInstanceElement(this.entryPage, true);
+    if (!this.entryInstance) {
+      console.error('template missing an instance', this.entryPage);
+    }
+    // IE failed bug fix
+    // this.lazy._loadImports(this.entryPage);
+    window.setTimeout(function() {
+      // dom-change gets fired before element is inserted into DOM
+      // Timeout to let element get inserted before animation
+      this.startAnimation();
+    }.bind(this),0);
+  },
+
+  startAnimation: function() {
+    if (this.done)
+      return;
+
+    // make entry page visible
+    if (this.entryInstance) {
+      this.lazy.fire('lazy-pages-transition-ready', {
+        page: this.entryInstance,
+        selected: this.entrySelected
+      });
+      Polymer.dom(this.entryInstance).classList.add('iron-selected');
+    }
+    var animations = this.lazy._getAnimations(this.entryPage, this.exitPage);
+    var config = [];
+    if (animations.entry) {
+      config.push({
+        name: 'opaque-animation',
+        node: this.entryInstance
+      });
+      config.push( animations.entry);
+    }
+    if (animations.exit)
+      config.push( animations.exit);
+
+    if (config.length > 0) {
+      this.lazy.animationConfig = config;
+      this._boundAnimationFinish = this.animationFinish.bind(this);
+      this.lazy.addEventListener('neon-animation-finish', this._boundAnimationFinish);
+      this.lazy.playAnimation(null, this);
+    }
+    else {
+      this.cleanup();
+    }
+  },
+
+  animationFinish: function(ev) {
+    // console.log('animation finish');
+    if (ev.detail != this) // ignore animations that have not been started by us
+      return;
+    this.cleanup();
+  },
+
+  cleanup: function() {
+    if (this.done)
+      return;
+    this.done = true;
+
+    if (this._boundAnimationFinish) {
+      this.lazy.removeEventListener('neon-animation-finish', this._boundAnimationFinish);
+      delete this._boundAnimationFinish;
+    }
+    if (this.exitInstance) {
+      if (this.isTemplate(this.exitPage))
+        this.exitPage.if = false;
+      Polymer.dom(this.exitInstance).classList.remove('neon-animating');
+    }
+    if (this.lazy._lazyTransition === this)
+      this.lazy._lazyTransition = null;
+
+    this.lazy._notifyPageResize();
+  },
+
+  isTemplate: function(node) {
+    return node && node.nodeName === 'TEMPLATE';
+  }
+
+};
+
+'use strict';
+
+/**
+  lazy-pages
+
+  Instead of your app
+  ```html
+  <neon-animated-pages selected="{{selected}}">
+    <landing-page></landing-page>
+    <demo-page></demo-page>
+    <contact-page></contact-page>
+  </neon-animated-pages>
+  ```
+  loading every page into DOM on startup, use `lazy-pages` to load them on demand:
+  ```html
+  <lazy-pages>
+    <!-- very-important-page is not loaded lazily -->
+    <very-important-page></very-important-page>
+
+    <template is="dom-if">
+      <!-- landing-page is displayed lazily, stays in dom once shown -->
+      <landing-page></landing-page>
+    </template>
+
+    <template is="dom-if" restamp>
+      <!-- demo-page is displayed lazily, and removed from dom when invisible -->
+      <demo-page></demo-page>
+    </template>
+
+  </lazy-pages>
+
+  ```
+
+  ### Why?
+  - memory: you have lots of pages, and do not want to load them all at once on startup
+  - speed: you do not want to load all your element definitions on startup
+  - attached callbacks: you do not want all your attached callbacks to run on an initial load
+
+  ### Usage
+
+  `lazy-pages` will render just like `neon-animated-pages`. You can also use them as `iron-pages` replacement.
+
+  Put any template you'd like to load lazily inside a `dom-if` template:
+
+  ```html
+  <template is="dom-if">
+    <my-page></my-page>
+  </template>
+  ```
+
+  You can only have a single top-level tag inside a template (except for link tags). This keeps my code simple.
+
+  To load element definition lazily, put the link tag inside the template.
+
+  To remove element from dom when invisible, use `restamp` dom-if option.
+
+  `lazy-pages` has basic attribute compatibility with neon-animated-pages: `selected`, `attrForSelected`, `animateInitialSelection`.
+
+  ### Tips
+  - Use `lazy-pages-transition-ready` event if you need to interact with page when it is shown
+  @demo
+*/
+Polymer({
+
+  is: 'lazy-pages',
+
+  behaviors: [
+    Polymer.NeonAnimationRunnerBehavior,
+    Polymer.IronResizableBehavior
+  ],
+
+  properties: {
+
+    /**
+     * selected page's index, unless attrForSelected is set
+     * if attrForSelected is set, selected page's page[attrForSelected]
+     */
+    selected: {
+      type: String,
+      notify: true,
+      observer: '_selectedChanged'
+    },
+
+    /**
+     * Modifies interpretation of `selected`. If set, value of attribute
+     */
+    attrForSelected: {
+      type: String,
+      value: null
+    },
+
+    /**
+     * Currently selected item
+     */
+    selectedItem: {
+      type: Object,
+      readOnly: true,
+      notify: true
+    },
+
+    /**
+     * Animate first page load if true
+     */
+    animateInitialSelection: {
+      type: Boolean,
+      value: false
+    },
+
+    /**
+     * Use it to specify transition animations dynamically.
+     * Function should return
+     *
+     * Function(entryPage, exitPage, entryInstance, exitInstance)
+     */
+    animationOracle: {
+      type: Function
+     },
+
+     /**
+      * rescueSelection will be set if selection gets set to an invalid value
+      */
+    rescueSelection: {
+      type: String
+    }
+  },
+
+  /**
+   * Fired when page has been inserted into dom, and is ready to transition.
+   * The event is needed when you need to interact with a page element before it is shown.
+   * The event fires after page is inserted into DOM, and before entry animation starts.
+   *
+   * @event lazy-pages-transition-ready
+   * @param {Object} detail
+   * @param {Node} detail.page -- page that is shown
+   * @param {String} detail.selected -- page's index
+   */
+
+
+  _selectedChanged: function(selected, old) {
+    // Select a new page when selected changes
+    if (selected != null) {
+      // console.log('selected', selected);
+      var newPage = this._findPageBySelected(selected);
+      if (newPage) {
+        this._selectPage(newPage, selected);
+      }
+      else {
+        // selection is bad, start the recovery
+        if (this.rescueSelection === undefined) {
+          console.warn('you should set rescueSelection attribute on lazy-pages to guard against bad selection', selected);
+        }
+        else {
+          newPage = this._findPageBySelected(this.rescueSelection);
+          if (newPage) {
+            // debounce to prevent infinite loops, should not happen, but it does
+            this.debounce('setselected', function() {
+              this.selected = this._pageToSelected(newPage);
+            }.bind(this));          }
+          else {
+            console.error('rescueSelection page not found');
+          }
+        }
+      }
+    }
+  },
+
+  _pageToSelected: function(page) {
+    if (this.attrForSelected) {
+      return page.getAttribute(this.attrForSelected);
+    }
+    else {
+      return this.items().indexOf(page);
+    }
+  },
+
+  /**
+   * @return an array of selectable items
+   */
+  items: function() {
+    var nodes = Polymer.dom(this.$.content).getDistributedNodes();
+    // filter out all the element nodes
+    var selectableNodes = [];
+    var instances = new WeakMap();
+
+    // find all the element nodes
+    for (var i=0; i<nodes.length; i++) {
+      if (nodes[i].nodeType === 1 && nodes[i].nodeName != 'LINK') {
+        var el = nodes[i];
+        // keep track of template instances
+        if (el.nodeName === 'TEMPLATE') {
+          if (el._instance) {
+            instances.set(this._getInstanceElement(el), true);
+          }
+        }
+        selectableNodes.push(el);
+      }
+    }
+    // remove all template instances, we do not consider those selectable
+    for (var i=selectableNodes.length -1; i>=0; i--) {
+      if (instances.has(selectableNodes[i])) {
+        selectableNodes.splice(i--, 1);
+      }
+    }
+    return selectableNodes;
+  },
+
+  _findPageBySelected: function(selected) {
+    var selectables = this.items();
+
+    if (!this.attrForSelected) {
+      return selectables[selected];
+    }
+    else {
+      for (var i=0; i<selectables.length; i++) {
+        if (selectables[i].getAttribute(this.attrForSelected) == selected)
+          return selectables[i];
+      }
+    }
+    return null;
+  },
+
+  _findCurrentSelected: function() {
+    var selectables = this.items();
+    for (var i=0; i<selectables.length; i++) {
+      if (Polymer.dom(selectables[i]).classList.contains('iron-selected'))
+        return selectables[i];
+    }
+    return null;
+  },
+
+  /**
+   * animation names must be defined in animationConfig
+   * @return {entry: animationConfig, exit: animationConfig}
+   */
+  _getAnimations: function(entryPage, exitPage ) {
+
+    if (!exitPage && !this.animateInitialSelection) {
+      return {};
+    }
+    var entryInstance = entryPage ? this._getInstanceElement(entryPage) : null;
+    var exitInstance = exitPage ? this._getInstanceElement(exitPage) : null;
+    var animation;
+
+    if (this.animationOracle) {
+      animation = this.animationOracle(entryPage, exitPage, entryInstance, exitInstance);
+      if (animation)
+        return animation;
+    }
+
+    animation = {};
+
+    if (entryInstance) {
+      if (this.entryAnimation) {
+        animation.entry = {
+          name: this.entryAnimation,
+          node: entryInstance
+        };
+      }
+      else {
+        if (entryInstance.getAnimationConfig) {
+          animation.entry = {
+            animatable: entryInstance,
+            type: 'entry'
+          }
+        }
+      }
+    }
+
+    if (exitInstance) {
+      if (this.exitAnimation) {
+        animation.exit = {
+          name: this.exitAnimation,
+          node: exitInstance
+        }
+      }
+      else {
+        if (exitInstance.getAnimationConfig) {
+          animation.exit = {
+            animatable: exitInstance,
+            type: 'exit'
+          }
+        }
+      }
+    }
+
+    return animation;
+  },
+
+  _selectPage: function(page, selected) {
+    if (page === this.selectedItem)
+      return;
+
+    if (this._lazyTransition) {
+      // console.log('canceling transition', this._lazyTransition);
+      this._lazyTransition.stop();
+    }
+    this._lazyTransition = new LazyTransition(this);
+    this._lazyTransition.start(page, this.selectedItem, selected);
+  },
+
+  /**
+   * @param {Node} template -- dom-if template.
+   * @return {Node} instance belonging to template
+   */
+  _getInstanceElement: function(template, warnLinks) {
+    if (!template) {
+      console.warn('template is null', template);
+      return null;
+    }
+
+    if (template.nodeName !== 'TEMPLATE') // this is not a template, so it is also an instance
+      return template;
+
+    if (!template._instance) {
+      console.warn('template instance is null', template);
+      return null;
+    }
+    var instance = template._instance;
+    var el = null;
+    for (var i=0; i<instance._children.length; i++) {
+      if (instance._children[i].nodeType === 1 && instance._children[i].nodeName !== 'LINK') {
+        if (el != null) {
+          console.warn('dom-if children inside lazy-pages can only have a single element', template);
+        } else {
+          el = instance._children[i];
+        }
+      } else {
+        if (instance._children[i].nodeType === 1 && warnLinks)  {// we are a link
+          console.warn('<link rel="import"> elements inside templates do not work in IE11 and Edge');
+        }
+      }
+    }
+    if (!el) {
+      console.warn('template instance without element children', instance);
+    }
+    return el;
+  },
+
+  /**
+   * IE does not load imports automatically
+   * this hack tries to make it work, and fails
+   *
+   */
+  _loadImports: function(template) {
+    if (template._lazyLoadedImports)
+      return;
+    template._lazyLoadedImports = true;
+
+    var instance = template._instance;
+    for (var i=0; i<instance._children.length; i++) {
+      var el = instance._children[i];
+      if (el.nodeType === 1 && el.nodeName === 'LINK'
+        && el.getAttribute('rel') === 'import') {
+        // load every import link manually
+        Polymer.Base.importHref(el.href,
+          function succcess() {
+            console.log("import success");
+          },
+          function fail() {
+            console.log("import fail");
+          }
+        );
+        instance._children.splice(i, 1); // remove instance from template
+        i = i-1;
+      }
+    }
+  },
+
+  _notifyPageResize: function() {
+    if (this.selectedItem) {
+      var instance = this._getInstanceElement(this.selectedItem);
+      // should traverse hierarchy, really
+      // this.resizerShouldNotify = function(el) {
+      //   return el === instance;
+      // }
+      this.notifyResize();
+    }
+  }
+
+});
+
+})();
+</script>
+</body></html>

@@ -1,1 +1,137 @@
-function MakePromise(a){function b(j){if('object'!=typeof this||'function'!=typeof j)throw new TypeError;this._state=null,this._value=null,this._deferreds=[],h(j,d.bind(this),f.bind(this))}function c(j){var k=this;return null===this._state?void this._deferreds.push(j):void a(function(){var l=k._state?j.onFulfilled:j.onRejected;if('function'!=typeof l)return void(k._state?j.resolve:j.reject)(k._value);var m;try{m=l(k._value)}catch(n){return void j.reject(n)}j.resolve(m)})}function d(j){try{if(j===this)throw new TypeError;if(j&&('object'==typeof j||'function'==typeof j)){var k=j.then;if('function'==typeof k)return void h(k.bind(j),d.bind(this),f.bind(this))}this._state=!0,this._value=j,g.call(this)}catch(l){f.call(this,l)}}function f(j){this._state=!1,this._value=j,g.call(this)}function g(){for(var j=0,k=this._deferreds.length;j<k;j++)c.call(this,this._deferreds[j]);this._deferreds=null}function h(j,k,l){var m=!1;try{j(function(n){m||(m=!0,k(n))},function(n){m||(m=!0,l(n))})}catch(n){if(m)return;m=!0,l(n)}}return b.prototype['catch']=function(j){return this.then(null,j)},b.prototype.then=function(j,k){var l=this;return new b(function(m,n){c.call(l,{onFulfilled:j,onRejected:k,resolve:m,reject:n})})},b.resolve=function(j){return j&&'object'==typeof j&&j.constructor===b?j:new b(function(k){k(j)})},b.reject=function(j){return new b(function(k,l){l(j)})},b}'undefined'!=typeof module&&(module.exports=MakePromise);
+/**
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
+function MakePromise (asap) {
+  function Promise(fn) {
+		if (typeof this !== 'object' || typeof fn !== 'function') throw new TypeError();
+		this._state = null;
+		this._value = null;
+		this._deferreds = []
+
+		doResolve(fn, resolve.bind(this), reject.bind(this));
+	}
+
+	function handle(deferred) {
+		var me = this;
+		if (this._state === null) {
+			this._deferreds.push(deferred);
+			return
+		}
+		asap(function() {
+			var cb = me._state ? deferred.onFulfilled : deferred.onRejected
+			if (typeof cb !== 'function') {
+				(me._state ? deferred.resolve : deferred.reject)(me._value);
+				return;
+			}
+			var ret;
+			try {
+				ret = cb(me._value);
+			}
+			catch (e) {
+				deferred.reject(e);
+				return;
+			}
+			deferred.resolve(ret);
+		})
+	}
+
+	function resolve(newValue) {
+		try { //Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure
+			if (newValue === this) throw new TypeError();
+			if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {
+				var then = newValue.then;
+				if (typeof then === 'function') {
+					doResolve(then.bind(newValue), resolve.bind(this), reject.bind(this));
+					return;
+				}
+			}
+			this._state = true;
+			this._value = newValue;
+			finale.call(this);
+		} catch (e) { reject.call(this, e); }
+	}
+
+	function reject(newValue) {
+		this._state = false;
+		this._value = newValue;
+		finale.call(this);
+	}
+
+	function finale() {
+		for (var i = 0, len = this._deferreds.length; i < len; i++) {
+			handle.call(this, this._deferreds[i]);
+		}
+		this._deferreds = null;
+	}
+
+	/**
+	 * Take a potentially misbehaving resolver function and make sure
+	 * onFulfilled and onRejected are only called once.
+	 *
+	 * Makes no guarantees about asynchrony.
+	 */
+	function doResolve(fn, onFulfilled, onRejected) {
+		var done = false;
+		try {
+			fn(function (value) {
+				if (done) return;
+				done = true;
+				onFulfilled(value);
+			}, function (reason) {
+				if (done) return;
+				done = true;
+				onRejected(reason);
+			})
+		} catch (ex) {
+			if (done) return;
+			done = true;
+			onRejected(ex);
+		}
+	}
+
+	Promise.prototype['catch'] = function (onRejected) {
+		return this.then(null, onRejected);
+	};
+
+	Promise.prototype.then = function(onFulfilled, onRejected) {
+		var me = this;
+		return new Promise(function(resolve, reject) {
+      handle.call(me, {
+        onFulfilled: onFulfilled,
+        onRejected: onRejected,
+        resolve: resolve,
+        reject: reject
+      });
+		})
+	};
+
+	Promise.resolve = function (value) {
+		if (value && typeof value === 'object' && value.constructor === Promise) {
+			return value;
+		}
+
+		return new Promise(function (resolve) {
+			resolve(value);
+		});
+	};
+
+	Promise.reject = function (value) {
+		return new Promise(function (resolve, reject) {
+			reject(value);
+		});
+	};
+
+	
+  return Promise;
+}
+
+if (typeof module !== 'undefined') {
+  module.exports = MakePromise;
+}
+

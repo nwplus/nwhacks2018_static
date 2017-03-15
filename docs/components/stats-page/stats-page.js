@@ -1,1 +1,296 @@
-var patterns={'University of British Columbia':['UBC','University of British Columbia','University of the British Columbia','University of British Colombia','university british columbia'],'Simon Fraser University':['SFU','Simon Fraser','Somion Fraser'],'University of Waterloo':['Waterloo'],BCIT:['BCIT','British Columbia Institute of Technology'],'University of Illinois Urbana-Champaign':['Urbana-Champaign','Urbana Champaign'],'McGill University':['McGill'],'University of Washington':['University of Washington','UW','University of Washingon']},patternsCities={Vancouver:['UBC','University of British Columbia','Vanouver','Vancouver','Gage','Marine Drive','Locally','Vancover','Campus','N/a','University of the British Columbia','University of British Colombia','university british columbia'],Seattle:['University of Washington']};Polymer({is:'stats-page',observers:['handleRegistrations(registrations)','renderData(hackers)'],handleRegistrations:function(c){var d=[];for(var e in c){var f=c[e];f.id=e,d.push(f)}this.hackers=d},renderData:function(c){c.sort(function(t,u){return u.id-t.id}),_.each(this.charts,function(t){t.destroy()}),this.charts=[];var d=this.charts;this.registrationCount=c.length;var e={},f={},g={},h=0,i=0,j=0,k={labels:['S','M','L','XL'],datasets:[{label:'Offered Sizes',backgroundColor:'rgba(220,0,0,0.5)',borderColor:'rgba(220,0,0,0.8)',data:[0,0,0,0]}]},l={labels:['No Response','Going'],datasets:[{data:[0,0],backgroundColor:['#666','#4BAE74'],hoverBackgroundColor:['#888','#377F54']}]},m=this;_.each(c,function(t){_.each(patterns,function(z,A){_.each(z,function(B){0<=t.school.toLowerCase().trim().indexOf(B.toLowerCase())&&(t.school=A)})}),_.each(patternsCities,function(z,A){_.each(z,function(B){0<=t.city.toLowerCase().trim().indexOf(B.toLowerCase())&&(t.city=A)})}),t.email=t.email.toLowerCase().trim();var u=t.email,w=f[u]&&'accepted'!=t.status||f[u]&&'accepted'==f[u].status;if(t.acceptance_sent&&'accepted'==t.status){const z=t.rsvp?1:0;l.datasets[0].data[z]++}if(!w){if(h++,f[u]=t,'accepted'==t.status&&t.rsvp){var x=k.labels.indexOf(t.tshirt);k.datasets[0].data[x]+=1}e[t.school]||(e[t.school]={name:t.school,accepted:0,acceptedResp:0,total:0}),e[t.school].total+=1;var y=m.toTitleCase(t.city.split(',')[0].trim());g[y]||(g[y]={name:y,accepted:0,acceptedResp:0,total:0}),g[y].total+=1,'accepted'==t.status&&(e[t.school].accepted+=1,g[y].accepted+=1,i++),t.acceptance_sent&&j++,t.rsvp&&(e[t.school].acceptedResp+=1,g[y].acceptedResp+=1)}}),document.getElementById('regDeDup').innerText=h,document.getElementById('accepted').innerText=i,document.getElementById('offered').innerText=j;var c={labels:[],datasets:[{label:'Total Students',backgroundColor:'rgba(220,0,0,0.5)',borderColor:'rgba(220,0,0,0.8)',data:[]},{label:'Offered Students',backgroundColor:'rgba(0,0,220,0.5)',borderColor:'rgba(0,0,220,0.8)',data:[]},{label:'Accepted Students',backgroundColor:'rgba(0,220,220,0.5)',borderColor:'rgba(0,220,220,0.8)',data:[]}]},n=_(e).toArray().sortBy(['accepted','total']).reverse().value();_.each(n,function(t){c.labels.push(t.name),c.datasets[0].data.push(t.total),c.datasets[1].data.push(t.accepted),c.datasets[2].data.push(t.acceptedResp)});var o=document.getElementById('university').getContext('2d');d.push(new Chart(o,{type:'bar',data:c,options:{responsive:!1}},{}));var q={labels:[],datasets:[{label:'Total Students',backgroundColor:'rgba(0,220,0,0.5)',borderColor:'rgba(0,220,0,0.8)',data:[]},{label:'Offered Students',backgroundColor:'rgba(0,0,220,0.5)',borderColor:'rgba(0,0,220,0.8)',data:[]},{label:'Accepted Students',backgroundColor:'rgba(0,220,220,0.5)',borderColor:'rgba(0,220,220,0.8)',data:[]}]},r=_(g).toArray().sortBy(['accepted','total']).reverse().value();_.each(r,function(t){q.labels.push(t.name),q.datasets[0].data.push(t.total),q.datasets[1].data.push(t.accepted),q.datasets[2].data.push(t.acceptedResp)});var o=this.$.city.getContext('2d');d.push(new Chart(o,{type:'bar',data:q,options:{responsive:!1}},{}));var o=this.$.tshirt.getContext('2d');d.push(new Chart(o,{type:'bar',data:k,options:{responsive:!1}},{}));var o=this.$.response.getContext('2d');d.push(new Chart(o,{type:'doughnut',data:l,options:{responsive:!1}},{})),this.$.going.innerText=l.datasets[0].data[1];const s=this.hackers.filter(t=>!!t.rsvp).map(t=>t.rsvp);this.dietaryRestrictions=s.map(t=>t.dietary),this.rsvpGender=s.map(t=>t.gender),this.rsvpFaculty=s.map(t=>t.faculty),this.rsvpYear=s.map(t=>t.year),this.rsvpPassport=s.map(t=>t.passport),this.rsvpMajority=s.map(t=>t.age)},toTitleCase:function(d){return d.replace(/\w\S*/g,function(e){return e.charAt(0).toUpperCase()+e.substr(1).toLowerCase()})}});
+var patterns = {
+  'University of British Columbia': [
+    'UBC',
+    'University of British Columbia',
+    'University of the British Columbia',
+    'University of British Colombia',
+    'university british columbia',
+  ],
+  'Simon Fraser University': ['SFU', 'Simon Fraser', 'Somion Fraser'],
+  'University of Waterloo': ['Waterloo'],
+  'BCIT': ['BCIT', 'British Columbia Institute of Technology'],
+  'University of Illinois Urbana-Champaign':
+      ['Urbana-Champaign', 'Urbana Champaign'],
+  'McGill University': ['McGill'],
+  'University of Washington':
+      ['University of Washington', 'UW', 'University of Washingon'],
+};
+
+var patternsCities = {
+  'Vancouver': [
+    'UBC',
+    'University of British Columbia',
+    'Vanouver',
+    'Vancouver',
+    'Gage',
+    'Marine Drive',
+    'Locally',
+    'Vancover',
+    'Campus',
+    'N/a',
+    'University of the British Columbia',
+    'University of British Colombia',
+    'university british columbia',
+  ],
+  'Seattle': ['University of Washington'],
+};
+
+Polymer({
+  is: 'stats-page',
+
+  observers: [
+    'handleRegistrations(registrations)',
+    'renderData(hackers)',
+  ],
+
+  handleRegistrations: function(registrations) {
+    var hackers = [];
+    for (var id in registrations) {
+      var hacker = registrations[id];
+      hacker.id = id;
+      hackers.push(hacker);
+    }
+    this.hackers = hackers;
+  },
+
+  renderData: function(data) {
+    data.sort(function(a, b) { return b.id - a.id; });
+    _.each(this.charts, function(chart) { chart.destroy(); });
+    this.charts = [];
+    var charts = this.charts;
+    this.registrationCount = data.length;
+    var univs = {};
+    var students = {};
+    var cities = {};
+    var deDupStudents = 0;
+    var acceptedStudents = 0;
+    var offeredStudents = 0;
+
+    // T-Shirts
+    var tshirtData = {
+      labels: ['S', 'M', 'L', 'XL'],
+      datasets: [
+        {
+          label: 'Offered Sizes',
+          backgroundColor: 'rgba(220,0,0,0.5)',
+          borderColor: 'rgba(220,0,0,0.8)',
+          data: [0, 0, 0, 0]
+        },
+      ]
+    };
+
+    var responseData = {
+      labels: ['No Response', 'Going'],
+      datasets: [{
+        data: [0, 0],
+        backgroundColor: [
+          '#666',
+          '#4BAE74',
+          /*'#FF6B6B',
+          '#FDB45C',*/
+        ],
+        hoverBackgroundColor: [
+          '#888',
+          '#377F54',
+          /*'#D74343',
+          '#FFC870',*/
+        ],
+      }]
+    };
+
+    var self = this;
+
+    _.each(data, function(datum) {
+      // Cleanup step
+      _.each(patterns, function(pattern, remap) {
+        _.each(pattern, function(p) {
+          if (datum.school.toLowerCase().trim().indexOf(p.toLowerCase()) >= 0) {
+            datum.school = remap;
+          }
+        });
+      });
+      _.each(patternsCities, function(pattern, remap) {
+        _.each(pattern, function(p) {
+          if (datum.city.toLowerCase().trim().indexOf(p.toLowerCase()) >= 0) {
+            datum.city = remap;
+          }
+        });
+      });
+
+      datum.email = datum.email.toLowerCase().trim();
+      var email = datum.email;
+      var isDuplicate = students[email] && datum.status != 'accepted' ||
+          students[email] && students[email].status == 'accepted';
+
+      if (datum.acceptance_sent && datum.status == 'accepted') {
+        const index = datum.rsvp ? 1 : 0;
+        responseData.datasets[0].data[index]++;
+      }
+
+      if (isDuplicate) {
+        return;
+      }
+      deDupStudents++;
+      students[email] = datum;
+      if (datum.status == 'accepted' && datum.rsvp) {
+        var index = tshirtData.labels.indexOf(datum.tshirt);
+        tshirtData.datasets[0].data[index] += 1;
+      }
+
+      if (!univs[datum.school]) {
+        univs[datum.school] =
+            {name: datum.school, accepted: 0, acceptedResp: 0, total: 0};
+      }
+      univs[datum.school].total += 1;
+      var location = self.toTitleCase(datum.city.split(',')[0].trim());
+      if (!cities[location]) {
+        cities[location] = {
+          name: location,
+          accepted: 0,
+          acceptedResp: 0,
+          total: 0
+        }
+      }
+      cities[location].total += 1;
+      if (datum.status == 'accepted') {
+        univs[datum.school].accepted += 1;
+        cities[location].accepted += 1;
+        acceptedStudents++;
+      }
+      if (datum.acceptance_sent) {
+        offeredStudents++;
+      }
+      if (datum.rsvp) {
+        univs[datum.school].acceptedResp += 1;
+        cities[location].acceptedResp += 1;
+      }
+    });
+
+    document.getElementById('regDeDup').innerText = deDupStudents;
+    document.getElementById('accepted').innerText = acceptedStudents;
+    document.getElementById('offered').innerText = offeredStudents;
+
+    // Univerisities
+    var data = {
+      labels: [],
+      datasets: [
+        {
+          label: 'Total Students',
+          backgroundColor: 'rgba(220,0,0,0.5)',
+          borderColor: 'rgba(220,0,0,0.8)',
+          data: []
+        },
+        {
+          label: 'Offered Students',
+          backgroundColor: 'rgba(0,0,220,0.5)',
+          borderColor: 'rgba(0,0,220,0.8)',
+          data: []
+        },
+        {
+          label: 'Accepted Students',
+          backgroundColor: 'rgba(0,220,220,0.5)',
+          borderColor: 'rgba(0,220,220,0.8)',
+          data: []
+        },
+      ]
+    };
+    var sortedUnivs = _(univs).toArray().sortBy(['accepted', 'total']).reverse().value();
+    _.each(sortedUnivs, function(v) {
+      data.labels.push(v.name);
+      data.datasets[0].data.push(v.total);
+      data.datasets[1].data.push(v.accepted);
+      data.datasets[2].data.push(v.acceptedResp);
+    });
+    var ctx = document.getElementById('university').getContext('2d');
+    charts.push(new Chart(
+        ctx, {
+          type: 'bar',
+          data: data,
+          options: {
+            responsive: false
+          }
+        },
+        {}));
+
+    // Cities
+
+    var dataCities = {
+      labels: [],
+      datasets: [
+        {
+          label: 'Total Students',
+          backgroundColor: 'rgba(0,220,0,0.5)',
+          borderColor: 'rgba(0,220,0,0.8)',
+          data: []
+        },
+        {
+          label: 'Offered Students',
+          backgroundColor: 'rgba(0,0,220,0.5)',
+          borderColor: 'rgba(0,0,220,0.8)',
+          data: []
+        },
+        {
+          label: 'Accepted Students',
+          backgroundColor: 'rgba(0,220,220,0.5)',
+          borderColor: 'rgba(0,220,220,0.8)',
+          data: []
+        },
+      ]
+    };
+    var sortedCities = _(cities).toArray().sortBy(['accepted', 'total']).reverse().value();
+    _.each(sortedCities, function(v) {
+      dataCities.labels.push(v.name);
+      dataCities.datasets[0].data.push(v.total);
+      dataCities.datasets[1].data.push(v.accepted);
+      dataCities.datasets[2].data.push(v.acceptedResp);
+    });
+    var ctx = this.$.city.getContext('2d');
+    charts.push(new Chart(
+        ctx, {
+          type: 'bar',
+          data: dataCities,
+          options: {
+            responsive: false
+          }
+        },
+        {}));
+
+    var ctx = this.$.tshirt.getContext('2d');
+    charts.push(new Chart(
+        ctx, {
+          type: 'bar',
+          data: tshirtData,
+          options: {
+            responsive: false
+          }
+        },
+        {}));
+
+    var ctx = this.$.response.getContext('2d');
+    charts.push(new Chart(
+        ctx, {
+          type: 'doughnut',
+          data: responseData,
+          options: {
+            responsive: false
+          }
+        },
+        {}));
+    this.$.going.innerText = responseData.datasets[0].data[1];
+
+    const rsvped = this.hackers.filter((a) => !!a.rsvp).map((a) => a.rsvp);
+    this.dietaryRestrictions = rsvped.map((a) => a.dietary);
+    this.rsvpGender = rsvped.map((a) => a.gender);
+    this.rsvpFaculty = rsvped.map((a) => a.faculty);
+    this.rsvpYear = rsvped.map((a) => a.year);
+    this.rsvpPassport = rsvped.map((a) => a.passport);
+    this.rsvpMajority = rsvped.map((a) => a.age);
+  },
+
+  // https://stackoverflow.com/questions/4878756/javascript-how-to-capitalize-first-letter-of-each-word-like-a-2-word-city
+  toTitleCase: function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  }
+});

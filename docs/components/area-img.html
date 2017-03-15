@@ -1,1 +1,89 @@
-<html><head></head><body><dom-module id="area-img"><template><style></style><a href="[[href]]" duo$="[[isDuo]]"><img id="img" src="[[src]]" class="transparent" natural-height="{{height::load}}" natural-width="{{width::load}}" width="[[computedWidth]]"><template is="dom-if" if="[[srcSolid]]"><img src="[[srcSolid]]" class="solid" width="[[computedWidth]]"></template></a></template><script>Polymer({is:"area-img",properties:{src:{type:String,value:""},href:{type:String,value:""},srcSolid:{type:String,value:""},area:{type:Number,value:43200},isDuo:{type:Boolean,computed:"computeDuo(srcSolid)"}},observers:["updateSize(height, width)"],attached:function(){this.hidden=600>window.innerWidth},visualArea:function(){const a=100,b=100,c=document.createElement("canvas");c.width=a,c.height=b;const d=c.getContext("2d");d.drawImage(this.$.img,0,0,a,b);const e=d.getImageData(0,0,a,b).data;let g=0;for(let i=0;i<b;i++){let j=-1,k=a;for(let l=0;l<a;l++){const m=(i*b+l)*4,n=0==e[m+3];n||(k=l,0>j&&(j=l))}g+=(k-j)*this.width/a}return g*this.height/b},updateSize:function(a,b){const d=Math.sqrt(this.area/(a*b));this.computedHeight=d*a,this.computedWidth=d*b,console.log(this.href,this.area,this.computedHeight*this.computedWidth)},computeDuo:function(a){return 0<a.length}});</script></dom-module></body></html>
+<html><head></head><body><dom-module id="area-img">
+  <template>
+    <style></style>
+    <a href="[[href]]" duo$="[[isDuo]]">
+      <img id="img" src="[[src]]" class="transparent" natural-height="{{height::load}}" natural-width="{{width::load}}" width="[[computedWidth]]">
+      <template is="dom-if" if="[[srcSolid]]">
+        <img src="[[srcSolid]]" class="solid" width="[[computedWidth]]">
+      </template>
+    </a>
+  </template>
+  <script>
+Polymer({
+  is: 'area-img',
+  properties: {
+    src: {
+      type: String,
+      value: "",
+    },
+    href: {
+      type: String,
+      value: "",
+    },
+    srcSolid: {
+      type: String,
+      value: "",
+    },
+    area: {
+      type: Number,
+      value: 43200,
+    },
+    isDuo: {
+      type: Boolean,
+      computed: 'computeDuo(srcSolid)',
+    }
+  },
+  observers: [
+    'updateSize(height, width)'
+  ],
+
+  attached: function() {
+    this.hidden = window.innerWidth < 600;
+  },
+
+  // visualArea looks at the left and right most pixel of the image at each line
+  // and uses it to calculate the visual area of the image.
+  visualArea: function() {
+    const w = 100;
+    const h = 100;
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    const context = canvas.getContext('2d');
+    context.drawImage(this.$.img, 0, 0, w, h);
+    const data = context.getImageData(0,0, w, h).data;
+    const stride = 4;
+    let area = 0;
+    for (let y = 0; y < h; y++) {
+      let leftMost = -1;
+      let rightMost = w;
+      for (let x = 0; x < w; x++) {
+        const start = (y*h + x)*stride;
+        const transparent = data[start+3] == 0; // Check if alpha is 0.
+        if (!transparent) {
+          rightMost = x;
+          if (leftMost < 0) {
+            leftMost = x;
+          }
+        }
+      }
+      area += (rightMost - leftMost)*this.width/w;
+    }
+    return area*this.height/h;
+  },
+
+  updateSize: function(height, width) {
+    const naturalArea = (height*width);
+    //const visualArea = this.visualArea();
+    const scalingFactor = Math.sqrt(this.area/naturalArea);
+    this.computedHeight = scalingFactor*height;
+    this.computedWidth = scalingFactor*width;
+    console.log(this.href, this.area, this.computedHeight*this.computedWidth);
+  },
+  computeDuo: function(srcSolid) {
+    return srcSolid.length > 0;
+  }
+});
+  </script>
+</dom-module>
+</body></html>

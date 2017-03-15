@@ -1,1 +1,467 @@
-<html><head></head><body><div hidden="" by-polymer-bundler=""><link rel="import" href="../main-app/main-app.html"><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js" integrity="sha256-aUydBd3D3p3+5tVJXERlqMtoCej+p4tdD+dkJgeRWNU=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js" integrity="sha256-8E6QUcFg1KTnpEU8TFGhpTGHw5fJqB9vCms3OhAYLqw=" crossorigin="anonymous"></script><dom-module id="category-chart" assetpath="../"><template><style>canvas{background-color:white;}.chart-container{overflow-x:auto;}</style><h2>[[label]]</h2><br><div class="chart-container"><center><canvas id="chart" height="480"></canvas></center></div></template><script>'use strict';Polymer({is:'category-chart',properties:{label:{type:String},data:{type:Array,value:()=>[],observer:'updateChart'}},updateChart:function(){const c={};this.data.forEach(h=>{c[h]=(c[h]||0)+1});const d=Object.keys(c);d.sort((h,j)=>{return c[j]-c[h]});const e=d.map(h=>c[h]),f={labels:d,datasets:[{label:this.label,data:e,backgroundColor:'rgba(220,0,0,0.5)',borderColor:'rgba(220,0,0,0.8)'}]};this.chart&&this.chart.destroy(),this.$.chart.width=60*d.length;const g=this.$.chart.getContext('2d');this.chart=new Chart(g,{type:'bar',data:f,options:{responsive:!1}},{})},randomColor:function(){for(var c='0123456789ABCDEF'.split(''),d='#',e=0;6>e;e++)d+=c[Math.floor(16*Math.random())];return d}});</script></dom-module></div><dom-module id="stats-page"><template><style>table{width:calc(100% - 32px);}table td:first-child{font-weight:bold;}.chart-container{margin:15px 0;width:100%;overflow-x:auto;}canvas{background-color:white;}</style><h1>nwHacks Live Registration Stats</h1><center><table class="striped"><thead><tr><th></th><th>Count</th></tr></thead><tbody><tr><td>Total Registrations</td><td>[[registrationCount]]</td></tr><tr><td>De-duplicated (by email)</td><td id="regDeDup">Loading...</td></tr><tr><td>Accepted</td><td id="accepted">Loading...</td></tr><tr><td>Offered</td><td id="offered">Loading...</td></tr><tr><td>Offered and Going</td><td id="going">Loading...</td></tr></tbody></table></center><p></p><h2>Response</h2><div class="chart-container"><center><canvas id="response" width="640" height="480"></canvas></center></div><h2>University</h2><div class="chart-container"><canvas id="university" width="3000" height="700"></canvas></div><h2>City</h2><div class="chart-container"><canvas id="city" width="3000" height="700"></canvas></div><h2>T-Shirt</h2><p>This is tshirt information for everyone that was accepted and RSVPed.</p><div class="chart-container"><canvas id="tshirt" width="640" height="480"></canvas></div><category-chart label="Dietary Restrictions" data="[[dietaryRestrictions]]"></category-chart><category-chart label="Gender" data="[[rsvpGender]]"></category-chart><category-chart label="Faculty" data="[[rsvpFaculty]]"></category-chart><category-chart label="Year" data="[[rsvpYear]]"></category-chart><category-chart label="Passport" data="[[rsvpPassport]]"></category-chart><category-chart label="Majority" data="[[rsvpMajority]]"></category-chart><firebase-config is-admin="{{isAdmin}}" auth="" name="stats"></firebase-config><template is="dom-if" if="[[isAdmin]]"><firebase-document id="regs" app-name="stats" path="/registrations" data="{{registrations}}"></firebase-document></template></template><script>var patterns={'University of British Columbia':['UBC','University of British Columbia','University of the British Columbia','University of British Colombia','university british columbia'],'Simon Fraser University':['SFU','Simon Fraser','Somion Fraser'],'University of Waterloo':['Waterloo'],BCIT:['BCIT','British Columbia Institute of Technology'],'University of Illinois Urbana-Champaign':['Urbana-Champaign','Urbana Champaign'],'McGill University':['McGill'],'University of Washington':['University of Washington','UW','University of Washingon']},patternsCities={Vancouver:['UBC','University of British Columbia','Vanouver','Vancouver','Gage','Marine Drive','Locally','Vancover','Campus','N/a','University of the British Columbia','University of British Colombia','university british columbia'],Seattle:['University of Washington']};Polymer({is:'stats-page',observers:['handleRegistrations(registrations)','renderData(hackers)'],handleRegistrations:function(c){var d=[];for(var e in c){var f=c[e];f.id=e,d.push(f)}this.hackers=d},renderData:function(c){c.sort(function(t,u){return u.id-t.id}),_.each(this.charts,function(t){t.destroy()}),this.charts=[];var d=this.charts;this.registrationCount=c.length;var e={},f={},g={},h=0,i=0,j=0,k={labels:['S','M','L','XL'],datasets:[{label:'Offered Sizes',backgroundColor:'rgba(220,0,0,0.5)',borderColor:'rgba(220,0,0,0.8)',data:[0,0,0,0]}]},l={labels:['No Response','Going'],datasets:[{data:[0,0],backgroundColor:['#666','#4BAE74'],hoverBackgroundColor:['#888','#377F54']}]},m=this;_.each(c,function(t){_.each(patterns,function(z,A){_.each(z,function(B){0<=t.school.toLowerCase().trim().indexOf(B.toLowerCase())&&(t.school=A)})}),_.each(patternsCities,function(z,A){_.each(z,function(B){0<=t.city.toLowerCase().trim().indexOf(B.toLowerCase())&&(t.city=A)})}),t.email=t.email.toLowerCase().trim();var u=t.email,w=f[u]&&'accepted'!=t.status||f[u]&&'accepted'==f[u].status;if(t.acceptance_sent&&'accepted'==t.status){const z=t.rsvp?1:0;l.datasets[0].data[z]++}if(!w){if(h++,f[u]=t,'accepted'==t.status&&t.rsvp){var x=k.labels.indexOf(t.tshirt);k.datasets[0].data[x]+=1}e[t.school]||(e[t.school]={name:t.school,accepted:0,acceptedResp:0,total:0}),e[t.school].total+=1;var y=m.toTitleCase(t.city.split(',')[0].trim());g[y]||(g[y]={name:y,accepted:0,acceptedResp:0,total:0}),g[y].total+=1,'accepted'==t.status&&(e[t.school].accepted+=1,g[y].accepted+=1,i++),t.acceptance_sent&&j++,t.rsvp&&(e[t.school].acceptedResp+=1,g[y].acceptedResp+=1)}}),document.getElementById('regDeDup').innerText=h,document.getElementById('accepted').innerText=i,document.getElementById('offered').innerText=j;var c={labels:[],datasets:[{label:'Total Students',backgroundColor:'rgba(220,0,0,0.5)',borderColor:'rgba(220,0,0,0.8)',data:[]},{label:'Offered Students',backgroundColor:'rgba(0,0,220,0.5)',borderColor:'rgba(0,0,220,0.8)',data:[]},{label:'Accepted Students',backgroundColor:'rgba(0,220,220,0.5)',borderColor:'rgba(0,220,220,0.8)',data:[]}]},n=_(e).toArray().sortBy(['accepted','total']).reverse().value();_.each(n,function(t){c.labels.push(t.name),c.datasets[0].data.push(t.total),c.datasets[1].data.push(t.accepted),c.datasets[2].data.push(t.acceptedResp)});var o=document.getElementById('university').getContext('2d');d.push(new Chart(o,{type:'bar',data:c,options:{responsive:!1}},{}));var q={labels:[],datasets:[{label:'Total Students',backgroundColor:'rgba(0,220,0,0.5)',borderColor:'rgba(0,220,0,0.8)',data:[]},{label:'Offered Students',backgroundColor:'rgba(0,0,220,0.5)',borderColor:'rgba(0,0,220,0.8)',data:[]},{label:'Accepted Students',backgroundColor:'rgba(0,220,220,0.5)',borderColor:'rgba(0,220,220,0.8)',data:[]}]},r=_(g).toArray().sortBy(['accepted','total']).reverse().value();_.each(r,function(t){q.labels.push(t.name),q.datasets[0].data.push(t.total),q.datasets[1].data.push(t.accepted),q.datasets[2].data.push(t.acceptedResp)});var o=this.$.city.getContext('2d');d.push(new Chart(o,{type:'bar',data:q,options:{responsive:!1}},{}));var o=this.$.tshirt.getContext('2d');d.push(new Chart(o,{type:'bar',data:k,options:{responsive:!1}},{}));var o=this.$.response.getContext('2d');d.push(new Chart(o,{type:'doughnut',data:l,options:{responsive:!1}},{})),this.$.going.innerText=l.datasets[0].data[1];const s=this.hackers.filter(t=>!!t.rsvp).map(t=>t.rsvp);this.dietaryRestrictions=s.map(t=>t.dietary),this.rsvpGender=s.map(t=>t.gender),this.rsvpFaculty=s.map(t=>t.faculty),this.rsvpYear=s.map(t=>t.year),this.rsvpPassport=s.map(t=>t.passport),this.rsvpMajority=s.map(t=>t.age)},toTitleCase:function(d){return d.replace(/\w\S*/g,function(e){return e.charAt(0).toUpperCase()+e.substr(1).toLowerCase()})}});</script></dom-module></body></html>
+<html><head></head><body><div hidden="" by-polymer-bundler=""><link rel="import" href="../main-app/main-app.html"><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js" integrity="sha256-aUydBd3D3p3+5tVJXERlqMtoCej+p4tdD+dkJgeRWNU=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js" integrity="sha256-8E6QUcFg1KTnpEU8TFGhpTGHw5fJqB9vCms3OhAYLqw=" crossorigin="anonymous"></script>
+<dom-module id="category-chart" assetpath="../">
+  <template>
+    <style>canvas{background-color:white;}.chart-container{overflow-x:auto;}</style>
+
+    <h2>
+      [[label]]
+    </h2>
+    <br>
+
+    <div class="chart-container">
+      <center>
+        <canvas id="chart" height="480"></canvas>
+      </center>
+    </div>
+
+  </template>
+  <script>
+'use strict';
+Polymer({
+  is: "category-chart",
+
+  properties: {
+    label: {
+      type: String,
+    },
+
+    data: {
+      type: Array,
+      value: () => [],
+      observer: 'updateChart'
+    },
+  },
+
+  updateChart: function() {
+    const categories = {};
+    this.data.forEach((item) => {
+      categories[item] = (categories[item] || 0) + 1;
+    });
+    const labels = Object.keys(categories);
+    labels.sort((a, b) => {
+      return categories[b] - categories[a];
+    });
+    const data = labels.map((label) => categories[label]);
+    const displayData = {
+      labels: labels,
+      datasets: [{
+        label: this.label,
+        data: data,
+        backgroundColor: 'rgba(220,0,0,0.5)',
+        borderColor: 'rgba(220,0,0,0.8)',
+      }]
+    };
+
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    this.$.chart.width = labels.length * 60;
+    const ctx = this.$.chart.getContext('2d');
+    this.chart = new Chart(
+        ctx, {
+          type: 'bar',
+          data: displayData,
+          options: {
+            responsive: false
+          }
+        },
+        {});
+  },
+
+  // https://stackoverflow.com/questions/25594478/different-color-for-each-bar-in-a-bar-chart-chartjs
+  randomColor: function() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+});
+  </script>
+</dom-module>
+</div><dom-module id="stats-page">
+  <template>
+    <style>table{width:calc(100% - 32px);}table td:first-child{font-weight:bold;}.chart-container{margin:15px 0;width:100%;overflow-x:auto;}canvas{background-color:white;}</style>
+    <h1>
+      nwHacks Live Registration Stats
+    </h1>
+    <center>
+      <table class="striped">
+        <thead>
+          <tr><th></th>
+          <th>Count</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td>Total Registrations</td>
+            <td>[[registrationCount]]</td>
+          </tr>
+          <tr>
+            <td>De-duplicated (by email)</td>
+            <td id="regDeDup">Loading...</td>
+          </tr>
+          <tr>
+            <td>Accepted</td>
+            <td id="accepted">Loading...</td>
+          </tr>
+          <tr>
+            <td>Offered</td>
+            <td id="offered">Loading...</td>
+          </tr>
+          <tr>
+            <td>Offered and Going</td>
+            <td id="going">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+    </center>
+    <p></p>
+    <h2>Response</h2>
+    <div class="chart-container">
+      <center>
+        <canvas id="response" width="640" height="480"></canvas>
+      </center>
+    </div>
+    <h2>University</h2>
+    <div class="chart-container">
+      <canvas id="university" width="3000" height="700"></canvas>
+    </div>
+    <h2>City</h2>
+    <div class="chart-container">
+      <canvas id="city" width="3000" height="700"></canvas>
+    </div>
+    <h2>T-Shirt</h2>
+    <p>This is tshirt information for everyone that was accepted and RSVPed.</p>
+    <div class="chart-container">
+      <canvas id="tshirt" width="640" height="480"></canvas>
+    </div>
+
+    <category-chart label="Dietary Restrictions" data="[[dietaryRestrictions]]">
+    </category-chart>
+
+    <category-chart label="Gender" data="[[rsvpGender]]">
+    </category-chart>
+
+    <category-chart label="Faculty" data="[[rsvpFaculty]]">
+    </category-chart>
+
+    <category-chart label="Year" data="[[rsvpYear]]">
+    </category-chart>
+
+    <category-chart label="Passport" data="[[rsvpPassport]]">
+    </category-chart>
+
+    <category-chart label="Majority" data="[[rsvpMajority]]">
+    </category-chart>
+
+    <firebase-config is-admin="{{isAdmin}}" auth="" name="stats">
+    </firebase-config>
+
+    <template is="dom-if" if="[[isAdmin]]">
+      <firebase-document id="regs" app-name="stats" path="/registrations" data="{{registrations}}">
+      </firebase-document>
+    </template>
+  </template>
+
+  <script>var patterns = {
+  'University of British Columbia': [
+    'UBC',
+    'University of British Columbia',
+    'University of the British Columbia',
+    'University of British Colombia',
+    'university british columbia',
+  ],
+  'Simon Fraser University': ['SFU', 'Simon Fraser', 'Somion Fraser'],
+  'University of Waterloo': ['Waterloo'],
+  'BCIT': ['BCIT', 'British Columbia Institute of Technology'],
+  'University of Illinois Urbana-Champaign':
+      ['Urbana-Champaign', 'Urbana Champaign'],
+  'McGill University': ['McGill'],
+  'University of Washington':
+      ['University of Washington', 'UW', 'University of Washingon'],
+};
+
+var patternsCities = {
+  'Vancouver': [
+    'UBC',
+    'University of British Columbia',
+    'Vanouver',
+    'Vancouver',
+    'Gage',
+    'Marine Drive',
+    'Locally',
+    'Vancover',
+    'Campus',
+    'N/a',
+    'University of the British Columbia',
+    'University of British Colombia',
+    'university british columbia',
+  ],
+  'Seattle': ['University of Washington'],
+};
+
+Polymer({
+  is: 'stats-page',
+
+  observers: [
+    'handleRegistrations(registrations)',
+    'renderData(hackers)',
+  ],
+
+  handleRegistrations: function(registrations) {
+    var hackers = [];
+    for (var id in registrations) {
+      var hacker = registrations[id];
+      hacker.id = id;
+      hackers.push(hacker);
+    }
+    this.hackers = hackers;
+  },
+
+  renderData: function(data) {
+    data.sort(function(a, b) { return b.id - a.id; });
+    _.each(this.charts, function(chart) { chart.destroy(); });
+    this.charts = [];
+    var charts = this.charts;
+    this.registrationCount = data.length;
+    var univs = {};
+    var students = {};
+    var cities = {};
+    var deDupStudents = 0;
+    var acceptedStudents = 0;
+    var offeredStudents = 0;
+
+    // T-Shirts
+    var tshirtData = {
+      labels: ['S', 'M', 'L', 'XL'],
+      datasets: [
+        {
+          label: 'Offered Sizes',
+          backgroundColor: 'rgba(220,0,0,0.5)',
+          borderColor: 'rgba(220,0,0,0.8)',
+          data: [0, 0, 0, 0]
+        },
+      ]
+    };
+
+    var responseData = {
+      labels: ['No Response', 'Going'],
+      datasets: [{
+        data: [0, 0],
+        backgroundColor: [
+          '#666',
+          '#4BAE74',
+          /*'#FF6B6B',
+          '#FDB45C',*/
+        ],
+        hoverBackgroundColor: [
+          '#888',
+          '#377F54',
+          /*'#D74343',
+          '#FFC870',*/
+        ],
+      }]
+    };
+
+    var self = this;
+
+    _.each(data, function(datum) {
+      // Cleanup step
+      _.each(patterns, function(pattern, remap) {
+        _.each(pattern, function(p) {
+          if (datum.school.toLowerCase().trim().indexOf(p.toLowerCase()) >= 0) {
+            datum.school = remap;
+          }
+        });
+      });
+      _.each(patternsCities, function(pattern, remap) {
+        _.each(pattern, function(p) {
+          if (datum.city.toLowerCase().trim().indexOf(p.toLowerCase()) >= 0) {
+            datum.city = remap;
+          }
+        });
+      });
+
+      datum.email = datum.email.toLowerCase().trim();
+      var email = datum.email;
+      var isDuplicate = students[email] && datum.status != 'accepted' ||
+          students[email] && students[email].status == 'accepted';
+
+      if (datum.acceptance_sent && datum.status == 'accepted') {
+        const index = datum.rsvp ? 1 : 0;
+        responseData.datasets[0].data[index]++;
+      }
+
+      if (isDuplicate) {
+        return;
+      }
+      deDupStudents++;
+      students[email] = datum;
+      if (datum.status == 'accepted' && datum.rsvp) {
+        var index = tshirtData.labels.indexOf(datum.tshirt);
+        tshirtData.datasets[0].data[index] += 1;
+      }
+
+      if (!univs[datum.school]) {
+        univs[datum.school] =
+            {name: datum.school, accepted: 0, acceptedResp: 0, total: 0};
+      }
+      univs[datum.school].total += 1;
+      var location = self.toTitleCase(datum.city.split(',')[0].trim());
+      if (!cities[location]) {
+        cities[location] = {
+          name: location,
+          accepted: 0,
+          acceptedResp: 0,
+          total: 0
+        }
+      }
+      cities[location].total += 1;
+      if (datum.status == 'accepted') {
+        univs[datum.school].accepted += 1;
+        cities[location].accepted += 1;
+        acceptedStudents++;
+      }
+      if (datum.acceptance_sent) {
+        offeredStudents++;
+      }
+      if (datum.rsvp) {
+        univs[datum.school].acceptedResp += 1;
+        cities[location].acceptedResp += 1;
+      }
+    });
+
+    document.getElementById('regDeDup').innerText = deDupStudents;
+    document.getElementById('accepted').innerText = acceptedStudents;
+    document.getElementById('offered').innerText = offeredStudents;
+
+    // Univerisities
+    var data = {
+      labels: [],
+      datasets: [
+        {
+          label: 'Total Students',
+          backgroundColor: 'rgba(220,0,0,0.5)',
+          borderColor: 'rgba(220,0,0,0.8)',
+          data: []
+        },
+        {
+          label: 'Offered Students',
+          backgroundColor: 'rgba(0,0,220,0.5)',
+          borderColor: 'rgba(0,0,220,0.8)',
+          data: []
+        },
+        {
+          label: 'Accepted Students',
+          backgroundColor: 'rgba(0,220,220,0.5)',
+          borderColor: 'rgba(0,220,220,0.8)',
+          data: []
+        },
+      ]
+    };
+    var sortedUnivs = _(univs).toArray().sortBy(['accepted', 'total']).reverse().value();
+    _.each(sortedUnivs, function(v) {
+      data.labels.push(v.name);
+      data.datasets[0].data.push(v.total);
+      data.datasets[1].data.push(v.accepted);
+      data.datasets[2].data.push(v.acceptedResp);
+    });
+    var ctx = document.getElementById('university').getContext('2d');
+    charts.push(new Chart(
+        ctx, {
+          type: 'bar',
+          data: data,
+          options: {
+            responsive: false
+          }
+        },
+        {}));
+
+    // Cities
+
+    var dataCities = {
+      labels: [],
+      datasets: [
+        {
+          label: 'Total Students',
+          backgroundColor: 'rgba(0,220,0,0.5)',
+          borderColor: 'rgba(0,220,0,0.8)',
+          data: []
+        },
+        {
+          label: 'Offered Students',
+          backgroundColor: 'rgba(0,0,220,0.5)',
+          borderColor: 'rgba(0,0,220,0.8)',
+          data: []
+        },
+        {
+          label: 'Accepted Students',
+          backgroundColor: 'rgba(0,220,220,0.5)',
+          borderColor: 'rgba(0,220,220,0.8)',
+          data: []
+        },
+      ]
+    };
+    var sortedCities = _(cities).toArray().sortBy(['accepted', 'total']).reverse().value();
+    _.each(sortedCities, function(v) {
+      dataCities.labels.push(v.name);
+      dataCities.datasets[0].data.push(v.total);
+      dataCities.datasets[1].data.push(v.accepted);
+      dataCities.datasets[2].data.push(v.acceptedResp);
+    });
+    var ctx = this.$.city.getContext('2d');
+    charts.push(new Chart(
+        ctx, {
+          type: 'bar',
+          data: dataCities,
+          options: {
+            responsive: false
+          }
+        },
+        {}));
+
+    var ctx = this.$.tshirt.getContext('2d');
+    charts.push(new Chart(
+        ctx, {
+          type: 'bar',
+          data: tshirtData,
+          options: {
+            responsive: false
+          }
+        },
+        {}));
+
+    var ctx = this.$.response.getContext('2d');
+    charts.push(new Chart(
+        ctx, {
+          type: 'doughnut',
+          data: responseData,
+          options: {
+            responsive: false
+          }
+        },
+        {}));
+    this.$.going.innerText = responseData.datasets[0].data[1];
+
+    const rsvped = this.hackers.filter((a) => !!a.rsvp).map((a) => a.rsvp);
+    this.dietaryRestrictions = rsvped.map((a) => a.dietary);
+    this.rsvpGender = rsvped.map((a) => a.gender);
+    this.rsvpFaculty = rsvped.map((a) => a.faculty);
+    this.rsvpYear = rsvped.map((a) => a.year);
+    this.rsvpPassport = rsvped.map((a) => a.passport);
+    this.rsvpMajority = rsvped.map((a) => a.age);
+  },
+
+  // https://stackoverflow.com/questions/4878756/javascript-how-to-capitalize-first-letter-of-each-word-like-a-2-word-city
+  toTitleCase: function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  }
+});
+</script>
+</dom-module>
+</body></html>
