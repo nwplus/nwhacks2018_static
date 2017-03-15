@@ -15,26 +15,28 @@
       <a href="#title">
         <paper-icon-button src="/svg/NWHacks-NavBar-Logo.svg"></paper-icon-button>
       </a>
-      <a href="/#intro" class="med">
-        <paper-button>about</paper-button>
-      </a>
-      <a href="/#faq" class="med">
-        <paper-button>faq</paper-button>
-      </a>
-      <a href="#calendar" class="med">
-        <paper-button>schedule</paper-button>
-      </a>
-      <a href="/#sponsors" class="big">
-        <paper-button>sponsors</paper-button>
-      </a>
+      <template is="dom-if" if="[[!adminPage]]">
+        <a href="/#intro" class="med">
+          <paper-button>about</paper-button>
+        </a>
+        <a href="/#faq" class="med">
+          <paper-button>faq</paper-button>
+        </a>
+        <a href="#calendar" class="med">
+          <paper-button>schedule</paper-button>
+        </a>
+        <a href="/#sponsors" class="big">
+          <paper-button>sponsors</paper-button>
+        </a>
+        <a href="/dayof" class="small right">
+          <paper-button>Day Of</paper-button>
+        </a>
+      </template>
       <!--
       <a href="/register#begin" class="small right">
         <paper-button>register</paper-button>
       </a>
       -->
-      <a href="/dayof" class="small right">
-        <paper-button>Day Of</paper-button>
-      </a>
       <template is="dom-if" if="[[adminPage]]">
         <a href="/admin/checkin" class="med right">
           <paper-button>Check-In</paper-button>

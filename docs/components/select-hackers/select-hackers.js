@@ -429,5 +429,12 @@ Polymer({
 
   timeTo: function(time) {
     return moment(time).add(7,'days').fromNow();
+  },
+
+  firebaseLink: function(id) {
+    if (!id) {
+      return;
+    }
+    return 'https://console.firebase.google.com/project/nwhacks-96701/database/data/registrations/'+id;
   }
 });
