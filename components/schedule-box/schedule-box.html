@@ -9,6 +9,7 @@
         display: block;
       }
       h1 {
+        text-transform: uppercase;
         text-align: center;
       }
       .day {
@@ -71,11 +72,9 @@
         }
       }
       @media (min-width: 950px) {
-        .day {
-          width: calc(50% - 10px);
-        }
         .days {
           display: flex;
+          justify-content: center;
         }
       }
       .day .row .name {
@@ -87,7 +86,7 @@
         padding: 0 5px;
       }
     </style>
-    <h1>SCHEDULE</h1>
+    <h1>[[heading]]</h1>
     <div class="content">
       <div class="days">
         <template is="dom-repeat" items="[[days]]">
@@ -120,11 +119,11 @@
         </template>
       </div>
       <div class="center gcal">
-        <a href="https://calendar.google.com/calendar/embed?src=outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com&ctz=America/Los_Angeles">Google Calendar</a>
+        <a href="https://calendar.google.com/calendar/embed?src=[[calendar]]&ctz=America/Los_Angeles">Google Calendar</a>
       </div>
     </div>
     <iron-ajax id="ajax"
-      url="https://www.googleapis.com/calendar/v3/calendars/outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com/events?key=%20AIzaSyAdbxoL7d-fe9rFUh898TTCx-ZERREDhKg&timeZone=America/Los_Angeles"
+      url="https://www.googleapis.com/calendar/v3/calendars/[[calendar]]/events?key=%20AIzaSyAdbxoL7d-fe9rFUh898TTCx-ZERREDhKg&timeZone=America/Los_Angeles"
       handle-as="json"
       last-response="{{gcal}}"></iron-ajax>
   </template>
@@ -133,6 +132,13 @@
 Polymer({
   is: "schedule-box",
   properties: {
+    heading: {
+      value: "Schedule"
+    },
+    calendar: {
+      value:
+        "outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com",
+    },
     days: {
       type: Array,
       computed: 'calendarDisplay(gcal)',

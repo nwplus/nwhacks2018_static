@@ -4,8 +4,8 @@
 
 </head><body><dom-module id="schedule-box">
   <template>
-    <style>:host{display:block;}h1{text-align:center;}.day{margin-top:0;text-align:center;}.day .row{text-align:left;color:white;display:flex;align-items:center;margin:10px 0;}.day .row .time-col{padding-right:0;}.day .row > div:first-child{font-weight:500;min-width:86px;min-height:32px;padding-bottom:0;}.day .time{font-size:20pt;}.day .period{text-transform:uppercase;font-size:10pt;}.day .row > div{display:inline-block;vertical-align:top;}.day .row > div.location{white-space:nowrap;text-align:right;}.card-content{padding:0px 16px;color:#444;}.content{min-height:448px;}.center{text-align:center;}.gcal{margin:30px 0;}.desc{font-style:italic;display:block;font-size:0.9em;}@media (max-width: 480px){.desc{margin-top:0px;margin-left:10px;}}@media (min-width: 950px){.day{width:calc(50% - 10px);}.days{display:flex;}}.day .row .name{display:inline-block;}.day .row .info{display:inline;flex-grow:1000;padding:0 5px;}</style>
-    <h1>SCHEDULE</h1>
+    <style>:host{display:block;}h1{text-transform:uppercase;text-align:center;}.day{margin-top:0;text-align:center;}.day .row{text-align:left;color:white;display:flex;align-items:center;margin:10px 0;}.day .row .time-col{padding-right:0;}.day .row > div:first-child{font-weight:500;min-width:86px;min-height:32px;padding-bottom:0;}.day .time{font-size:20pt;}.day .period{text-transform:uppercase;font-size:10pt;}.day .row > div{display:inline-block;vertical-align:top;}.day .row > div.location{white-space:nowrap;text-align:right;}.card-content{padding:0px 16px;color:#444;}.content{min-height:448px;}.center{text-align:center;}.gcal{margin:30px 0;}.desc{font-style:italic;display:block;font-size:0.9em;}@media (max-width: 480px){.desc{margin-top:0px;margin-left:10px;}}@media (min-width: 950px){.days{display:flex;justify-content:center;}}.day .row .name{display:inline-block;}.day .row .info{display:inline;flex-grow:1000;padding:0 5px;}</style>
+    <h1>[[heading]]</h1>
     <div class="content">
       <div class="days">
         <template is="dom-repeat" items="[[days]]">
@@ -38,16 +38,23 @@
         </template>
       </div>
       <div class="center gcal">
-        <a href="https://calendar.google.com/calendar/embed?src=outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com&amp;ctz=America/Los_Angeles">Google Calendar</a>
+        <a href="https://calendar.google.com/calendar/embed?src=[[calendar]]&amp;ctz=America/Los_Angeles">Google Calendar</a>
       </div>
     </div>
-    <iron-ajax id="ajax" url="https://www.googleapis.com/calendar/v3/calendars/outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com/events?key=%20AIzaSyAdbxoL7d-fe9rFUh898TTCx-ZERREDhKg&amp;timeZone=America/Los_Angeles" handle-as="json" last-response="{{gcal}}"></iron-ajax>
+    <iron-ajax id="ajax" url="https://www.googleapis.com/calendar/v3/calendars/[[calendar]]/events?key=%20AIzaSyAdbxoL7d-fe9rFUh898TTCx-ZERREDhKg&amp;timeZone=America/Los_Angeles" handle-as="json" last-response="{{gcal}}"></iron-ajax>
   </template>
 
   <script>
 Polymer({
   is: "schedule-box",
   properties: {
+    heading: {
+      value: "Schedule"
+    },
+    calendar: {
+      value:
+        "outerearth.net_2djv2qvtpfu60m7jrcm40oannk@group.calendar.google.com",
+    },
     days: {
       type: Array,
       computed: 'calendarDisplay(gcal)',
