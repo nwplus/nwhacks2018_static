@@ -18,6 +18,7 @@
   <script>
 Polymer({
   is: 'area-img',
+
   properties: {
     src: {
       type: String,
@@ -40,13 +41,10 @@ Polymer({
       computed: 'computeDuo(srcSolid)',
     }
   },
+
   observers: [
     'updateSize(height, width)'
   ],
-
-  attached: function() {
-    this.hidden = window.innerWidth < 600;
-  },
 
   // visualArea looks at the left and right most pixel of the image at each line
   // and uses it to calculate the visual area of the image.
