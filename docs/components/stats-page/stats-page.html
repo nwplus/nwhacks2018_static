@@ -115,6 +115,10 @@ Polymer({
             <td>Offered and Going</td>
             <td id="going">Loading...</td>
           </tr>
+          <tr>
+            <td>Checked-In</td>
+            <td>[[checked_in]]</td>
+          </tr>
         </tbody>
       </table>
     </center>
@@ -233,6 +237,7 @@ Polymer({
     var deDupStudents = 0;
     var acceptedStudents = 0;
     var offeredStudents = 0;
+    var checked_in = 0;
 
     // T-Shirts
     var tshirtData = {
@@ -303,6 +308,10 @@ Polymer({
       if (datum.status == 'accepted' && datum.rsvp) {
         var index = tshirtData.labels.indexOf(datum.tshirt);
         tshirtData.datasets[0].data[index] += 1;
+      }
+
+      if (datum.checked_in) {
+        checked_in++;
       }
 
       if (!univs[datum.school]) {
@@ -453,6 +462,7 @@ Polymer({
     this.rsvpYear = rsvped.map((a) => a.year);
     this.rsvpPassport = rsvped.map((a) => a.passport);
     this.rsvpMajority = rsvped.map((a) => a.age);
+    this.checked_in = checked_in;
   },
 
   // https://stackoverflow.com/questions/4878756/javascript-how-to-capitalize-first-letter-of-each-word-like-a-2-word-city

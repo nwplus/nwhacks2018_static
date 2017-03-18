@@ -80,7 +80,41 @@ Polymer({
   },
 
   handleRegistrations: function(registrations) {
+    this.updateDuplicateIndex(registrations);
     this.updateLunrIndex(registrations);
+  },
+
+  updateDuplicateIndex: function(registrations) {
+    const keys = Object.keys(registrations).sort();
+    // Deduplicate hackers
+    const dedup = {};
+    keys.forEach((key, i) => {
+      const hacker = registrations[key];
+
+      const email = this.cleanEmail(hacker.email);
+      hacker.cleanEmail = email;
+      const {count} = (dedup[email] || {count: 0});
+      dedup[email] = {
+        last: hacker.id,
+        count: count+1
+      };
+    });
+
+    const duplicateIndices = {};
+    keys.forEach((key, i) => {
+      const hacker = registrations[key];
+
+      const {last, count} = dedup[hacker.cleanEmail];
+      if (count > 1 && last !== hacker.id) {
+        duplicateIndices[i] = true;
+      }
+    });
+
+    this.duplicateIndices = duplicateIndices;
+  },
+
+  cleanEmail: function(email) {
+    return email.toLowerCase().trim();
   },
 
   handleSearch: function(query, lunr) {
@@ -94,7 +128,9 @@ Polymer({
   },
 
   updateLunrIndex: function(registrations) {
-    const regCount = Object.keys(registrations).length;
+    const keys = Object.keys(registrations).sort();
+
+    const regCount = keys.length;
     if (this.lastLunrIndexCount === regCount) {
       return;
     }
@@ -106,7 +142,11 @@ Polymer({
       this.field('emailSplit');
       this.field('name');
     });
-    for (let id of Object.keys(registrations)) {
+    keys.forEach((id, i) => {
+      if (this.duplicateIndices[i]) {
+        return;
+      }
+
       const hacker = registrations[id];
       search.add({
         id: id,
@@ -114,7 +154,7 @@ Polymer({
         emailSplit: hacker.email.replace(/\W+/g, ' '),
         name: hacker.name
       });
-    }
+    });
     this.lunr = search;
   },
 
