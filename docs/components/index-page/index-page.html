@@ -1,4 +1,6 @@
-<html><head></head><body><div hidden="" by-polymer-bundler=""><link rel="import" href="../main-app/main-app.html"><dom-module id="area-img" assetpath="../">
+<html><head><!--<link rel="import" href="../schedule-box/schedule-box.html">-->
+
+</head><body><div hidden="" by-polymer-bundler=""><dom-module id="area-img" assetpath="../">
   <template>
     <style></style>
     <a href="[[href]]" duo$="[[isDuo]]">
@@ -89,10 +91,10 @@ Polymer({
     <style>:host{display:block;padding-bottom:50px;}#intro{padding-top:100px;margin-top:200px;margin-bottom:300px;}#intro, .content h1{text-align:center;}#intro p{max-width:600px;margin:1em auto;text-align:left;}.large-trapezoid{margin-top:30px;}.clouds img{left:50vw;width:1400px;margin-left:calc(-1400px / 2 - 20px);position:relative;margin-top:-550px;margin-bottom:-120px;pointer-events:none;}.mountains{margin:0 -15px;}.mountains img{width:100%;margin-bottom:calc(100% / -5);}</style>
     <div id="intro">
       <div class="h1-container">
-        <h1>THIS IS nwHACKS 2017.</h1>
+        <h1>THIS IS nwHACKS 2018.</h1>
       </div>
       <p>
-        We're Western Canada's largest hackathon, and we're coming back in March 2017 to host another one!
+        We're Western Canada's largest hackathon, and we're coming back in Spring 2018 to host another one!
       </p>
       <p>
         nwHacks is more than a hackathon—it's about growing and connecting the community of awesome hackers. Anyone and everyone is welcome at nwHacks, from hackathon veterans to first-timers!
@@ -155,11 +157,14 @@ Polymer({
       <img src="/svg/Clouds-Distributed.svg">
     </div>
 
+    <!--
     <div id="calendar">
       <schedule-box></schedule-box>
-      <schedule-box heading="Workshops" calendar="outerearth.net_k8r36lba3ltbaf62qpu1kfie58@group.calendar.google.com">
+      <schedule-box heading="Workshops"
+                    calendar="outerearth.net_k8r36lba3ltbaf62qpu1kfie58@group.calendar.google.com">
       </schedule-box>
     </div>
+    -->
 
     <div class="mountains">
       <img src="/svg/Mountains.svg">
@@ -174,37 +179,87 @@ Polymer({
         </div>
       -->
       <div class="sponsors-mega">
+        <!--
         <area-img src="/img/logos/ata.png" href="http://athinkingape.com"></area-img>
         <area-img src="/img/logos/ca_tech.png" href="http://www.ca.com/us.html"></area-img>
         <area-img src="/img/logos/clio.png" href="https://www.clio.com"></area-img>
-        <area-img src="/svg/logos/cockroachdb-transparent.svg" src-solid="/svg/logos/cockroachdb.svg" href="https://www.cockroachlabs.com/"></area-img>
+        <area-img src="/svg/logos/cockroachdb-transparent.svg"
+                  src-solid="/svg/logos/cockroachdb.svg"
+                  href="https://www.cockroachlabs.com/"></area-img>
         <area-img src="/svg/logos/google-logo.svg" href="https://google.com"></area-img>
         <area-img src="/img/logos/hootsuite.png" href="https://hootsuite.com"></area-img>
         <area-img src="/svg/logos/microsoft.svg" href="https://www.microsoft.com"></area-img>
         <area-img src="/svg/logos/mojio.svg" href="https://www.moj.io"></area-img>
-        <area-img src="/svg/logos/rbc_outline.svg" src-solid="/svg/logos/rbc.svg" href="http://www.rbc.com/techjobs/"></area-img>
+        <area-img src="/svg/logos/rbc_outline.svg"
+                  src-solid="/svg/logos/rbc.svg"
+                  href="http://www.rbc.com/techjobs/"></area-img>
         <area-img src="/svg/logos/telus.svg" href="https://labs.telus.com"></area-img>
+        -->
       </div>
       <div class="sponsors-kilo">
-        <area-img src="/img/logos/namecheap.png" href="https://www.namecheap.com" area="28600"></area-img>
+        <!--
+        <area-img src="/img/logos/namecheap.png"
+                  href="https://www.namecheap.com"
+                  area="28600"></area-img>
+        -->
       </div>
       <div class="sponsors-micro">
-        <area-img src="/img/logos/4imprint.png" href="http://www.4imprint.ca" area="14000"></area-img>
-        <area-img src="/svg/logos/Costco_Wholesale.svg" href="http://www.costco.ca" area="14000"></area-img>
-        <area-img src="/img/logos/cvr.png" href="https://www.consumer-vr.com" area="14000"></area-img>
-        <area-img src="/img/logos/jetbrains-transparent.png" src-solid="/svg/logos/jetbrains.svg" href="http://www.jetbrains.com" area="14000"></area-img>
-        <area-img src="/img/logos/poniverse.png" href="https://poniverse.net" area="14000"></area-img>
-        <area-img src="/svg/logos/red-transparent.svg" src-solid="/svg/logos/red.svg" href="https://www.redacademy.com" area="14000"></area-img>
-        <area-img src="/img/logos/spring.png" href="http://spring.is" area="14000"></area-img>
-        <area-img src="/img/logos/stickermule.png" href="http://www.stickermule.com/ca" area="14000"></area-img>
-        <area-img src="/img/logos/teradici.png" href="http://www.teradici.com" area="14000"></area-img>
-        <area-img src="/svg/logos/wantoo.svg" href="https://wantoo.io" area="14000"></area-img>
+        <!--
+        <area-img src="/img/logos/4imprint.png"
+                  href="http://www.4imprint.ca"
+                  area="14000"></area-img>
+        <area-img src="/svg/logos/Costco_Wholesale.svg"
+                  href="http://www.costco.ca"
+                  area="14000"></area-img>
+        <area-img src="/img/logos/cvr.png"
+                  href="https://www.consumer-vr.com"
+                  area="14000"></area-img>
+        <area-img src="/img/logos/jetbrains-transparent.png"
+                  src-solid="/svg/logos/jetbrains.svg"
+                  href="http://www.jetbrains.com"
+                  area="14000"></area-img>
+        <area-img src="/img/logos/poniverse.png"
+                  href="https://poniverse.net"
+                  area="14000"></area-img>
+        <area-img src="/svg/logos/red-transparent.svg"
+                  src-solid="/svg/logos/red.svg"
+                  href="https://www.redacademy.com"
+                  area="14000"></area-img>
+        <area-img src="/img/logos/spring.png"
+                  href="http://spring.is"
+                  area="14000"></area-img>
+        <area-img src="/img/logos/teradici.png"
+                  href="http://www.teradici.com"
+                  area="14000"></area-img>
+        <area-img src="/svg/logos/wantoo.svg"
+                  href="https://wantoo.io"
+                  area="14000"></area-img>
+        -->
+        <area-img src="/img/logos/stickermule.png" href="https://www.stickermule.com/ca/uses/laptop-stickers" area="14000"></area-img>
       </div>
+
+      <div>
+        <center>
+          <a class="none" href="https://2017.nwhacks.io/#sponsors">
+            <paper-button class="button">Past Sponsors</paper-button>
+          </a>
+        </center>
+      </div>
+
       <h1>PARTNERS</h1>
       <div class="partners">
-        <area-img src="/svg/logos/mlh-logo.svg" href="https://mlh.io/" area="24000"></area-img>
+        <!--
+        <area-img src="/svg/logos/mlh-logo.svg"
+                  href="https://mlh.io/"
+                  area="24000"></area-img>
+        -->
         <area-img src="/img/logos/startupstorm.png" href="http://www.startupstorm.org" area="24000"></area-img>
-        <area-img src="/img/logos/ubc-engineering-transparent.png" src-solid="/img/logos/ubc-engineering.png" href="https://engineering.ubc.ca" area="24000"></area-img>
+        <!--
+        <area-img src="/img/logos/ubc-engineering-transparent.png"
+                  src-solid="/img/logos/ubc-engineering.png"
+                  href="https://engineering.ubc.ca"
+                  area="24000"></area-img>
+        -->
       </div>
     </div>
   </template>
