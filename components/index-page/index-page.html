@@ -277,7 +277,7 @@ Polymer({
     if (!faq) {
       return;
     }
-    var bottom = faq.offsetTop + 30;
+    var bottom = 0;
     var starSize = 20;
     var margin = 15;
     var elems = document.querySelectorAll(
@@ -293,7 +293,7 @@ Polymer({
       };
     });
     var starHTML = '';
-    var starCount = window.innerWidth / 30;
+    var starCount = window.innerWidth / 90;
     for (var i = 0; i < starCount; i++) {
       var x = 0;
       var y = 0;
