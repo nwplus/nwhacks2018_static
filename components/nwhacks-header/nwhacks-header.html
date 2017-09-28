@@ -1,4 +1,7 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
 
 <dom-module id="nwhacks-header">
   <template>
@@ -6,13 +9,13 @@
       <div id="title">
         <div id="logos">
           <a href="/">
-            <object data="/svg/NWHacks-Web-Logo.svg" type="image/svg+xml"></object>
+            <object data="/svg/nwHacks_logo.svg" type="image/svg+xml" id="main-logo"></object>
           </a>
         </div>
         <br>
         <div class="large-trapezoid">
-          <h1>WESTERN CANADA'S LARGEST HACKATHON</h1>
-          <h2>JAN 13-14, 2018 @ UNIVERSITY OF BRITISH COLUMBIA</h2>
+          <h1>Western Canada's Largest Hackathon</h1>
+          <h2>Jan 13-14, 2018 @ University of British Columbia</h2>
         </div>
       </div>
       <div id="buttons">
@@ -22,12 +25,16 @@
         <!--
         <a class="none" href="/dayof"><paper-button class="register">Day Of Information</paper-button></a>
         -->
-        <paper-button class="register">Registration Opens Soon</paper-button></a>
-        <a class="none" href="https://2017.nwhacks.io/"><paper-button class="button">previous hacks</paper-button></a>
+          <h3 id="email-line">Get notified when registration opens!</h3>
+          <!--<iron-input><input placeholder="hacker@email.com" type="text" id="email"></iron-input>-->
+          <paper-input auto-validate maxlength="250" id="email" label="hacker@email.com" value=""></paper-input>
+          <paper-button class="register" id="email-button">Get notified</paper-button></a>
+
+        <!--<a class="none" href="https://2017.nwhacks.io/"><paper-button class="button">previous hacks</paper-button></a>-->
         <br>
         <br>
         <br>
-        <a href="/sponsors#sponsor" class="link">Interested in becoming a sponsor?</a>
+        <a href="/sponsors#sponsor" class="link" id="sponsor-line">Interested in becoming a sponsor?</a>
       </div>
     </div>
   </template>

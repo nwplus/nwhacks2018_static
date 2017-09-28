@@ -5,6 +5,8 @@ $black-fg: #000000;
 $dark-fg: #FFFFFF;
 $dark-fg-alt: #FFF2B5;
 $light-bg: #FFFFFF;
+$body-bg-light: rgba(17,23,84,1);
+$body-bg-dark: rgba(0,0,0,1);
 $logo-size: 500px;
 $menu-padding: 15px;
 $menu-padding-vertical: 10px;
@@ -14,10 +16,10 @@ $link-dark: #4BAE74;
 $link: lighten($link-dark, 20%);
 $link-hover: #239e57;
 
-$btn-shadow-size: 4px;
+$btn-shadow-size: 7px;
 $register-btn-fg: $dark-fg;
-$register-btn-bg: #FF6B6B;
-$register-btn-bg-shadow: #D74343;
+$register-btn-bg: #2B9F61;
+$register-btn-bg-shadow: #217E49;
 $login-btn-fg: #3C4558;
 $login-btn-bg: $light-bg;
 $login-btn-bg-shadow: #BCBEC0;
@@ -34,10 +36,10 @@ $form-focused: $link;
 body {
   color: $dark-fg;
 
-  background: rgb(91,99,119); /* Old browsers */
-  background: -moz-linear-gradient(top, rgba(91,99,119,1) 32%, rgba(161,193,214,1) 81%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, rgba(91,99,119,1) 32%,rgba(161,193,214,1) 81%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, rgba(91,99,119,1) 32%,rgba(161,193,214,1) 81%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  background: rgb(17,23,84); /* Old browsers */
+  background: -moz-linear-gradient(top, $body-bg-light 32%, $body-bg-dark 81%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, $body-bg-light 32%,$body-bg-dark 81%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, $body-bg-light 32%,$body-bg-dark 81%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5b6377', endColorstr='#a1c1d6',GradientType=0 ); /* IE6-9 */
 
   margin: 0;
@@ -115,7 +117,7 @@ paper-button {
   letter-spacing: 2px;
   border-radius: 0;
   &.register, &.button {
-    font-weight: bold;
+    //font-weight: bold;
     letter-spacing: 3px;
     padding: 11px 15px;
     margin-top: 10px;
@@ -143,8 +145,8 @@ paper-button {
 
 a.link {
   color: $dark-fg;
-  font-style: italic;
-  letter-spacing: 2px;
+  //font-style: italic;
+  letter-spacing: 1px;
   border-bottom: 1px solid;
   text-decoration: none;
   &:hover {
@@ -176,7 +178,7 @@ a.none:hover {
   z-index: 10;
   padding: $menu-padding-vertical $menu-padding $menu-padding-vertical;
   //padding-right: 165px;
-  height: 50px;
+  height: 45px;
   background-color: $light-bg;
   color: $black-fg;
   transition: background-color 0.2s, box-shadow 0.2s;
@@ -194,7 +196,7 @@ a.none:hover {
   paper-button {
     color: inherit;
     font-size: 15pt;
-    padding: 15px $menu-padding;
+    padding: 12px $menu-padding;
     text-transform: none !important;
     letter-spacing: normal;
   }
@@ -260,6 +262,11 @@ schedule-box {
       display: inline-block;
       & > a {
         display: block;
+      } #main-logo {
+        padding-top: 190px;
+        padding-bottom: 50px;
+        width: 150px;
+        height: 215px;
       }
     }
 
@@ -275,18 +282,40 @@ schedule-box {
       }
     }
   }
+  #sponsor-line {
+    font-size: 12pt;
+  }
+
+  #email-line {
+    font-size: 15pt;
+    padding-bottom: 10px;
+    font-weight: normal;
+    letter-spacing: 1px;
+  }
   #buttons {
     margin: 50px;
     text-align: center;
   }
+  #email {
+    //min-width: 250px;
+    //max-width:80vh;
+    display: inline-block;
+
+    margin-bottom: 0;
+  }
+  #email-button {
+    margin-bottom: 0;
+  }
 }
 
 @media(max-width: 700px) {
-  #header #title .title-sponsor {
-    bottom: 10px;
-    right: -40px;
-    img {
-      max-height: 50px;
+  #header {
+    #title .title-sponsor {
+      bottom: 10px;
+      right: -40px;
+      img {
+        max-height: 50px;
+     }
     }
   }
 }
@@ -420,33 +449,42 @@ body paper-card {
 
 .large-trapezoid {
   display: inline-block;
-
-  color: $dark-fg;
+  //color: $dark-fg;
   text-align: center;
   position: relative;
   //margin: 0 40px;
   max-width: calc(100vw - 100px);
   padding: 15px 20px;
-  background-color: $dark-bg;
-  -webkit-transform: skew(-10deg);
-  transform: skew(-10deg);
+  //background-color: $dark-bg;
+  //-webkit-transform: skew(-10deg);
+  //transform: skew(-10deg);
   h1, h2, h3 {
-    letter-spacing: 4px;
+    //letter-spacing: 4px;
     padding: 0;
     margin: 0;
   }
+
   h1 {
+    //font-weight: bold;
+    //padding-bottom: 5px;
+    //font-size: $tagline-font-size;
+    text-decoration: none;
+    letter-spacing: 1px;
+    font-size: 28pt;
     font-weight: bold;
-    padding-bottom: 5px;
-    font-size: $tagline-font-size;
+    margin-bottom: 0;
   }
   h2 {
-    font-weight: 200;
-    font-size: $infoline-font-size;
+    //font-weight: 200;
+    //font-size: $infoline-font-size;
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 22pt;
+    margin-top: 6px;
   }
   section {
-    -webkit-transform: skew(10deg);
-    transform: skew(10deg);
+    //-webkit-transform: skew(10deg);
+    //transform: skew(10deg);
     padding: 0 60px;
 
     display: inline-block;
