@@ -1,26 +1,26 @@
 @font-face {
-  font-family: "LFT Etica";
-  src: url(https://cdn.rawgit.com/nwhacks/nwhacks2017_static/master/font/LFT_Etica_Book.otf) format("opentype"); }
+  font-family: "Apercu";
+  src: url(https://cdn.rawgit.com/nwhacks/nwhacks2017_static/master/font/Apercu.ttf) format("opentype"); }
 @font-face {
-  font-family: "LFT Etica";
-  src: url(https://cdn.rawgit.com/nwhacks/nwhacks2017_static/master/font/LFT_Etica_Semibold.otf) format("opentype");
+  font-family: "Apercu";
+  src: url(https://cdn.rawgit.com/nwhacks/nwhacks2017_static/master/font/Apercu-Light.otf) format("opentype");
   font-weight: 500; }
 @font-face {
-  font-family: "LFT Etica";
-  src: url(https://cdn.rawgit.com/nwhacks/nwhacks2017_static/master/font/LFT_Etica_Bold.otf) format("opentype");
+  font-family: "Apercu";
+  src: url(https://cdn.rawgit.com/nwhacks/nwhacks2017_static/master/font/Apercu-Bold.otf) format("opentype");
   font-weight: bold; }
 @font-face {
-  font-family: "LFT Etica";
-  src: url(https://cdn.rawgit.com/nwhacks/nwhacks2017_static/master/font/LFT_Etica_BoldItalic.otf) format("opentype");
+  font-family: "Apercu";
+  src: url(https://cdn.rawgit.com/nwhacks/nwhacks2017_static/master/font/Apercu-BoldItalic.otf) format("opentype");
   font-weight: bold;
   font-style: italic; }
 @font-face {
-  font-family: "LFT Etica";
-  src: url(https://cdn.rawgit.com/nwhacks/nwhacks2017_static/master/font/LFT_Etica_Light.otf) format("opentype");
+  font-family: "Apercu";
+  src: url(https://cdn.rawgit.com/nwhacks/nwhacks2017_static/master/font/Apercu-Light.otf) format("opentype");
   font-weight: 200; }
 @font-face {
-  font-family: "LFT Etica";
-  src: url(https://cdn.rawgit.com/nwhacks/nwhacks2017_static/master/font/LFT_Etica_LightItalic.otf) format("opentype");
+  font-family: "Apercu";
+  src: url(https://cdn.rawgit.com/nwhacks/nwhacks2017_static/master/font/Apercu%20Light%20Italic.ttf) format("opentype");
   font-weight: lighter;
   font-style: italic; }
 body {
@@ -45,7 +45,7 @@ body {
   background-size: cover; }
 
 body, * {
-  font-family: 'LFT Etica', 'Roboto', sans-serif !important; }
+  font-family: 'Apercu', 'Roboto', sans-serif !important; }
 
 html {
   min-height: 100%; }
@@ -117,7 +117,8 @@ a {
   color: #90cfaa;
   text-decoration: none; }
   a:hover {
-    text-decoration: underline; }
+    text-decoration: underline;
+    color: #239e57; }
 
 a.none:hover {
   text-decoration: none; }
@@ -132,40 +133,44 @@ a.none:hover {
   right: 0;
   left: 0;
   z-index: 10;
-  padding: 5px 15px;
-  padding-right: 165px;
-  background-color: rgba(35, 31, 32, 0.6);
-  color: #FFFFFF;
+  padding: 10px 15px 10px;
+  height: 50px;
+  background-color: #FFFFFF;
+  color: #000000;
   transition: background-color 0.2s, box-shadow 0.2s; }
   #menu paper-icon-button {
     color: inherit;
     height: 50px;
     width: 50px;
+    padding-top: 0;
+    padding-bottom: 0;
     margin-left: 15px;
-    margin-right: 15px; }
+    margin-right: 10px; }
   #menu paper-button {
     color: inherit;
-    font-size: 10pt;
-    padding: 17px 15px; }
+    font-size: 15pt;
+    padding: 15px 15px;
+    text-transform: none !important;
+    letter-spacing: normal; }
   #menu a {
     text-decoration: none;
     color: inherit; }
     #menu a.right {
       float: right; }
+    #menu a:hover {
+      color: #239e57; }
 
 @media (max-width: 510px) {
   #menu a.med {
     display: none; } }
 @media (max-width: 815px) {
-  #menu {
-    padding-right: 125px; }
-    #menu paper-icon-button {
-      margin-left: 7.5px;
-      margin-right: 7.5px; }
-    #menu paper-button {
-      padding: 17px 7.5px; }
-    #menu a.big {
-      display: none; } }
+  #menu paper-icon-button {
+    margin-left: 7.5px;
+    margin-right: 7.5px; }
+  #menu paper-button {
+    padding: 17px 7.5px; }
+  #menu a.big {
+    display: none; } }
 schedule-box {
   font-size: 14pt; }
   schedule-box .day .row > div:first-child {
