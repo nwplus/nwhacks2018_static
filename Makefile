@@ -15,7 +15,7 @@ docs/favicon.png: favicon.png
 	cp favicon.png docs/
 
 docs/card-reader.html: util/card-reader.html
-	cp util/card-reader.html docs/
+	vulcanize util/card-reader.html > docs/card-reader.html
 
 css/main.css: $(SCSS)
 	sass css/main.scss:css/main.css
