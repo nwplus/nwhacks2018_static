@@ -3,312 +3,366 @@
 <!--<link rel="import" href="../schedule-box/schedule-box.html">-->
 
 <dom-module id="index-page">
-  <template>
-    <style>
-      :host {
-        display: block;
-        padding-bottom: 50px;
-      }
-      #intro {
-        padding-top: 100px;
-        margin-top: 200px;
-        margin-bottom: 300px;
-      }
-      #intro, .content h1 {
-        text-align: center;
-      }
-      #intro p {
-        max-width: 600px;
-        margin: 1em auto;
-        text-align: left;
-      }
-      .large-trapezoid {
-        margin-top: 30px;
-      }
-      .clouds img {
-        left: 50vw;
-        width: 1400px;
-        margin-left: calc(-1400px / 2 - 20px);
-        position: relative;
-        margin-top: -550px;
-        margin-bottom: -120px;
-        pointer-events: none;
-      }
-      .mountains {
-        margin: 0 -15px;
-      }
-      .mountains img {
-        width: 100%;
-        margin-bottom: calc(100% / -5);
-      }
-    </style>
-    <div id="intro">
-      <div class="h1-container">
-        <h1>THIS IS nwHACKS 2018.</h1>
-      </div>
-      <p>
-        We're Western Canada's largest hackathon, and we're coming back in Spring 2018 to host another one!
-      </p>
-      <p>
-        nwHacks is more than a hackathon&mdash;it's about growing and connecting the community of awesome hackers. Anyone and everyone is welcome at nwHacks, from hackathon veterans to first-timers!
-      </p>
-      <div class="large-trapezoid">
-        <section>
-          <h3>600+</h3>
-          <label>HACKERS</label>
-        </section>
-        <section>
-          <h3>24</h3>
-          <label>HOURS</label>
-        </section>
-        <section>
-          <h3>$5000</h3>
-          <label>IN PRIZES</label>
-        </section>
-      </div>
-    </div>
-    <div id="faq" class="content">
-      <div class="h1-container">
-        <h1>FREQUENTLY ASKED QUESTIONS</h1>
-      </div>
-      <div class="column">
-        <h2>WHY nwHACKS?</h2>
-        <p>British Columbia, Washington State, Oregon, and Alberta are currently seen as transit stations for tech companies. Designers, engineers, and business minds all flow down to California and shortly after university graduation.</p>
-        <p>We want to change that.</p>
-        <p>nwHacks is dedicated to creating a thriving community of technology lovers in the Pacific Northwest region by bringing together the brightest minds for an epic two day event.</p>
+    <template>
+        <style>
+            :host {
+                display: block;
+                padding-bottom: 50px;
+            }
 
-        <h2>WHAT IS A "HACKATHON"?</h2>
-        <p>A hackathon is an event where teams of 2-5 people collaborate on an application within the specified time limit (nwHacks is 24 hours long). Prizes are awarded to the most creative, polished and theme-specific projects or "hacks". The winners will be chosen by a panel of judges comprised of top industry professionals.</p>
+            #intro {
+                /*padding-top: 100px;*/
+                color: black;
+                /*margin-top: 100px;*/
+                margin-bottom: 300px;
+            }
 
-        <h2>HOW CAN I OFFICIALLY SIGN UP?</h2>
-        <p>
-          Registration is closed for this year. Hope to see you next year!
-        </p>
+            #intro, .content h1 {
+                /*text-align: center;*/
+            }
 
-        <h2>WHAT SHOULD I BRING?</h2>
-        <p>nwHacks is a 24h event, which means that hackers should be prepared to sleep overnight at the venue. Be sure to bring everything you need to stay the night, including a sleeping bag! All food will be provided at event so don't worry about that!</P>
+            #intro h1 {
+                padding-top: 9%;
+                max-width: 600px;
+                width: 80%;
+                line-height: normal;
+                font-size: 28pt;
+                font-weight: bold;
+                color: #27AE60;
+                text-align: left;
+                margin: 1em auto 0;
+            }
 
-        <h2> WHAT IF I DON'T HAVE ANY EXPERIENCE?</h2>
-        <p> No worries! Hackathon is really a place for learning. We'll have series of workshops to bootstrap you for hacking so you'll be ready in no time. Mentors will be walking around to help you with any problem you'll face. By the time you walk out, you'll have a new skill under your belt! </p>
-      </div>
+            #intro p {
+                max-width: 600px;
+                margin: 1em auto;
+                text-align: left;
+                width: 80%;
+                line-height: 27px;
+                font-size: 15px;
+                /*height: 200px;*/
+                color: #4F4F4F;
+            }
 
-      <div class="column">
-        <h2>HOW MUCH DOES IT COST?</h2>
-        <p>nwHacks is 100% free for all participants. However, registration is strictly limited to highschool and college students only. Travel reimbursements will be evaluated depending on need and distance travelled. We are also setting up buses from Seattle so definitely check that out as we get closer to the start date!</p>
+            .large-trapezoid {
+                margin-top: 30px;
+            }
 
-        <h2>CAN I WORK ON MY PREVIOUS PROJECTS?</h2>
-        <p>No, all "hacks" must be built from scratch, although it is ok if you came up with the idea before hand. This rule is strictly adhered to at nwHacks and any team found working on a project that they already started will be automatically disqualified in the event. However this does not apply to any libraries or tools that you have made, so feel free to use libraries and any other code!</p>
+            .clouds img {
+                left: 50vw;
+                width: 1400px;
+                margin-left: calc(-1400px / 2 - 20px);
+                position: relative;
+                margin-top: -550px;
+                margin-bottom: -120px;
+                pointer-events: none;
+            }
 
-        <h2>HOW BIG CAN MY TEAM BE?</h2>
-        <p>Teams are usually 2-5 people in size. Teams bigger than 5 people are usually split up into smaller ones, as we've found large teams aren't the best solution for a 24h event. Don't worry if you can't find your team beforehand, staff at the event will help you find other team mates and provide you with many opportunities to find others to help!</p>
+            .mountains {
+                margin: 0 -15px;
+            }
 
-        <h2>WHAT HAPPENS IF I DON'T HAVE A TEAM?</h2>
-        <p>Don't worry! A lot of hackers just like you are in the same position. On the first day of the event, we will make sure to pair everyone up with a team of hackers so no one gets left out! There will also be an opportunity to connect with people and form teams before the event (after you have been chosen to attend).</p>
-      </div>
-    </div>
-    <div class="clouds">
-      <img src="/svg/Clouds-Distributed.svg">
-    </div>
+            .mountains img {
+                width: 100%;
+                margin-bottom: calc(100% / -5);
+            }
+        </style>
+        <div id="intro">
 
-    <!--
-    <div id="calendar">
-      <schedule-box></schedule-box>
-      <schedule-box heading="Workshops"
-                    calendar="outerearth.net_k8r36lba3ltbaf62qpu1kfie58@group.calendar.google.com">
-      </schedule-box>
-    </div>
-    -->
+            <div class="hero-container">
+            <div class="hero-row">
+                <div class="hero-column">
+                    <div class="h1-container">
+                        <h1>This is nwHacks 2018</h1>
+                    </div>
+                    <p>
+                        Come make things and break things, and then make them cooler. You’ll never be short on inspiration when you’re surrounded by 600 of the brightest minds in the Pacific Northwest. All you need to bring is an open mind and an insatiable desire to learn; we’ll take care of the rest. After all, we’re western Canada’s largest hackathon — we make the west coast the best coast.
+                    </p>
+                    </div>
+                <div class="hero-column">
+                    <img src="/svg/hero_photo.svg">
 
-    <div class="mountains">
-      <img src="/svg/Mountains.svg">
-    </div>
-
-    <div id="sponsors" class="content">
-      <h1>SPONSORS</h1>
-      <!--
-        <div class="sponsors-title">
+                </div>
+            </div>
+            </div>
+            <!--<div class="large-trapezoid">-->
+            <!--<section>-->
+            <!--<h3>600+</h3>-->
+            <!--<label>HACKERS</label>-->
+            <!--</section>-->
+            <!--<section>-->
+            <!--<h3>24</h3>-->
+            <!--<label>HOURS</label>-->
+            <!--</section>-->
+            <!--<section>-->
+            <!--<h3>$5000</h3>-->
+            <!--<label>IN PRIZES</label>-->
+            <!--</section>-->
+            <!--</div>-->
         </div>
-        <div class="sponsors-giga">
+        <div id="faq" class="content">
+            <div class="h1-container">
+                <h1>Frequently Asked Questions</h1>
+            </div>
+            <div class="column">
+                <h2>WHY nwHACKS?</h2>
+                <p>British Columbia, Washington State, Oregon, and Alberta are currently seen as transit stations for
+                    tech companies. Designers, engineers, and business minds all flow down to California and shortly
+                    after university graduation.</p>
+                <p>We want to change that.</p>
+                <p>nwHacks is dedicated to creating a thriving community of technology lovers in the Pacific Northwest
+                    region by bringing together the brightest minds for an epic two day event.</p>
+
+                <h2>WHAT IS A "HACKATHON"?</h2>
+                <p>A hackathon is an event where teams of 2-5 people collaborate on an application within the specified
+                    time limit (nwHacks is 24 hours long). Prizes are awarded to the most creative, polished and
+                    theme-specific projects or "hacks". The winners will be chosen by a panel of judges comprised of top
+                    industry professionals.</p>
+
+                <h2>HOW CAN I OFFICIALLY SIGN UP?</h2>
+                <p>
+                    Registration is closed for this year. Hope to see you next year!
+                </p>
+
+                <h2>WHAT SHOULD I BRING?</h2>
+                <p>nwHacks is a 24h event, which means that hackers should be prepared to sleep overnight at the venue.
+                    Be sure to bring everything you need to stay the night, including a sleeping bag! All food will be
+                    provided at event so don't worry about that!</P>
+
+                <h2> WHAT IF I DON'T HAVE ANY EXPERIENCE?</h2>
+                <p> No worries! Hackathon is really a place for learning. We'll have series of workshops to bootstrap
+                    you for hacking so you'll be ready in no time. Mentors will be walking around to help you with any
+                    problem you'll face. By the time you walk out, you'll have a new skill under your belt! </p>
+            </div>
+
+            <div class="column">
+                <h2>HOW MUCH DOES IT COST?</h2>
+                <p>nwHacks is 100% free for all participants. However, registration is strictly limited to highschool
+                    and college students only. Travel reimbursements will be evaluated depending on need and distance
+                    travelled. We are also setting up buses from Seattle so definitely check that out as we get closer
+                    to the start date!</p>
+
+                <h2>CAN I WORK ON MY PREVIOUS PROJECTS?</h2>
+                <p>No, all "hacks" must be built from scratch, although it is ok if you came up with the idea before
+                    hand. This rule is strictly adhered to at nwHacks and any team found working on a project that they
+                    already started will be automatically disqualified in the event. However this does not apply to any
+                    libraries or tools that you have made, so feel free to use libraries and any other code!</p>
+
+                <h2>HOW BIG CAN MY TEAM BE?</h2>
+                <p>Teams are usually 2-5 people in size. Teams bigger than 5 people are usually split up into smaller
+                    ones, as we've found large teams aren't the best solution for a 24h event. Don't worry if you can't
+                    find your team beforehand, staff at the event will help you find other team mates and provide you
+                    with many opportunities to find others to help!</p>
+
+                <h2>WHAT HAPPENS IF I DON'T HAVE A TEAM?</h2>
+                <p>Don't worry! A lot of hackers just like you are in the same position. On the first day of the event,
+                    we will make sure to pair everyone up with a team of hackers so no one gets left out! There will
+                    also be an opportunity to connect with people and form teams before the event (after you have been
+                    chosen to attend).</p>
+            </div>
         </div>
-      -->
-      <div class="sponsors-mega">
-        <!--
-        <area-img src="/img/logos/ata.png" href="http://athinkingape.com"></area-img>
-        <area-img src="/img/logos/ca_tech.png" href="http://www.ca.com/us.html"></area-img>
-        <area-img src="/img/logos/clio.png" href="https://www.clio.com"></area-img>
-        <area-img src="/svg/logos/cockroachdb-transparent.svg"
-                  src-solid="/svg/logos/cockroachdb.svg"
-                  href="https://www.cockroachlabs.com/"></area-img>
-        <area-img src="/svg/logos/google-logo.svg" href="https://google.com"></area-img>
-        <area-img src="/img/logos/hootsuite.png" href="https://hootsuite.com"></area-img>
-        <area-img src="/svg/logos/microsoft.svg" href="https://www.microsoft.com"></area-img>
-        <area-img src="/svg/logos/mojio.svg" href="https://www.moj.io"></area-img>
-        <area-img src="/svg/logos/rbc_outline.svg"
-                  src-solid="/svg/logos/rbc.svg"
-                  href="http://www.rbc.com/techjobs/"></area-img>
-        <area-img src="/svg/logos/telus.svg" href="https://labs.telus.com"></area-img>
-        -->
-      </div>
-      <div class="sponsors-kilo">
-        <!--
-        <area-img src="/img/logos/namecheap.png"
-                  href="https://www.namecheap.com"
-                  area="28600"></area-img>
-        -->
-      </div>
-      <div class="sponsors-micro">
-        <!--
-        <area-img src="/img/logos/4imprint.png"
-                  href="http://www.4imprint.ca"
-                  area="14000"></area-img>
-        <area-img src="/svg/logos/Costco_Wholesale.svg"
-                  href="http://www.costco.ca"
-                  area="14000"></area-img>
-        <area-img src="/img/logos/cvr.png"
-                  href="https://www.consumer-vr.com"
-                  area="14000"></area-img>
-        <area-img src="/img/logos/jetbrains-transparent.png"
-                  src-solid="/svg/logos/jetbrains.svg"
-                  href="http://www.jetbrains.com"
-                  area="14000"></area-img>
-        <area-img src="/img/logos/poniverse.png"
-                  href="https://poniverse.net"
-                  area="14000"></area-img>
-        <area-img src="/svg/logos/red-transparent.svg"
-                  src-solid="/svg/logos/red.svg"
-                  href="https://www.redacademy.com"
-                  area="14000"></area-img>
-        <area-img src="/img/logos/spring.png"
-                  href="http://spring.is"
-                  area="14000"></area-img>
-        <area-img src="/img/logos/teradici.png"
-                  href="http://www.teradici.com"
-                  area="14000"></area-img>
-        <area-img src="/svg/logos/wantoo.svg"
-                  href="https://wantoo.io"
-                  area="14000"></area-img>
-        -->
-        <area-img src="/img/logos/stickermule.png"
-                  href="https://www.stickermule.com/ca/uses/laptop-stickers"
-                  area="14000"></area-img>
-      </div>
+        <div class="clouds">
+            <img src="/svg/Clouds-Distributed.svg">
+        </div>
 
-      <div>
-        <center>
-          <a class="none" href="https://2017.nwhacks.io/#sponsors">
-            <paper-button class="button">Past Sponsors</paper-button>
-          </a>
-        </center>
-      </div>
-
-      <h1>PARTNERS</h1>
-      <div class="partners">
         <!--
-        <area-img src="/svg/logos/mlh-logo.svg"
-                  href="https://mlh.io/"
-                  area="24000"></area-img>
+        <div id="calendar">
+          <schedule-box></schedule-box>
+          <schedule-box heading="Workshops"
+                        calendar="outerearth.net_k8r36lba3ltbaf62qpu1kfie58@group.calendar.google.com">
+          </schedule-box>
+        </div>
         -->
-        <area-img src="/img/logos/startupstorm.png"
-                  href="http://www.startupstorm.org"
-                  area="24000"></area-img>
-        <!--
-        <area-img src="/img/logos/ubc-engineering-transparent.png"
-                  src-solid="/img/logos/ubc-engineering.png"
-                  href="https://engineering.ubc.ca"
-                  area="24000"></area-img>
-        -->
-      </div>
-    </div>
-  </template>
 
-  <script>
-// element registration
-Polymer({
-  is: "index-page",
-  properties: {
-  },
-  attached: function() {
-    this.handleResizeBound = this.handleResize.bind(this);
-    window.addEventListener('resize', this.handleResizeBound);
-    this.handleResize();
-  },
-  detached: function() {
-    window.removeEventListener('resize', this.handleResizeBound);
-    this.clearStars();
-  },
-  handleResize: function() {
-    if (window.innerWidth !== this.lastWidth) {
-      this.stars();
-      this.lastWidth = window.innerWidth;
-    }
-  },
-  posValid: function (boxes, x, y) {
-    for (var i = 0; i < boxes.length; i++) {
-      var box = boxes[i];
-      if (box.left < x && box.right > x && box.top < y && box.bottom > y) {
-        return false;
-      }
-    }
-    return true;
-  },
-  stars: function() {
-    clearTimeout(this.timeout);
-    timeout = setTimeout(this.renderStars.bind(this), 100);
-  },
-  clearStars: function() {
-    var starsDiv = document.querySelector('#starContainer');
-    if (!starsDiv) {
-      return;
-    }
-    starsDiv.innerHTML = '';
-  },
-  renderStars: function() {
-    var starsDiv = document.querySelector('#starContainer');
-    if (!starsDiv) {
-      return;
-    }
-    this.clearStars();
-    var trapezoid = document.querySelector('#title .large-trapezoid');
-    if (!trapezoid) {
-      return;
-    }
-    var top = trapezoid.offsetTop;
-    var faq = document.querySelector('#faq h1');
-    if (!faq) {
-      return;
-    }
-    var bottom = 0;
-    var starSize = 20;
-    var margin = 15;
-    var elems = document.querySelectorAll(
-        'h1, paper-button, p, .large-trapezoid, .link');
-    var body = document.body.getBoundingClientRect();
-    var boxes = Array.prototype.map.call(elems, function(obj) {
-      var elem = obj.getBoundingClientRect();
-      return {
-        left: elem.left - body.left - starSize - margin,
-        top: elem.top - body.top - starSize - margin,
-        right: elem.right - body.left + margin,
-        bottom: elem.bottom - body.top + margin,
-      };
-    });
-    var starHTML = '';
-    var starCount = window.innerWidth / 90;
-    for (var i = 0; i < starCount; i++) {
-      var x = 0;
-      var y = 0;
-      while ((x == 0 && y == 0) || !this.posValid(boxes, x, y)) {
-        x = Math.random() * (window.innerWidth - starSize - margin * 2) +
-          margin;
-        y = Math.random() * (bottom - top) + top;
-      }
-      var size = (Math.random() * starSize).toFixed(0);
-      starHTML += '<star style="width:' + size + 'px;height:' + size +
-        'px;left:' + x.toFixed(0) + 'px;top:' + y.toFixed(0) + 'px"></star>';
-    }
-    starsDiv.innerHTML = starHTML;
-  },
-});
-  </script>
+        <div class="mountains">
+            <img src="/svg/Mountains.svg">
+        </div>
+
+        <div id="sponsors" class="content">
+            <h1>SPONSORS</h1>
+            <!--
+              <div class="sponsors-title">
+              </div>
+              <div class="sponsors-giga">
+              </div>
+            -->
+            <div class="sponsors-mega">
+                <!--
+                <area-img src="/img/logos/ata.png" href="http://athinkingape.com"></area-img>
+                <area-img src="/img/logos/ca_tech.png" href="http://www.ca.com/us.html"></area-img>
+                <area-img src="/img/logos/clio.png" href="https://www.clio.com"></area-img>
+                <area-img src="/svg/logos/cockroachdb-transparent.svg"
+                          src-solid="/svg/logos/cockroachdb.svg"
+                          href="https://www.cockroachlabs.com/"></area-img>
+                <area-img src="/svg/logos/google-logo.svg" href="https://google.com"></area-img>
+                <area-img src="/img/logos/hootsuite.png" href="https://hootsuite.com"></area-img>
+                <area-img src="/svg/logos/microsoft.svg" href="https://www.microsoft.com"></area-img>
+                <area-img src="/svg/logos/mojio.svg" href="https://www.moj.io"></area-img>
+                <area-img src="/svg/logos/rbc_outline.svg"
+                          src-solid="/svg/logos/rbc.svg"
+                          href="http://www.rbc.com/techjobs/"></area-img>
+                <area-img src="/svg/logos/telus.svg" href="https://labs.telus.com"></area-img>
+                -->
+            </div>
+            <div class="sponsors-kilo">
+                <!--
+                <area-img src="/img/logos/namecheap.png"
+                          href="https://www.namecheap.com"
+                          area="28600"></area-img>
+                -->
+            </div>
+            <div class="sponsors-micro">
+                <!--
+                <area-img src="/img/logos/4imprint.png"
+                          href="http://www.4imprint.ca"
+                          area="14000"></area-img>
+                <area-img src="/svg/logos/Costco_Wholesale.svg"
+                          href="http://www.costco.ca"
+                          area="14000"></area-img>
+                <area-img src="/img/logos/cvr.png"
+                          href="https://www.consumer-vr.com"
+                          area="14000"></area-img>
+                <area-img src="/img/logos/jetbrains-transparent.png"
+                          src-solid="/svg/logos/jetbrains.svg"
+                          href="http://www.jetbrains.com"
+                          area="14000"></area-img>
+                <area-img src="/img/logos/poniverse.png"
+                          href="https://poniverse.net"
+                          area="14000"></area-img>
+                <area-img src="/svg/logos/red-transparent.svg"
+                          src-solid="/svg/logos/red.svg"
+                          href="https://www.redacademy.com"
+                          area="14000"></area-img>
+                <area-img src="/img/logos/spring.png"
+                          href="http://spring.is"
+                          area="14000"></area-img>
+                <area-img src="/img/logos/teradici.png"
+                          href="http://www.teradici.com"
+                          area="14000"></area-img>
+                <area-img src="/svg/logos/wantoo.svg"
+                          href="https://wantoo.io"
+                          area="14000"></area-img>
+                -->
+                <area-img src="/img/logos/stickermule.png"
+                          href="https://www.stickermule.com/ca/uses/laptop-stickers"
+                          area="14000"></area-img>
+            </div>
+
+            <div>
+                <center>
+                    <a class="none" href="https://2017.nwhacks.io/#sponsors">
+                        <paper-button class="button">Past Sponsors</paper-button>
+                    </a>
+                </center>
+            </div>
+
+            <h1>PARTNERS</h1>
+            <div class="partners">
+                <!--
+                <area-img src="/svg/logos/mlh-logo.svg"
+                          href="https://mlh.io/"
+                          area="24000"></area-img>
+                -->
+                <area-img src="/img/logos/startupstorm.png"
+                          href="http://www.startupstorm.org"
+                          area="24000"></area-img>
+                <!--
+                <area-img src="/img/logos/ubc-engineering-transparent.png"
+                          src-solid="/img/logos/ubc-engineering.png"
+                          href="https://engineering.ubc.ca"
+                          area="24000"></area-img>
+                -->
+            </div>
+        </div>
+    </template>
+
+    <script>
+        // element registration
+        Polymer({
+            is: "index-page",
+            properties: {},
+            attached: function () {
+                this.handleResizeBound = this.handleResize.bind(this);
+                window.addEventListener('resize', this.handleResizeBound);
+                this.handleResize();
+            },
+            detached: function () {
+                window.removeEventListener('resize', this.handleResizeBound);
+                this.clearStars();
+            },
+            handleResize: function () {
+                if (window.innerWidth !== this.lastWidth) {
+                    this.stars();
+                    this.lastWidth = window.innerWidth;
+                }
+            },
+            posValid: function (boxes, x, y) {
+                for (var i = 0; i < boxes.length; i++) {
+                    var box = boxes[i];
+                    if (box.left < x && box.right > x && box.top < y && box.bottom > y) {
+                        return false;
+                    }
+                }
+                return true;
+            },
+            stars: function () {
+                clearTimeout(this.timeout);
+                timeout = setTimeout(this.renderStars.bind(this), 100);
+            },
+            clearStars: function () {
+                var starsDiv = document.querySelector('#starContainer');
+                if (!starsDiv) {
+                    return;
+                }
+                starsDiv.innerHTML = '';
+            },
+            renderStars: function () {
+                var starsDiv = document.querySelector('#starContainer');
+                if (!starsDiv) {
+                    return;
+                }
+                this.clearStars();
+                var trapezoid = document.querySelector('#title .large-trapezoid');
+                if (!trapezoid) {
+                    return;
+                }
+                var top = trapezoid.offsetTop;
+                var faq = document.querySelector('#faq h1');
+                if (!faq) {
+                    return;
+                }
+                var bottom = 0;
+                var starSize = 20;
+                var margin = 15;
+                var elems = document.querySelectorAll(
+                    'h1, paper-button, p, .large-trapezoid, .link');
+                var body = document.body.getBoundingClientRect();
+                var boxes = Array.prototype.map.call(elems, function (obj) {
+                    var elem = obj.getBoundingClientRect();
+                    return {
+                        left: elem.left - body.left - starSize - margin,
+                        top: elem.top - body.top - starSize - margin,
+                        right: elem.right - body.left + margin,
+                        bottom: elem.bottom - body.top + margin,
+                    };
+                });
+                var starHTML = '';
+                var starCount = window.innerWidth / 90;
+                for (var i = 0; i < starCount; i++) {
+                    var x = 0;
+                    var y = 0;
+                    while ((x == 0 && y == 0) || !this.posValid(boxes, x, y)) {
+                        x = Math.random() * (window.innerWidth - starSize - margin * 2) +
+                            margin;
+                        y = Math.random() * (bottom - top) + top;
+                    }
+                    var size = (Math.random() * starSize).toFixed(0);
+                    starHTML += '<star style="width:' + size + 'px;height:' + size +
+                        'px;left:' + x.toFixed(0) + 'px;top:' + y.toFixed(0) + 'px"></star>';
+                }
+                starsDiv.innerHTML = starHTML;
+            },
+        });
+    </script>
 
 </dom-module>

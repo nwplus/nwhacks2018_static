@@ -249,9 +249,10 @@ schedule-box {
 
 #header {
   //background-color: blue;
-  padding-bottom: 300px;
+  padding-bottom: 200px;
   //width: 100%;
   overflow-x: hidden;
+  overflow-y: hidden;
   text-align: center;
   #scenery {
 
@@ -511,11 +512,54 @@ h1 {
   font-size: 28pt;
 }
 .h1-container {
-  text-align: center;
+  text-align: left;
   h1 {
-    display: inline-block;
+    margin: 1em auto;
+    text-align: center;
   }
 }
+
+body {
+  margin: 0;
+}
+
+
+.hero-container {
+  background-color: #FFFFFF;
+  width: 100%;
+}
+
+/* Create two equal columns that floats next to each other */
+.hero-column {
+  box-sizing: border-box;
+  float: left;
+  width: 50%;
+  padding: 10px;
+  //height: 200px; /* Should be removed. Only for demonstration */
+
+  img {
+    max-width:100%;
+    max-height:100%;
+  }
+
+}
+
+/* Clear floats after the columns */
+.hero-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media (max-width: 600px) {
+  .hero-column {
+    width: 100%;
+  }
+}
+
+
+
 h2, p, ul, ol {
   font-size: 14pt;
 }
@@ -542,7 +586,8 @@ h2 + p {
   }
 }
 .wrapper {
-  padding: 0 15px;
+  //padding: 0 15px;
+  padding: 0 0;
   overflow: hidden;
 }
 
