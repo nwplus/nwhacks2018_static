@@ -39,7 +39,6 @@ body {
   padding-top: 60px;
   min-height: 100%;
   background-repeat: no-repeat;
-  overflow-x: hidden;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -178,62 +177,69 @@ schedule-box {
     color: #FFFFFF; }
 
 #header {
-  width: 100%; }
-  #header #scenery #mountain {
-    position: absolute;
-    height: 915.5px;
-    left: -265.5px;
-    top: 194.5px;
-    z-index: -50; }
-  #header #scenery #cloud-left {
-    position: absolute;
-    width: 531.5px;
-    height: 174.22px;
-    left: -71.5px;
-    top: 435.78px;
-    z-index: -45; }
-  #header #scenery #cloud-right {
-    position: absolute;
-    width: 635px;
-    height: 208px;
-    left: 904px;
-    top: 737px; }
-  #header #scenery #tall-tree {
-    position: absolute;
-    width: 384px;
-    left: -131px;
-    top: 623px;
-    z-index: -40; }
-  #header #scenery #normal-tree {
-    position: absolute;
-    width: 252px;
-    left: 81px;
-    top: 665px;
-    z-index: -41; }
-  #header #scenery #medium-tree {
-    position: absolute;
-    width: 252px;
-    left: 206px;
-    top: 760px;
-    z-index: -40; }
-  #header #scenery #small-tree {
-    position: absolute;
-    width: 200px;
-    left: 356.5px;
-    top: 940px;
-    z-index: -40; }
-  #header #scenery #right-normal-tree {
-    position: absolute;
-    width: 306px;
-    left: 882px;
-    top: 715px;
-    z-index: -40; }
-  #header #scenery #right-medium-tree {
-    position: absolute;
-    width: 366px;
-    left: 1013px;
-    top: 562.5px;
-    z-index: -41; }
+  padding-bottom: 300px;
+  overflow-x: hidden;
+  text-align: center; }
+  #header #scenery {
+    text-align: center;
+    position: relative;
+    left: 0px;
+    right: 0px;
+    text-align: center; }
+    #header #scenery #mountain {
+      position: absolute;
+      height: 915.5px;
+      left: -265.5px;
+      top: 194.5px;
+      z-index: -60; }
+    #header #scenery #cloud-left {
+      position: absolute;
+      height: 174.22px;
+      left: -71.5px;
+      top: 435.78px;
+      z-index: -45; }
+    #header #scenery #tall-tree {
+      position: absolute;
+      height: 487px;
+      left: -131px;
+      top: 623px;
+      z-index: -40; }
+    #header #scenery #normal-tree {
+      position: absolute;
+      height: 303px;
+      left: 81px;
+      top: 665px;
+      z-index: -41; }
+    #header #scenery #medium-tree {
+      position: absolute;
+      height: 303px;
+      left: 206px;
+      top: 760px;
+      z-index: -40; }
+    #header #scenery #small-tree {
+      position: absolute;
+      height: 170px;
+      left: 356.5px;
+      top: 940px;
+      z-index: -40; }
+    #header #scenery #right-normal-tree {
+      position: absolute;
+      height: 368px;
+      left: calc(70vw);
+      top: 715px;
+      z-index: -40; }
+    #header #scenery #right-medium-tree {
+      position: absolute;
+      height: 440.5px;
+      left: calc(80vw);
+      top: 562.5px;
+      z-index: -41; }
+    #header #scenery #cloud-right {
+      position: absolute;
+      height: 208px;
+      left: calc(55vw);
+      top: 700px;
+      z-index: -38; }
   #header #title {
     text-align: center; }
     #header #title object {
@@ -271,7 +277,7 @@ schedule-box {
     margin: 50px;
     text-align: center;
     z-index: 100; }
-  #header #email {
+  #header #email-box {
     display: inline-block;
     margin-bottom: 0; }
   #header #email-button {
@@ -282,7 +288,9 @@ schedule-box {
     bottom: 10px;
     right: -40px; }
     #header #title .title-sponsor img {
-      max-height: 50px; } }
+      max-height: 50px; }
+  #header #scenery #right-medium-tree, #header #scenery #small-tree, #header #scenery #normal-tree, #header #scenery #medium-tree, #header #scenery #cloud-right {
+    display: none; } }
 footer {
   overflow: hidden; }
   footer .skyline {
