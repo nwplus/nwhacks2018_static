@@ -363,26 +363,86 @@ body {
   background-color: #FFFFFF;
   width: 100%; }
 
-/* Create two equal columns that floats next to each other */
+/* create two equal columns that floats next to each other */
 .hero-column {
   box-sizing: border-box;
   float: left;
   width: 50%;
   padding: 10px; }
   .hero-column img {
-    max-width: 100%;
-    max-height: 100%; }
+    width: 100%; }
 
-/* Clear floats after the columns */
+/* clear floats after the columns */
 .hero-row:after {
   content: "";
   display: table;
   clear: both; }
 
-/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-@media (max-width: 600px) {
+#intro {
+  /*padding-top: 100px;*/
+  color: black;
+  /*margin-top: 100px;*/
+  margin-bottom: 300px; }
+  #intro h1 {
+    padding-top: 9%;
+    max-width: 600px;
+    width: 80%;
+    line-height: normal;
+    font-size: 28pt;
+    font-weight: bold;
+    color: #27AE60;
+    text-align: left;
+    margin: 1em auto 0; }
+  #intro p {
+    max-width: 600px;
+    margin: 1em auto;
+    text-align: left;
+    width: 80%;
+    line-height: 27px;
+    font-size: 15px;
+    /*height: 200px;*/
+    color: #4F4F4F; }
+  #intro .large-trapezoid {
+    margin-top: 30px; }
+
+.clouds img {
+  left: 50vw;
+  width: 1400px;
+  margin-left: calc(-1400px / 2 - 20px);
+  position: relative;
+  margin-top: -550px;
+  margin-bottom: -120px;
+  pointer-events: none; }
+
+.mountains {
+  margin: 0 -15px; }
+
+.mountains img {
+  width: 100%;
+  margin-bottom: calc(100% / -5); }
+
+@media (min-width: 2000px) {
+  #intro h1 {
+    padding-top: 1%; } }
+@media (min-width: 1440px) {
+  #intro p {
+    font-size: 15pt; } }
+@media (max-width: 1136px) {
+  #intro h1 {
+    padding-top: 1%; } }
+/* NOTE: media queries for hero text found in index-page.html */
+@media (max-width: 1136px) {
   .hero-column {
-    width: 100%; } }
+    width: 100%; }
+    .hero-column img {
+      display: none; } }
+/* for large displays */
+@media (min-width: 2000px) {
+  .hero-column {
+    padding-top: 0;
+    width: 100%; }
+    .hero-column img {
+      display: none; } }
 h2, p, ul, ol {
   font-size: 14pt; }
 
