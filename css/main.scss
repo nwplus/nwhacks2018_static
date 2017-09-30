@@ -6,7 +6,7 @@ $dark-fg: #FFFFFF;
 $dark-fg-alt: #FFF2B5;
 $light-bg: #FFFFFF;
 $body-bg-light: rgba(17,23,84,1);
-$body-bg-dark: rgba(0,0,0,1);
+$body-bg-dark: rgba(28,32,93,1);
 $logo-size: 500px;
 $menu-padding: 15px;
 $menu-padding-vertical: 10px;
@@ -519,38 +519,81 @@ h1 {
   }
 }
 
-body {
-  margin: 0;
-}
-
-
 .hero-container {
   background-color: #FFFFFF;
   width: 100%;
-}
 
+  /* create two equal columns that float next to each other */
+  .hero-column {
+    box-sizing: border-box;
+    float: left;
+    width: 50%;
+    padding: 10px;
 
-/* create two equal columns that floats next to each other */
-.hero-column {
-  box-sizing: border-box;
-  float: left;
-  width: 50%;
-  padding: 10px;
-
-  img {
-    width:100%;
-    //max-height:100%;
+    img {
+      width:100%;
+      //max-height:100%;
+    }
   }
-
+  /* clear floats after the columns */
+  .hero-row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .tile-column {
+       box-sizing: border-box;
+       float: left;
+       width: 33.333%;
+       padding: 10px;
+       img {
+         width:100%;
+         //max-height:100%;
+       }
+  }
+  .tile-row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
 }
 
-/* clear floats after the columns */
-.hero-row:after {
-  content: "";
-  display: table;
-  clear: both;
+@media (max-width: 673px){
+  .hero-container .tile-column {
+    width: 100%;
+  }
 }
 
+@media (max-width: 1136px) {
+  .hero-container .hero-column {
+    width: 100%;
+    img {
+      display: none;
+    }
+  }
+  #intro h1 {
+    padding-top: 1%;
+  }
+}
+/* for large displays */
+@media (min-width: 2000px) {
+  .hero-container {
+    .hero-column {
+      padding-top: 0;
+      padding-bottom: 100px;
+      width: 100%;
+      img {
+        display: none;
+      }
+    }
+    .tile-column {
+      max-width: 100%;
+    }
+  }
+  #intro h1 {
+    padding-top: 0;
+  }
+}
 
 #intro {
   /*padding-top: 100px;*/
@@ -580,6 +623,12 @@ body {
     margin-top: 30px;
   }
 }
+@media (min-width: 1440px) {
+  #intro p {
+    font-size: 15pt;
+  }
+}
+
 
 .clouds img {
   left: 50vw;
@@ -599,44 +648,6 @@ body {
   width: 100%;
   margin-bottom: calc(100% / -5);
 }
-
-@media (min-width: 2000px) {
-  #intro h1 {
-    padding-top: 1%;
-  }
-}
-@media (min-width: 1440px) {
-  #intro p {
-    font-size: 15pt;
-  }
-}
-@media (max-width: 1136px) {
-  #intro h1 {
-    padding-top: 1%;
-  }
-}
-
-/* NOTE: media queries for hero text found in index-page.html */
-@media (max-width: 1136px) {
-  .hero-column {
-    width: 100%;
-    img {
-      display: none;
-    }
-  }
-}
-/* for large displays */
-@media (min-width: 2000px) {
-  .hero-column {
-    padding-top: 0;
-    width: 100%;
-    img {
-      display: none;
-    }
-  }
-}
-
-
 
 h2, p, ul, ol {
   font-size: 14pt;
@@ -664,8 +675,8 @@ h2 + p {
   }
 }
 .wrapper {
+  padding: 0 0px;
   //padding: 0 15px;
-  padding: 0 0;
   overflow: hidden;
 }
 
