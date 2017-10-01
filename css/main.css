@@ -506,12 +506,12 @@ h1 {
     display: none; } }
 #schedule {
   margin: 0 auto;
+  padding-top: 100px;
   width: 100%;
   text-align: center; }
   #schedule h1 {
     margin: 0 auto;
-    padding-top: 220px;
-    padding-bottom: 80px;
+    padding-bottom: 70px;
     line-height: normal;
     font-size: 38px;
     text-align: center;

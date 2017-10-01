@@ -638,6 +638,7 @@ h1 {
   background: -webkit-linear-gradient(top, $body-bg-med 32%,$body-bg-dark 100%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, $body-bg-med 32%,$body-bg-dark 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#a1c1d6',GradientType=0 ); /* IE6-9 */
+
   .h1-container {
     h1 {
       margin: 0 auto;
@@ -723,12 +724,12 @@ h1 {
 
 #schedule {
   margin: 0 auto;
+  padding-top: 100px;
   width: 100%;
   text-align: center;
   h1 {
     margin: 0 auto;
-    padding-top: 220px;
-    padding-bottom: 80px;
+    padding-bottom: 70px;
     line-height: normal;
     font-size: 38px;
     text-align: center;
