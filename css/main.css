@@ -65,13 +65,13 @@ register-form #form .is-invalid .focused-line, rsvp-page #form .is-invalid .focu
 register-form #form paper-input-error, register-form #form .invalid, rsvp-page #form paper-input-error, rsvp-page #form .invalid, checkin-page paper-input-error, checkin-page .invalid {
   color: #217E49; }
 register-form #form .focused-line, rsvp-page #form .focused-line, checkin-page .focused-line {
-  background: #90cfaa;
-  border-color: #90cfaa; }
+  background: #FFFFFF;
+  border-color: #FFFFFF; }
 register-form #form paper-checkbox #checkboxLabel.paper-checkbox, rsvp-page #form paper-checkbox #checkboxLabel.paper-checkbox, checkin-page paper-checkbox #checkboxLabel.paper-checkbox {
   pointer-events: auto; }
 register-form #form paper-checkbox #checkbox.checked.paper-checkbox, rsvp-page #form paper-checkbox #checkbox.checked.paper-checkbox, checkin-page paper-checkbox #checkbox.checked.paper-checkbox {
-  background-color: #90cfaa;
-  border-color: #90cfaa; }
+  background-color: #FFFFFF;
+  border-color: #FFFFFF; }
 register-form #form paper-dropdown-menu paper-item, rsvp-page #form paper-dropdown-menu paper-item, checkin-page paper-dropdown-menu paper-item {
   color: #444; }
 
@@ -112,14 +112,17 @@ a.link {
     text-decoration: none; }
 
 a {
-  color: #90cfaa;
+  color: #FFFFFF;
   text-decoration: none; }
   a:hover {
-    text-decoration: underline;
+    text-decoration: none;
     color: #239e57; }
 
 a.none:hover {
   text-decoration: none; }
+
+#org-link a:hover {
+  color: #00b0ff; }
 
 .title a {
   color: inherit;
@@ -294,33 +297,35 @@ schedule-box {
     display: none; } }
 footer {
   overflow: hidden; }
-  footer .skyline {
-    text-align: center; }
-    footer .skyline object {
-      max-width: 2000px;
-      width: 100%;
-      margin-bottom: calc(100% / -25.974);
-      display: inline-block; }
   footer .foot {
-    padding: 50px;
-    padding-bottom: 35px;
-    background-color: #1C205D; }
-  footer .imgcont img {
-    max-height: 100px; }
-  footer a {
-    display: block;
-    color: #4BAE74; }
-  footer table {
-    width: 100%; }
-    footer table td {
-      vertical-align: top; }
-      footer table td > table {
-        width: auto;
-        border-collapse: collapse; }
-        footer table td > table td + td {
-          padding-left: 10px; }
-    footer table td:last-child {
-      text-align: right; }
+    height: 130px;
+    padding-top: 50px;
+    padding-bottom: 100px;
+    background-color: #1C205D;
+    margin: 0 auto;
+    text-align: center; }
+    footer .foot .social {
+      margin: 0 auto; }
+      footer .foot .social .icon {
+        height: 33px;
+        padding-right: 43px; }
+      footer .foot .social .icon-last {
+        height: 33px; }
+    footer .foot .links {
+      display: inline-block;
+      margin: 30px auto;
+      font-size: 19px;
+      font-weight: lighter;
+      color: #FFFFFF; }
+      footer .foot .links .link {
+        display: inline;
+        padding-right: 37px; }
+      footer .foot .links .link-last {
+        display: inline; }
+    footer .foot p {
+      line-height: 15px;
+      font-size: 19px;
+      text-align: center; }
 
 @media (max-width: 650px) {
   .small-first {
@@ -336,7 +341,17 @@ footer {
     padding-left: 0 !important;
     text-align: left !important; }
     footer > table > tbody > tr > td table {
-      width: 100%; } }
+      width: 100%; }
+
+  footer .foot {
+    padding-bottom: 170px; }
+    footer .foot .links .link {
+      display: block;
+      padding-right: 0;
+      padding-bottom: 15px; } }
+@media (max-width: 375px) {
+  footer .foot p {
+    font-size: 17px; } }
 @media screen and (min-width: 2000px) {
   footer .skyline object {
     margin-bottom: -80px; } }
@@ -504,9 +519,14 @@ h1 {
 @media (max-width: 1024px) {
   #faq .content #crystal {
     display: none; } }
+#spacer {
+  padding-bottom: 150px; }
+
+@media (max-width: 425px) {
+  #spacer {
+    padding-bottom: 80px; } }
 #schedule {
   margin: 0 auto;
-  padding-top: 100px;
   width: 100%;
   text-align: center; }
   #schedule h1 {
@@ -517,11 +537,13 @@ h1 {
     text-align: center;
     color: #27AE60;
     font-weight: bold; }
-  #schedule #map {
+  #schedule img {
     display: inline-block;
-    width: 472px;
-    height: 440px; }
+    width: 472px; }
 
+@media (max-width: 768px) {
+  #schedule img {
+    width: 75%; } }
 .clouds img {
   left: 50vw;
   width: 1400px;
