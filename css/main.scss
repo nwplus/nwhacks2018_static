@@ -6,7 +6,8 @@ $dark-fg: #FFFFFF;
 $dark-fg-alt: #FFF2B5;
 $light-bg: #FFFFFF;
 $body-bg-light: rgba(17,23,84,1);
-$body-bg-dark: rgba(28,32,93,1);
+$body-bg-med: rgba(21,24,40,1);
+$body-bg-dark: rgba(23,27,63,1);
 $logo-size: 500px;
 $menu-padding: 15px;
 $menu-padding-vertical: 10px;
@@ -24,7 +25,7 @@ $login-btn-fg: #3C4558;
 $login-btn-bg: $light-bg;
 $login-btn-bg-shadow: #BCBEC0;
 
-$footer-bg: #414042;
+$footer-bg: #1C205D;
 
 $form-error: $register-btn-bg-shadow;
 $form-focused: $link;
@@ -41,7 +42,7 @@ body {
   background: -moz-linear-gradient(top, $body-bg-light 32%, $body-bg-dark 81%); /* FF3.6-15 */
   background: -webkit-linear-gradient(top, $body-bg-light 32%,$body-bg-dark 81%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, $body-bg-light 32%,$body-bg-dark 81%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5b6377', endColorstr='#a1c1d6',GradientType=0 ); /* IE6-9 */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#a1c1d6',GradientType=0 ); /* IE6-9 */
 
   margin: 0;
   padding-top: 60px;
@@ -599,7 +600,7 @@ h1 {
   /*padding-top: 100px;*/
   color: black;
   /*margin-top: 100px;*/
-  margin-bottom: 300px;
+  //margin-bottom: 300px;
   h1 {
     padding-top: 9%;
     max-width: 600px;
@@ -629,6 +630,117 @@ h1 {
   }
 }
 
+
+#faq {
+  width: 100%;
+  background: rgb(17,23,84); /* Old browsers */
+  background: -moz-linear-gradient(top, $body-bg-med 32%, $body-bg-dark 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, $body-bg-med 32%,$body-bg-dark 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, $body-bg-med 32%,$body-bg-dark 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#a1c1d6',GradientType=0 ); /* IE6-9 */
+  .h1-container {
+    h1 {
+      margin: 0 auto;
+      padding-top: 151px;
+      padding-bottom: 30px;
+      line-height: normal;
+      font-size: 38px;
+      text-align: center;
+      color: #27AE60;
+      font-weight: bold;
+    }
+  }
+
+  h2 {
+    font-size: 25px;
+    color: #27AE60;
+    margin-top: 0.7em;
+    margin-bottom: 5px;
+    letter-spacing: 0px;
+    font-weight: lighter;
+  }
+
+  p {
+    line-height: 27px;
+    font-size: 15px;
+    letter-spacing: 0px;
+    font-weight: 500;
+  }
+
+  .content {
+    position: relative;
+    padding-left: 15px;
+    padding-right: 15px;
+    z-index: 10;
+
+    #crystal {
+      text-align: center;
+      position: relative;
+      left: 0px;
+      right: 0px;
+      text-align: center;
+
+      #top-right {
+        position: absolute;
+        height: 333.25px;
+        left: 94%;
+        top: 0;
+        //transform: matrix(-1, 0, 0, 1, 0, 0);
+      }
+      #bottom-left {
+        position: absolute;
+        width: 487px;
+        height: 586.16px;
+        left: -34%;
+        padding-top: 120%;
+        z-index: -1;
+      }
+      #bottom-right {
+        position: absolute;
+        width: 373.22px;
+        height: 490.57px;
+        z-index: -1;
+        padding-top: 104.5%;
+        left: 90%;
+
+        //padding-top: 120.5%;
+        //left: 70%;
+        //-ms-transform: rotate(-20deg); /* IE 9 */
+        //-webkit-transform: rotate(-20deg); /* Safari */
+        //transform: rotate(-20deg);
+
+      }
+    }
+
+  }
+}
+
+@media (max-width: 1024px){
+  #faq .content #crystal {
+    display: none;
+  }
+}
+
+#schedule {
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+  h1 {
+    margin: 0 auto;
+    padding-top: 220px;
+    padding-bottom: 80px;
+    line-height: normal;
+    font-size: 38px;
+    text-align: center;
+    color: #27AE60;
+    font-weight: bold;
+  }
+  #map {
+    display: inline-block;
+    width: 472px;
+    height: 440px;
+  }
+}
 
 .clouds img {
   left: 50vw;
@@ -663,6 +775,7 @@ h2 + p {
   .column {
     width: calc(50% - 15px);
     display: inline-block;
+    z-index: 10;
   }
   .column + .column {
     float: right;
