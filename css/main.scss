@@ -662,6 +662,17 @@ h1 {
   }
 }
 
+@media (max-width: 384px){
+  #intro {
+    p {
+      margin-left: 25px !important;
+      margin-right: 25px !important;
+      width: 90% !important;
+      color: red;
+    }
+  }
+}
+
 @media (max-width: 568px){
   #intro {
     text-align: left;
