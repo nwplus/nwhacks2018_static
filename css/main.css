@@ -787,7 +787,7 @@ lazy-pages, lazy-pages > * {
   position: inherit !important; }
 
 #gallery-container {
-  padding-top: 45px;
+  padding-top: 40px;
   width: 100%;
   height: 480px;
   padding-bottom: 3px;
@@ -816,5 +816,13 @@ lazy-pages, lazy-pages > * {
 
 #gallery-container::-webkit-scrollbar-thumb:window-inactive {
   background: #727EFF; }
+
+@media (max-width: 430px) {
+  #gallery-container {
+    height: 330px;
+    padding-bottom: 0px; }
+    #gallery-container #gallery img {
+      height: 300px;
+      padding-right: 30px; } }
 
 /*# sourceMappingURL=main.css.map */
