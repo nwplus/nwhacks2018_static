@@ -1038,6 +1038,11 @@ star {
 }
 
 #sponsors {
+  background: rgb(17,23,84); /* Old browsers */
+  background: -moz-linear-gradient(top, #1b2056 0%, $body-bg-dark 40%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #1b2056 0%, $body-bg-dark 40%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #1b2056 0%, $body-bg-dark 40%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1C215D', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
   max-width: inherit;
   text-align: center;
 
@@ -1045,6 +1050,7 @@ star {
     font-size: 40px;
     color: #27AE60;
     padding-top: 70px;
+    margin-top: 0;
     padding-bottom: 0px;
     font-weight: bold;
   }
@@ -1135,4 +1141,41 @@ lazy-pages {
 }
 lazy-pages, lazy-pages > * {
   position: inherit !important;
+}
+
+#gallery-container {
+  padding-top: 40px;
+  width: 100%;
+  height: 480px;
+  padding-bottom: 3px;
+  margin: 0 auto;
+  white-space:nowrap;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  background-color: #1b2056;
+
+  #gallery {
+    width: auto;
+    img {
+      height: 450px;
+      padding-right: 50px;
+    }
+    #img-last {
+      padding-right: 0;
+    }
+  }
+}
+
+#gallery-container::-webkit-scrollbar {
+  width: 1em;
+}
+/* Handle */
+#gallery-container::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: #727EFF;
+  -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.5);
+}
+#gallery-container::-webkit-scrollbar-thumb:window-inactive {
+  background: #727EFF;
 }
