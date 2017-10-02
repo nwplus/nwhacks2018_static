@@ -5,8 +5,16 @@
 
 <dom-module id="nwhacks-header">
   <template>
-    <div id="header">
 
+      <!--[if !IE]> -->
+      <style>
+          #header #email-button, #header #email-box, #header #email-line, #header #sponsor-line {
+              display: none;
+          }
+      </style>
+      <!-- <![endif]-->
+
+      <div id="header">
         <div id="scenery">
             <!--<object data="/svg/scenery/Stars.svg" type="image/svg+xml" id="star-cluster"></object>-->
             <div id="star-cluster"></div>

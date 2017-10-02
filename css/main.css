@@ -295,6 +295,7 @@ schedule-box {
     width: 383px;
     margin: 8px 0;
     box-sizing: border-box;
+    -moz-box-sizing: border-box;
     border: 2px solid #2F80ED;
     border-right: none; }
   #header #email-button {
@@ -305,6 +306,10 @@ schedule-box {
     text-transform: none !important;
     letter-spacing: 1px; }
 
+@-moz-document url-prefix() {
+  #header #email-box {
+    padding-bottom: 10px;
+    padding-top: 10px; } }
 @media (max-width: 700px) {
   #header #title .title-sponsor {
     bottom: 10px;
@@ -800,7 +805,8 @@ lazy-pages, lazy-pages > * {
   overflow-x: scroll;
   background-color: #1b2056; }
   #gallery-container #gallery {
-    width: auto; }
+    width: auto;
+    overflow-y: hidden; }
     #gallery-container #gallery img {
       height: 450px;
       padding-right: 50px; }

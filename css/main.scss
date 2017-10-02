@@ -422,6 +422,7 @@ schedule-box {
     text-align: center;
     z-index: 100;
   }
+
   #email-box {
     display: inline-block;
     font-size: 20px;
@@ -430,6 +431,7 @@ schedule-box {
     width: 383px;
     margin: 8px 0;
     box-sizing: border-box;
+    -moz-box-sizing: border-box;
     border: 2px solid #2F80ED;
     border-right: none;
   }
@@ -440,6 +442,14 @@ schedule-box {
     padding-top: 14px;
     text-transform: none !important;
     letter-spacing: 1px;
+  }
+}
+
+// fix input padding for FireFox
+@-moz-document url-prefix() {
+  #header #email-box {
+    padding-bottom: 10px;
+    padding-top: 10px;
   }
 }
 
@@ -1162,6 +1172,7 @@ lazy-pages, lazy-pages > * {
 
   #gallery {
     width: auto;
+    overflow-y: hidden;
     img {
       height: 450px;
       padding-right: 50px;
