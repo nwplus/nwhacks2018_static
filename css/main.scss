@@ -1172,9 +1172,9 @@ lazy-pages, lazy-pages > * {
 
   #gallery {
     width: auto;
-    overflow-y: hidden;
+    //overflow-y: hidden;
     img {
-      height: 450px;
+      height: 460px;
       padding-right: 50px;
     }
     #img-last {

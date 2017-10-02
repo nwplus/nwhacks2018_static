@@ -805,10 +805,9 @@ lazy-pages, lazy-pages > * {
   overflow-x: scroll;
   background-color: #1b2056; }
   #gallery-container #gallery {
-    width: auto;
-    overflow-y: hidden; }
+    width: auto; }
     #gallery-container #gallery img {
-      height: 450px;
+      height: 460px;
       padding-right: 50px; }
     #gallery-container #gallery #img-last {
       padding-right: 0; }
