@@ -115,7 +115,6 @@ paper-card .card-content {
 
 paper-button {
   color: #444;
-
   text-decoration: none;
   letter-spacing: 2px;
   border-radius: 0;
@@ -267,7 +266,16 @@ schedule-box {
     left: 0px;
     right: 0px;
     text-align: center;
-    //margin-top: -100px;
+    //margin-top: -50px;
+
+    #star-cluster {
+      position: absolute;
+      width: 100%;
+      height: 224px;
+      top: 70px;
+      left: 222px;
+      background: url("/svg/scenery/Stars.svg") repeat-x;
+    }
 
     #mountain {
       position: absolute;
@@ -408,19 +416,28 @@ schedule-box {
     letter-spacing: 1px;
   }
   #buttons {
-    margin: 50px;
+    //margin: 50px;
     text-align: center;
     z-index: 100;
   }
   #email-box {
-    //min-width: 250px;
-    //max-width:80vh;
     display: inline-block;
-
-    margin-bottom: 0;
+    font-size: 20px;
+    padding: 15px 0 17px 18px;
+    height: 47px;
+    width: 383px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #2F80ED;
+    border-right: none;
   }
   #email-button {
-    margin-bottom: 0;
+    display: inline-block;
+    height: 48px;
+    margin: 0px 0px 0px -5px;
+    padding-top: 14px;
+    text-transform: none !important;
+    letter-spacing: 1px;
   }
 }
 
@@ -438,9 +455,24 @@ schedule-box {
         display: none;
       }
     }
+    #email-box {
+      width: 280px;
+    }
   }
 }
-
+@media(max-width: 500px) {
+  #header {
+    #email-line {
+      font-size: 11pt;
+    }
+    #email-box {
+      width: 170px;
+      font-size: 15px;
+      padding-top: 18px;
+      padding-left: 10px;
+    }
+  }
+}
 
 footer {
   overflow: hidden;
@@ -557,8 +589,13 @@ footer {
 
 }
 @media (max-width: 375px){
-  footer .foot p {
-    font-size: 17px;
+  footer .foot {
+    p {
+      font-size: 17px;
+    }
+    .social .icon {
+        padding-right: 30px;
+    }
   }
 }
 
@@ -625,7 +662,19 @@ h1 {
   }
 }
 
-@media (max-width: 673px){
+@media (max-width: 568px){
+  #intro {
+    text-align: left;
+    .h1-container {
+      h1 {
+        width: 80%;
+        text-align: center;
+        padding-bottom: 20px;
+      }
+    }
+  }
+}
+  @media (max-width: 673px){
   .hero-container .tile-column {
     width: 100%;
   }
