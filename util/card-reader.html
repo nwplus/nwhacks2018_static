@@ -1,0 +1,168 @@
+
+<title>Card Reader</title>
+<meta name="viewport" content="width=device-width">
+
+<script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">
+
+<style>
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #f2f2f2;
+  color: #4f4f4f;
+}
+</style>
+
+<dom-module id="card-reader">
+  <template>
+    <style is="custom-style">
+      :host {
+        display: block;
+        font-family: 'Noto Sans', 'Roboto', sans-serif;
+        padding: 0 16px;
+        margin: 16px 0;
+        --primary-color: #27ae60;
+        --primary-text-color: #4f4f4f;
+      }
+      h1 {
+        font-weight: bold;
+        color: #27ae60;
+        font-size: 48px;
+      }
+      h2 {
+        color: #27ae60;
+        font-size: 32px;
+      }
+      pre {
+        background-color: #E9E8E3;
+        padding: 16px;
+        margin: 16px -16px;
+      }
+      #status {
+        margin: 16px -16px;
+        padding: 64px 16px;
+        font-size: 4rem;
+        background-color: #E9E8E3;
+        text-align: center;
+        text-transform: uppercase;
+      }
+      #number {
+        font-size: 2rem;
+      }
+      .right {
+        float: right;
+      }
+    </style>
+
+    <iron-localstorage name="valid-cards" value="{{validCards}}">
+    </iron-localstorage>
+    <iron-localstorage name="seen-cards" value="{{seenCards}}">
+    </iron-localstorage>
+
+    <h1>Card Reader</h1>
+
+    <div id="status" style$="[[statusStyle(status)]]">
+      [[status]]
+      <div id="number">[[number]]</div>
+    </div>
+
+    <template is="dom-if" if="[[valid]]">
+      <h2>Is Valid</h2>
+    </template>
+
+    <paper-button class="right" on-tap="reset" raised>Reset</paper-button>
+    <h2>Seen Student Numbers
+    </h2>
+    <pre>[[seenCards]]</pre>
+
+    <paper-textarea label="Valid Student Numbers"
+                    value="{{validCards}}">
+    </paper-textarea>
+  </template>
+  <script>
+Polymer({
+  is: 'card-reader',
+
+  properties: {
+    status: {
+      value: 'waiting'
+    }
+  },
+
+  attached: function () {
+    let data = ''
+    this.listener = window.addEventListener('keydown', (e) => {
+      if (e.key === ';' || e.key === '+' || e.key === '%') {
+        data = ''
+      }
+      if (this.printableKey(e.keyCode)) {
+        if (e.key === 'Enter') {
+          data += '\n'
+        } else {
+          data += e.key
+        }
+      }
+      if (data.slice(-2) === '?\n' && e.key === 'Enter') {
+        this.checkCard(data)
+      }
+    });
+  },
+
+  detached: function () {
+    window.removeEventListener(this.listener)
+  },
+
+  statusStyle: function (status) {
+    let style = ''
+    if (status === 'valid') {
+      style += 'background-color:#27ae60;color:#f2f2f2;'
+    } else if (status === 'invalid') {
+      style += 'background-color:#ae2727;color:#f2f2f2;'
+    }
+    return style
+  },
+
+  checkCard: function (data) {
+    console.log('card data', data)
+    const parts = data.match(/[%;+](\d+)=(\d+)=(\d+)\?/)
+    if (!parts || parts.length !== 4) {
+      console.log('unknown card format!', data, parts)
+      return;
+    }
+    const studentNumber = parts[2]
+    console.log('student number', studentNumber)
+    this.seenCards = studentNumber+'\n'+(this.seenCards || '')
+    this.status = this.isValid(studentNumber) ? 'valid' : 'invalid';
+    this.number = studentNumber;
+  },
+
+  isValid: function (number) {
+    return this.validNumbers().includes(number)
+  },
+
+  validNumbers: function () {
+    return this.validCards.split(/[\n,;.]/).map((a) => a.trim())
+  },
+
+  reset: function () {
+    this.seenCards = '';
+  },
+
+  printableKey: function (keycode) {
+    return (keycode > 47 && keycode < 58)   || // number keys
+      keycode === 32 || keycode === 13 || // spacebar & return key(s) (if you want to allow carriage returns)
+      (keycode > 64 && keycode < 91)   || // letter keys
+      (keycode > 95 && keycode < 112)  || // numpad keys
+      (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
+      (keycode > 218 && keycode < 223)   // [\]' (in order)
+  }
+})
+  </script>
+</dom-module>
+
+<card-reader></card-reader>

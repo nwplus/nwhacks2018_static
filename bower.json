@@ -48,7 +48,8 @@
     "iron-icons": "PolymerElements/iron-icons#^1.1.3",
     "throttle-debounce": "^1.0.1",
     "paper-radio-group": "^1.2.1",
-    "paper-radio-button": "^1.3.1"
+    "paper-radio-button": "^1.3.1",
+    "iron-localstorage": "^2.0.0"
   },
   "resolutions": {
     "iron-list": "^1.3.13"
