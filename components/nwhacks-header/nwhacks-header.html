@@ -1,70 +1,73 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
 
 <dom-module id="nwhacks-header">
-  <template>
+    <template>
 
-      <!--[if !IE]> -->
-      <style>
-          #header #email-button, #header #email-box, #header #email-line, #header #sponsor-line {
-              display: none;
-          }
-      </style>
-      <!-- <![endif]-->
+        <div id="header">
+            <div id="scenery">
+                <!--<object data="/svg/scenery/Stars.svg" type="image/svg+xml" id="star-cluster"></object>-->
+                <div id="star-cluster"></div>
+                <object data="/svg/scenery/big_mountain.svg" type="image/svg+xml" id="mountain"></object>
+                <object data="/svg/scenery/cloud.svg" type="image/svg+xml" id="cloud-left"></object>
+                <object data="/svg/scenery/cloud.svg" type="image/svg+xml" id="cloud-right"></object>
+                <object data="/svg/scenery/tall_tree.svg" type="image/svg+xml" id="tall-tree"></object>
+                <object data="/svg/scenery/medium_tree.svg" type="image/svg+xml" id="normal-tree"></object>
+                <object data="/svg/scenery/medium_tree.svg" type="image/svg+xml" id="medium-tree"></object>
+                <object data="/svg/scenery/short_tree.svg" type="image/svg+xml" id="small-tree"></object>
+                <object data="/svg/scenery/medium_tree.svg" type="image/svg+xml" id="right-normal-tree"></object>
+                <object data="/svg/scenery/medium_tree.svg" type="image/svg+xml" id="right-medium-tree"></object>
+            </div>
 
-      <div id="header">
-        <div id="scenery">
-            <!--<object data="/svg/scenery/Stars.svg" type="image/svg+xml" id="star-cluster"></object>-->
-            <div id="star-cluster"></div>
-            <object data="/svg/scenery/big_mountain.svg" type="image/svg+xml" id="mountain"></object>
-            <object data="/svg/scenery/cloud.svg" type="image/svg+xml" id="cloud-left"></object>
-            <object data="/svg/scenery/cloud.svg" type="image/svg+xml" id="cloud-right"></object>
-            <object data="/svg/scenery/tall_tree.svg" type="image/svg+xml" id="tall-tree"></object>
-            <object data="/svg/scenery/medium_tree.svg" type="image/svg+xml" id="normal-tree"></object>
-            <object data="/svg/scenery/medium_tree.svg" type="image/svg+xml" id="medium-tree"></object>
-            <object data="/svg/scenery/short_tree.svg" type="image/svg+xml" id="small-tree"></object>
-            <object data="/svg/scenery/medium_tree.svg" type="image/svg+xml" id="right-normal-tree"></object>
-            <object data="/svg/scenery/medium_tree.svg" type="image/svg+xml" id="right-medium-tree"></object>
+
+            <div id="title">
+                <div id="logos">
+                    <a href="/">
+                        <object data="/svg/nwHacks_logo.svg" type="image/svg+xml" id="main-logo"></object>
+                    </a>
+                </div>
+                <br>
+                <div class="large-trapezoid">
+                    <h1>Western Canada's Largest Hackathon</h1>
+                    <h2>Jan 13-14, 2018 @ University of British Columbia</h2>
+                </div>
+            </div>
+            <div id="buttons">
+                <!--
+                <a class="none" href="/register#begin"><paper-button class="register">Register</paper-button></a>
+                -->
+                <!--
+                <a class="none" href="/dayof"><paper-button class="register">Day Of Information</paper-button></a>
+                -->
+                <!--<a class="none" href="https://2017.nwhacks.io/"><paper-button class="button">previous hacks</paper-button></a>-->
+
+                <h3 id="email-line">Get notified when registration opens!</h3>
+                <iron-form>
+                    <form id="email-form" action="https://nwhacks.us16.list-manage.com/subscribe/post" method="get"
+                          target="_blank">
+                        <input name="u" type="hidden" value="a62539b754840fa609cbd9174">
+                        <input name="id" type="hidden" value="787a001931">
+                        <iron-input><input name="EMAIL" placeholder="hacker@email.com" type="text" id="email-box"
+                                           required="" maxlength="254"></iron-input>
+                        <paper-button class="register" id="email-button"
+                                      onclick="document.getElementById('email-form').submit();">Get Notified
+                        </paper-button>
+                        </a>
+                    </form>
+                </iron-form>
+                <br>
+                <br>
+                <br>
+                <a href="/sponsors#sponsor" class="link" id="sponsor-line">Interested in becoming a sponsor?</a>
+            </div>
         </div>
-
-
-      <div id="title">
-        <div id="logos">
-          <a href="/">
-            <object data="/svg/nwHacks_logo.svg" type="image/svg+xml" id="main-logo"></object>
-          </a>
-        </div>
-        <br>
-        <div class="large-trapezoid">
-          <h1>Western Canada's Largest Hackathon</h1>
-          <h2>Jan 13-14, 2018 @ University of British Columbia</h2>
-        </div>
-      </div>
-      <div id="buttons">
-        <!--
-        <a class="none" href="/register#begin"><paper-button class="register">Register</paper-button></a>
-        -->
-        <!--
-        <a class="none" href="/dayof"><paper-button class="register">Day Of Information</paper-button></a>
-        -->
-          <h3 id="email-line">Get notified when registration opens!</h3>
-          <iron-input><input placeholder="hacker@email.com" type="text" id="email-box"></iron-input>
-          <!--<paper-input auto-validate maxlength="250" id="email-box" label="hacker@email.com" value=""></paper-input>-->
-          <paper-button class="register" id="email-button">Get Notified</paper-button></a>
-
-        <!--<a class="none" href="https://2017.nwhacks.io/"><paper-button class="button">previous hacks</paper-button></a>-->
-        <br>
-        <br>
-        <br>
-        <a href="/sponsors#sponsor" class="link" id="sponsor-line">Interested in becoming a sponsor?</a>
-      </div>
-    </div>
-  </template>
-  <script>
-Polymer({
-  is: "nwhacks-header",
-});
-  </script>
+    </template>
+    <script>
+        Polymer({
+            is: "nwhacks-header",
+        });
+    </script>
 </dom-module>
