@@ -189,7 +189,8 @@ schedule-box {
     position: relative;
     left: 0px;
     right: 0px;
-    text-align: center; }
+    text-align: center;
+    margin-top: -50px; }
     #header #scenery #star-cluster {
       position: absolute;
       width: 100%;
@@ -265,7 +266,7 @@ schedule-box {
       #header #title #logos > a {
         display: block; }
       #header #title #logos #main-logo {
-        padding-top: 190px;
+        padding-top: 255px;
         padding-bottom: 50px;
         width: 150px;
         height: 215px; }
@@ -327,7 +328,9 @@ schedule-box {
     width: 170px;
     font-size: 15px;
     padding-top: 18px;
-    padding-left: 10px; } }
+    padding-left: 10px; }
+  #header #scenery #cloud-left {
+    display: none; } }
 footer {
   overflow: hidden; }
   footer .foot {

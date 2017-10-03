@@ -37,7 +37,6 @@ $form-focused: $link;
 
 
 body {
-
   color: $dark-fg;
 
   background: rgb(17,23,84); /* Old browsers */
@@ -262,13 +261,12 @@ schedule-box {
   overflow-y: hidden;
   text-align: center;
   #scenery {
-
     text-align: center;
     position: relative;
     left: 0px;
     right: 0px;
     text-align: center;
-    //margin-top: -50px;
+    margin-top: -50px;
 
     #star-cluster {
       position: absolute;
@@ -388,7 +386,7 @@ schedule-box {
       & > a {
         display: block;
       } #main-logo {
-        padding-top: 190px;
+        padding-top: 255px;
         padding-bottom: 50px;
         width: 150px;
         height: 215px;
@@ -482,6 +480,11 @@ schedule-box {
       font-size: 15px;
       padding-top: 18px;
       padding-left: 10px;
+    }
+    #scenery {
+      #cloud-left {
+        display: none;
+      }
     }
   }
 }
