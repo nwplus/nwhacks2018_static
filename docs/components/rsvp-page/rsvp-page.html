@@ -1,4 +1,4 @@
-<html><head></head><body><div hidden="" by-polymer-bundler=""><!--
+<html><head></head><body><div hidden="" by-polymer-bundler=""><link rel="import" href="..\main-app\main-app.html"><!--
 @license
 Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -120,6 +120,9 @@ Custom property | Description | Default
 `--paper-radio-button-ink-size` | Size of the ripple | `48px`
 `--paper-radio-button-label-color` | Label color | `--primary-text-color`
 `--paper-radio-button-label-spacing` | Spacing between the label and the button | `10px`
+`--paper-radio-button-radio-container` | A mixin applied to the internal radio container | `{}`
+`--paper-radio-button-label` | A mixin applied to the internal label | `{}`
+`--paper-radio-button-label-checked` | A mixin applied to the internal label when the radio button is checked | `{}`
 
 This element applies the mixin `--paper-font-common-base` but does not import `paper-styles/typography.html`.
 In order to apply the `Roboto` font to this element, make sure you've imported `paper-styles/typography.html`.
@@ -130,9 +133,9 @@ In order to apply the `Roboto` font to this element, make sure you've imported `
 @demo demo/index.html
 -->
 
-<dom-module id="paper-radio-button" assetpath="../../bower_components/paper-radio-button/">
+<dom-module id="paper-radio-button" assetpath="..\..\bower_components\paper-radio-button\">
   <template strip-whitespace="">
-    <style>:host{display:inline-block;line-height:0;white-space:nowrap;cursor:pointer;@apply (--paper-font-common-base);--calculated-paper-radio-button-size:var(--paper-radio-button-size, 16px);--calculated-paper-radio-button-ink-size:var(--paper-radio-button-ink-size, -1px);}:host(:focus){outline:none;}#radioContainer{@apply (--layout-inline);@apply (--layout-center-center);position:relative;width:var(--calculated-paper-radio-button-size);height:var(--calculated-paper-radio-button-size);vertical-align:middle;}#ink{position:absolute;top:50%;left:50%;right:auto;width:var(--calculated-paper-radio-button-ink-size);height:var(--calculated-paper-radio-button-ink-size);color:var(--paper-radio-button-unchecked-ink-color, --primary-text-color);opacity:0.6;pointer-events:none;-webkit-transform:translate(-50%, -50%);transform:translate(-50%, -50%);}#ink[checked]{color:var(--paper-radio-button-checked-ink-color, --primary-color);}#offRadio, #onRadio{position:absolute;box-sizing:border-box;top:0;left:0;width:100%;height:100%;border-radius:50%;}#offRadio{border:2px solid var(--paper-radio-button-unchecked-color, --primary-text-color);background-color:var(--paper-radio-button-unchecked-background-color, transparent);transition:border-color 0.28s;}#onRadio{background-color:var(--paper-radio-button-checked-color, --primary-color);-webkit-transform:scale(0);transform:scale(0);transition:-webkit-transform ease 0.28s;transition:transform ease 0.28s;will-change:transform;}:host([checked]) #offRadio{border-color:var(--paper-radio-button-checked-color, --primary-color);}:host([checked]) #onRadio{-webkit-transform:scale(0.5);transform:scale(0.5);}#radioLabel{line-height:normal;position:relative;display:inline-block;vertical-align:middle;margin-left:var(--paper-radio-button-label-spacing, 10px);white-space:normal;color:var(--paper-radio-button-label-color, --primary-text-color);}:host-context([dir="rtl"]) #radioLabel{margin-left:0;margin-right:var(--paper-radio-button-label-spacing, 10px);}#radioLabel[hidden]{display:none;}:host([disabled]) #offRadio{border-color:var(--paper-radio-button-unchecked-color, --primary-text-color);opacity:0.5;}:host([disabled][checked]) #onRadio{background-color:var(--paper-radio-button-unchecked-color, --primary-text-color);opacity:0.5;}:host([disabled]) #radioLabel{opacity:0.65;}</style>
+    <style>:host{display:inline-block;line-height:0;white-space:nowrap;cursor:pointer;@apply (--paper-font-common-base);--calculated-paper-radio-button-size:var(--paper-radio-button-size, 16px);--calculated-paper-radio-button-ink-size:var(--paper-radio-button-ink-size, -1px);}:host(:focus){outline:none;}#radioContainer{@apply (--layout-inline);@apply (--layout-center-center);position:relative;width:var(--calculated-paper-radio-button-size);height:var(--calculated-paper-radio-button-size);vertical-align:middle;@apply (--paper-radio-button-radio-container);}#ink{position:absolute;top:50%;left:50%;right:auto;width:var(--calculated-paper-radio-button-ink-size);height:var(--calculated-paper-radio-button-ink-size);color:var(--paper-radio-button-unchecked-ink-color, --primary-text-color);opacity:0.6;pointer-events:none;-webkit-transform:translate(-50%, -50%);transform:translate(-50%, -50%);}#ink[checked]{color:var(--paper-radio-button-checked-ink-color, --primary-color);}#offRadio, #onRadio{position:absolute;box-sizing:border-box;top:0;left:0;width:100%;height:100%;border-radius:50%;}#offRadio{border:2px solid var(--paper-radio-button-unchecked-color, --primary-text-color);background-color:var(--paper-radio-button-unchecked-background-color, transparent);transition:border-color 0.28s;}#onRadio{background-color:var(--paper-radio-button-checked-color, --primary-color);-webkit-transform:scale(0);transform:scale(0);transition:-webkit-transform ease 0.28s;transition:transform ease 0.28s;will-change:transform;}:host([checked]) #offRadio{border-color:var(--paper-radio-button-checked-color, --primary-color);}:host([checked]) #onRadio{-webkit-transform:scale(0.5);transform:scale(0.5);}#radioLabel{line-height:normal;position:relative;display:inline-block;vertical-align:middle;margin-left:var(--paper-radio-button-label-spacing, 10px);white-space:normal;color:var(--paper-radio-button-label-color, --primary-text-color);@apply (--paper-radio-button-label);}:host([checked]) #radioLabel{@apply (--paper-radio-button-label-checked);}:host-context([dir="rtl"]) #radioLabel{margin-left:0;margin-right:var(--paper-radio-button-label-spacing, 10px);}#radioLabel[hidden]{display:none;}:host([disabled]) #offRadio{border-color:var(--paper-radio-button-unchecked-color, --primary-text-color);opacity:0.5;}:host([disabled][checked]) #onRadio{background-color:var(--paper-radio-button-unchecked-color, --primary-text-color);opacity:0.5;}:host([disabled]) #radioLabel{opacity:0.65;}</style>
 
     <div id="radioContainer">
       <div id="offRadio"></div>
@@ -240,7 +243,7 @@ Custom property | Description | Default
 @demo demo/index.html
 -->
 
-<dom-module id="paper-radio-group" assetpath="../../bower_components/paper-radio-group/">
+<dom-module id="paper-radio-group" assetpath="..\..\bower_components\paper-radio-group\">
   <template>
     <style>:host{display:inline-block;}:host ::content > *{padding:var(--paper-radio-group-item-padding, 12px);}</style>
 
@@ -361,7 +364,7 @@ Custom property | Description | Default
     }
   });
 </script>
-<dom-module id="radio-group" assetpath="../">
+<dom-module id="radio-group" assetpath="..\">
   <template>
     <style>paper-radio-button{display:block;}paper-radio-button paper-input{display:inline-block;margin:-40px 5px;position:relative;top:3px;}h2{margin-bottom:0;}</style>
 
