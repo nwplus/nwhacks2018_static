@@ -1,0 +1,17 @@
+<svg width="635" height="208" viewBox="0 0 635 208" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>cloud</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-4348 -626)">
+<g id="cloud">
+<use xlink:href="#path0_fill" transform="translate(4348 626)" fill="url(#paint0_linear)"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(3.88825e-14 208 -635 1.27363e-14 635 -1.27363e-14)" opacity="0.1">
+<stop offset="0" stop-color="#C4C4C4"/>
+<stop offset="0.0001" stop-color="#4C549D"/>
+<stop offset="0.994475" stop-color="#303675" stop-opacity="0.33"/>
+</linearGradient>
+<path id="path0_fill" d="M 635 208L 0 208C 0 193.674 26.6823 187.704 40.0235 186.51C 40.9793 98.1643 112.106 90.8021 147.549 98.1643C 160.93 -19.3122 255.872 -1.72257 301.67 21.7568C 385.779 -34.5937 425.922 31.7057 435.48 71.8992C 499.517 69.989 510.748 118.062 508.358 142.337C 599.158 140.427 630.619 185.317 635 208Z"/>
+</defs>
+</svg>

@@ -1,0 +1,32 @@
+<svg width="1182" height="916" viewBox="0 0 1182 916" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>bigmountain</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-3473 -83)">
+<g id="bigmountain">
+<g id="Group">
+<g id="Vector">
+<use xlink:href="#path0_fill" transform="translate(3473 85)" fill="url(#paint0_linear)"/>
+</g>
+<g id="Vector">
+<use xlink:href="#path1_fill" transform="translate(4025.5 85)" fill="url(#paint1_linear)"/>
+</g>
+<g id="Vector 2">
+<use xlink:href="#path2_fill" transform="translate(3956.5 83.5)" fill="#7D85DC" fill-opacity="0.15"/>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(9.70793e-14 852.367 -1585.42 5.21925e-14 1435.79 14.6329)">
+<stop offset="0" stop-color="#2B3067"/>
+<stop offset="0.961326" stop-color="#0F144A" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint1_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(9.70793e-14 852.367 -1585.42 5.21924e-14 883.292 14.633)">
+<stop offset="0.0331492" stop-color="#3B4184"/>
+<stop offset="1" stop-color="#0F144A"/>
+</linearGradient>
+<path id="path0_fill" d="M 606.693 0L 0 912L 1182 912L 606.693 0Z"/>
+<path id="path1_fill" d="M 54 0L 0 914L 629.5 914L 54 0Z"/>
+<path id="path2_fill" d="M 0 188.5L 122.5 0L 239.5 188.5L 168 155L 111.5 196L 62.5 155L 0 188.5Z"/>
+</defs>
+</svg>
