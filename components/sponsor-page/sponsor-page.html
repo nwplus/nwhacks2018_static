@@ -10,15 +10,47 @@
         margin-top: 50px;
         text-align: center;
       }
+      #sponsor-container {
+          background-color: white;
+          padding-left: 15px;
+          padding-right: 15px;
+      }
       #sponsor {
-        padding-top: 100px;
+        padding-top: 175px;
         margin-top: -100px;
       }
-      h1, h2, h3 {
-        text-transform: uppercase;
+      #spacer {
+          padding-bottom: 75px;
       }
+      p {
+          color: black;
+      }
+      h1, h2, h3 {
+          color: #27AE60;
+      }  h2 {
+          font-size: 28px;
+          font-weight: normal;
+          padding-bottom: 10px;
+      }  h1 {
+          margin: 0 auto;
+          padding-top: 160px;
+          padding-bottom: 25px;
+          line-height: normal;
+          font-size: 38px;
+          text-align: center;
+          font-weight: bold;
+      }
+        @media (max-width: 475px){
+            #sponsor {
+                padding-top: 125px;
+            }
+            .register {
+                font-size: 10pt;
+            }
+        }
     </style>
-    <h1 id="sponsor">SPONSOR US</h1>
+      <div id="sponsor-container">
+    <h1 id="sponsor">Sponsorship Opportunities</h1>
     <div class="content">
       <h2>About</h2>
       <p>
@@ -56,9 +88,11 @@
     </div>
     <p id="pdf">
       <a href="/documents/sponsors.pdf" target="_blank" class="none">
-        <paper-button class="button">get the sponsorship pdf</paper-button>
+        <paper-button class="register">View Sponsorship Package</paper-button>
       </a>
     </p>
+          <div id="spacer"></div>
+      </div>
   </template>
 
   <script>

@@ -1,0 +1,132 @@
+<svg width="259" height="355" viewBox="0 0 259 355" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>top_right_crystals</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-4765 -2094)">
+<g id="top_right_crystals">
+<g id="Second from right">
+<g id="Polygon 5">
+<use xlink:href="#path0_fill" transform="matrix(0.896712 0.442477 0.425952 -0.904891 4794.8 2297.59)" fill="#97FFC3"/>
+</g>
+<g id="Polygon 4">
+<use xlink:href="#path1_fill" transform="matrix(0.896712 0.442477 0.425952 -0.904891 4757.13 2279.18)" fill="#3ED38D"/>
+</g>
+<g id="Rectangle 13">
+<use xlink:href="#path2_fill" transform="matrix(0.917476 0.396963 0.326796 -0.945836 4765.15 2250.58)" fill="url(#paint2_linear)"/>
+</g>
+<g id="Rectangle 14">
+<use xlink:href="#path3_fill" transform="matrix(0.915982 0.400447 0.334398 -0.943131 4805.28 2255.71)" fill="url(#paint3_linear)"/>
+</g>
+<g id="Rectangle 15">
+<use xlink:href="#path4_fill" transform="matrix(0.896712 0.442477 0.425952 -0.904891 4843.07 2273.38)" fill="url(#paint4_linear)"/>
+</g>
+<g id="Polygon 3">
+<use xlink:href="#path5_fill" transform="matrix(0.896712 0.442477 0.425952 -0.904891 4767.26 2284.18)" fill="url(#paint5_linear)"/>
+</g>
+<g id="Rectangle 13">
+<use xlink:href="#path6_fill" transform="matrix(0.917476 0.396963 0.326796 -0.945836 4759.6 2266.32)" fill="url(#paint6_linear)"/>
+</g>
+</g>
+<g id="First from right">
+<g id="Polygon 5">
+<use xlink:href="#path7_fill" transform="matrix(0.998036 0.0626485 0.0493652 -0.998781 4945.01 2448.59)" fill="#97FFC3"/>
+</g>
+<g id="Polygon 4">
+<use xlink:href="#path8_fill" transform="matrix(0.998036 0.0626485 0.0493652 -0.998781 4900.48 2446.16)" fill="#3ED38D"/>
+</g>
+<g id="Rectangle 13">
+<use xlink:href="#path9_fill" transform="matrix(0.998707 -0.0199445 -0.0157359 -1.00074 4898.02 2394.9)" fill="url(#paint9_linear)"/>
+</g>
+<g id="Rectangle 14">
+<use xlink:href="#path10_fill" transform="matrix(0.998894 -0.0137053 -0.0108113 -1.00074 4940 2386.13)" fill="url(#paint10_linear)"/>
+</g>
+<g id="Rectangle 15">
+<use xlink:href="#path11_fill" transform="matrix(0.998036 0.0626485 0.0493652 -0.998781 4983.15 2375.06)" fill="url(#paint11_linear)"/>
+</g>
+<g id="Polygon 3">
+<use xlink:href="#path12_fill" transform="matrix(0.998036 0.0626485 0.0493652 -0.998781 4914.53 2447.04)" fill="url(#paint12_linear)"/>
+</g>
+<g id="Rectangle 13">
+<use xlink:href="#path13_fill" transform="matrix(0.998707 -0.0199445 -0.0157359 -1.00074 4898.23 2422.89)" fill="url(#paint13_linear)"/>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint2_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-1.95772 155.684 -64.4193 -1.01516 53.9156 -1.71466)">
+<stop offset="0" stop-color="#219653"/>
+<stop offset="0.701657" stop-color="#3D7F9B"/>
+<stop offset="1" stop-color="#1C215D"/>
+</linearGradient>
+<linearGradient id="paint3_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.02106e-14 169.53 -62.5194 -1.15201e-14 62.5194 5.15994)">
+<stop offset="0" stop-color="#249769"/>
+<stop offset="0.441989" stop-color="#98FFC3"/>
+<stop offset="0.895028" stop-color="#1C215D"/>
+</linearGradient>
+<linearGradient id="paint4_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(5.07747e-15 163.32 -23.8011 1.00251e-14 26.1343 2.98494)">
+<stop offset="0" stop-color="#7AE9A8"/>
+<stop offset="1" stop-color="#1C215D"/>
+</linearGradient>
+<linearGradient id="paint5_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-48.8548 -27.2911 42.8332 -35.5405 22.3727 44.3653)">
+<stop offset="0" stop-color="#265D93"/>
+<stop offset="0.812155" stop-color="#B1E8C9" stop-opacity="0.765371"/>
+<stop offset="0.812255" stop-color="#B1E8C9" stop-opacity="0.758832"/>
+<stop offset="0.895028" stop-color="#B1E8C9" stop-opacity="0.764157"/>
+<stop offset="0.966851" stop-color="#B1E8C9" stop-opacity="0.367054"/>
+<stop offset="0.966851" stop-color="#B1E8C9" stop-opacity="0.768777"/>
+<stop offset="0.9998" stop-color="#B1E8C9" stop-opacity="0.764772"/>
+<stop offset="0.9999" stop-color="#B1E8C9" stop-opacity="0.754967"/>
+<stop offset="0.9999" stop-color="#B1E8C9" stop-opacity="0"/>
+<stop offset="1" stop-color="#B1E8C9" stop-opacity="0.770573"/>
+<stop offset="1" stop-color="#B1E8C9" stop-opacity="0.770573"/>
+</linearGradient>
+<linearGradient id="paint6_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-1.32872e-14 127.218 -52.5027 1.55683e-14 -50.1906 20.6147)">
+<stop offset="0" stop-color="#2A9A5A"/>
+<stop offset="1" stop-color="#219653" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint9_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(2.6754 254.665 -64.0427 0.851012 54.7058 -3.43692)">
+<stop offset="0" stop-color="#219653"/>
+<stop offset="0.414365" stop-color="#218E54"/>
+<stop offset="1" stop-color="#1C215D"/>
+</linearGradient>
+<linearGradient id="paint10_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(6.12567e-14 292.622 -65.6912 9.60867e-15 65.1096 21.2233)">
+<stop offset="0" stop-color="#249769"/>
+<stop offset="0.325967" stop-color="#73EFA7"/>
+<stop offset="0.816445" stop-color="#1C215D"/>
+</linearGradient>
+<linearGradient id="paint11_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-1.3175 232.881 -20.518 -0.147204 25.0349 5.24873)">
+<stop offset="0" stop-color="#7AE9A8"/>
+<stop offset="1" stop-color="#1C215D"/>
+</linearGradient>
+<linearGradient id="paint12_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-51.2076 -47.3155 44.896 -61.6177 21.2142 78.1243)">
+<stop offset="0" stop-color="#265D93"/>
+<stop offset="0.812155" stop-color="#B1E8C9" stop-opacity="0.765371"/>
+<stop offset="0.812255" stop-color="#B1E8C9" stop-opacity="0.758832"/>
+<stop offset="0.895028" stop-color="#B1E8C9" stop-opacity="0.764157"/>
+<stop offset="0.966851" stop-color="#B1E8C9" stop-opacity="0.768777"/>
+<stop offset="0.966851" stop-color="#B1E8C9" stop-opacity="0.367054"/>
+<stop offset="0.9998" stop-color="#B1E8C9" stop-opacity="0.764772"/>
+<stop offset="0.9999" stop-color="#B1E8C9" stop-opacity="0"/>
+<stop offset="0.9999" stop-color="#B1E8C9" stop-opacity="0.754967"/>
+<stop offset="1" stop-color="#B1E8C9" stop-opacity="0.770573"/>
+<stop offset="1" stop-color="#B1E8C9" stop-opacity="0.770573"/>
+</linearGradient>
+<linearGradient id="paint13_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-1.41506e-14 219.449 -55.1863 2.6283e-14 -52.756 35.56)">
+<stop offset="0" stop-color="#2A9A5A"/>
+<stop offset="1" stop-color="#219653" stop-opacity="0"/>
+</linearGradient>
+<path id="path0_fill" d="M 0 0L 49.659 43.033L 35.0752 57.9935L 0 0Z"/>
+<path id="path1_fill" d="M 41.7804 -2.05119e-05L 75.3042 53.9353L 0 46.5305L 41.7804 -2.05119e-05Z"/>
+<path id="path2_fill" d="M 0 0L 39.7926 16.3046L 55.6365 179.956C 55.6365 179.956 37.6871 173.738 17.7543 166.969L 0 0Z"/>
+<path id="path3_fill" d="M 0 5.15964C 11.2209 -2.19091 34.4797 -2.52548 42.7071 9.66332L 61.3126 174.76L 14.3701 168.361L 0 5.15964Z"/>
+<path id="path4_fill" d="M 0 10.7094L 16.1121 0L 26.1336 166.305L 2.33255 166.305L 0 10.7094Z"/>
+<path id="path5_fill" d="M 30.4797 0L 18.1092 26.5951L 0 15.9348L 30.4797 0Z"/>
+<path id="path6_fill" d="M 0 16.7908L 39.8935 32.9944L 35.0155 15.0273C 35.0155 15.0273 27.2447 -11.2378 11.4514 5.67975L 0 16.7908Z"/>
+<path id="path7_fill" d="M 0 0L 51.5345 75.2743L 36.1115 100.978L 0 0Z"/>
+<path id="path8_fill" d="M 44.6066 0L 78.7451 86.1289L 0 81.8779L 44.6066 0Z"/>
+<path id="path9_fill" d="M 0 0L 43.3607 26.5998L 61.0915 299.451C 61.0915 299.451 42.5047 297.283 19.0449 291.443L 0 0Z"/>
+<path id="path10_fill" d="M 0 18.2239C 36.6274 -13.0896 31.5742 1.36879 44.0886 21.2232L 62.6101 286.369L 16.1716 291.527L 0 18.2239Z"/>
+<path id="path11_fill" d="M 0 10.7199L 16.7454 0L 26.2603 276.869L 1.96952 276.869L 0 10.7199Z"/>
+<path id="path12_fill" d="M 30.5319 0L 16.7454 47.3154L 0 26.9846L 30.5319 0Z"/>
+<path id="path13_fill" d="M 0 28.9639L 42.4857 54.1111L 36.8053 25.9218C 36.8053 25.9218 28.6373 -19.385 12.0368 9.79747L 0 28.9639Z"/>
+</defs>
+</svg>

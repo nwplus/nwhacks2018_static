@@ -1,4 +1,4 @@
-<html><head></head><body><div hidden="" by-polymer-bundler=""><!--
+<html><head></head><body><div hidden="" by-polymer-bundler=""><link rel="import" href="..\main-app\main-app.html"><!--
 @license
 Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -484,7 +484,7 @@ will only render 20.
 
 -->
 
-<dom-module id="iron-list" assetpath="../../bower_components/iron-list/">
+<dom-module id="iron-list" assetpath="..\..\bower_components\iron-list\">
   <template>
     <style>:host{display:block;}@media only screen and (-webkit-max-device-pixel-ratio: 1){:host{will-change:transform;}}#items{@apply (--iron-list-items-container);position:relative;}:host(:not([grid])) #items > ::content > *{width:100%;}#items > ::content > *{box-sizing:border-box;margin:0;position:absolute;top:0;will-change:transform;}</style>
 
@@ -1060,12 +1060,13 @@ will only render 20.
       this._lastVisibleIndexVal = null;
 
       // Random access.
-      if (Math.abs(delta) > this._physicalSize) {
+      if (Math.abs(delta) > this._physicalSize && this._physicalSize > 0) {
         delta = delta - this._scrollOffset;
         var idxAdjustment = Math.round(delta / this._physicalAverage) * this._itemsPerRow;
-        this._physicalTop = this._physicalTop + delta;
         this._virtualStart = this._virtualStart + idxAdjustment;
         this._physicalStart = this._physicalStart + idxAdjustment;
+        // Estimate new physical offset.
+        this._physicalTop = Math.floor(this._virtualStart / this._itemsPerRow) * this._physicalAverage;
         this._update();
       } else {
         var reusables = this._getReusables(isScrollingDown);
@@ -2045,7 +2046,7 @@ will only render 20.
       }
       var onScreenInstance = onScreenItem._templateInstance;
       var offScreenInstance = this._offscreenFocusedItem._templateInstance;
-      // Restores the physical item only when it has the same model 
+      // Restores the physical item only when it has the same model
       // as the offscreen one. Use key for comparison since users can set
       // a new item via set('items.idx').
       if (onScreenInstance.__key__ === offScreenInstance.__key__) {
@@ -2057,6 +2058,7 @@ will only render 20.
         // Hide the physical item that backfills.
         this.translate3d(0, HIDDEN_Y, 0, this._focusBackfillItem);
       } else {
+        this._removeFocusedItem();
         this._focusBackfillItem = null;
       }
       this._offscreenFocusedItem = null;
@@ -2156,7 +2158,7 @@ Polymer({
 </script>
 ```
 -->
-<dom-module id="firebase-query" assetpath="../../bower_components/polymerfire/">
+<dom-module id="firebase-query" assetpath="..\..\bower_components\polymerfire\">
   <script>
     (function() {
       'use strict';
@@ -2380,6 +2382,21 @@ Polymer({
           }
 
           return query;
+        },
+
+        /**
+         * `@override`
+         */
+
+        __pathChanged: function(path, oldPath) {
+          // we only need to reset the data if the path is null (will also trigged when this element initiates)
+          // When path changes and is not null, it triggers a ref change (via __computeRef(db,path)), which then triggers a __queryChanged setting data to zeroValue
+
+          if (path == null ) {
+            this.syncToMemory(function() {
+              this.data = this.zeroValue;
+            });
+          }
         },
 
         __queryChanged: function(query, oldQuery) {

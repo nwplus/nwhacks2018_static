@@ -1,0 +1,76 @@
+<html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
+
+</head><body><dom-module id="firebase-config">
+  <template>
+    <paper-dialog id="error" modal="">
+      <h2>Error</h2>
+      <p>[[error]]</p>
+      <p>Please try again later or use a different browser.</p>
+      <div class="buttons">
+        <paper-button dialog-confirm="" autofocus="">close</paper-button>
+      </div>
+    </paper-dialog>
+
+    <firebase-app auth-domain="nwhacks-96701.firebaseapp.com" name="[[name]]" database-url="https://nwhacks-96701.firebaseio.com" storage-bucket="nwhacks-96701.appspot.com" messaging-sender-id="874137730051" api-key="AIzaSyBou6z9QA7zvCpxUFLoTbwQZcWuBn47yEA">
+    </firebase-app>
+    <template is="dom-if" if="[[auth]]">
+      <firebase-auth id="auth" app-name="[[name]]" user="{{user}}" provider="google" on-error="handleError" signed-in="{{signedIn}}" status-known="{{statusKnown}}">
+      </firebase-auth>
+    </template>
+
+    <firebase-document app-name="[[name]]" path="/admins/[[user.uid]]" data="{{isAdmin}}">
+    </firebase-document>
+  </template>
+
+  <script>
+Polymer({
+  is: "firebase-config",
+  properties: {
+    isAdmin: { notify: true },
+    statusKnown: { notify: true },
+    user: { notify: true },
+    signedIn: { notify: true },
+    name: {
+      type: String,
+      notify: true,
+    },
+    auth: {
+      type: Boolean,
+      value: false,
+    }
+  },
+
+  observers: [
+    'signIn(signedIn, statusKnown, auth)',
+    'warnNotAdmin(signedIn, isAdmin, statusKnown, auth)',
+  ],
+
+  signIn: function(signedIn, statusKnown, auth) {
+    if (statusKnown && !signedIn && auth) {
+      this.querySelector("#auth").signInWithPopup();
+    }
+  },
+
+  warnNotAdmin: function(signedIn, isAdmin, statusKnown, auth) {
+    if (!statusKnown || !auth) {
+      return;
+    }
+    if (signedIn && isAdmin === true) {
+      this.$.error.close();
+    } else if (signedIn) {
+      this.error = 'You are not an admin or data is still loading.';
+      this.$.error.open();
+    }
+  },
+
+  handleError: function(e, err) {
+    this.err = err;
+  }
+});
+  </script>
+</dom-module>
+</body></html>

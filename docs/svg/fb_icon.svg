@@ -1,0 +1,16 @@
+<svg width="33" height="33" viewBox="0 0 33 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>fb_icon</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-4110 -4934)">
+<g id="fb_icon">
+<g id="Group">
+<g id="Facebook  x28 alt x29">
+<use xlink:href="#path0_fill" transform="translate(4110 4934)" fill="#FFFFFF"/>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_fill" d="M 32.7568 5.50037C 32.7568 2.6103 30.1668 0 27.2973 0L 5.45947 0C 2.58997 0 0 2.6103 0 5.50037L 0 27.4996C 0 30.3897 2.58997 33 5.45983 33L 16.3784 33L 16.3784 20.5333L 12.3748 20.5333L 12.3748 15.0333L 16.3784 15.0333L 16.3784 12.8905C 16.3784 9.1949 19.1329 5.86667 22.5203 5.86667L 26.9334 5.86667L 26.9334 11.3667L 22.5203 11.3667C 22.0373 11.3667 21.4739 11.9574 21.4739 12.8421L 21.4739 15.0333L 26.9334 15.0333L 26.9334 20.5333L 21.4739 20.5333L 21.4739 33L 27.2973 33C 30.1668 33 32.7568 30.3897 32.7568 27.4996L 32.7568 5.50037Z"/>
+</defs>
+</svg>

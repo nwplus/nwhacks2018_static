@@ -1,0 +1,84 @@
+<svg width="1076" height="224" viewBox="0 0 1076 224" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Stars</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-3686 -13)">
+<g id="Stars">
+<g id="Star">
+<g id="Rectangle 5">
+<use xlink:href="#path0_fill" transform="matrix(0.731642 0.681689 -0.681678 0.731652 4004.64 63)" fill="#FFFFBD" fill-opacity="0.6"/>
+</g>
+<g id="Rectangle 5">
+<use xlink:href="#path1_fill" transform="matrix(-0.713418 0.700739 -0.700728 -0.713428 4015 73.5708)" fill="#FFFFBD" fill-opacity="0.6"/>
+</g>
+</g>
+<g id="star">
+<g id="Rectangle 5">
+<use xlink:href="#path2_fill" transform="matrix(0.664273 0.74749 -0.61081 0.791777 4526.48 122)" fill="#FFFFBD" fill-opacity="0.8"/>
+</g>
+<g id="Rectangle 5">
+<use xlink:href="#path3_fill" transform="matrix(-0.644526 0.764582 -0.630947 -0.775826 4536.7 134.584)" fill="#FFFFBD" fill-opacity="0.8"/>
+</g>
+</g>
+<g id="Star">
+<g id="Rectangle 5">
+<use xlink:href="#path4_fill" transform="matrix(0.675811 0.737075 -0.622752 0.782419 3899.49 222)" fill="#FFFFBD" fill-opacity="0.8"/>
+</g>
+<g id="Rectangle 5">
+<use xlink:href="#path5_fill" transform="matrix(-0.656253 0.754541 -0.642777 -0.766054 3905.81 229.551)" fill="#FFFFBD" fill-opacity="0.8"/>
+</g>
+</g>
+<g id="Star">
+<g id="Rectangle 5">
+<use xlink:href="#path6_fill" transform="matrix(0.696177 0.717871 -0.644022 0.765007 4756.49 122)" fill="#FFFFBD" fill-opacity="0.8"/>
+</g>
+<g id="Rectangle 5">
+<use xlink:href="#path7_fill" transform="matrix(-0.677023 0.735962 -0.663776 -0.747931 4761.84 128.04)" fill="#FFFFBD" fill-opacity="0.8"/>
+</g>
+</g>
+<g id="Star" opacity="0.4">
+<g id="Rectangle 5">
+<use xlink:href="#path6_fill" transform="matrix(0.696177 0.717871 -0.644022 0.765007 4590.49 33)" fill="#FFFFBD" fill-opacity="0.8"/>
+</g>
+<g id="Rectangle 5">
+<use xlink:href="#path7_fill" transform="matrix(-0.677023 0.735962 -0.663776 -0.747931 4595.84 39.0405)" fill="#FFFFBD" fill-opacity="0.8"/>
+</g>
+</g>
+<g id="Star">
+<g id="Rectangle 5" opacity="0.4">
+<use xlink:href="#path8_fill" transform="matrix(0.780941 0.624605 -0.735435 0.677595 4100.49 13)" fill="#FFFFBD" fill-opacity="0.6"/>
+</g>
+<g id="Rectangle 5" opacity="0.4">
+<use xlink:href="#path9_fill" transform="matrix(-0.764512 0.64461 -0.752958 -0.658069 4106.81 18.5371)" fill="#FFFFBD" fill-opacity="0.6"/>
+</g>
+</g>
+<g id="Star">
+<g id="Rectangle 5" opacity="0.4">
+<use xlink:href="#path8_fill" transform="matrix(0.780941 0.624605 -0.735435 0.677595 4128.49 28)" fill="#FFFFBD" fill-opacity="0.6"/>
+</g>
+<g id="Rectangle 5" opacity="0.4">
+<use xlink:href="#path9_fill" transform="matrix(-0.764512 0.64461 -0.752958 -0.658069 4134.81 33.5371)" fill="#FFFFBD" fill-opacity="0.6"/>
+</g>
+</g>
+<g id="Star">
+<g id="Rectangle 5" opacity="0.4">
+<use xlink:href="#path8_fill" transform="matrix(0.780941 0.624605 -0.735435 0.677595 3692.49 63)" fill="#FFFFBD" fill-opacity="0.6"/>
+</g>
+<g id="Rectangle 5" opacity="0.4">
+<use xlink:href="#path9_fill" transform="matrix(-0.764512 0.64461 -0.752958 -0.658069 3698.81 68.5371)" fill="#FFFFBD" fill-opacity="0.6"/>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_fill" d="M 0 0L 12.6253 2.4057L 14.5816 15.1163L 1.95669 12.7103L 0 0Z"/>
+<path id="path1_fill" d="M 0 0L 12.8839 2.35805L 14.8803 14.8169L 1.99678 12.4585L 0 0Z"/>
+<path id="path2_fill" d="M 0 0L 13.707 2.64645L 15.8309 16.6291L 2.12434 13.9822L 0 0Z"/>
+<path id="path3_fill" d="M 0 0L 14.0573 2.58143L 16.2355 16.2205L 2.17863 13.6387L 0 0Z"/>
+<path id="path4_fill" d="M 0 0L 8.3404 1.60686L 9.63276 10.0968L 1.29261 8.48969L 0 0Z"/>
+<path id="path5_fill" d="M 0 0L 8.54662 1.56861L 9.87094 9.85646L 1.32458 8.2876L 0 0Z"/>
+<path id="path6_fill" d="M 0 0L 6.85081 1.31475L 7.91236 8.26129L 1.06176 6.94634L 0 0Z"/>
+<path id="path7_fill" d="M 0 0L 7.0099 1.2853L 8.0961 8.07623L 1.08641 6.79073L 0 0Z"/>
+<path id="path8_fill" d="M 0 0L 7.21762 1.36066L 8.33601 8.54978L 1.1186 7.1889L 0 0Z"/>
+<path id="path9_fill" d="M 0 0L 7.33638 1.33908L 8.47317 8.41416L 1.13701 7.07487L 0 0Z"/>
+</defs>
+</svg>
