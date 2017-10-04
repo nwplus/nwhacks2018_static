@@ -120,7 +120,6 @@ paper-button {
   letter-spacing: 2px;
   border-radius: 0;
   &.register, &.button {
-    //font-weight: bold;
     letter-spacing: 3px;
     padding: 11px 15px;
     margin-top: 10px;
@@ -148,7 +147,6 @@ paper-button {
 
 a.link {
   color: $dark-fg;
-  //font-style: italic;
   letter-spacing: 1px;
   border-bottom: 1px solid;
   text-decoration: none;
@@ -185,7 +183,6 @@ a.none:hover {
   left: 0;
   z-index: 99;
   padding: $menu-padding-vertical $menu-padding $menu-padding-vertical;
-  //padding-right: 165px;
   height: 45px;
   background-color: $light-bg;
   color: $black-fg;
@@ -228,7 +225,6 @@ a.none:hover {
 }
 @media (max-width: 815px) {
   #menu {
-    //padding-right: 125px;
 
     paper-icon-button {
       margin-left: $menu-padding/2;
@@ -254,9 +250,7 @@ schedule-box {
 }
 
 #header {
-  //background-color: blue;
   padding-bottom: 200px;
-  //width: 100%;
   overflow-x: hidden;
   overflow-y: hidden;
   text-align: center;
@@ -279,16 +273,13 @@ schedule-box {
 
     #mountain {
       position: absolute;
-      //width: 100%;
       height: 915.5px;
       left: -265.5px;
       top: 194.5px;
-      //background: url("/svg/scenery/big_mountain.svg") no-repeat;
       z-index: -60;
     }
       #cloud-left {
         position: absolute;
-        //width: 531.5px;
         height: 174.22px;
         left: -71.5px;
         top: 435.78px;
@@ -297,11 +288,9 @@ schedule-box {
 
       #tall-tree {
         position: absolute;
-        //width: 384px;
         height: 487px;
         left: -131px;
         top: 623px;
-        //background: url("/svg/scenery/tall_tree.svg") no-repeat;
         z-index: -40;
       }
       #normal-tree {
@@ -310,7 +299,6 @@ schedule-box {
         height: 303px;
         left: 81px;
         top: 665px;
-        //background: url("/svg/scenery/medium_tree.svg") no-repeat;
         z-index: -41;
       }
       #medium-tree {
@@ -319,26 +307,20 @@ schedule-box {
         height: 303px;
         left: 206px;
         top: 760px;
-        //background: url("/svg/scenery/medium_tree.svg") no-repeat;
         z-index: -40;
       }
       #small-tree {
         position: absolute;
-        //width: 200px;
         height: 170px;
         left: 356.5px;
         top: 940px;
-        //background: url("/svg/scenery/medium_tree.svg") no-repeat;
         z-index: -40;
       }
       #right-normal-tree {
         position: absolute;
-        //width: 306px;
         height: 368px;
-        //left: 882px;
         left: calc(70vw);
         top: 715px;
-        //background: url("/svg/scenery/medium_tree.svg") no-repeat;
         z-index: -40;
       }
       #right-medium-tree {
@@ -349,7 +331,6 @@ schedule-box {
         left: calc(80vw);
 
         top: 562.5px;
-        //background: url("/svg/scenery/medium_tree.svg") no-repeat;
         z-index: -41;
       }
       #cloud-right {
@@ -361,12 +342,6 @@ schedule-box {
         top: 700px;
         z-index: -38;
       }
-
-    //
-    //max-width: 2000px;
-    //// margin-bottom: -77px;
-    //width: 100%;
-    //display: inline-block;
   }
 
   #title {
@@ -827,7 +802,6 @@ h1 {
         height: 333.25px;
         left: 94%;
         top: 0;
-        //transform: matrix(-1, 0, 0, 1, 0, 0);
       }
       #bottom-left {
         position: absolute;
@@ -844,13 +818,6 @@ h1 {
         z-index: -1;
         padding-top: 104.5%;
         left: 90%;
-
-        //padding-top: 120.5%;
-        //left: 70%;
-        //-ms-transform: rotate(-20deg); /* IE 9 */
-        //-webkit-transform: rotate(-20deg); /* Safari */
-        //transform: rotate(-20deg);
-
       }
     }
 
@@ -877,7 +844,6 @@ h1 {
     padding-bottom: 80px;
   }
 }
-
 
 #schedule {
   width: 100%;
