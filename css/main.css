@@ -765,10 +765,10 @@ star {
     vertical-align: middle;
     margin: 30px;
     max-width: calc(100% - 60px);
-    -webkit-filter: brightness(0) invert(1) brightness(0.44);
-    -moz-filter: brightness(0) invert(1) brightness(0.44);
-    -o-filter: brightness(0) invert(1) brightness(0.44);
-    filter: brightness(0) invert(1) brightness(0.44);
+    -webkit-filter: brightness(0) invert(1);
+    -moz-filter: brightness(0) invert(1);
+    -o-filter: brightness(0) invert(1);
+    filter: brightness(0) invert(1);
     transition: -webkit-filter 0.5s, -moz-filter 0.5s, -o-filter 0.5s, filter 0.5s; }
     #sponsors img.black:hover, #sponsors svg.black:hover {
       -webkit-filter: brightness(0);
