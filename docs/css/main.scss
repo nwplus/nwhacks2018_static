@@ -1087,10 +1087,10 @@ star {
     $filter-white: brightness(0) invert(1);
     $filter-grayscale: grayscale(1);
 
-    -webkit-filter: $filter;
-    -moz-filter: $filter;
-    -o-filter: $filter;
-    filter: $filter;
+    -webkit-filter: $filter-white;
+    -moz-filter: $filter-white;
+    -o-filter: $filter-white;
+    filter: $filter-white;
 
     transition : -webkit-filter 0.5s, -moz-filter 0.5s, -o-filter 0.5s, filter 0.5s;
 
