@@ -218,6 +218,7 @@ a.none:hover {
 }
 @media (max-width: 510px) {
   #menu {
+    position: absolute;
     a.med {
       display: none;
     }

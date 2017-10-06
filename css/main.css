@@ -162,8 +162,10 @@ a.none:hover {
       color: #239e57; }
 
 @media (max-width: 510px) {
-  #menu a.med {
-    display: none; } }
+  #menu {
+    position: absolute; }
+    #menu a.med {
+      display: none; } }
 @media (max-width: 815px) {
   #menu paper-icon-button {
     margin-left: 7.5px;
