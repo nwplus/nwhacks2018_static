@@ -323,6 +323,9 @@ schedule-box {
     display: none; }
   #header #email-box {
     width: 280px; } }
+@media (max-width: 510px) {
+  #header #title #logos #main-logo {
+    padding-top: 130px; } }
 @media (max-width: 500px) {
   #header #email-line {
     font-size: 11pt; }
