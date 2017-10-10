@@ -221,21 +221,7 @@ Polymer({
             <!--<img src="/svg/Mountains.svg">-->
         <!--</div>-->
 
-
-        <div id="gallery-container">
-            <div id="gallery">
-                <div class="gallery-row">
-                    <img src="/img/gallery/gallery_1.png">
-                    <img src="/img/gallery/gallery_2.png">
-                    <!--<img src="/img/gallery/gallery_5.jpg"/>-->
-                    <img src="/img/gallery/gallery_3.png">
-                    <!--<img src="/img/gallery/gallery_6.jpg"/>-->
-                    <img src="/img/gallery/gallery_4.png" id="img-last">
-                </div>
-            </div>
-        </div>
-
-        <div id="sponsors" class="content">
+        <div id="sponsors" class="sponsor-content">
             <h1>Sponsors</h1>
             <!--
               <div class="sponsors-title">
@@ -244,16 +230,19 @@ Polymer({
               </div>
             -->
             <div class="sponsors-mega">
+                <area-img src="/svg/logos/ubc_large.svg" href="http://ubc.ca" area="70000" class="sponsor-padding"></area-img>
+                <area-img src="/svg/logos/rbc_outline.svg" src-solid="/svg/logos/rbc.svg" href="http://www.rbc.com/techjobs/" area="70000"></area-img>
+                <br><area-img src="/svg/logos/scotiabank_large.svg" href="http://scotiabank.com" area="75000"></area-img>
+                <area-img src="/svg/logos/microsoft_large.svg" href="https://www.microsoft.com" area="75000"></area-img>
+
                 <!--
                 <area-img src="/img/logos/ata.png" href="http://athinkingape.com"></area-img>
-                <area-img src="/img/logos/ca_tech.png" href="http://www.ca.com/us.html"></area-img>
                 <area-img src="/img/logos/clio.png" href="https://www.clio.com"></area-img>
                 <area-img src="/svg/logos/cockroachdb-transparent.svg"
                           src-solid="/svg/logos/cockroachdb.svg"
                           href="https://www.cockroachlabs.com/"></area-img>
                 <area-img src="/svg/logos/google-logo.svg" href="https://google.com"></area-img>
                 <area-img src="/img/logos/hootsuite.png" href="https://hootsuite.com"></area-img>
-                <area-img src="/svg/logos/microsoft.svg" href="https://www.microsoft.com"></area-img>
                 <area-img src="/svg/logos/mojio.svg" href="https://www.moj.io"></area-img>
                 <area-img src="/svg/logos/rbc_outline.svg"
                           src-solid="/svg/logos/rbc.svg"
@@ -262,6 +251,9 @@ Polymer({
                 -->
             </div>
             <div class="sponsors-kilo">
+                <area-img src="/img/logos/cat_small.png" href="https://ca.com" area="20000"></area-img>
+                <area-img src="/img/logos/google_small.png" href="https://google.com" area="20000"></area-img>
+
                 <!--
                 <area-img src="/img/logos/namecheap.png"
                           href="https://www.namecheap.com"
@@ -269,6 +261,12 @@ Polymer({
                 -->
             </div>
             <div class="sponsors-micro">
+			    <area-img src="/svg/logos/boast-capital_xs.svg" href="https://boastcapital.com" area="18000"></area-img>
+                <area-img src="/svg/logos/vidyard_xs.svg" href="https://vidyard.com/" area="18000"></area-img>
+                <br><area-img src="/svg/logos/digital_ocean-xs.svg" href="https://digitalocean.com/" area="16000"></area-img>
+                <area-img src="/svg/logos/spring-activator_xs.svg" href="http://spring.is" area="16000"></area-img>
+                <area-img src="/svg/logos/sparkling-ice_xs.svg" href="http://sparklingice.com/" area="16000"></area-img>
+                <area-img src="/svg/logos/sketch_xs.svg" href="http://sketchapp.com/" area="16000"></area-img>
                 <!--
                 <area-img src="/img/logos/4imprint.png"
                           href="http://www.4imprint.ca"
@@ -327,6 +325,21 @@ Polymer({
                 -->
             </div>
         </div>
+
+        <div id="gallery-container">
+            <div id="gallery">
+                <div class="gallery-row">
+                    <img src="/img/gallery/gallery_1.png">
+                    <img src="/img/gallery/gallery_2.png">
+                    <!--<img src="/img/gallery/gallery_5.jpg"/>-->
+                    <img src="/img/gallery/gallery_3.png">
+                    <!--<img src="/img/gallery/gallery_6.jpg"/>-->
+                    <img src="/img/gallery/gallery_4.png" id="img-last">
+                </div>
+            </div>
+        </div>
+
+
     </template>
 
     <script>
