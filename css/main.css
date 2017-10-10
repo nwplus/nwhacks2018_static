@@ -27,11 +27,11 @@ body {
   color: #FFFFFF;
   background: #111754;
   /* Old browsers */
-  background: -moz-linear-gradient(top, #111754 32%, #171b3f 81%);
+  background: -moz-linear-gradient(top, #111754 32%, #1C205D 81%);
   /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, #111754 32%, #171b3f 81%);
+  background: -webkit-linear-gradient(top, #111754 32%, #1C205D 81%);
   /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, #111754 32%, #171b3f 81%);
+  background: linear-gradient(to bottom, #111754 32%, #1C205D 81%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#17253F',GradientType=0 );
   /* IE6-9 */
@@ -723,14 +723,36 @@ star {
   background-size: contain;
   z-index: -100; }
 
+.sponsor-padding {
+  padding-right: 118px; }
+
+.sponsor-content {
+  font-weight: 200;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center; }
+  .sponsor-content .column {
+    width: calc(60% - 15px);
+    display: inline-block;
+    z-index: 10; }
+  .sponsor-content .column + .column {
+    float: right; }
+
+@media (max-width: 768px) {
+  .sponsor-padding {
+    padding-right: 0px; }
+
+  .sponsor-content .column {
+    width: 100%;
+    display: block; } }
 #sponsors {
   background: #111754;
   /* Old browsers */
-  background: -moz-linear-gradient(top, #1b2056 0%, #171b3f 40%);
+  background: -moz-linear-gradient(top, #1b2056 0%, #1C205D 40%);
   /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, #1b2056 0%, #171b3f 40%);
+  background: -webkit-linear-gradient(top, #1b2056 0%, #1C205D 40%);
   /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, #1b2056 0%, #171b3f 40%);
+  background: linear-gradient(to bottom, #1b2056 0%, #1C205D 40%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1C215D', endColorstr='#000000',GradientType=0 );
   /* IE6-9 */
@@ -811,7 +833,7 @@ lazy-pages, lazy-pages > * {
   white-space: nowrap;
   overflow-y: hidden;
   overflow-x: scroll;
-  background-color: #1b2056; }
+  background-color: #1C205D; }
   #gallery-container #gallery {
     width: auto; }
     #gallery-container #gallery img {
