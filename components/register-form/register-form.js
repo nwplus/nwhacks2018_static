@@ -127,12 +127,3 @@ Polymer({
     }
   }
 });
-// Initialize Firebase
-var config = {
-  apiKey: "AIzaSyBou6z9QA7zvCpxUFLoTbwQZcWuBn47yEA",
-  authDomain: "nwhacks-96701.firebaseapp.com",
-  databaseURL: "https://nwhacks-96701.firebaseio.com",
-  storageBucket: "nwhacks-96701.appspot.com",
-  messagingSenderId: "874137730051"
-};
-firebase.initializeApp(config);
