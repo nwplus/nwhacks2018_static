@@ -2,7 +2,7 @@
 
 <dom-module id="sponsor-page">
   <template>
-    <style>
+    <style include="shared-styles">
       :host {
         display: block;
       }
@@ -11,43 +11,44 @@
         text-align: center;
       }
       #sponsor-container {
-          background-color: white;
-          padding-left: 15px;
-          padding-right: 15px;
+        background-color: white;
+        padding-left: 15px;
+        padding-right: 15px;
       }
       #sponsor {
-        padding-top: 175px;
-        margin-top: -100px;
+        padding-top: 75px;
       }
       #spacer {
-          padding-bottom: 75px;
+        padding-bottom: 75px;
       }
       p {
-          color: black;
+        color: black;
       }
       h1, h2, h3 {
-          color: #27AE60;
-      }  h2 {
-          font-size: 28px;
-          font-weight: normal;
-          padding-bottom: 10px;
-      }  h1 {
-          margin: 0 auto;
-          padding-top: 160px;
-          padding-bottom: 25px;
-          line-height: normal;
-          font-size: 38px;
-          text-align: center;
-          font-weight: bold;
+        color: #27AE60;
       }
-        @media (max-width: 475px){
-            #sponsor {
-                padding-top: 125px;
-            }
-            .register {
-                font-size: 10pt;
-            }
+      h2 {
+        font-size: 28px;
+        font-weight: normal;
+        padding-bottom: 10px;
+      }
+      h1 {
+        margin: 0 auto;
+        padding-top: 160px;
+        padding-bottom: 25px;
+        line-height: normal;
+        font-size: 38px;
+        text-align: center;
+        font-weight: bold;
+      }
+      @media (max-width: 475px){
+        #sponsor {
+          padding-top: 125px;
         }
+        .register {
+          font-size: 10pt;
+        }
+      }
     </style>
       <div id="sponsor-container">
     <h1 id="sponsor">Sponsorship Opportunities</h1>

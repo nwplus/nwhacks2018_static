@@ -5,10 +5,355 @@
 
 <dom-module id="index-page">
     <template>
-        <style>
+        <style include="shared-styles">
             :host {
                 display: block;
-                /*padding-bottom: 50px;*/
+                overflow: hidden;
+            }
+
+            #intro {
+              color: black;
+            }
+            #intro h1 {
+              padding-top: 9%;
+              max-width: 600px;
+              width: 80%;
+              line-height: normal;
+              font-size: 28pt;
+              font-weight: bold;
+              color: #27AE60;
+              text-align: left;
+              margin: 1em auto 0;
+            }
+            #intro  p {
+              max-width: 600px;
+              margin: 1em auto;
+              text-align: left;
+              width: 80%;
+              line-height: 27px;
+              font-size: 15px;
+              /*height: 200px;*/
+              color: #4F4F4F;
+            }
+            #intro .large-trapezoid {
+              margin-top: 30px;
+            }
+
+            @media (min-width: 1440px) {
+              #intro p {
+                font-size: 15pt;
+              }
+            }
+
+            #faq {
+              width: 100%;
+              background: rgb(17,23,84); /* Old browsers */
+              background: -moz-linear-gradient(top, #151828 0%, #1C215D 116.41%); /* FF3.6-15 */
+              background: -webkit-linear-gradient(top, #151828 0%, #1C215D 116.41%); /* Chrome10-25,Safari5.1-6 */
+              background: linear-gradient(to bottom, #151828 0%, #1C215D 116.41%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+              filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#1C215D',GradientType=0 ); /* IE6-9 */
+            }
+
+            #faq  .h1-container  h1 {
+              margin: 0 auto;
+              padding-top: 151px;
+              padding-bottom: 30px;
+              line-height: normal;
+              font-size: 38px;
+              text-align: center;
+              color: #27AE60;
+              font-weight: bold;
+            }
+
+            #faq h2 {
+              font-size: 25px;
+              color: #27AE60;
+              margin-top: 0.7em;
+              margin-bottom: 5px;
+              letter-spacing: 0px;
+              font-weight: lighter;
+            }
+
+            #faq p {
+              line-height: 27px;
+              font-size: 15px;
+              letter-spacing: 0px;
+              font-weight: 500;
+            }
+
+            #faq .content {
+              position: relative;
+              padding-left: 15px;
+              padding-right: 15px;
+              z-index: 10;
+            }
+
+            #faq .content #crystal {
+              text-align: center;
+              position: relative;
+              left: 0px;
+              right: 0px;
+              text-align: center;
+            }
+
+            #faq .content #crystal #top-right {
+              position: absolute;
+              height: 333.25px;
+              left: 94%;
+              top: 0;
+            }
+            #faq .content #crystal #bottom-left {
+              position: absolute;
+              width: 487px;
+              height: 586.16px;
+              left: -34%;
+              padding-top: 120%;
+              z-index: -1;
+            }
+            #faq .content #crystal #bottom-right {
+              position: absolute;
+              width: 373.22px;
+              height: 490.57px;
+              z-index: -1;
+              padding-top: 104.5%;
+              left: 90%;
+            }
+
+            @media (max-width: 1024px){
+              #faq .content  h2 {
+                text-align: left;
+                font-size: 23px;
+              }
+              #faq .content  #crystal {
+                display: none;
+              }
+            }
+
+            #spacer {
+              padding-bottom: 150px;
+            }
+            @media (max-width: 425px){
+              #spacer {
+                padding-bottom: 80px;
+              }
+            }
+
+            #schedule {
+              width: 100%;
+              background: rgb(17,23,84); /* Old browsers */
+              background: -moz-linear-gradient(top, #1b2056 116.41%, rgba(23,27,61,1) 0%); /* FF3.6-15 */
+              background: -webkit-linear-gradient(top, #1b2056 116.41%, rgba(23,27,61,1) 0%); /* Chrome10-25,Safari5.1-6 */
+              background: linear-gradient(to bottom, #1b2056 116.41%, rgba(23,27,61,1) 0%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+              filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1C215D', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+
+              margin: 0 auto;
+              width: 100%;
+              text-align: center;
+            }
+            #schedule h1 {
+              margin: 0 auto;
+              padding-bottom: 70px;
+              line-height: normal;
+              font-size: 38px;
+              text-align: center;
+              color: #27AE60;
+              font-weight: bold;
+            }
+            #schedule img {
+              display: inline-block;
+              width: 472px;
+            }
+            @media (max-width: 768px){
+              #schedule img {
+                width: 75%;
+              }
+            }
+            .h1-container {
+              text-align: left;
+                h1 {
+                  margin: 1em auto;
+                  text-align: center;
+                }
+            }
+
+            .hero-container {
+              background-color: #FFFFFF;
+              width: 100%;
+            }
+
+            /* create two equal columns that float next to each other */
+            .hero-container .hero-column {
+              box-sizing: border-box;
+              float: left;
+              width: 50%;
+              padding: 10px;
+
+            }
+            .hero-container .hero-column img {
+              width:100%;
+            }
+            /* clear floats after the columns */
+            .hero-container  .hero-row:after {
+              content: "";
+              display: table;
+              clear: both;
+            }
+            .hero-container .tile-column {
+              box-sizing: border-box;
+              float: left;
+              width: 33.333%;
+              padding: 10px;
+            }
+            .hero-container .tile-column img {
+              width:100%;
+            }
+            .hero-container  .tile-row:after {
+              content: "";
+              display: table;
+              clear: both;
+            }
+            @media (max-width: 384px) {
+              #intro p {
+                margin-left: 25px !important;
+                margin-right: 25px !important;
+                width: 90% !important;
+                color: red;
+              }
+            }
+
+            @media (max-width: 568px) {
+              #intro {
+                text-align: left;
+              }
+              #intro .h1-container h1 {
+                width: 80%;
+                text-align: center;
+                padding-bottom: 20px;
+              }
+
+            }
+            @media (max-width: 673px) {
+              .hero-container .tile-column {
+                width: 100%;
+              }
+            }
+
+            @media (max-width: 1136px) {
+              .hero-container .hero-column {
+                width: 100%;
+              }
+              .hero-container .hero-column  img {
+                display: none;
+              }
+              #intro h1 {
+                padding-top: 1%;
+              }
+            }
+            /* for large displays */
+            @media (min-width: 2000px) {
+              .hero-container .hero-column {
+                padding-top: 0;
+                padding-bottom: 100px;
+                width: 100%;
+              }
+              .hero-container .hero-column img {
+                display: none;
+              }
+              .hero-container .tile-column {
+                max-width: 100%;
+              }
+              #intro h1 {
+                padding-top: 0;
+              }
+            }
+
+
+            .sponsor-padding {
+              padding-right: 118px;
+            }
+
+            .sponsor-content {
+              font-weight: 200;
+              max-width: 1000px;
+              margin: 0 auto;
+              text-align: center;
+            }
+            .sponsor-content .column {
+              width: calc(60% - 15px);
+              display: inline-block;
+              z-index: 10;
+            }
+            .sponsor-content .column + .column {
+              float: right;
+            }
+
+            @media (max-width: 768px) {
+              .sponsor-padding {
+                padding-right: 0px;
+              }
+
+              .sponsor-content .column {
+                width: 100%;
+                display: block;
+              } }
+            #sponsors {
+              background: #111754;
+              /* Old browsers */
+              background: -moz-linear-gradient(top, #1b2056 0%, #1C205D 40%);
+              /* FF3.6-15 */
+              background: -webkit-linear-gradient(top, #1b2056 0%, #1C205D 40%);
+              /* Chrome10-25,Safari5.1-6 */
+              background: linear-gradient(to bottom, #1b2056 0%, #1C205D 40%);
+              /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+              filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1C215D', endColorstr='#000000',GradientType=0 );
+              /* IE6-9 */
+              max-width: inherit;
+              text-align: center;
+            }
+            #sponsors h1 {
+              font-size: 40px;
+              color: #27AE60;
+              padding-top: 70px;
+              margin-top: 0;
+              padding-bottom: 0px;
+              font-weight: bold;
+            }
+            #sponsors > div {
+              margin: 50px 0;
+            }
+
+            #gallery-container {
+              padding-top: 50px;
+              width: 100%;
+              height: 480px;
+              padding-bottom: 3px;
+              margin: 0 auto;
+              white-space:nowrap;
+              overflow-y: hidden;
+              overflow-x: scroll;
+              background-color: $footer-bg;
+            }
+
+            #gallery {
+              width: auto;
+            }
+            #gallery img {
+              height: 460px;
+              padding-right: 50px;
+            }
+            #gallery #img-last {
+              padding-right: 0;
+            }
+
+            @media (max-width: 430px){
+              #gallery-container {
+                height: 330px;
+                padding-bottom: 0px;
+              }
+              #gallery img {
+                height: 300px;
+                padding-right: 30px;
+              }
             }
         </style>
         <div id="intro">
@@ -33,20 +378,6 @@
                     <div class="tile-column"><img src="/svg/build-tile.svg"></div>
                 </div>
             </div>
-            <!--<div class="large-trapezoid">-->
-            <!--<section>-->
-            <!--<h3>600+</h3>-->
-            <!--<label>HACKERS</label>-->
-            <!--</section>-->
-            <!--<section>-->
-            <!--<h3>24</h3>-->
-            <!--<label>HOURS</label>-->
-            <!--</section>-->
-            <!--<section>-->
-            <!--<h3>$5000</h3>-->
-            <!--<label>IN PRIZES</label>-->
-            <!--</section>-->
-            <!--</div>-->
         </div>
         <div id="faq">
             <div class="content">
@@ -120,9 +451,6 @@
                 <div id="spacer">&nbsp;</div>
             </div>
         </div>
-        <!--<div class="clouds">-->
-            <!--<img src="/svg/Clouds-Distributed.svg">-->
-        <!--</div>-->
 
         <div id="calendar">
         <div id="schedule">
@@ -137,10 +465,6 @@
           <!--<schedule-box heading="Workshops"-->
                         <!--calendar="outerearth.net_k8r36lba3ltbaf62qpu1kfie58@group.calendar.google.com">-->
           <!--</schedule-box>-->
-        <!--</div>-->
-
-        <!--<div class="mountains">-->
-            <!--<img src="/svg/Mountains.svg">-->
         <!--</div>-->
 
         <div id="sponsors" class="sponsor-content">
@@ -267,92 +591,9 @@
     </template>
 
     <script>
-        // element registration
         Polymer({
-            is: "index-page",
-            properties: {},
-            attached: function () {
-                this.handleResizeBound = this.handleResize.bind(this);
-                window.addEventListener('resize', this.handleResizeBound);
-                this.handleResize();
-            },
-            detached: function () {
-                window.removeEventListener('resize', this.handleResizeBound);
-                this.clearStars();
-            },
-            handleResize: function () {
-                if (window.innerWidth !== this.lastWidth) {
-//                    this.stars();
-                    this.lastWidth = window.innerWidth;
-                }
-            },
-            posValid: function (boxes, x, y) {
-                for (var i = 0; i < boxes.length; i++) {
-                    var box = boxes[i];
-                    if (box.left < x && box.right > x && box.top < y && box.bottom > y) {
-                        return false;
-                    }
-                }
-                return true;
-            },
-            stars: function () {
-                clearTimeout(this.timeout);
-                timeout = setTimeout(this.renderStars.bind(this), 100);
-            },
-            clearStars: function () {
-                var starsDiv = document.querySelector('#starContainer');
-                if (!starsDiv) {
-                    return;
-                }
-                starsDiv.innerHTML = '';
-            },
-            renderStars: function () {
-                var starsDiv = document.querySelector('#starContainer');
-                if (!starsDiv) {
-                    return;
-                }
-                this.clearStars();
-                var trapezoid = document.querySelector('#title .large-trapezoid');
-                if (!trapezoid) {
-                    return;
-                }
-                var top = trapezoid.offsetTop;
-                var faq = document.querySelector('#faq h1');
-                if (!faq) {
-                    return;
-                }
-                var bottom = 0;
-                var starSize = 20;
-                var margin = 15;
-                var elems = document.querySelectorAll(
-                    'h1, paper-button, p, .large-trapezoid, .link');
-                var body = document.body.getBoundingClientRect();
-                var boxes = Array.prototype.map.call(elems, function (obj) {
-                    var elem = obj.getBoundingClientRect();
-                    return {
-                        left: elem.left - body.left - starSize - margin,
-                        top: elem.top - body.top - starSize - margin,
-                        right: elem.right - body.left + margin,
-                        bottom: elem.bottom - body.top + margin,
-                    };
-                });
-                var starHTML = '';
-                var starCount = window.innerWidth / 90;
-                for (var i = 0; i < starCount; i++) {
-                    var x = 0;
-                    var y = 0;
-                    while ((x == 0 && y == 0) || !this.posValid(boxes, x, y)) {
-                        x = Math.random() * (window.innerWidth - starSize - margin * 2) +
-                            margin;
-                        y = Math.random() * (bottom - top) + top;
-                    }
-                    var size = (Math.random() * starSize).toFixed(0);
-                    starHTML += '<star style="width:' + size + 'px;height:' + size +
-                        'px;left:' + x.toFixed(0) + 'px;top:' + y.toFixed(0) + 'px"></star>';
-                }
-                starsDiv.innerHTML = starHTML;
-            },
-        });
+            is: 'index-page'
+        })
     </script>
 
 </dom-module>

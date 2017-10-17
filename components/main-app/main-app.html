@@ -1,18 +1,94 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/lazy-pages/lazy-pages.html">
+<link rel="import" href="../../bower_components/iron-lazy-pages/iron-lazy-pages.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
+<link rel="import" href="../shared-styles.html">
 <link rel="import" href="../nwhacks-footer/nwhacks-footer.html">
 <link rel="import" href="../nwhacks-header/nwhacks-header.html">
 
 <dom-module id="main-app">
   <template>
-    <style>
-        @media (max-width: 768px){
-            #badge {
-                display: none;
-            }
+    <style include="shared-styles">
+      :host {
+        --dark-text-color: #fff;
+        --dark-background-color: rgba(35,31,32,0.6);
+        --light-text-color: black;
+        --light-background-color: white;
+        --menu-padding: 15px;
+        --menu-padding-vertical: 10px;
+        --link-color: white;
+        --link-hover-color: #239e57;
+        --link-dark-color: #4BAE74;
+      }
+
+      @media (max-width: 768px){
+        #badge {
+          display: none;
         }
+      }
+
+      #menu {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 99;
+        padding: var(--menu-padding-vertical) var(--menu-padding) var(--menu-padding-vertical);
+        height: 45px;
+        background-color: var(--light-background-color);
+        color: var(--light-text-color);
+        transition: background-color 0.2s, box-shadow 0.2s;
+      }
+
+      #menu paper-icon-button {
+        color: inherit;
+        height: 50px;
+        width: 50px;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-left: var(--menu-padding);
+        margin-right: calc(var(menu-padding) - 5px);
+      }
+
+      #menu paper-button {
+        color: inherit;
+        font-size: 15pt;
+        padding: 12px var(--menu-padding);
+        text-transform: none !important;
+        letter-spacing: normal;
+      }
+
+      #menu a {
+        text-decoration: none;
+        color: inherit;
+      }
+      #menu a.right {
+        float: right;
+      }
+      #menu a:hover {
+        color: var(--link-hover-color);
+      }
+
+      @media (max-width: 510px) {
+        #menu {
+          position: absolute;
+        }
+        #menu a.med {
+          display: none;
+        }
+      }
+      @media (max-width: 815px) {
+        #menu paper-icon-button {
+          margin-left: calc(var(--menu-padding) / 2);
+          margin-right: calc(var(--menu-padding) / 2);
+        }
+        #menu paper-button {
+          padding: 17px calc(var(--menu-padding) / 2);
+        }
+        #menu a.big {
+          display: none;
+        }
+      }
     </style>
 
     <a id="mlh-trust-badge" class="badge" style="display:block;max-width:100px;min-width:60px;position:absolute;left:100px;top:50;width:10%;z-index:50;" href="https://mlh.io/seasons/na-2017/events?utm_source=na-2018&amp;utm_medium=TrustBadge&amp;utm_campaign=na-2017&amp;utm_content=black" target="_blank"><img id="badge" src="https://s3.amazonaws.com/logged-assets/trust-badge/2018/black.svg" alt="Major League Hacking 2018 Hackathon Season" style="width:100%"></a>
@@ -60,9 +136,11 @@
         </a>
       </template>
     </nav>
+
     <nwhacks-header hidden$="[[hideHeader]]"></nwhacks-header>
+
     <div class="wrapper" id="begin">
-      <lazy-pages attr-for-selected="data-route" selected="{{route}}">
+      <iron-lazy-pages attr-for-selected="data-route" selected="{{route}}">
         <template is="dom-if" restamp data-route="index-page">
           <index-page></index-page>
         </template>
@@ -95,10 +173,10 @@
         <template is="dom-if" data-route="checkin-page">
           <checkin-page></checkin-page>
         </template>
-      </lazy-pages>
+      </iron-lazy-pages>
     </div>
+
     <nwhacks-footer hidden$="[[hideFooter]]"></nwhacks-footer>
-    <div id="starContainer"></div>
 
   </template>
 

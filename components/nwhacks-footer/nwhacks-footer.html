@@ -1,5 +1,74 @@
 <dom-module id="nwhacks-footer">
     <template>
+        <style include="shared-styles">
+            :host {
+                --footer-background-color: #1C205D;
+            }
+            footer {
+                overflow: hidden;
+            }
+
+            footer .foot {
+                height: 130px;
+                padding-top: 50px;
+                padding-bottom: 100px;
+                background-color: $footer-bg;
+                margin: 0 auto;
+                text-align: center;
+            }
+
+            footer .foot .social {
+                margin: 0 auto;
+            }
+            footer .foot .social .icon {
+                height: 33px;
+                padding-right: 43px;
+            }
+            footer .foot .social .icon-last {
+                height: 33px;
+            }
+
+            footer .foot .links {
+                display: inline-block;
+                margin: 30px auto;
+                font-size: 19px;
+                font-weight: lighter;
+                color: #FFFFFF;
+            }
+            footer .foot .links .link {
+                display: inline;
+                padding-right: 37px;
+            }
+            footer .foot .links .link-last {
+                display: inline;
+            }
+
+            p {
+                line-height: 15px;
+                font-size: 19px;
+                text-align: center;
+            }
+
+            @media (max-width: 650px) {
+                footer .foot {
+                    padding-bottom: 170px;
+                }
+                footer .foot .links .link {
+                    display: block;
+                    padding-right: 0;
+                    padding-bottom: 15px;
+                }
+            }
+
+            @media (max-width: 375px){
+                footer .foot p {
+                    font-size: 17px;
+                }
+                footer .foot .social .icon {
+                    padding-right: 30px;
+                }
+            }
+        </style>
 
         <footer>
             <div class="foot">

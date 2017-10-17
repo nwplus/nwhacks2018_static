@@ -4,6 +4,275 @@
 
 <dom-module id="nwhacks-header">
     <template>
+        <style include="shared-styles">
+            :host {
+            }
+
+            #header {
+                padding-bottom: 200px;
+                overflow-x: hidden;
+                overflow-y: hidden;
+                text-align: center;
+            }
+
+            #scenery {
+                text-align: center;
+                position: relative;
+                left: 0px;
+                right: 0px;
+                text-align: center;
+                margin-top: -50px;
+            }
+
+            #star-cluster {
+                position: absolute;
+                width: 100%;
+                height: 224px;
+                top: 70px;
+                left: 222px;
+                background: url("/svg/scenery/Stars.svg") repeat-x;
+            }
+
+            #mountain {
+                position: absolute;
+                height: 915.5px;
+                left: -265.5px;
+                top: 194.5px;
+                z-index: -60;
+            }
+            #cloud-left {
+                position: absolute;
+                height: 174.22px;
+                left: -71.5px;
+                top: 435.78px;
+                z-index: -45;
+            }
+
+            #tall-tree {
+                position: absolute;
+                height: 487px;
+                left: -131px;
+                top: 623px;
+                z-index: -40;
+            }
+            #normal-tree {
+                position: absolute;
+                height: 303px;
+                left: 81px;
+                top: 665px;
+                z-index: -41;
+            }
+            #medium-tree {
+                position: absolute;
+                height: 303px;
+                left: 206px;
+                top: 760px;
+                z-index: -40;
+            }
+            #small-tree {
+                position: absolute;
+                height: 170px;
+                left: 356.5px;
+                top: 940px;
+                z-index: -40;
+            }
+            #right-normal-tree {
+                position: absolute;
+                height: 368px;
+                left: calc(70vw);
+                top: 715px;
+                z-index: -40;
+            }
+            #right-medium-tree {
+                position: absolute;
+                height: 440.5px;
+                left: calc(80vw);
+
+                top: 562.5px;
+                z-index: -41;
+            }
+            #cloud-right {
+                position: absolute;
+                height: 208px;
+                left: calc(55vw);
+                top: 700px;
+                z-index: -38;
+            }
+
+            #title {
+                text-align: center;
+            }
+
+            #title object {
+                height: var(--logo-size);
+                padding: 75px 0;
+                max-width: calc(100vw - 100px);
+                max-height: calc(100vw - 100px);
+                pointer-events: none;
+            }
+
+            #logos {
+                position: relative;
+                display: inline-block;
+            }
+            #logos > a {
+                display: block;
+            }
+
+            #logos #main-logo {
+                padding-top: 255px;
+                padding-bottom: 50px;
+                width: 150px;
+                height: 215px;
+            }
+
+            #title .title-sponsor {
+                position: absolute;
+                bottom: 20px;
+                right: -90px;
+                display: inline-block;
+            }
+
+            #title .title-sponsor img {
+                max-height: 80px;
+                vertical-align: -13px;
+            }
+            #sponsor-line {
+                font-size: 12pt;
+            }
+
+            #email-line {
+                font-size: 15pt;
+                padding-bottom: 10px;
+                font-weight: normal;
+                letter-spacing: 1px;
+            }
+            #buttons {
+                text-align: center;
+                z-index: 100;
+            }
+
+            #email-box {
+                display: inline-block;
+                font-size: 20px;
+                padding: 15px 0 17px 18px;
+                height: 47px;
+                width: 383px;
+                margin: 8px 0;
+                box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                border: 2px solid #2F80ED;
+                border-right: none;
+            }
+            #email-button {
+                display: inline-block;
+                height: 48px;
+                margin: 0px 0px 0px -5px;
+                padding-top: 14px;
+                text-transform: none !important;
+                letter-spacing: 1px;
+            }
+
+            /* fix input padding for FireFox */
+            @-moz-document url-prefix() {
+                #header #email-box {
+                    padding-bottom: 10px;
+                    padding-top: 10px;
+                }
+            }
+
+            @media(max-width: 700px) {
+                #title .title-sponsor {
+                    bottom: 10px;
+                    right: -40px;
+                }
+                 #title .title-sponsor img {
+                     max-height: 50px;
+                }
+                #right-medium-tree, #small-tree, #normal-tree, #medium-tree, #cloud-right {
+                    display: none;
+                }
+                #email-box {
+                    width: 280px;
+                }
+            }
+
+            @media(max-width: 510px){
+                #logos #main-logo {
+                    padding-top: 130px;
+                }
+            }
+
+            @media(max-width: 500px) {
+                #email-line {
+                    font-size: 11pt;
+                }
+                #email-box {
+                    width: 170px;
+                    font-size: 15px;
+                    padding-top: 18px;
+                    padding-left: 10px;
+                }
+                #cloud-left {
+                    display: none;
+                }
+            }
+
+            .large-trapezoid {
+                display: inline-block;
+                text-align: center;
+                position: relative;
+                max-width: calc(100vw - 100px);
+                padding: 15px 20px;
+            }
+            .large-trapezoid h1, .large-trapezoid h2, .large-trapezoid h3 {
+                padding: 0;
+                margin: 0;
+            }
+
+            .large-trapezoid h1 {
+                text-decoration: none;
+                letter-spacing: 1px;
+                font-size: 28pt;
+                font-weight: bold;
+                margin-bottom: 0;
+            }
+            .large-trapezoid h2 {
+                text-decoration: none;
+                font-weight: normal;
+                font-size: 22pt;
+                margin-top: 6px;
+            }
+            .large-trapezoid section {
+                padding: 0 60px;
+
+                display: inline-block;
+            }
+            .large-trapezoid section h3 {
+                letter-spacing: 2px;
+                font-size: 30pt;
+                font-weight: 500;
+                color: $dark-fg-alt;
+            }
+            @media (max-width: 840px) {
+                div.large-trapezoid section {
+                    padding: 0 20px;
+                }
+            }
+            .small-trapezoid {
+                position: relative;
+                background-color: rgba(35,31,32,0.6);
+                -webkit-transform: skew(-10deg);
+                transform: skew(-10deg);
+                padding: 5px 30px;
+                text-transform: uppercase;
+                font-weight: bold;
+                letter-spacing: 1px;
+                font-size: 20pt;
+                display: inline-block;
+                margin: 30px 0;
+            }
+        </style>
 
         <div id="header">
             <div id="scenery">

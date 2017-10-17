@@ -1,6 +1,72 @@
 <dom-module id="area-img">
   <template>
-    <style></style>
+    <style>
+      a {
+        text-decoration: none;
+      }
+      a.duo, a[duo] {
+        position: relative;
+        display: inline-block;
+      }
+      a.duo img, a.duo svg, a[duo] img, a[duo] svg {
+        transition: opacity 0.5s;
+      }
+      a.duo img.solid, a.duo svg.solid, a[duo] img.solid, a[duo] svg.solid {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        -webkit-filter: none;
+        -moz-filter: none;
+        -o-filter: none;
+        filter: none;
+      }
+      a.duo img.transparent, a.duo svg.transparent, a[duo] img.transparent, a[duo] svg.transparent {
+        pointer-events: none;
+        opacity: 1;
+      }
+      a.duo:hover img.solid, a.duo:hover svg.solid, a[duo]:hover img.solid, a[duo]:hover svg.solid {
+        opacity: 1;
+      }
+      a.duo:hover img.transparent, a.duo:hover svg.transparent, a[duo]:hover img.transparent, a[duo]:hover svg.transparent {
+        opacity: 0;
+      }
+      img, svg {
+        vertical-align: middle;
+        margin: 30px;
+        max-width: calc(100% - 60px);
+        -webkit-filter: brightness(0) invert(1);
+        -moz-filter: brightness(0) invert(1);
+        -o-filter: brightness(0) invert(1);
+        filter: brightness(0) invert(1);
+        transition: -webkit-filter 0.5s, -moz-filter 0.5s, -o-filter 0.5s, filter 0.5s;
+      }
+      img.black:hover, svg.black:hover {
+        -webkit-filter: brightness(0);
+        -moz-filter: brightness(0);
+        -o-filter: brightness(0);
+        filter: brightness(0);
+      }
+      img.white:hover, svg.white:hover {
+        -webkit-filter: brightness(0) invert(1);
+        -moz-filter: brightness(0) invert(1);
+        -o-filter: brightness(0) invert(1);
+        filter: brightness(0) invert(1);
+      }
+      img.grayscale, svg.grayscale {
+        -webkit-filter: grayscale(1);
+        -moz-filter: grayscale(1);
+        -o-filter: grayscale(1);
+        filter: grayscale(1);
+      }
+      img:hover, svg:hover {
+        -webkit-filter: none;
+        -moz-filter: none;
+        -o-filter: none;
+        filter: none;
+      }
+    </style>
+
     <a href="[[href]]" duo$="[[isDuo]]">
       <img id="img"
            src="[[src]]"
