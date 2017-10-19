@@ -186,8 +186,7 @@
               box-sizing: border-box;
               float: left;
               width: 50%;
-              padding: 10px;
-
+              padding: 15px;
             }
             .hero-container .hero-column img {
               width:100%;
@@ -212,6 +211,17 @@
               display: table;
               clear: both;
             }
+			@media (min-width: 1137px){
+			    .hero-container .hero-column {
+					box-sizing: border-box;
+					float: left;
+					width: 50%;
+					padding: 15px;
+					padding-bottom: 0px;
+					padding-right: 10px;
+				}
+			}
+
             @media (max-width: 384px) {
               #intro p {
                 margin-left: 25px !important;
