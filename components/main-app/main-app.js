@@ -12,6 +12,7 @@ Polymer({
 
     const self = this
 
+    page.base('/')
     page('*', function (ctx, next) {
       setTimeout(function() {
         self.handleLoad()
