@@ -28,7 +28,10 @@
   "builds": [{
     "bundle": true,
     "css": { "minify": true },
-    "js": { "minify": true },
+    "js": {
+      "minify": true,
+      "compile": true
+    },
     "html": {"minify": true }
   }]
 }
