@@ -9,6 +9,7 @@ build/: bower_components components index.html css/main.css $(JS) $(HTML) polyme
 
 docs/index.html: build/
 	rm -r docs; cp -R build/default/ docs
+	cp docs/index.html docs/404.html
 	svgo -f docs/svg/logos/
 
 docs/favicon.png: favicon.png
