@@ -1,18 +1,14 @@
+<link rel="import" href="../light-page.html">
+
 <dom-module id="register-closed">
   <template>
-    <style>
-      :root {
-        --primary-text-color: white;
-      }
-      :host {
-        display: block;
-      }
+    <style include="light-page">
       p {
         text-align: center;
       }
     </style>
 
-    <h1 id="register">Registration is now closed!</h1>
+    <h1 title>Registration Is Closed</h1>
     <p>If you didn't register in time, hopefully we'll see you at the next nwHacks!</p>
 
   </template>
@@ -20,7 +16,7 @@
   <script>
 // element registration
 Polymer({
-  is: "register-closed",
-});
+  is: 'register-closed'
+})
   </script>
 </dom-module>

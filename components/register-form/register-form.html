@@ -9,14 +9,12 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 
-<link rel="import" href="firebase.js.html">
+<link rel="import" href="../firebase.js.html">
+<link rel="import" href="../light-page.html">
 
 <dom-module id="register-form">
   <template>
-    <style>
-      :root {
-        --primary-text-color: white;
-      }
+    <style include="light-page">
       :host {
         display: block;
       }
@@ -34,24 +32,16 @@
       }
       form {
         max-width: 640px;
-        margin: 0 auto 30px;
-        background-color: rgba(104, 117, 137, 0.5);
-        padding: 15px;
-        border-radius: 3px;
-        box-shadow: 0 0 15px rgba(104, 117, 137, 0.5);
+        margin: 0 auto;
       }
-      @media (max-width: 640px) {
-        form {
-          margin: 0 -15px 30px;
-        }
-      }
-      div[prefix] {
+      div[slot=prefix] {
         opacity: 0.6;
       }
       .register {
         margin-top: 50px;
       }
     </style>
+
     <iron-ajax
             auto
             url="{{githubURL}}"
@@ -65,7 +55,8 @@
             last-response="{{cities}}"
             debounce-duration="300"></iron-ajax>
 
-    <h1 id="register">nwHacks Registration</h1>
+    <h1 title>Registration</h1>
+
     <form is="iron-form" id="form">
       <paper-input required auto-validate maxlength="200" error-message="Required" label="What is your legal name?" value="{{data.name}}"></paper-input>
       <paper-input required auto-validate maxlength="200" error-message="Invalid Email" type="email" label="What is your email?" value="{{data.email}}"></paper-input>
@@ -82,7 +73,7 @@
         <paper-item on-tap="selectCity">[[item.matching_full_name]]</paper-item>
       </template>
       <paper-input maxlength="200" label="GitHub" value="{{data.github}}">
-        <div prefix>https://github.com/</div>
+        <div slot="prefix">https://github.com/</div>
       </paper-input>
       <template is="dom-if" if="[[githubDetails]]">
         <paper-icon-item>
@@ -92,7 +83,7 @@
       </template>
 
       <paper-input maxlength="200" label="LinkedIn" value="{{data.linkedin}}">
-        <div prefix>https://linkedin.com/in/</div>
+        <div slot="prefix">https://linkedin.com/in/</div>
       </paper-input>
       <paper-input maxlength="200" label="Personal Site" auto-validate error-message="Invalid URL" value="{{data.personalsite}}" type="url"></paper-input>
 

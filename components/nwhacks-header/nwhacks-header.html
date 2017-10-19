@@ -313,14 +313,14 @@
                 -->
                 <h3 id="email-line">Get notified when registration opens!</h3>
                 <iron-form>
-                    <form id="email-form" action="https://nwhacks.us16.list-manage.com/subscribe/post" method="get"
+                    <form id="emailForm" action="https://nwhacks.us16.list-manage.com/subscribe/post" method="get"
                           target="_blank">
                         <input name="u" type="hidden" value="a62539b754840fa609cbd9174">
                         <input name="id" type="hidden" value="787a001931">
                         <iron-input><input name="EMAIL" placeholder="hacker@email.com" type="text" id="email-box"
                                            required="" maxlength="254"></iron-input>
                         <paper-button class="register" id="email-button"
-                                      onclick="document.getElementById('email-form').submit();">Get Notified
+                                      on-click="submitEmail">Get Notified
                         </paper-button>
                         </a>
                     </form>
@@ -328,13 +328,17 @@
                 <br>
                 <br>
                 <br>
-                <a href="/sponsors#sponsor" class="link" id="sponsor-line">Interested in becoming a sponsor?</a>
+                <a href="/sponsors" class="link" id="sponsor-line">Interested in becoming a sponsor?</a>
             </div>
         </div>
     </template>
     <script>
         Polymer({
             is: "nwhacks-header",
-        });
+
+            submitEmail: function() {
+                this.$.emailForm.submit()
+            }
+        })
     </script>
 </dom-module>

@@ -1,1 +1,16 @@
-<svg width="33" height="33" viewBox="0 0 33 33" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>fb_icon</title><desc>Created using Figma</desc><use xlink:href="#a" fill="#FFF"/><defs><path id="a" d="M32.757 5.5c0-2.89-2.59-5.5-5.46-5.5H5.46C2.59 0 0 2.61 0 5.5v22C0 30.39 2.59 33 5.46 33h10.918V20.533h-4.003v-5.5h4.003V12.89c0-3.695 2.755-7.023 6.142-7.023h4.413v5.5H22.52c-.483 0-1.046.59-1.046 1.475v2.191h5.46v5.5h-5.46V33h5.823c2.87 0 5.46-2.61 5.46-5.5v-22z"/></defs></svg>
+<svg width="33" height="33" viewBox="0 0 33 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>fb_icon</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-4110 -4934)">
+<g id="fb_icon">
+<g id="Group">
+<g id="Facebook  x28 alt x29">
+<use xlink:href="#path0_fill" transform="translate(4110 4934)" fill="#FFFFFF"/>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_fill" d="M 32.7568 5.50037C 32.7568 2.6103 30.1668 0 27.2973 0L 5.45947 0C 2.58997 0 0 2.6103 0 5.50037L 0 27.4996C 0 30.3897 2.58997 33 5.45983 33L 16.3784 33L 16.3784 20.5333L 12.3748 20.5333L 12.3748 15.0333L 16.3784 15.0333L 16.3784 12.8905C 16.3784 9.1949 19.1329 5.86667 22.5203 5.86667L 26.9334 5.86667L 26.9334 11.3667L 22.5203 11.3667C 22.0373 11.3667 21.4739 11.9574 21.4739 12.8421L 21.4739 15.0333L 26.9334 15.0333L 26.9334 20.5333L 21.4739 20.5333L 21.4739 33L 27.2973 33C 30.1668 33 32.7568 30.3897 32.7568 27.4996L 32.7568 5.50037Z"/>
+</defs>
+</svg>
