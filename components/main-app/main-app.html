@@ -256,12 +256,6 @@
         <template is="dom-if" restamp data-route="index-page">
           <index-page></index-page>
         </template>
-        <template is="dom-if" restamp data-route="register-form">
-          <register-form></register-form>
-        </template>
-        <template is="dom-if" restamp data-route="register-closed">
-          <register-closed></register-closed>
-        </template>
         <template is="dom-if" restamp data-route="dayof-page">
           <dayof-page></dayof-page>
         </template>
@@ -273,6 +267,19 @@
         </template>
         <template is="dom-if" restamp data-route="rsvp-page">
           <rsvp-page params="{{params}}"></rsvp-page>
+        </template>
+
+        <template is="dom-if" restamp data-route="register-form">
+          <register-form></register-form>
+        </template>
+        <template is="dom-if" restamp data-route="register-closed">
+          <register-closed></register-closed>
+        </template>
+        <template is="dom-if" data-route="mentorexpo-form">
+          <mentorexpo-form></mentorexpo-form>
+        </template>
+        <template is="dom-if" data-route="volunteer-form">
+          <volunteer-form></volunteer-form>
         </template>
 
         <!-- Admin Pages -->

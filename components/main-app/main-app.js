@@ -27,6 +27,12 @@ Polymer({
     page('/register-wip', () => {
       this.route = 'register-form'
     })
+    page('/mentorexpo-wip', () => {
+      this.route = 'mentorexpo-form'
+    })
+    page('/volunteer-wip', () => {
+      this.route = 'volunteer-form'
+    })
     page('/register', () => {
       this.route = 'register-closed'
     })

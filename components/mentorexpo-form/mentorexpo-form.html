@@ -13,7 +13,7 @@
 <link rel="import" href="../city-input.html">
 <link rel="import" href="../github-input.html">
 
-<dom-module id="register-form">
+<dom-module id="mentorexpo-form">
   <template>
     <style include="light-page">
       :host {
@@ -25,7 +25,7 @@
       }
     </style>
 
-    <h1 title>Registration</h1>
+    <h1 title>Mentor / Expo Judge Registration</h1>
 
     <generic-form name="registration" data="{{data}}">
       <paper-input
@@ -38,29 +38,13 @@
         value="{{data.phone}}">
       </paper-input>
 
-      <paper-dropdown-menu
-        required
-        auto-validate
-        error-message="Required"
-        label="Which gender do you identify as?"
-        selected-item-label="{{data.gender}}">
-
-        <paper-listbox slot="dropdown-content">
-          <paper-item>Female</paper-item>
-          <paper-item>Male</paper-item>
-          <paper-item>Non-binary</paper-item>
-          <paper-item>Prefer not to specify</paper-item>
-        </paper-listbox>
-      </paper-dropdown-menu>
-
       <paper-input
         required
         auto-validate
         maxlength="200"
         error-message="Required"
-        label="What is your birthday?"
-        type="date"
-        value="{{data.birthday}}">
+        label="What is your current occupation?"
+        value="{{data.occupation}}">
       </paper-input>
 
       <paper-input
@@ -68,69 +52,35 @@
         auto-validate
         maxlength="200"
         error-message="Required"
-        label="What school do you currently attend?"
+        label="Where are you currently employed or attend school?"
         value="{{data.school}}">
       </paper-input>
 
-      <paper-input
-        required
-        auto-validate
-        maxlength="200"
-        error-message="Required"
-        label="What is your major?"
-        value="{{data.major}}">
-      </paper-input>
-
-      <paper-input
-        required
-        auto-validate
-        maxlength="200"
-        error-message="Required, must be at least 2018"
-        label="What is your graduation year?"
-        type="number"
-        min="2018"
-        value="{{data.graduation}}">
-      </paper-input>
-
-      <paper-input
-        required
-        auto-validate
-        maxlength="200"
-        error-message="Required"
-        label="What is the name of your emergency contact?"
-        value="{{data.emergency_name}}">
-      </paper-input>
-
-      <paper-input
-        required
-        auto-validate
-        maxlength="200"
-        error-message="Invalid Phone Number"
-        label="What the phone number of your emergency contact?"
-        type="tel"
-        value="{{data.emergency_phone}}">
-      </paper-input>
-
-      <city-input
-        label="Where are you traveling from?"
-        value="{{data.city}}">
-      </city-input>
+      <p>When are you available? Please check all that apply:</p>
 
       <paper-checkbox
-        checked="{{data.travel_reimbursement}}">
-        Would you like to apply for travel reimbursement?
+        checked="{{data.sat_afternoon}}">
+        Mentoring: Saturday Afternoon ~(1pm - 6pm)
       </paper-checkbox>
-      <p>
-        If you are coming from the University of Washington, or the surrounding
-        area, we will be providing shuttle busses.
-        <br>
-        Note: If selected to participate, we will only be subsidizing a maximum
-        of $200.
-      </p>
 
       <paper-checkbox
-        checked="{{data.first_hackathon}}">
-        Is this your first hackathon?
+        checked="{{data.sat_evening}}">
+        Mentoring: Saturday Evening ~(6pm - 11pm)
+      </paper-checkbox>
+
+      <paper-checkbox
+        checked="{{data.sat_sun_overnight}}">
+        Mentoring: Saturday / Sunday Overnight ~(11pm - 3am)
+      </paper-checkbox>
+
+      <paper-checkbox
+        checked="{{data.sun_morning}}">
+        Mentoring: Sunday Morning ~(7am - 12pm)
+      </paper-checkbox>
+
+      <paper-checkbox
+        checked="{{data.expo_judging}}">
+        Expo Judging: Sunday 1pm - 4pm
       </paper-checkbox>
 
       <paper-dropdown-menu
@@ -171,61 +121,6 @@
         label="Please specify your dietary restrictions or allergies"
         value="{{data.dietary_other}}">
       </paper-input>
-
-      <github-input
-        label="GitHub"
-        value="{{data.github}}">
-      </github-input>
-
-      <paper-input
-        maxlength="200"
-        label="LinkedIn"
-        value="{{data.linkedin}}">
-        <div slot="prefix">https://linkedin.com/in/</div>
-      </paper-input>
-
-      <paper-input
-        maxlength="200"
-        label="Personal Site"
-        auto-validate
-        error-message="Invalid URL"
-        value="{{data.personalsite}}"
-        type="url">
-      </paper-input>
-
-      <paper-input
-        required
-        auto-validate
-        error-message="Required"
-        always-float-label
-        type="file"
-        label="Resume"
-        name="resume">
-      </paper-input>
-
-      <paper-textarea
-        required
-        auto-validate
-        error-message="Required"
-        label="What do you want to get out of nwHacks?"
-        value="{{data.reason}}">
-      </paper-textarea>
-
-      <paper-textarea
-        required
-        auto-validate
-        error-message="Required"
-        label="If you were a piece of technology, what would you be?"
-        value="{{data.technology}}">
-      </paper-textarea>
-
-      <paper-checkbox checked="{{data.volunteer}}">
-        If you are not able to come to nwHacks as a participant, would you be interested in volunteering for the event?
-      </paper-checkbox>
-
-      <paper-checkbox checked="{{data.newsletter}}">
-        Would you like to sign up for StartupStorm’s newsletter to be informed of other tech events and hackathons happening in and around Vancouver?
-      </paper-checkbox>
 
       <paper-dropdown-menu
         required
@@ -271,14 +166,14 @@
   </template>
 
   <script>
-class RegisterForm extends Polymer.Element {
-  static get is () { return 'register-form' }
+class MentorExpo extends Polymer.Element {
+  static get is () { return 'mentorexpo-form' }
 
   eq (a, b) {
     return a === b
   }
 }
 
-customElements.define(RegisterForm.is, RegisterForm)
+customElements.define(MentorExpo.is, MentorExpo)
   </script>
 </dom-module>
