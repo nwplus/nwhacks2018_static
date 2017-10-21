@@ -46,6 +46,7 @@
     "paper-radio-group": "^2.0.0",
     "paper-radio-button": "^2.0.0",
     "iron-localstorage": "^2.0.0",
-    "iron-lazy-pages": "TimvdLippe/iron-lazy-pages#^2.1.0"
+    "iron-lazy-pages": "TimvdLippe/iron-lazy-pages#^2.1.0",
+    "web-animations-js": "^2.3.1"
   }
 }

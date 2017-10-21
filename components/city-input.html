@@ -1,0 +1,86 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="city-input">
+  <template>
+    <style>
+    </style>
+
+    <iron-ajax
+            auto
+            url="{{citiesURL}}"
+            handle-as="json"
+            last-response="{{cities}}"
+            debounce-duration="300">
+    </iron-ajax>
+
+    <paper-input
+            id="input"
+            required
+            auto-validate
+            maxlength="200"
+            error-message="Required"
+            label="{{label}}"
+            value="{{value}}"
+            focused="{{cityFocused}}">
+    </paper-input>
+
+    <template is="dom-repeat" items="[[citiesClean]]">
+      <paper-item on-tap="selectCity">[[item.matching_full_name]]</paper-item>
+    </template>
+  </template>
+
+  <script>
+  class CityInput extends Polymer.Element {
+    static get is () { return 'city-input' }
+
+    static get properties () {
+      return {
+        value: {
+          notify: true
+        },
+
+        label: {
+          type: String
+        },
+
+        cityFocused: {
+          value: false
+        },
+
+        citiesURL: {
+          computed: 'updateCitiesURL(value, cityFocused)'
+        },
+
+        citiesClean: {
+          computed: 'cleanCities(cities)'
+        }
+      }
+    }
+
+    validate () {
+      return this.$.input.validate()
+    }
+
+    updateCitiesURL (city, focused) {
+      if (!city || !focused) {
+        return ''
+      }
+      return 'https://api.teleport.org/api/cities/?limit=5&search=' + city
+    }
+
+    cleanCities (cities) {
+      return cities && cities._embedded['city:search-results']
+    }
+
+    selectCity (e) {
+      this.set('value', e.model.item.matching_full_name)
+    }
+  }
+
+  customElements.define(CityInput.is, CityInput)
+  </script>
+</dom-module>

@@ -10,47 +10,55 @@ Polymer({
       window.location.hash = '#!' + window.location.hash.substr(4)
     }
 
-    const self = this
-
-    page.base('/')
-    page('*', function (ctx, next) {
-      setTimeout(function() {
-        self.handleLoad()
+    page.base('')
+    page('*', (ctx, next) => {
+      setTimeout(() => {
+        this.handleLoad()
       }, 100)
 
-      self.hideFooter = false
-      self.adminPage = false
+      this.hideFooter = false
+      this.adminPage = false
 
       next()
     })
-    page('/register-closed', function () { self.route = 'register-closed' })
-    page('/register-wip', function () { self.route = 'register-form' })
-    page('/register', function () { self.route = 'register-closed' })
-    page('/sponsors', function () { self.route = 'sponsor-page' })
-    page('/dayof', function () {
-      self.route = 'dayof-page'
+    page('/register-closed', () => {
+      this.route = 'register-closed'
     })
-    page('/rsvp/:id', function (e) {
-      self.route = 'rsvp-page'
-      self.params = e.params
+    page('/register-wip', () => {
+      this.route = 'register-form'
+    })
+    page('/register', () => {
+      this.route = 'register-closed'
+    })
+    page('/sponsors', () => {
+      this.route = 'sponsor-page'
+    })
+    page('/dayof', () => {
+      this.route = 'dayof-page'
+    })
+    page('/rsvp/:id', (e) => {
+      this.route = 'rsvp-page'
+      this.params = e.params
     })
 
-    page('/admin/*', function (_, next) {
-      self.hideFooter = true
-      self.adminPage = true
+    page('/admin/*', (_, next) => {
+      this.hideFooter = true
+      this.adminPage = true
       next()
     })
-    page('/admin/select', function () {
-      self.route = 'select-hackers'
+    page('/admin/select', () => {
+      this.route = 'select-hackers'
     })
-    page('/admin/checkin', function () {
-      self.route = 'checkin-page'
+    page('/admin/checkin', () => {
+      this.route = 'checkin-page'
     })
-    page('/admin/stats', function () {
-      self.route = 'stats-page'
+    page('/admin/stats', () => {
+      this.route = 'stats-page'
+    })
+    page('/', () => {
+      this.route = 'index-page'
     })
 
-    page('/*', function () { self.route = 'index-page' })
     // 404
     page('*', this.handle404.bind(this))
     page()

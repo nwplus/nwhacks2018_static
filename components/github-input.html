@@ -1,0 +1,79 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="github-input">
+  <template>
+    <style include="shared-styles">
+      paper-icon-item {
+        pointer-events: none;
+      }
+      img {
+        height: 40px;
+        width: 40px;
+        border-radius: 100px;
+      }
+    </style>
+
+    <iron-ajax
+            auto
+            url="{{githubURL}}"
+            handle-as="json"
+            last-response="{{githubDetails}}"
+            debounce-duration="300">
+    </iron-ajax>
+
+    <paper-input
+            id="input"
+            maxlength="200"
+            label="{{label}}"
+            value="{{value}}">
+      <div slot="prefix">https://github.com/</div>
+    </paper-input>
+
+    <template is="dom-if" if="[[githubDetails]]">
+      <paper-icon-item>
+        <img src="{{githubDetails.avatar_url}}" slot="item-icon">
+        <span>{{githubDetails.name}}</span>
+      </paper-icon-item>
+    </template>
+  </template>
+
+  <script>
+  class GitHubInput extends Polymer.Element {
+    static get is () { return 'github-input' }
+
+    static get properties () {
+      return {
+        value: {
+          notify: true
+        },
+
+        label: {
+          type: String
+        },
+
+        githubURL: {
+          computed: 'updateGithubURL(value)'
+        }
+      }
+    }
+
+    validate () {
+      return this.$.input.validate()
+    }
+
+    updateGithubURL (github) {
+      if (!github) {
+        return ''
+      }
+      return 'https://api.github.com/users/' + github
+    }
+  }
+
+  customElements.define(GitHubInput.is, GitHubInput)
+  </script>
+</dom-module>

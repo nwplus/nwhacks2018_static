@@ -1,0 +1,201 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+
+<link rel="import" href="firebase.js.html">
+
+<dom-module id="generic-form">
+  <template>
+    <style include="shared-styles">
+      form {
+        max-width: 640px;
+        margin: 0 auto;
+      }
+      .invalid {
+        color: red;
+      }
+    </style>
+
+    <form id="form">
+      <paper-input
+          required
+          auto-validate
+          maxlength="200"
+          error-message="Required"
+          label="What is your full legal name?"
+          value="{{data.name}}">
+      </paper-input>
+
+      <paper-input
+          required
+          auto-validate
+          maxlength="200"
+          error-message="Invalid Email"
+          type="email"
+          label="What is your email?"
+          value="{{data.email}}">
+      </paper-input>
+
+      <p class="invalid" hidden$="{{!alreadySubmitted}}">
+      You've already submitted once. You can do so again, but only your last
+      submission will be considered.
+      </p>
+
+      <slot></slot>
+
+      <p class="invalid" hidden$="{{valid}}">
+        You must fill out all required fields.
+      </p>
+
+      <center>
+        <paper-button elevation="1" on-tap="submit" class="register">Register</paper-button>
+      </center>
+    </form>
+
+    <paper-dialog id="registered" modal>
+      <h2>Submitted!</h2>
+      <p>All set! We'll get back to you in a few weeks.</p>
+      <div class="buttons">
+        <a href="/"><paper-button dialog-confirm autofocus>Return Home</paper-button></a>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="submitting" modal>
+      <h2>Submitting...</h2>
+      <p>
+        <paper-progress indeterminate></paper-progress>
+      </p>
+    </paper-dialog>
+
+    <paper-dialog id="error" modal>
+      <h2>Error Submitting</h2>
+      <p>[[error]]</p>
+      <p>Please try again later or use a different browser.</p>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus>close</paper-button>
+      </div>
+    </paper-dialog>
+  </template>
+  <script>
+  class GenericForm extends Polymer.Element {
+    static get is () { return 'generic-form' }
+    static get properties () {
+      return {
+        name: {
+          type: String
+        },
+
+        alreadySubmitted: {
+          type: Boolean,
+          value: false
+        },
+
+        data: {
+          value: () => { return {} },
+          notify: true,
+          type: Object
+        }
+      }
+    }
+
+    static get observers () {
+      return [
+        'checkEmail(data.email)'
+      ]
+    }
+
+    checkEmail (email) {
+      console.log('email', email)
+
+      if (this.checkEmailTimeout) {
+        clearTimeout(this.checkEmailTimeout)
+        this.checkEmailTimeout = false
+      }
+
+      if (!email) {
+        return
+      }
+
+      this.checkEmailTimeout = setTimeout(() => {
+        this.checkEmailTimeout = false
+
+        firebase.database()
+          .ref('emails')
+          .child(btoa(this.data.email))
+          .once('value')
+          .then((snapshot) => {
+            var val = snapshot.val()
+            this.alreadyRegistered = !!val
+          })
+      }, 200)
+    }
+
+    validate () {
+      let valid = true
+      for (const input of this.inputs()) {
+        if (!input.validate()) {
+          valid = false
+        }
+      }
+      this.valid = valid
+      return valid
+    }
+
+    inputs () {
+      return Array.from(this.children)
+                  .concat(Array.from(this.$.form.children))
+                  .filter((a) => a.validate)
+    }
+
+    fileInputs () {
+      return this.inputs().filter((a) => a.type === 'file')
+    }
+
+    submit () {
+      if (!this.validate()) {
+        return
+      }
+
+      this.$.submitting.open()
+      const userKey = firebase.database().ref('ids').push().key
+
+      for (const fileInput of this.fileInputs()) {
+        const type = fileInput.name
+        const files = fileInput.inputElement.inputElement.files
+        var filePromise = Promise.resolve()
+        if (files.length > 0) {
+          const file = files[0]
+          const fileName = this.cleanFileName(file.name)
+          const filePath = this.name + '/' + type + '/' + userKey + '-' + fileName
+          this.data[type] = filePath
+          filePromise = firebase.storage().ref(filePath).put(file)
+        }
+      }
+
+      filePromise.then(() => {
+        return firebase.database().ref('form/' + this.name).child(userKey).set(this.data)
+      }).then(() => {
+        return firebase.database()
+          .ref('emails/' + this.name)
+          .child(btoa(this.data.email))
+          .set(true)
+      }).then((e) => {
+        console.log('Registered', e)
+        this.$.submitting.close()
+        this.$.registered.open()
+      }).catch((err) => {
+        console.log('Error!', err)
+        this.error = err
+        this.$.submitting.close()
+        this.$.error.open()
+      })
+    }
+
+    cleanFileName (name) {
+      return name.replace(/[^A-Za-z0-9\.\-\(\)]+/g, '-')
+    }
+  }
+
+  customElements.define(GenericForm.is, GenericForm)
+  </script>
+</dom-module>
