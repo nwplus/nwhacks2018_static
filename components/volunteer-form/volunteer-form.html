@@ -13,7 +13,7 @@
 <link rel="import" href="../city-input.html">
 <link rel="import" href="../github-input.html">
 
-<dom-module id="register-form">
+<dom-module id="volunteer-form">
   <template>
     <style include="light-page">
       :host {
@@ -25,9 +25,9 @@
       }
     </style>
 
-    <h1 title>Registration</h1>
+    <h1 title>Volunteer Registration</h1>
 
-    <generic-form name="registration" data="{{data}}">
+    <generic-form name="volunteer" data="{{data}}">
       <paper-input
         required
         auto-validate
@@ -37,21 +37,6 @@
         type="tel"
         value="{{data.phone}}">
       </paper-input>
-
-      <paper-dropdown-menu
-        required
-        auto-validate
-        error-message="Required"
-        label="Which gender do you identify as?"
-        selected-item-label="{{data.gender}}">
-
-        <paper-listbox slot="dropdown-content">
-          <paper-item>Female</paper-item>
-          <paper-item>Male</paper-item>
-          <paper-item>Non-binary</paper-item>
-          <paper-item>Prefer not to specify</paper-item>
-        </paper-listbox>
-      </paper-dropdown-menu>
 
       <paper-input
         required
@@ -111,26 +96,44 @@
         value="{{data.emergency_phone}}">
       </paper-input>
 
-      <city-input
-        label="Where are you traveling from?"
-        value="{{data.city}}">
-      </city-input>
-
-      <paper-checkbox
-        checked="{{data.travel_reimbursement}}">
-        Would you like to apply for travel reimbursement?
-      </paper-checkbox>
-      <p>
-        If you are coming from the University of Washington, or the surrounding
-        area, we will be providing shuttle busses.
-        <br>
-        Note: If selected to participate, we will only be subsidizing a maximum
-        of $200.
-      </p>
-
       <paper-checkbox
         checked="{{data.first_hackathon}}">
         Is this your first hackathon?
+      </paper-checkbox>
+
+      <paper-textarea
+        required
+        auto-validate
+        error-message="Required"
+        label="Why would you like to volunteer at nwHacks?"
+        value="{{data.reason}}">
+      </paper-textarea>
+
+      <p>When are you available? Please check all that apply:</p>
+
+      <paper-checkbox
+        checked="{{data.sat_afternoon}}">
+        Saturday Afternoon ~(1pm - 6pm)
+      </paper-checkbox>
+
+      <paper-checkbox
+        checked="{{data.sat_evening}}">
+        Saturday Evening ~(6pm - 11pm)
+      </paper-checkbox>
+
+      <paper-checkbox
+        checked="{{data.overnight}}">
+        Overnight ~(11pm - 3am)
+      </paper-checkbox>
+
+      <paper-checkbox
+        checked="{{data.sun_morning}}">
+        Sunday Morning ~(7am - 12pm)
+      </paper-checkbox>
+
+      <paper-checkbox
+        checked="{{data.sun_evening}}">
+        Sunday Evening ~(12pm - 5pm)
       </paper-checkbox>
 
       <paper-dropdown-menu
@@ -171,57 +174,6 @@
         label="Please specify your dietary restrictions or allergies"
         value="{{data.dietary_other}}">
       </paper-input>
-
-      <github-input
-        label="GitHub"
-        value="{{data.github}}">
-      </github-input>
-
-      <paper-input
-        maxlength="200"
-        label="LinkedIn"
-        value="{{data.linkedin}}">
-        <div slot="prefix">https://linkedin.com/in/</div>
-      </paper-input>
-
-      <paper-input
-        maxlength="200"
-        label="Personal Site"
-        auto-validate
-        error-message="Invalid URL"
-        value="{{data.personalsite}}"
-        type="url">
-      </paper-input>
-
-      <paper-input
-        required
-        auto-validate
-        error-message="Required"
-        always-float-label
-        type="file"
-        label="Resume"
-        name="resume">
-      </paper-input>
-
-      <paper-textarea
-        required
-        auto-validate
-        error-message="Required"
-        label="What do you want to get out of nwHacks?"
-        value="{{data.reason}}">
-      </paper-textarea>
-
-      <paper-textarea
-        required
-        auto-validate
-        error-message="Required"
-        label="If you were a piece of technology, what would you be?"
-        value="{{data.technology}}">
-      </paper-textarea>
-
-      <paper-checkbox checked="{{data.volunteer}}">
-        If you are not able to come to nwHacks as a participant, would you be interested in volunteering for the event?
-      </paper-checkbox>
 
       <paper-checkbox checked="{{data.newsletter}}">
         Would you like to sign up for StartupStorm’s newsletter to be informed of other tech events and hackathons happening in and around Vancouver?
@@ -271,14 +223,14 @@
   </template>
 
   <script>
-class RegisterForm extends Polymer.Element {
-  static get is () { return 'register-form' }
+class VolunteerForm extends Polymer.Element {
+  static get is () { return 'volunteer-form' }
 
   eq (a, b) {
     return a === b
   }
 }
 
-customElements.define(RegisterForm.is, RegisterForm)
+customElements.define(VolunteerForm.is, VolunteerForm)
   </script>
 </dom-module>

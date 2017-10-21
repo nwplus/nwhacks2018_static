@@ -27,7 +27,7 @@
 
     <h1 title>Mentor / Expo Judge Registration</h1>
 
-    <generic-form name="registration" data="{{data}}">
+    <generic-form name="mentorexpo" data="{{data}}">
       <paper-input
         required
         auto-validate
@@ -69,8 +69,8 @@
       </paper-checkbox>
 
       <paper-checkbox
-        checked="{{data.sat_sun_overnight}}">
-        Mentoring: Saturday / Sunday Overnight ~(11pm - 3am)
+        checked="{{data.overnight}}">
+        Mentoring: Overnight ~(11pm - 3am)
       </paper-checkbox>
 
       <paper-checkbox
@@ -87,7 +87,7 @@
         required
         auto-validate
         error-message="Required"
-        label="T-Shirt Size"
+        label="What is your t-shirt size? (unisex)"
         selected-item-label="{{data.tshirt}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>S</paper-item>
@@ -166,7 +166,7 @@
   </template>
 
   <script>
-class MentorExpo extends Polymer.Element {
+class MentorExpoForm extends Polymer.Element {
   static get is () { return 'mentorexpo-form' }
 
   eq (a, b) {
@@ -174,6 +174,6 @@ class MentorExpo extends Polymer.Element {
   }
 }
 
-customElements.define(MentorExpo.is, MentorExpo)
+customElements.define(MentorExpoForm.is, MentorExpoForm)
   </script>
 </dom-module>
