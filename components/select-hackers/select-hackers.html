@@ -7,22 +7,28 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
 
 <link rel="import" href="../firebase-config/firebase-config.html">
 <link rel="import" href="../lunr-js.html">
 <link rel="import" href="../moment-js.html">
-<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
-<link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../light-page.html">
 
 <dom-module id="select-hackers">
   <template>
-    <style>
+    <style include="light-page">
+      :host {
+        padding-bottom: 0;
+        height: calc(100vh - 65px);
+        padding: 0;
+      }
       iron-list {
         margin: 20px 0 0;
         height: 1000px;
         overflow-x: hidden;
       }
-      paper-input {
+      paper-input, paper-dropdown-menu {
         display: inline-block;
       }
       paper-card {
@@ -78,47 +84,55 @@
         margin-top: -15px;
       }
     </style>
-    <div class="content">
-      <paper-card id="filters">
-        <div class="card-content">
-          Filters &nbsp;
-          <minimizable-box>
-            <paper-dropdown-menu label="Status" selected-item-label="{{filters.status}}">
-              <paper-listbox class="dropdown-content" selected="[[selected(hacker.status)]]">
-                <paper-item>All</paper-item>
-                <template is="dom-repeat" items="[[categories]]">
-                  <paper-item>[[item]]</paper-item>
-                </template>
-              </paper-listbox>
-            </paper-dropdown-menu>
-            &nbsp;
-            <paper-dropdown-menu label="Response" selected-item-label="{{filters.response}}">
-              <paper-listbox class="dropdown-content" selected="[[responded(hacker.response)]]">
-                <paper-item>All</paper-item>
-                <template is="dom-repeat" items="[[responseCategories]]">
-                  <paper-item>[[item]]</paper-item>
-                </template>
-              </paper-listbox>
-            </paper-dropdown-menu>
-            &nbsp;
-            <paper-input label="Search" value="{{filters.search}}" minlength="3"
-              auto-validate></paper-input>
+    <div>
+      <paper-dropdown-menu label="Form" selected-item-label="{{form}}">
+        <paper-listbox class="dropdown-content">
+          <paper-item>registration</paper-item>
+          <paper-item>mentorexpo</paper-item>
+          <paper-item>volunteer</paper-item>
+        </paper-listbox>
+      </paper-dropdown-menu>
+      &nbsp;
 
-            Showing
-            <span>{{filteredCount}}</span>
-            of
-            <span>{{totalCount}}</span>
+      <paper-dropdown-menu label="Status" selected-item-label="{{filters.status}}">
+        <paper-listbox class="dropdown-content" selected="[[selected(hacker.status)]]">
+          <paper-item>All</paper-item>
+          <template is="dom-repeat" items="[[categories]]">
+            <paper-item>[[item]]</paper-item>
+          </template>
+        </paper-listbox>
+      </paper-dropdown-menu>
+      &nbsp;
 
-            <br>
-            <paper-checkbox checked="{{filters.mentor}}">Wants to Mentor</paper-checkbox> &nbsp;
-            <paper-checkbox checked="{{filters.first}}">First Time</paper-checkbox> &nbsp;
-            <paper-checkbox checked="{{filters.reimbursement}}">Needs Reimbursement</paper-checkbox> &nbsp;
-            <paper-checkbox checked="{{filters.checked_in}}">Checked In</paper-checkbox> &nbsp;
-            <paper-checkbox checked="{{filters.missing_passport}}">Missing Passport</paper-checkbox> &nbsp;
-            <a on-tap="export">Export to CSV</a>
-          </minimizable-box>
-        </div>
-      </paper-card>
+      <paper-dropdown-menu label="Response" selected-item-label="{{filters.response}}">
+        <paper-listbox class="dropdown-content" selected="[[responded(hacker.response)]]">
+          <paper-item>All</paper-item>
+          <template is="dom-repeat" items="[[responseCategories]]">
+            <paper-item>[[item]]</paper-item>
+          </template>
+        </paper-listbox>
+      </paper-dropdown-menu>
+      &nbsp;
+
+      <paper-input
+        label="Search"
+        value="{{filters.search}}"
+        minlength="3"
+        auto-validate>
+      </paper-input>
+
+      <paper-checkbox checked="{{filters.mentor}}">Wants to Mentor</paper-checkbox> &nbsp;
+      <paper-checkbox checked="{{filters.first}}">First Time</paper-checkbox> &nbsp;
+      <paper-checkbox checked="{{filters.reimbursement}}">Needs Reimbursement</paper-checkbox> &nbsp;
+      <paper-checkbox checked="{{filters.checked_in}}">Checked In</paper-checkbox> &nbsp;
+      <paper-checkbox checked="{{filters.missing_passport}}">Missing Passport</paper-checkbox> &nbsp;
+
+      Showing
+      <span>{{filteredCount}}</span>
+      of
+      <span>{{totalCount}}</span>
+
+      <a on-tap="export">Export to CSV</a>
     </div>
     <!-- <template is="dom-repeat" items="{{hackers}}" as="hacker" filter="{{filter(status)}}" observe="status"> -->
     <iron-list id="list" items="{{filtered}}" as="hacker">
@@ -338,7 +352,11 @@
     <firebase-config is-admin="{{isAdmin}}" handle-error="[[handleError]]" auth>
     </firebase-config>
 
-    <firebase-query id="regs" disabled="[[!isAdmin]]" path="/registrations" data="{{registrations}}">
+    <firebase-query
+      id="regs"
+      disabled="[[!isAdmin]]"
+      path="/form/[[form]]"
+      data="{{registrations}}">
     </firebase-query>
 
   </template>

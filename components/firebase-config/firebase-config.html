@@ -41,7 +41,8 @@
 
   <script>
 Polymer({
-  is: "firebase-config",
+  is: 'firebase-config',
+
   properties: {
     isAdmin: { notify: true },
     statusKnown: { notify: true },
@@ -49,40 +50,40 @@ Polymer({
     signedIn: { notify: true },
     name: {
       type: String,
-      notify: true,
+      notify: true
     },
     auth: {
       type: Boolean,
-      value: false,
+      value: false
     }
   },
 
   observers: [
     'signIn(signedIn, statusKnown, auth)',
-    'warnNotAdmin(signedIn, isAdmin, statusKnown, auth)',
+    'warnNotAdmin(signedIn, isAdmin, statusKnown, auth)'
   ],
 
-  signIn: function(signedIn, statusKnown, auth) {
+  signIn: function (signedIn, statusKnown, auth) {
     if (statusKnown && !signedIn && auth) {
-      this.querySelector("#auth").signInWithPopup();
+      this.root.querySelector('#auth').signInWithPopup()
     }
   },
 
-  warnNotAdmin: function(signedIn, isAdmin, statusKnown, auth) {
+  warnNotAdmin: function (signedIn, isAdmin, statusKnown, auth) {
     if (!statusKnown || !auth) {
-      return;
+      return
     }
     if (signedIn && isAdmin === true) {
-      this.$.error.close();
+      this.$.error.close()
     } else if (signedIn) {
-      this.error = 'You are not an admin or data is still loading.';
-      this.$.error.open();
+      this.error = 'You are not an admin or data is still loading.'
+      this.$.error.open()
     }
   },
 
-  handleError: function(e, err) {
-    this.err = err;
+  handleError: function (e, err) {
+    this.err = err
   }
-});
+})
   </script>
 </dom-module>
