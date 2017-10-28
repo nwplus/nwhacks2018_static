@@ -13,6 +13,7 @@
 <link rel="import" href="../city-input.html">
 <link rel="import" href="../github-input.html">
 <link rel="import" href="../school-input.html">
+<link rel="import" href="../bool-input.html">
 
 <dom-module id="volunteer-form">
   <template>
@@ -110,10 +111,10 @@
         value="{{data.emergency_phone}}">
       </paper-input>
 
-      <paper-checkbox
-        checked="{{data.first_hackathon}}">
+      <bool-input
+        value="{{data.first_hackathon}}">
         Have you ever volunteered at a hackathon?
-      </paper-checkbox>
+      </bool-input>
 
       <paper-textarea
         required
@@ -156,6 +157,7 @@
         auto-validate
         error-message="Required"
         label="What is your t-shirt size? (unisex)"
+        horizontal-align="left"
         selected-item-label="{{data.tshirt}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>S</paper-item>
@@ -170,6 +172,7 @@
         auto-validate
         error-message="Required"
         label="Do you have any dietary restrictions or allergies?"
+        horizontal-align="left"
         selected-item-label="{{data.dietary}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>No</paper-item>
@@ -190,15 +193,16 @@
         value="{{data.dietary_other}}">
       </paper-input>
 
-      <paper-checkbox checked="{{data.newsletter}}">
+      <bool-input value="{{data.newsletter}}">
         Would you like to sign up for StartupStorm’s newsletter to be informed of other tech events and hackathons happening in and around Vancouver?
-      </paper-checkbox>
+      </bool-input>
 
       <paper-dropdown-menu
         required
         auto-validate
         error-message="Required"
         label="How did you hear about nwHacks?"
+        horizontal-align="left"
         selected-item-label="{{data.hear}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>MLH</paper-item>

@@ -12,6 +12,7 @@
 <link rel="import" href="../city-input.html">
 <link rel="import" href="../github-input.html">
 <link rel="import" href="../school-input.html">
+<link rel="import" href="../bool-input.html">
 
 <dom-module id="mentorexpo-form">
   <template>
@@ -103,6 +104,7 @@
         auto-validate
         error-message="Required"
         label="What is your t-shirt size? (unisex)"
+        horizontal-align="left"
         selected-item-label="{{data.tshirt}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>S</paper-item>
@@ -117,6 +119,7 @@
         auto-validate
         error-message="Required"
         label="Do you have any dietary restrictions or allergies?"
+        horizontal-align="left"
         selected-item-label="{{data.dietary}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>No</paper-item>
@@ -142,6 +145,7 @@
         auto-validate
         error-message="Required"
         label="How did you hear about nwHacks?"
+        horizontal-align="left"
         selected-item-label="{{data.hear}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>MLH</paper-item>
