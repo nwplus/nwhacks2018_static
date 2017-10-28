@@ -28,8 +28,17 @@
           auto-validate
           maxlength="200"
           error-message="Required"
-          label="What is your full legal name?"
-          value="{{data.name}}">
+          label="What is your legal first name?"
+          value="{{data.first_name}}">
+      </paper-input>
+
+      <paper-input
+          required
+          auto-validate
+          maxlength="200"
+          error-message="Required"
+          label="What is your legal last name?"
+          value="{{data.last_name}}">
       </paper-input>
 
       <paper-input
