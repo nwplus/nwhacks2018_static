@@ -1,0 +1,132 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/paper-autocomplete/paper-autocomplete.html">
+
+<link rel="import" href="lunr-js.html">
+
+<dom-module id="autocomplete-input">
+  <template>
+    <style include="shared-styles">
+    </style>
+
+    <paper-autocomplete
+           id="input"
+           required
+           auto-validate
+           maxlength="200"
+           error-message="Required"
+           label="[[label]]"
+           source="[[source]]"
+           query-fn="[[otherMatchBound]]"
+           value="{{value}}"
+           highlight-first>
+    </paper-autocomplete>
+  </template>
+
+  <script>
+class AutoCompleteInput extends Polymer.Element {
+  static get is () { return 'autocomplete-input' }
+
+  static get properties () {
+    return {
+      value: {
+        notify: true
+      },
+
+      label: {
+        type: String
+      },
+
+      abreviate: {
+        type: Boolean,
+        value: false
+      },
+
+      source: {
+        value: () => { return [] }
+      },
+
+      index: {
+        computed: 'computeIndex(source, abreviate)'
+      }
+    }
+  }
+
+  ready () {
+    super.ready()
+
+    this.otherMatchBound = this.otherMatch.bind(this)
+  }
+
+  computeIndex (schools, abrv) {
+    const index = lunr(function () {
+      this.ref('index')
+      this.field('name')
+      if (abrv) {
+        this.field('abrv')
+      }
+    })
+
+    schools.forEach((school, i) => {
+      const datum = {
+        index: i,
+        name: school
+      }
+      if (abrv) {
+        datum.abrv = this.abrv(school)
+      }
+
+      index.add(datum)
+    })
+
+    return index
+  }
+
+  abrv (str) {
+    let abrv = ''
+    for (const part of str.toLowerCase().split(' ')) {
+      if (part === 'the' || part === 'of') {
+        continue
+      }
+      abrv += part[0]
+    }
+    return abrv.toUpperCase()
+  }
+
+  capitalize (str) {
+    const parts = []
+    for (const part of str.toLowerCase().trim().split(' ')) {
+      if (part === 'of') {
+        continue
+      }
+
+      parts.push(part.slice(0, 1).toUpperCase() + part.slice(1))
+    }
+    return parts.join(' ')
+  }
+
+  otherMatch (datasource, query) {
+    const results = this.index.search(query).map(res => {
+      return {
+        text: datasource[res.ref],
+        value: datasource[res.ref]
+      }
+    }).slice(0, 9)
+
+    const formatted = this.capitalize(query)
+    results.push({
+      text: 'Use "' + formatted + '"',
+      value: formatted
+    })
+
+    return results
+  }
+
+  validate () {
+    return this.$.input.validate()
+  }
+}
+
+customElements.define(AutoCompleteInput.is, AutoCompleteInput)
+  </script>
+</dom-module>

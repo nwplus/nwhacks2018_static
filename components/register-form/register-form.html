@@ -12,6 +12,7 @@
 <link rel="import" href="../generic-form.html">
 <link rel="import" href="../city-input.html">
 <link rel="import" href="../github-input.html">
+<link rel="import" href="../school-input.html">
 
 <dom-module id="register-form">
   <template>
@@ -63,14 +64,10 @@
         value="{{data.birthday}}">
       </paper-input>
 
-      <paper-input
-        required
-        auto-validate
-        maxlength="200"
-        error-message="Required"
+      <school-input
         label="What school do you currently attend?"
         value="{{data.school}}">
-      </paper-input>
+      </school-input>
 
       <paper-input
         required

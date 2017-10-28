@@ -1,0 +1,61 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<link rel="import" href="autocomplete-input.html">
+
+<dom-module id="school-input">
+  <template>
+    <style include="shared-styles">
+    </style>
+
+    <autocomplete-input
+           id="input"
+           label="[[label]]"
+           source="[[schools]]"
+           abreviate
+           value="{{value}}">
+    </autocomplete-input>
+
+    <iron-ajax
+           auto
+           url="https://cdn.rawgit.com/MLH/mlh-policies/cd95b260/schools.csv"
+           handle-as="text"
+           last-response="{{rawSchools}}">
+    </iron-ajax>
+  </template>
+
+  <script>
+class SchoolInput extends Polymer.Element {
+  static get is () { return 'school-input' }
+
+  static get properties () {
+    return {
+      value: {
+        notify: true
+      },
+
+      label: {
+        type: String
+      },
+
+      schools: {
+        computed: 'computeSchools(rawSchools)'
+      }
+    }
+  }
+
+  computeSchools (rawSchools) {
+    return rawSchools.split('\n').slice(2).map(school => {
+      return school.trim().replace(/"/g, '')
+    }).filter(a => a.length > 0).sort()
+  }
+
+  validate () {
+    return this.$.input.validate()
+  }
+}
+
+customElements.define(SchoolInput.is, SchoolInput)
+  </script>
+</dom-module>
