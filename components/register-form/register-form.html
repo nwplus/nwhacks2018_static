@@ -29,6 +29,20 @@
     <h1 title>Registration</h1>
 
     <generic-form name="registration" data="{{data}}">
+      <div slot="intro">
+        <p>
+        nwHacks is Western Canada’s largest collegiate hackathon taking place on
+        January 13th - 14th 2018 at the University of British Columbia.
+        </p>
+        <p>
+        Please keep in mind that due to the large number of applications we
+        receive every year, we are unable to accommodate every single applicant.
+        While we do our best to support as many hackers as we can, we encourage
+        you to put thought into your responses so we can assess all applicants
+        fairly.
+        </p>
+      </div>
+
       <paper-input
         required
         auto-validate
@@ -216,7 +230,7 @@
         required
         auto-validate
         error-message="Required"
-        label="What do you want to get out of nwHacks?"
+        label="What do you hope to get out of nwHacks?"
         rows=4
         value="{{data.reason}}">
       </paper-textarea>
@@ -225,10 +239,20 @@
         required
         auto-validate
         error-message="Required"
-        label="If you were a piece of technology, what would you be?"
+        label="Tell us about a recent project you’ve worked on that excites you! This doesn’t have to be technical."
         rows=4
-        value="{{data.technology}}">
+        value="{{data.project}}">
       </paper-textarea>
+
+
+      <paper-input
+        required
+        auto-validate
+        maxlength="200"
+        error-message="Required"
+        label="If you were a piece of technology, what would you be?"
+        value="{{data.technology}}">
+      </paper-input>
 
       <paper-checkbox checked="{{data.volunteer}}">
         If you are not able to come to nwHacks as a participant, would you be interested in volunteering for the event?

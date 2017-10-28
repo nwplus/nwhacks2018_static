@@ -29,6 +29,23 @@
     <h1 title>Volunteer Registration</h1>
 
     <generic-form name="volunteer" data="{{data}}">
+      <div slot="intro">
+        <p>
+        nwHacks is Western Canada’s largest collegiate hackathon taking place on January 13th - 14th 2018 at the University of British Columbia.
+        </p>
+        <p>
+        Join our team for 24 hours to get a snippet of what it’s like to
+        organize a hackathon! Responsibilities include but not limited to
+        registration, set-up/take-down, and more. Befriend some passionate
+        hackers while distributing (and eating) midnight snacks. Volunteer hours
+        are flexible and food &amp; drinks will be provided.
+        </p>
+        <p>
+        If you have any questions or concerns, please email
+        <a href="mailto:zoe.fox@startupstorm.org">Zoe Fox</a>.
+        </p>
+      </div>
+
       <paper-input
         required
         auto-validate
@@ -95,7 +112,7 @@
 
       <paper-checkbox
         checked="{{data.first_hackathon}}">
-        Is this your first hackathon?
+        Have you ever volunteered at a hackathon?
       </paper-checkbox>
 
       <paper-textarea
