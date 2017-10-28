@@ -70,6 +70,18 @@
       </school-input>
 
       <paper-input
+        required="[[eq(data.school, 'The University of British Columbia')]]"
+        hidden$="[[!eq(data.school, 'The University of British Columbia')]]"
+        auto-validate
+        maxlength="200"
+        error-message="Required, must be 8 digits"
+        allowed-pattern="[0-9]"
+        pattern="\d{8}"
+        label="What's your UBC student number?"
+        value="{{data.student_number}}">
+      </paper-input>
+
+      <paper-input
         required
         auto-validate
         maxlength="200"
