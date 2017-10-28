@@ -12,7 +12,9 @@
     "components/register-form/register-form.html",
     "components/register-closed/register-closed.html",
     "components/volunteer-form/volunteer-form.html",
-    "components/mentorexpo-form/mentorexpo-form.html"
+    "components/mentorexpo-form/mentorexpo-form.html",
+
+    "components/generic-form.html"
   ],
   "sources": [
     "components/**/*",
@@ -27,13 +29,10 @@
     "404.html",
     "bower_components/webcomponentsjs/*.js"
   ],
-  "builds": [{
-    "bundle": true,
-    "css": { "minify": true },
-    "js": {
-      "minify": true,
-      "compile": true
-    },
-    "html": {"minify": true }
-  }]
+  "builds": [
+    {
+      "name": "default",
+      "preset": "es5-bundled"
+    }
+  ]
 }
