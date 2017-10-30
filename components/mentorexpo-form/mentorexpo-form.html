@@ -4,7 +4,6 @@
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/neon-animation/web-animations.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 
@@ -12,6 +11,8 @@
 <link rel="import" href="../generic-form.html">
 <link rel="import" href="../city-input.html">
 <link rel="import" href="../github-input.html">
+<link rel="import" href="../school-input.html">
+<link rel="import" href="../bool-input.html">
 
 <dom-module id="mentorexpo-form">
   <template>
@@ -28,6 +29,25 @@
     <h1 title>Mentor / Expo Judge Registration</h1>
 
     <generic-form name="mentorexpo" data="{{data}}">
+      <div slot="intro">
+        <p>
+        nwHacks is Western Canada’s largest collegiate hackathon taking place on
+        January 13th - 14th 2018 at the University of British Columbia.
+        </p>
+        <p>
+        We need your help to guide hackers through learning new technologies or
+        fixing those pesky bugs. Mentors will be on-site and answering technical
+        questions throughout the 24 hour period. Expo judges will be on-site and
+        evaluating a randomly selected portion of the hundreds of completed
+        projects to determine the top five projects of nwHacks 2018.
+        Complementary nwHacks t-shirt and food & beverages will be provided.
+        </p>
+        <p>
+        If you have any questions or concerns, please
+        <a href="mailto:apply@nwhacks.io">email us</a>.
+        </p>
+      </div>
+
       <paper-input
         required
         auto-validate
@@ -47,14 +67,10 @@
         value="{{data.occupation}}">
       </paper-input>
 
-      <paper-input
-        required
-        auto-validate
-        maxlength="200"
-        error-message="Required"
+      <school-input
         label="Where are you currently employed or attend school?"
         value="{{data.school}}">
-      </paper-input>
+      </school-input>
 
       <p>When are you available? Please check all that apply:</p>
 
@@ -88,6 +104,7 @@
         auto-validate
         error-message="Required"
         label="What is your t-shirt size? (unisex)"
+        horizontal-align="left"
         selected-item-label="{{data.tshirt}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>S</paper-item>
@@ -102,6 +119,7 @@
         auto-validate
         error-message="Required"
         label="Do you have any dietary restrictions or allergies?"
+        horizontal-align="left"
         selected-item-label="{{data.dietary}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>No</paper-item>
@@ -127,6 +145,7 @@
         auto-validate
         error-message="Required"
         label="How did you hear about nwHacks?"
+        horizontal-align="left"
         selected-item-label="{{data.hear}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>MLH</paper-item>

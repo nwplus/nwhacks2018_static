@@ -12,6 +12,8 @@
 <link rel="import" href="../generic-form.html">
 <link rel="import" href="../city-input.html">
 <link rel="import" href="../github-input.html">
+<link rel="import" href="../school-input.html">
+<link rel="import" href="../bool-input.html">
 
 <dom-module id="volunteer-form">
   <template>
@@ -28,6 +30,23 @@
     <h1 title>Volunteer Registration</h1>
 
     <generic-form name="volunteer" data="{{data}}">
+      <div slot="intro">
+        <p>
+        nwHacks is Western Canada’s largest collegiate hackathon taking place on January 13th - 14th 2018 at the University of British Columbia.
+        </p>
+        <p>
+        Join our team for 24 hours to get a snippet of what it’s like to
+        organize a hackathon! Responsibilities include but not limited to
+        registration, set-up/take-down, and more. Befriend some passionate
+        hackers while distributing (and eating) midnight snacks. Volunteer hours
+        are flexible and food &amp; drinks will be provided.
+        </p>
+        <p>
+        If you have any questions or concerns, please email
+        <a href="mailto:zoe.fox@startupstorm.org">Zoe Fox</a>.
+        </p>
+      </div>
+
       <paper-input
         required
         auto-validate
@@ -48,14 +67,10 @@
         value="{{data.birthday}}">
       </paper-input>
 
-      <paper-input
-        required
-        auto-validate
-        maxlength="200"
-        error-message="Required"
+      <school-input
         label="What school do you currently attend?"
         value="{{data.school}}">
-      </paper-input>
+      </school-input>
 
       <paper-input
         required
@@ -96,16 +111,17 @@
         value="{{data.emergency_phone}}">
       </paper-input>
 
-      <paper-checkbox
-        checked="{{data.first_hackathon}}">
-        Is this your first hackathon?
-      </paper-checkbox>
+      <bool-input
+        value="{{data.first_hackathon}}">
+        Have you ever volunteered at a hackathon?
+      </bool-input>
 
       <paper-textarea
         required
         auto-validate
         error-message="Required"
         label="Why do you want to volunteer at nwHacks?"
+        rows=4
         value="{{data.reason}}">
       </paper-textarea>
 
@@ -141,6 +157,7 @@
         auto-validate
         error-message="Required"
         label="What is your t-shirt size? (unisex)"
+        horizontal-align="left"
         selected-item-label="{{data.tshirt}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>S</paper-item>
@@ -155,6 +172,7 @@
         auto-validate
         error-message="Required"
         label="Do you have any dietary restrictions or allergies?"
+        horizontal-align="left"
         selected-item-label="{{data.dietary}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>No</paper-item>
@@ -175,15 +193,16 @@
         value="{{data.dietary_other}}">
       </paper-input>
 
-      <paper-checkbox checked="{{data.newsletter}}">
+      <bool-input value="{{data.newsletter}}">
         Would you like to sign up for StartupStorm’s newsletter to be informed of other tech events and hackathons happening in and around Vancouver?
-      </paper-checkbox>
+      </bool-input>
 
       <paper-dropdown-menu
         required
         auto-validate
         error-message="Required"
         label="How did you hear about nwHacks?"
+        horizontal-align="left"
         selected-item-label="{{data.hear}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>MLH</paper-item>

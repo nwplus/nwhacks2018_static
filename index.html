@@ -8,10 +8,30 @@
     <meta property="og:title" content="nwHacks 2018" />
     <meta property="og:url" content="https://www.nwhacks.io" />
     <meta property="fb:app_id" content="1656637327959014" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <base href="/">
     <title>nwHacks 2018</title>
 
     <link rel="icon" type="image/png" href="/favicon.png" />
+
+
+    <script>
+      window.Polymer = {rootPath: '/'};
+      // Load and register pre-caching Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('service-worker.js', {
+            scope: Polymer.rootPath,
+          });
+        });
+      }
+    </script>
+
+    <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+
+    <link rel="import" href="components/main-app/main-app.html">
+
     <style>
 @font-face {
     font-family: "Apercu";
@@ -67,12 +87,6 @@ html {
   min-height: 100%;
 }
     </style>
-
-    <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
-
-    <link rel="import" href="components/main-app/main-app.html">
-
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
   </head>
   <body>
     <main-app></main-app>
