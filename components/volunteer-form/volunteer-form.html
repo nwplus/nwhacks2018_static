@@ -72,13 +72,31 @@
         value="{{data.school}}">
       </school-input>
 
-      <paper-input
+      <paper-dropdown-menu
         required
+        auto-validate
+        horizontal-align="left"
+        error-message="Required"
+        label="What faculty are you in?"
+        selected-item-label="{{data.faculty}}">
+        <paper-listbox slot="dropdown-content">
+          <paper-item>Arts</paper-item>
+          <paper-item>Business</paper-item>
+          <paper-item>Science</paper-item>
+          <paper-item>Engineering</paper-item>
+          <paper-item>Forestry</paper-item>
+          <paper-item>Other</paper-item>
+        </paper-listbox>
+      </paper-dropdown-menu>
+
+      <paper-input
+        required="[[eq(data.faculty, 'Other')]]"
+        hidden$="[[!eq(data.faculty, 'Other')]]"
         auto-validate
         maxlength="200"
         error-message="Required"
-        label="What is your major?"
-        value="{{data.major}}">
+        label="Please specify your faculty"
+        value="{{data.faculty_other}}">
       </paper-input>
 
       <paper-input
