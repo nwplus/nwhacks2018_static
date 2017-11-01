@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
@@ -13,6 +13,7 @@
 <link rel="import" href="../city-input.html">
 <link rel="import" href="../github-input.html">
 <link rel="import" href="../school-input.html">
+<link rel="import" href="../bool-input.html">
 
 <dom-module id="register-form">
   <template>
@@ -23,6 +24,9 @@
       paper-checkbox, input[type="file"] {
         display: block;
         padding: 8px 0px;
+      }
+      li {
+        font-size: 18pt;
       }
     </style>
 
@@ -56,6 +60,7 @@
       <paper-dropdown-menu
         required
         auto-validate
+        horizontal-align="left"
         error-message="Required"
         label="Which gender do you identify as?"
         selected-item-label="{{data.gender}}">
@@ -108,10 +113,10 @@
         required
         auto-validate
         maxlength="200"
-        error-message="Required, must be at least 2018"
+        error-message="Required, must be at least 2017"
         label="What is your graduation year?"
         type="number"
-        min="2018"
+        min="2017"
         value="{{data.graduation}}">
       </paper-input>
 
@@ -139,26 +144,34 @@
         value="{{data.city}}">
       </city-input>
 
-      <paper-checkbox
-        checked="{{data.travel_reimbursement}}">
+      <bool-input
+        value="{{data.travel_reimbursement}}">
         Would you like to apply for travel reimbursement?
-      </paper-checkbox>
-      <p>
-        If you are coming from the University of Washington, or the surrounding
-        area, we will be providing shuttle busses.
-        <br>
-        If selected to participate, we will only be subsidizing a maximum
-        of $200.
-      </p>
+        <ul>
+          <li>
+            If you are coming from the University of Washington, or the
+            surrounding area, we will be providing shuttle busses.
+          </li>
+          <li>
+            If selected to participate, we will only be subsidizing a maximum of
+            $200.
+          </li>
+          <li>
+            Please note: participants will only be reimbursed after
+            submitting and demoing their project.
+          </li>
+        </ul>
+      </bool-input>
 
-      <paper-checkbox
-        checked="{{data.first_hackathon}}">
-        Is this your first hackathon?
-      </paper-checkbox>
+      <bool-input
+        label="Is this your first hackathon?"
+        value="{{data.first_hackathon}}">
+      </bool-input>
 
       <paper-dropdown-menu
         required
         auto-validate
+        horizontal-align="left"
         error-message="Required"
         label="What is your t-shirt size? (unisex)"
         selected-item-label="{{data.tshirt}}">
@@ -173,6 +186,7 @@
       <paper-dropdown-menu
         required
         auto-validate
+        horizontal-align="left"
         error-message="Required"
         label="Do you have any dietary restrictions or allergies?"
         selected-item-label="{{data.dietary}}">
@@ -254,18 +268,19 @@
         value="{{data.technology}}">
       </paper-input>
 
-      <paper-checkbox checked="{{data.volunteer}}">
+      <bool-input value="{{data.volunteer}}">
         If you are not able to come to nwHacks as a participant, would you be interested in volunteering for the event?
-      </paper-checkbox>
+      </bool-input>
 
-      <paper-checkbox checked="{{data.newsletter}}">
+      <bool-input value="{{data.newsletter}}">
         Would you like to sign up for StartupStorm’s newsletter to be informed of other tech events and hackathons happening in and around Vancouver?
-      </paper-checkbox>
+      </bool-input>
 
       <paper-dropdown-menu
         required
         auto-validate
         error-message="Required"
+        horizontal-align="left"
         label="How did you hear about nwHacks?"
         selected-item-label="{{data.hear}}">
         <paper-listbox slot="dropdown-content">

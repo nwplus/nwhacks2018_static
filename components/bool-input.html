@@ -1,0 +1,104 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+
+<dom-module id="bool-input">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        margin-bottom: 38px;
+      }
+
+      paper-radio-button, paper-radio-group, label {
+        display: block;
+      }
+
+      li {
+        font-style: 18pt;
+      }
+
+      label {
+        @apply --paper-font-common-nowrap;
+        @apply --paper-font-subhead;
+        @apply --paper-input-container-label;
+        @apply --paper-input-container-label-floating;
+        color: var(--secondary-text-color);
+        font-size: 18pt;
+
+        /* match scaling on paper-input-container */
+        width: 133%;
+        transform-origin: bottom left;
+        transform: scale(0.75);
+      }
+
+      label[focused] {
+        color: var(--primary-color);
+      }
+
+      label[invalid] {
+        color: var(--error-color);
+      }
+
+      paper-radio-group[invalid] {
+        --paper-radio-button-unchecked-color: var(--error-color);
+      }
+    </style>
+
+    <label invalid$="[[!valid]]" focused$="[[focused]]" for="input">
+      [[label]]
+      <slot></slot>
+    </label>
+
+    <paper-radio-group id="input" selected="{{selected}}" invalid$="[[!valid]]">
+      <paper-radio-button name="true" focused="{{focused}}">Yes</paper-radio-button>
+      <paper-radio-button name="false" focused="{{focused}}">No</paper-radio-button>
+    </paper-radio-group>
+
+  </template>
+
+  <script>
+  class BoolInput extends Polymer.Element {
+    static get is () { return 'bool-input' }
+
+    static get properties () {
+      return {
+        value: {
+          notify: true,
+          computed: 'computeValue(selected)',
+          observer: 'validate'
+        },
+
+        checked: {
+          notify: true,
+          computed: 'computeChecked(value)'
+        },
+
+        label: {
+          type: String
+        }
+      }
+    }
+
+    computeChecked (value) {
+      return value
+    }
+
+    computeValue (selected) {
+      if (!selected) {
+        return selected
+      }
+
+      return JSON.parse(selected)
+    }
+
+    validate () {
+      this.valid = this.value !== undefined && this.value !== null
+      return this.valid
+    }
+  }
+
+  customElements.define(BoolInput.is, BoolInput)
+  </script>
+</dom-module>

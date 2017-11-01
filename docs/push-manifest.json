@@ -1,0 +1,30 @@
+{
+  "components/main-app/main-app.html": {},
+  "components/dayof-page/dayof-page.html": {},
+  "components/index-page/index-page.html": {},
+  "components/rsvp-page/rsvp-page.html": {},
+  "components/sponsor-page/sponsor-page.html": {},
+  "components/select-hackers/select-hackers.html": {},
+  "components/stats-page/stats-page.html": {},
+  "components/checkin-page/checkin-page.html": {},
+  "components/register-form/register-form.html": {
+    "components/generic-form.html": {
+      "type": "document",
+      "weight": 1
+    }
+  },
+  "components/register-closed/register-closed.html": {},
+  "components/volunteer-form/volunteer-form.html": {
+    "components/generic-form.html": {
+      "type": "document",
+      "weight": 1
+    }
+  },
+  "components/mentorexpo-form/mentorexpo-form.html": {
+    "components/generic-form.html": {
+      "type": "document",
+      "weight": 1
+    }
+  },
+  "components/generic-form.html": {}
+}
