@@ -172,10 +172,11 @@
       this.$.submitting.open()
       const userKey = firebase.database().ref('ids').push().key
 
+      var filePromise = Promise.resolve()
+
       for (const fileInput of this.fileInputs()) {
         const type = fileInput.name
         const files = fileInput.inputElement.inputElement.files
-        var filePromise = Promise.resolve()
         if (files.length > 0) {
           const file = files[0]
           const fileName = this.cleanFileName(file.name)
