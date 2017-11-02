@@ -23,8 +23,12 @@
         height: calc(100vh - 65px);
         padding: 0;
       }
+      #filters {
+        padding: 0 15px 15px;
+        border-bottom: 1px solid #eee;
+      }
       iron-list {
-        margin: 20px 0 0;
+        margin: 0 0;
         height: 1000px;
         overflow-x: hidden;
       }
@@ -80,13 +84,10 @@
       [label="Response"] {
         width: 170px;
       }
-      #filters paper-input, #filters paper-dropdown-menu {
-        margin-top: -15px;
-      }
     </style>
-    <div>
+    <div id="filters">
       <paper-dropdown-menu label="Form" selected-item-label="{{form}}">
-        <paper-listbox class="dropdown-content">
+        <paper-listbox slot="dropdown-content">
           <paper-item>registration</paper-item>
           <paper-item>mentorexpo</paper-item>
           <paper-item>volunteer</paper-item>
@@ -95,7 +96,7 @@
       &nbsp;
 
       <paper-dropdown-menu label="Status" selected-item-label="{{filters.status}}">
-        <paper-listbox class="dropdown-content" selected="[[selected(hacker.status)]]">
+        <paper-listbox slot="dropdown-content" selected="[[selected(hacker.status)]]">
           <paper-item>All</paper-item>
           <template is="dom-repeat" items="[[categories]]">
             <paper-item>[[item]]</paper-item>
@@ -105,7 +106,7 @@
       &nbsp;
 
       <paper-dropdown-menu label="Response" selected-item-label="{{filters.response}}">
-        <paper-listbox class="dropdown-content" selected="[[responded(hacker.response)]]">
+        <paper-listbox slot="dropdown-content" selected="[[responded(hacker.response)]]">
           <paper-item>All</paper-item>
           <template is="dom-repeat" items="[[responseCategories]]">
             <paper-item>[[item]]</paper-item>
@@ -142,16 +143,6 @@
             <div class="card-content">
               <table>
                 <tbody>
-                  <template is="dom-if" if="[[hasTeammates(hacker)]]">
-                    <tr>
-                      <th>Team</th>
-                      <td>
-                        <template is="dom-repeat" items="[[teammates(hacker)]]">
-                          <a on-tap="scrollToEmail">[[item]]</a>
-                        </template>
-                      </td>
-                    </tr>
-                  </template>
                   <tr>
                     <th> School </th>
                     <td>[[hacker.school]]</td>

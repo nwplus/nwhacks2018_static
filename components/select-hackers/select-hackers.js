@@ -76,7 +76,7 @@ Polymer({
   ],
 
   cleanEmail: function (email) {
-    return email.toLowerCase().trim()
+    return (email || '').toLowerCase().trim()
   },
 
   handleRegistrations: function () {
@@ -252,7 +252,10 @@ Polymer({
     a.click()
   },
 
-  title: function (hacker) { return hacker.name + ' (' + hacker.email + ')' },
+  title: function (hacker) {
+    const name = hacker.name || hacker.first_name + ' ' + hacker.last_name
+    return name + ' (' + hacker.email + ')'
+  },
 
   filter: function (hackers, filters, _) {
     var results = hackers
