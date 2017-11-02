@@ -150,6 +150,9 @@
             #buttons {
                 text-align: center;
                 z-index: 100;
+                display: table;
+                margin-right: auto;
+                margin-left: auto;
             }
 
             #email-box {
@@ -166,12 +169,32 @@
                 position: relative;
                 top: 2px;
             }
-            #email-button {
+            #wide-button {
                 display: inline-block;
                 margin: 0px 0px 0px -5px;
                 padding-top: 14px;
                 text-transform: none !important;
                 letter-spacing: 1px;
+                width: 205px;
+                margin-left: 20px;
+                margin-right: 25px;
+            }            
+
+            #clear-wide-button {
+                display: inline-block;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                -webkit-tap-highlight-color: transparent;
+                background-color: transparent;
+                color: #219653;
+                height: 50px;
+                border-bottom: 0px;
+                outline-style: solid;
+                outline-width: 3px;
+                margin: 20px 0px 0px -5px;
+                padding-top: 12px;
+                text-transform: none !important;
+                letter-spacing: 1px;
+                width: 200px;
             }
 
             /* fix input padding for FireFox */
@@ -195,6 +218,14 @@
                 }
                 #email-box {
                     width: 280px;
+                }
+                #buttons {
+                    width: 60%;
+                    display: block;
+                }
+
+                #wide-button {
+                    margin-top: 20px;
                 }
             }
 
@@ -261,30 +292,30 @@
                 }
 
             }
-			@media (max-width: 772px){
+            @media (max-width: 772px){
             .large-trapezoid {
                 max-width: calc(100vw);
              }
-	        .large-trapezoid h1 {
+            .large-trapezoid h1 {
                 font-size: 25pt;
             }
             .large-trapezoid h2 {
                 font-size: 18pt;
                 margin-top: 6px;
             }
-			}
-			@media (max-width: 345px){
+            }
+            @media (max-width: 345px){
             .large-trapezoid {
                 max-width: calc(100vw);
              }
-	        .large-trapezoid h1 {
+            .large-trapezoid h1 {
                 font-size: 22pt;
             }
             .large-trapezoid h2 {
                 font-size: 18pt;
                 margin-top: 6px;
             }
-			}
+            }
 
             .small-trapezoid {
                 position: relative;
@@ -329,29 +360,14 @@
                 </div>
             </div>
             <div id="buttons">
-                <!--
-                <a class="none" href="/register#begin"><paper-button class="register">Register</paper-button></a>
-                -->
-                <!--
-                <a class="none" href="/dayof"><paper-button class="register">Day Of Information</paper-button></a>
-                -->
-                <!--
-                <a class="none" href="https://2017.nwhacks.io/"><paper-button class="button">previous hacks</paper-button></a>
-                -->
-                <h3 id="email-line">Get notified when registration opens!</h3>
-                <iron-form>
-                    <form id="emailForm" action="https://nwhacks.us16.list-manage.com/subscribe/post" method="get"
-                          target="_blank">
-                        <input name="u" type="hidden" value="a62539b754840fa609cbd9174">
-                        <input name="id" type="hidden" value="787a001931">
-                        <iron-input><input name="EMAIL" placeholder="hacker@email.com" type="text" id="email-box"
-                                           required="" maxlength="254"></iron-input>
-                        <paper-button class="register" id="email-button"
-                                      on-click="submitEmail">Get Notified
-                        </paper-button>
-                        </a>
-                    </form>
-                </iron-form>
+                
+                
+                <br>
+                <a class="none" href="/volunteer"><paper-button id="clear-wide-button">Volunteer</paper-button></a>
+                <a class="none" href="/register"><paper-button class="register" id="wide-button">Register</paper-button></a>
+                <a class="none" href="/mentorexpo"><paper-button  class="register" id="clear-wide-button">Mentor/Judge</paper-button></a>
+                <br>
+
                 <br>
                 <br>
                 <br>
