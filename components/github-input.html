@@ -29,7 +29,8 @@
     <paper-input
             id="input"
             maxlength="200"
-            label="{{label}}"
+            label="[[label]]"
+            placeholder="[[placeholder]]"
             value="{{value}}">
       <div slot="prefix">https://github.com/</div>
     </paper-input>
@@ -50,6 +51,10 @@
       return {
         value: {
           notify: true
+        },
+
+        placeholder: {
+          value: 'GitHub'
         },
 
         label: {

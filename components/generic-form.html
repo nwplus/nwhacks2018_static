@@ -27,6 +27,7 @@
           maxlength="200"
           error-message="Required"
           label="What is your legal first name?"
+          placeholder="Enter your first name"
           value="{{data.first_name}}">
       </paper-input>
 
@@ -36,6 +37,7 @@
           maxlength="200"
           error-message="Required"
           label="What is your legal last name?"
+          placeholder="Enter your last name"
           value="{{data.last_name}}">
       </paper-input>
 
@@ -45,6 +47,7 @@
           maxlength="200"
           error-message="Invalid Email"
           type="email"
+          placeholder="hacker@email.com"
           label="What is your email?"
           value="{{data.email}}">
       </paper-input>
@@ -101,6 +104,12 @@
         alreadySubmitted: {
           type: Boolean,
           value: false
+        },
+
+        valid: {
+          type: Boolean,
+          notify: true,
+          value: true
         },
 
         data: {

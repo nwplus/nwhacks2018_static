@@ -54,6 +54,7 @@
         maxlength="200"
         error-message="Invalid Phone Number"
         label="What is your phone number?"
+        placeholder="xxx-xxx-xxxx"
         type="tel"
         value="{{data.phone}}">
       </paper-input>
@@ -64,6 +65,7 @@
         horizontal-align="left"
         error-message="Required"
         label="Which gender do you identify as?"
+        placeholder="Select an answer"
         selected-item-label="{{data.gender}}">
 
         <paper-listbox slot="dropdown-content">
@@ -97,6 +99,7 @@
         error-message="Required, must be 8 digits"
         allowed-pattern="[0-9]"
         pattern="\d{8}"
+        placeholder="xxxxxxxx"
         label="What's your UBC student number?"
         value="{{data.student_number}}">
       </paper-input>
@@ -112,6 +115,7 @@
         maxlength="200"
         error-message="Required, must be at least 2017"
         label="What is your graduation year?"
+        placeholder="20xx"
         type="number"
         min="2017"
         value="{{data.graduation}}">
@@ -123,6 +127,7 @@
         maxlength="200"
         error-message="Required"
         label="What is the name of your emergency contact?"
+        placeholder="Enter the name of your emergency contact"
         value="{{data.emergency_name}}">
       </paper-input>
 
@@ -132,6 +137,7 @@
         maxlength="200"
         error-message="Invalid Phone Number"
         label="What is the phone number of your emergency contact?"
+        placeholder="xxx-xxx-xxxx"
         type="tel"
         value="{{data.emergency_phone}}">
       </paper-input>
@@ -171,6 +177,7 @@
         horizontal-align="left"
         error-message="Required"
         label="What is your t-shirt size? (unisex)"
+        placeholder='Select an answer'
         selected-item-label="{{data.tshirt}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>S</paper-item>
@@ -186,6 +193,7 @@
         horizontal-align="left"
         error-message="Required"
         label="Do you have any dietary restrictions or allergies?"
+        placeholder="Select an answer"
         selected-item-label="{{data.dietary}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>No</paper-item>
@@ -214,6 +222,7 @@
       <paper-input
         maxlength="200"
         label="LinkedIn"
+        placeholder="LinkedIn"
         value="{{data.linkedin}}">
         <div slot="prefix">https://linkedin.com/in/</div>
       </paper-input>
@@ -224,6 +233,7 @@
         auto-validate
         error-message="Invalid URL"
         value="{{data.personalsite}}"
+        placeholder="https://"
         type="url">
       </paper-input>
 
@@ -242,6 +252,7 @@
         auto-validate
         error-message="Required"
         label="What do you hope to get out of nwHacks?"
+        placeholder="Max 500 words"
         rows=4
         value="{{data.reason}}">
       </paper-textarea>
@@ -251,6 +262,7 @@
         auto-validate
         error-message="Required"
         label="Tell us about a recent project you’ve worked on that excites you! This doesn’t have to be technical."
+        placeholder="Max 500 words"
         rows=4
         value="{{data.project}}">
       </paper-textarea>
@@ -262,6 +274,7 @@
         maxlength="200"
         error-message="Required"
         label="If you were a piece of technology, what would you be?"
+        placeholder="Enter your response"
         value="{{data.technology}}">
       </paper-input>
 
@@ -302,16 +315,19 @@
         value="{{data.hear_other}}">
       </paper-input>
 
-      <p>
-        We participate in Major League Hacking (MLH) as a MLH Member Event. You authorize us to share certain application/registration information for event administration, ranking, MLH administration, and occasional messages about hackathons in line with the
-        <a target="_blank" href="https://mlh.io/privacy">MLH Privacy Policy</a>.
-      </p>
-
       <paper-checkbox
         required
         auto-validate
         error-message="Required">
-        I will at all times abide by and conform to the <a target="_blank" href="http://mlh.io/code-of-conduct">Major League Hacking Code of Conduct</a> while at the event.
+        I agree to the terms of both the
+        <a href="https://github.com/MLH/mlh-policies/tree/master/prize-terms-and-conditions" target="_blank">
+          MLH Contest Terms and Conditions
+        </a>
+        and the
+        <a href="https://mlh.io/privacy" target="_blank">MLH Privacy Policy</a>.
+        Please note that you may receive pre and post-event informational
+        e-mails and occasional messages about hackathons from MLH as per the MLH
+        Privacy Policy.
       </paper-checkbox>
     </generic-form>
 

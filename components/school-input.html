@@ -21,6 +21,7 @@
            label="[[label]]"
            source="[[schools]]"
            abreviate
+           placeholder="[[placeholder]]"
            value="{{value}}">
     </autocomplete-input>
 
@@ -44,6 +45,11 @@ class SchoolInput extends Polymer.Element {
 
       label: {
         type: String
+      },
+
+      placeholder: {
+        type: String,
+        value: 'Enter your school'
       },
 
       schools: {

@@ -20,6 +20,7 @@
            id="input"
            label="[[label]]"
            source="[[source]]"
+           placeholder="[[placeholder]]"
            abreviate
            value="{{value}}">
     </autocomplete-input>
@@ -40,6 +41,10 @@ class MajorInput extends Polymer.Element {
     return {
       value: {
         notify: true
+      },
+
+      placeholder: {
+        value: 'Enter your major'
       },
 
       label: {

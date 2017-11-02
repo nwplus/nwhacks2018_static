@@ -12,12 +12,12 @@
     <paper-autocomplete
            id="input"
            required
-           auto-validate
            maxlength="200"
            error-message="Required"
            label="[[label]]"
            source="[[source]]"
            query-fn="[[otherMatchBound]]"
+           placeholder="[[placeholder]]"
            value="{{value}}"
            highlight-first>
     </paper-autocomplete>
@@ -40,6 +40,10 @@ class AutoCompleteInput extends Polymer.Element {
       abreviate: {
         type: Boolean,
         value: false
+      },
+
+      placeholder: {
+        type: String
       },
 
       source: {

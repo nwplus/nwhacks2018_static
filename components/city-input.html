@@ -23,6 +23,7 @@
             auto-validate
             maxlength="200"
             error-message="Required"
+            placeholder="[[placeholder]]"
             label="{{label}}"
             value="{{value}}"
             focused="{{cityFocused}}">
@@ -41,6 +42,11 @@
       return {
         value: {
           notify: true
+        },
+
+        placeholder: {
+          type: String,
+          value: 'Enter your city and province/state'
         },
 
         label: {
