@@ -4,11 +4,14 @@ SCSS := $(shell find css -name \*.scss -print)
 
 build: docs/index.html docs/favicon.png docs/card-reader.html
 
-build/: bower_components components index.html css/main.css $(JS) $(HTML) polymer.json
+build/: bower_components/ components index.html css/main.css $(JS) $(HTML) polymer.json
 	polymer build
 
+bower_components/: bower.json
+	bower update
+
 docs/index.html: build/
-	rm -r docs; cp -R build/default/ docs
+	rm -rf docs; cp -R build/default/ docs
 	cp docs/index.html docs/404.html
 	svgo -f docs/svg/logos/
 
