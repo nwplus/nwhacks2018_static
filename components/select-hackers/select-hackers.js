@@ -53,6 +53,7 @@ Polymer({
     var self = this
     setTimeout(function () { self.resize() }, 100)
     window.addEventListener('resize', function () { self.resize() })
+    this.getQuestionMapping('register-form')
   },
 
   resize: function () {
@@ -447,5 +448,29 @@ Polymer({
       return
     }
     return 'https://console.firebase.google.com/project/nwhacks-96701/database/data/registrations/' + id
+  },
+
+  getQuestionMapping: function (name) {
+    const elem = document.createElement(name)
+    elem.style.display = 'none'
+    document.body.append(elem)
+    let q = [elem]
+    while (q.length > 0) {
+      const e = q.pop()
+      q = q.concat(Array.from(e.children))
+      if (e.root) {
+        q = q.concat(Array.from(e.root.children))
+      }
+      if (e.validate && e.label) {
+        e.value = e.label
+        e.checked = e.label
+        e.selectedItemLabel = e.label
+        console.log(e.label, e)
+      }
+    }
+    setTimeout(() => {
+      debugger
+      elem.remove()
+    }, 10);
   }
 })
