@@ -105,14 +105,14 @@ Polymer({
       // Cleanup step
       _.each(patterns, function(pattern, remap) {
         _.each(pattern, function(p) {
-          if (datum.school.toLowerCase().trim().indexOf(p.toLowerCase()) >= 0) {
+          if ((datum.school || '').toLowerCase().trim().indexOf(p.toLowerCase()) >= 0) {
             datum.school = remap;
           }
         });
       });
       _.each(patternsCities, function(pattern, remap) {
         _.each(pattern, function(p) {
-          if (datum.city.toLowerCase().trim().indexOf(p.toLowerCase()) >= 0) {
+          if ((datum.city || '').toLowerCase().trim().indexOf(p.toLowerCase()) >= 0) {
             datum.city = remap;
           }
         });
@@ -147,7 +147,7 @@ Polymer({
             {name: datum.school, accepted: 0, acceptedResp: 0, total: 0};
       }
       univs[datum.school].total += 1;
-      var location = self.toTitleCase(datum.city.split(',')[0].trim());
+      var location = self.toTitleCase((datum.city || '').split(',')[0].trim());
       if (!cities[location]) {
         cities[location] = {
           name: location,
@@ -171,9 +171,9 @@ Polymer({
       }
     });
 
-    document.getElementById('regDeDup').innerText = deDupStudents;
-    document.getElementById('accepted').innerText = acceptedStudents;
-    document.getElementById('offered').innerText = offeredStudents;
+    this.deDupStudents = deDupStudents;
+    this.acceptedResp = acceptedStudents;
+    this.offeredStudents = offeredStudents;
 
     // Univerisities
     var data = {
@@ -206,7 +206,7 @@ Polymer({
       data.datasets[1].data.push(v.accepted);
       data.datasets[2].data.push(v.acceptedResp);
     });
-    var ctx = document.getElementById('university').getContext('2d');
+    var ctx = this.$.university.getContext('2d');
     charts.push(new Chart(
         ctx, {
           type: 'bar',
@@ -281,7 +281,7 @@ Polymer({
           }
         },
         {}));
-    this.$.going.innerText = responseData.datasets[0].data[1];
+    this.going = responseData.datasets[0].data[1];
 
     const rsvped = this.hackers.filter((a) => !!a.rsvp).map((a) => a.rsvp);
     this.dietaryRestrictions = rsvped.map((a) => a.dietary);
