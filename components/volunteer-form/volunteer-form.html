@@ -14,6 +14,7 @@
 <link rel="import" href="../github-input.html">
 <link rel="import" href="../school-input.html">
 <link rel="import" href="../bool-input.html">
+<link rel="import" href="../major-input.html">
 
 <dom-module id="volunteer-form">
   <template>
@@ -72,14 +73,10 @@
         value="{{data.school}}">
       </school-input>
 
-      <paper-input
-        required
-        auto-validate
-        maxlength="200"
-        error-message="Required"
+      <major-input
         label="What is your major?"
         value="{{data.major}}">
-      </paper-input>
+      </major-input>
 
       <paper-input
         required
@@ -153,20 +150,20 @@
       </paper-checkbox>
 
       <p>Are you available for any of the following orientation sessions? (Please check all you can attend)</p>
-      
+
       <paper-checkbox
         checked="{{data.jan_fourth}}">
-        Wednesday, 4th January 2018 4:00pm-5:00pm               
+        Wednesday, 4th January 2018 4:00pm-5:00pm
       </paper-checkbox>
-      
+
       <paper-checkbox
         checked="{{data.jan_fifth}}">
-        Thursday, 5th January 2018 4:00pm-5:00pm              
+        Thursday, 5th January 2018 4:00pm-5:00pm
       </paper-checkbox>
-      
+
       <paper-checkbox
         checked="{{data.none}}">
-         None of the Above 
+         None of the Above
       </paper-checkbox>
 
       <paper-dropdown-menu

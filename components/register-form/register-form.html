@@ -14,6 +14,7 @@
 <link rel="import" href="../github-input.html">
 <link rel="import" href="../school-input.html">
 <link rel="import" href="../bool-input.html">
+<link rel="import" href="../major-input.html">
 
 <dom-module id="register-form">
   <template>
@@ -100,14 +101,10 @@
         value="{{data.student_number}}">
       </paper-input>
 
-      <paper-input
-        required
-        auto-validate
-        maxlength="200"
-        error-message="Required"
+      <major-input
         label="What is your major?"
         value="{{data.major}}">
-      </paper-input>
+      </major-input>
 
       <paper-input
         required

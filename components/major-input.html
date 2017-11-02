@@ -1,0 +1,68 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<link rel="import" href="autocomplete-input.html">
+
+<dom-module id="major-input">
+  <template>
+    <style include="shared-styles">
+      :host {
+        --paper-input-container: {
+          padding-bottom: 8px;
+        };
+        display: block;
+        padding-bottom: 42px;
+      }
+    </style>
+
+    <autocomplete-input
+           id="input"
+           label="[[label]]"
+           source="[[source]]"
+           abreviate
+           value="{{value}}">
+    </autocomplete-input>
+
+    <iron-ajax
+           auto
+           url="/data/specialties.txt"
+           handle-as="text"
+           last-response="{{rawSource}}">
+    </iron-ajax>
+  </template>
+
+  <script>
+class MajorInput extends Polymer.Element {
+  static get is () { return 'major-input' }
+
+  static get properties () {
+    return {
+      value: {
+        notify: true
+      },
+
+      label: {
+        type: String
+      },
+
+      source: {
+        computed: 'computeSource(rawSource)'
+      }
+    }
+  }
+
+  computeSource (rawSource) {
+    return rawSource.split('\n').map(school => {
+      return school.trim()
+    }).filter(a => a.length > 0).sort()
+  }
+
+  validate () {
+    return this.$.input.validate()
+  }
+}
+
+customElements.define(MajorInput.is, MajorInput)
+  </script>
+</dom-module>
