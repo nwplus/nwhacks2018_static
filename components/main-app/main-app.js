@@ -24,17 +24,14 @@ Polymer({
     page('/register-closed', () => {
       this.route = 'register-closed'
     })
-    page('/register-wip', () => {
+    page('/register', () => {
       this.route = 'register-form'
     })
-    page('/mentorexpo-wip', () => {
+    page('/mentorexpo', () => {
       this.route = 'mentorexpo-form'
     })
-    page('/volunteer-wip', () => {
+    page('/volunteer', () => {
       this.route = 'volunteer-form'
-    })
-    page('/register', () => {
-      this.route = 'register-closed'
     })
     page('/sponsors', () => {
       this.route = 'sponsor-page'
