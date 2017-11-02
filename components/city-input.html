@@ -1,37 +1,39 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-autocomplete/paper-autocomplete.html">
 
 <dom-module id="city-input">
   <template>
-    <style>
+    <style include="shared-styles">
+      :host {
+        --paper-input-container: {
+          padding-bottom: 8px;
+        };
+        display: block;
+        padding-bottom: 42px;
+      }
     </style>
 
     <iron-ajax
             auto
-            url="{{citiesURL}}"
+            url="[[updateCitiesURL(input)]]"
             handle-as="json"
-            last-response="{{cities}}"
+            on-response="updateSuggestions"
             debounce-duration="300">
     </iron-ajax>
 
-    <paper-input
+    <paper-autocomplete
             id="input"
             required
-            auto-validate
             maxlength="200"
             error-message="Required"
             placeholder="[[placeholder]]"
             label="{{label}}"
             value="{{value}}"
-            focused="{{cityFocused}}">
-    </paper-input>
-
-    <template is="dom-repeat" items="[[citiesClean]]">
-      <paper-item on-tap="selectCity">[[item.matching_full_name]]</paper-item>
-    </template>
+            remote-source
+            on-autocomplete-change="handleChange">
+    </paper-autocomplete>
   </template>
 
   <script>
@@ -51,18 +53,6 @@
 
         label: {
           type: String
-        },
-
-        cityFocused: {
-          value: false
-        },
-
-        citiesURL: {
-          computed: 'updateCitiesURL(value, cityFocused)'
-        },
-
-        citiesClean: {
-          computed: 'cleanCities(cities)'
         }
       }
     }
@@ -71,15 +61,56 @@
       return this.$.input.validate()
     }
 
-    updateCitiesURL (city, focused) {
-      if (!city || !focused) {
+    updateCitiesURL (city) {
+      if (!city) {
         return ''
       }
       return 'https://api.teleport.org/api/cities/?limit=5&search=' + city
     }
 
+    handleChange (e) {
+      this.input = e.detail.option.text
+      this.setSuggestions([])
+    }
+
+    setSuggestions (results) {
+      const formatted = this.capitalize(this.input)
+      results.push({
+        text: 'Use "' + formatted + '"',
+        value: formatted
+      })
+      this.$.input.suggestions(results)
+    }
+
+    updateSuggestions (e) {
+      const s = []
+      if (e.detail.response) {
+        const data = e.detail.response
+        const cities = data && data._embedded['city:search-results'];
+        for (let city of cities) {
+          s.push({
+            text: city.matching_full_name,
+            value: city.matching_full_name
+          })
+        }
+      }
+      this.setSuggestions(s)
+    }
+
+    capitalize (str) {
+      const parts = []
+      for (const part of str.toLowerCase().trim().split(' ')) {
+        if (part === 'of') {
+          continue
+        }
+
+        parts.push(part.slice(0, 1).toUpperCase() + part.slice(1))
+      }
+      return parts.join(' ')
+    }
+
     cleanCities (cities) {
-      return cities && cities._embedded['city:search-results']
+      return
     }
 
     selectCity (e) {
