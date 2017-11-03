@@ -17,3 +17,13 @@ After making a change, you will have to run the build process for them to go liv
 This is important because the `docs` directory contains the files that are pushed live.
 
 If you have made a change but are having trouble building the changes, feel free to submit a pull request anyway and we can just build the changes locally on our machines.
+
+## Style Guide
+
+### Javascript
+
+Our Javascript mostly follows the "Javascript Standard Style". New code should be written in it, and old code should be updated as you come across it. You can view all rules at https://standardjs.com/rules.html.
+
+### Polymer
+
+Polymer code should be written using the ES6 class based style. This is default for Polymer 2.0. See https://www.polymer-project.org/2.0/docs/devguide/registering-elements for more details.
