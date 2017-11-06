@@ -94,9 +94,7 @@ Polymer({
       if (!matching) {
         continue
       }
-      matching.scrollIntoView({
-        behavior: 'smooth'
-      })
+      matching.scrollIntoView(true)
       break
     }
   },
