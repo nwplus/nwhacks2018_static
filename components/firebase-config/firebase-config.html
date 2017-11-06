@@ -35,7 +35,11 @@
 
     <firebase-document app-name="[[name]]"
                        path="/admins/[[user.uid]]"
-                       data="{{isAdmin}}">
+                       data="{{isAdminUID}}">
+    </firebase-document>
+    <firebase-document app-name="[[name]]"
+                       path="/admins/[[formatEmail(user.email)]]"
+                       data="{{isAdminEmail}}">
     </firebase-document>
   </template>
 
@@ -44,7 +48,10 @@ Polymer({
   is: 'firebase-config',
 
   properties: {
-    isAdmin: { notify: true },
+    isAdmin: {
+      notify: true,
+      computed: 'or(isAdminUID, isAdminEmail)'
+    },
     statusKnown: { notify: true },
     user: { notify: true },
     signedIn: { notify: true },
@@ -62,6 +69,17 @@ Polymer({
     'signIn(signedIn, statusKnown, auth)',
     'warnNotAdmin(signedIn, isAdmin, statusKnown, auth)'
   ],
+
+  or: function (a, b) {
+    return a === true || b === true
+  },
+
+  formatEmail: function (email) {
+    if (!email) {
+      return;
+    }
+    return email.replace(/\./g, '%2E')
+  },
 
   signIn: function (signedIn, statusKnown, auth) {
     if (statusKnown && !signedIn && auth) {
