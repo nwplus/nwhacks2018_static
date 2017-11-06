@@ -6,10 +6,6 @@ Polymer({
   ],
 
   ready: function () {
-    if (window.location.hash.startsWith('#%21')) {
-      window.location.hash = '#!' + window.location.hash.substr(4)
-    }
-
     page.base('')
     page('*', (ctx, next) => {
       setTimeout(() => {
