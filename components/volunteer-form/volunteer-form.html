@@ -55,6 +55,7 @@
         error-message="Invalid Phone Number"
         label="What is your phone number?"
         type="tel"
+        name="phone"
         value="{{data.phone}}">
       </paper-input>
 
@@ -65,16 +66,19 @@
         error-message="Required"
         label="What is your birthday?"
         type="date"
+        name="birthday"
         value="{{data.birthday}}">
       </paper-input>
 
       <school-input
         label="What school do you currently attend?"
+        name="school"
         value="{{data.school}}">
       </school-input>
 
       <major-input
         label="What is your major?"
+        name="major"
         value="{{data.major}}">
       </major-input>
 
@@ -86,6 +90,7 @@
         label="What is your graduation year?"
         type="number"
         min="2018"
+        name="graduation"
         value="{{data.graduation}}">
       </paper-input>
 
@@ -95,6 +100,7 @@
         maxlength="200"
         error-message="Required"
         label="What is the name of your emergency contact?"
+        name="emergency_name"
         value="{{data.emergency_name}}">
       </paper-input>
 
@@ -105,10 +111,12 @@
         error-message="Invalid Phone Number"
         label="What is the phone number of your emergency contact?"
         type="tel"
+        name="emergency_ohone"
         value="{{data.emergency_phone}}">
       </paper-input>
 
       <bool-input
+        name="first_hackathon"
         value="{{data.first_hackathon}}">
         Have you ever volunteered at a hackathon?
       </bool-input>
@@ -119,32 +127,38 @@
         error-message="Required"
         label="Why do you want to volunteer at nwHacks?"
         rows=4
+        name="reason"
         value="{{data.reason}}">
       </paper-textarea>
 
       <p>When are you available? Please check all that apply:</p>
 
       <paper-checkbox
+        name="sat_afternoon"
         checked="{{data.sat_afternoon}}">
         Saturday Afternoon ~(1pm - 6pm)
       </paper-checkbox>
 
       <paper-checkbox
+        name="sat_evening"
         checked="{{data.sat_evening}}">
         Saturday Evening ~(6pm - 11pm)
       </paper-checkbox>
 
       <paper-checkbox
+        name="overnight"
         checked="{{data.overnight}}">
         Overnight ~(11pm - 3am)
       </paper-checkbox>
 
       <paper-checkbox
+        name="sun_morning"
         checked="{{data.sun_morning}}">
         Sunday Morning ~(7am - 12pm)
       </paper-checkbox>
 
       <paper-checkbox
+        name="sun_evening"
         checked="{{data.sun_evening}}">
         Sunday Evening ~(12pm - 5pm)
       </paper-checkbox>
@@ -152,16 +166,19 @@
       <p>Are you available for any of the following orientation sessions? (Please check all you can attend)</p>
 
       <paper-checkbox
+        name="jan_fourth"
         checked="{{data.jan_fourth}}">
         Wednesday, 4th January 2018 4:00pm-5:00pm
       </paper-checkbox>
 
       <paper-checkbox
+        name="jan_fifth"
         checked="{{data.jan_fifth}}">
         Thursday, 5th January 2018 4:00pm-5:00pm
       </paper-checkbox>
 
       <paper-checkbox
+        name="none"
         checked="{{data.none}}">
          None of the Above
       </paper-checkbox>
@@ -172,6 +189,7 @@
         error-message="Required"
         label="What is your t-shirt size? (unisex)"
         horizontal-align="left"
+        name="tshirt"
         selected-item-label="{{data.tshirt}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>S</paper-item>
@@ -187,6 +205,7 @@
         error-message="Required"
         label="Do you have any dietary restrictions or allergies?"
         horizontal-align="left"
+        name="dietary"
         selected-item-label="{{data.dietary}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>No</paper-item>
@@ -204,10 +223,13 @@
         maxlength="200"
         error-message="Required"
         label="Please specify your dietary restrictions or allergies"
+        name="dietary_other"
         value="{{data.dietary_other}}">
       </paper-input>
 
-      <bool-input value="{{data.newsletter}}">
+      <bool-input
+        name="newsletter"
+        value="{{data.newsletter}}">
         Would you like to sign up for StartupStorm’s newsletter to be informed of other tech events and hackathons happening in and around Vancouver?
       </bool-input>
 
@@ -217,6 +239,7 @@
         error-message="Required"
         label="How did you hear about nwHacks?"
         horizontal-align="left"
+        name="hear"
         selected-item-label="{{data.hear}}">
         <paper-listbox slot="dropdown-content">
           <paper-item>MLH</paper-item>
@@ -237,6 +260,7 @@
         maxlength="200"
         error-message="Required"
         label="Please specify where you heard about nwHacks"
+        name="hear_other"
         value="{{data.hear_other}}">
       </paper-input>
 
