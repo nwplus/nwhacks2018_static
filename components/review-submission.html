@@ -5,6 +5,8 @@
 <link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 
+<link rel="import" href="nw-comments.html">
+
 <dom-module id="review-submission">
   <template>
     <style include="shared-styles">
@@ -18,10 +20,15 @@
   }
 
   #content {
-    flex-grow: 1000;
+    flex-grow: 10000;
     overflow: auto;
     display: flex;
     flex-direction: column;
+  }
+
+  nw-comments {
+    flex-grow: 10000;
+    padding: 16px 16px 0;
   }
 
   #info {
@@ -49,6 +56,8 @@
       <template is="dom-if" if="[[hacker.resume]]">
         <paper-tab>Resume</paper-tab>
       </template>
+
+      <paper-tab>Comments</paper-tab>
     </paper-tabs>
 
     <div id="content">
@@ -67,6 +76,14 @@
 
       <template is="dom-if" if="[[eq(selected, 'Resume')]]">
         <iframe src="[[resumeLink(hacker.resume)]]"></iframe>
+      </template>
+
+      <template is="dom-if" if="[[eq(selected, 'Comments')]]">
+        <nw-comments
+          comments="{{hacker.comments}}"
+          name="[[name]]"
+          email="[[email]]">
+        </nw-comments>
       </template>
     </div>
 

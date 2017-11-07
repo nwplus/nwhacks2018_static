@@ -182,6 +182,8 @@
         id="review"
         form="[[form]]"
         sid="[[sid]]"
+        email="[[user.email]]"
+        name="[[user.displayName]]"
         questions="[[questions]]">
       </review-submission>
     </div>
@@ -195,7 +197,11 @@
       </div>
     </paper-dialog>
 
-    <firebase-config is-admin="{{isAdmin}}" handle-error="[[handleError]]" auth>
+    <firebase-config
+      is-admin="{{isAdmin}}"
+      handle-error="[[handleError]]"
+      user="{{user}}"
+      auth>
     </firebase-config>
 
     <firebase-query

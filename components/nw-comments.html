@@ -1,0 +1,120 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="moment-js.html">
+
+<dom-module id="nw-comments">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #input {
+        flex-grow: 0;
+        display: flex;
+        align-items: center;
+      }
+
+      paper-textarea {
+        flex-grow: 10000;
+      }
+
+      #comments {
+        flex-grow: 10000;
+      }
+
+      .comment p {
+        border-left: 2px solid var(--primary-color);
+        padding: 5px;
+        padding-left: 10px;
+        margin-top: 5px;
+      }
+
+      .comment .time {
+        color: var(--secondary-text-color);
+        font-size: 0.75em;
+      }
+    </style>
+
+    <div id="comments">
+      <template is="dom-repeat" items="[[arrayFrom(comments)]]">
+        <div class="comment">
+          <a target="_blank" href="mailto:[[item.email]]">[[item.name]]</a>
+          <span class="time" hidden$="[[!item.time]]">[[time(item.time)]]</span>
+          <p>[[item.body]]</p>
+        <div>
+      </template>
+    </div>
+
+    <div id="input">
+      <paper-textarea label="Comment" type="text" value="{{value}}">
+      </paper-textarea>
+      <paper-button on-tap="comment" class="register" disabled="[[!value]]">Comment</paper-button>
+    </div>
+  </template>
+  <script>
+class NWComments extends Polymer.Element {
+  static get is () { return 'nw-comments' }
+
+  static get properties () {
+    return {
+      comments: {
+        type: Object,
+        notify: true
+      },
+
+      name: {
+        type: String
+      },
+
+      email: {
+        type: String
+      },
+
+      value: {
+        type: String,
+        value: ''
+      }
+    }
+  }
+
+  comment () {
+    if (this.value.length === 0) {
+      return
+    }
+
+    if (!this.comments) {
+      this.comments = {}
+    }
+
+    const id = "" + +new Date
+    this.set(['comments', id], {
+      name: this.name,
+      email: this.email,
+      body: this.value,
+      time: '' + new Date()
+    })
+    this.value = ''
+  }
+
+  arrayFrom (obj) {
+    if (!obj) {
+      return
+    }
+
+    return Object.values(obj)
+  }
+
+  time (time) {
+    return moment(time).fromNow()
+  }
+}
+
+customElements.define(NWComments.is, NWComments)
+  </script>
+</dom-module>
