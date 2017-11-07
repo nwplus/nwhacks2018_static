@@ -67,7 +67,17 @@
             <template is="dom-if" if="[[has(hacker, item.name)]]">
               <paper-input-container always-float-label>
                 <label slot="label">[[item.label]]</label>
-                <span slot="input">[[get(hacker, item.name)]]</span>
+                <span slot="input">
+                  <template is="dom-if" if="[[linkField(hacker, item.name)]]">
+                    <a target="_blank" href="[[linkField(hacker, item.name)]]">
+                      [[get(hacker, item.name)]]
+                    </a>
+                  </template>
+
+                  <template is="dom-if" if="[[!linkField(hacker, item.name)]]">
+                    [[get(hacker, item.name)]]
+                  </template>
+                </span>
               </paper-input-container>
             </template>
           </template>
@@ -118,6 +128,7 @@
     </firebase-document>
   </template>
   <script>
+
 class ReviewSubmission extends Polymer.Element {
   static get is () { return 'review-submission' }
 
@@ -166,6 +177,18 @@ class ReviewSubmission extends Polymer.Element {
     }
 
     return '/form/' + form + '/' + sid
+  }
+
+  linkField (hacker, field) {
+    if (field === 'github') {
+      return this.githubLink(hacker.github)
+    } else if (field === 'resume') {
+      return this.resumeLink(hacker.resume)
+    } else if (field === 'linkedin') {
+      return this.linkedinLink(hacker.linkedin)
+    } else if (field === 'personalsite') {
+      return hacker.personalsite
+    }
   }
 
   firebaseLink (form, id) {
