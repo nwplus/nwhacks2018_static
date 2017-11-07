@@ -7,14 +7,20 @@
 <link rel="import" href="../bower_components/paper-badge/paper-badge.html">
 
 <link rel="import" href="nw-comments.html">
+<link rel="import" href="nw-criteria.html">
 
 <dom-module id="review-submission">
   <template>
     <style include="shared-styles">
 :host {
   display: flex;
-  flex-direction: column;
 }
+
+  #tabs {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 10000;
+  }
 
   paper-tabs {
     flex-shrink: 0;
@@ -46,99 +52,108 @@
     border-top: 1px
   }
 
+  #criteria {
+    flex-shrink: 0;
+  }
+
   .right {
     float: right;
   }
     </style>
 
-    <paper-tabs selected="{{selected}}" attr-for-selected="text-content" scrollable>
-      <paper-tab>Info</paper-tab>
+    <nw-criteria id="criteria"></nw-criteria>
 
-      <template is="dom-if" if="[[hacker.resume]]">
-        <paper-tab>Resume</paper-tab>
-      </template>
+    <div id="tabs">
+      <paper-tabs selected="{{selected}}" attr-for-selected="text-content" scrollable>
+        <paper-tab>Info</paper-tab>
 
-      <paper-tab>
-        <span id="comments">
-          Comments
-          &nbsp;&nbsp;
-        </span>
-
-        <template
-              is="dom-if"
-              if="[[numComments(hacker.comments, hacker.comments.*)]]">
-          <paper-badge
-              for="comments"
-              label="[[numComments(hacker.comments, hacker.comments.*)]]">
-          </paper-badge>
+        <template is="dom-if" if="[[hacker.resume]]">
+          <paper-tab>Resume</paper-tab>
         </template>
-      </paper-tab>
-    </paper-tabs>
 
-    <div id="content">
-      <template is="dom-if" if="[[eq(selected, 'Info')]]">
-        <div id="info">
-          <template is="dom-repeat" items="[[questions]]">
-            <template is="dom-if" if="[[has(hacker, item.name)]]">
-              <paper-input-container always-float-label>
-                <label slot="label">[[item.label]]</label>
-                <span slot="input">
-                  <template is="dom-if" if="[[linkField(hacker, item.name)]]">
-                    <a target="_blank" href="[[linkField(hacker, item.name)]]">
+        <paper-tab>
+          <span id="comments">
+            Comments
+            &nbsp;&nbsp;
+          </span>
+
+          <template
+                is="dom-if"
+                if="[[numComments(hacker.comments, hacker.comments.*)]]">
+            <paper-badge
+                for="comments"
+                label="[[numComments(hacker.comments, hacker.comments.*)]]">
+            </paper-badge>
+          </template>
+        </paper-tab>
+      </paper-tabs>
+
+      <div id="content">
+        <template is="dom-if" if="[[eq(selected, 'Info')]]">
+          <div id="info">
+            <template is="dom-repeat" items="[[questions]]">
+              <template is="dom-if" if="[[has(hacker, item.name)]]">
+                <paper-input-container always-float-label>
+                  <label slot="label">[[item.label]]</label>
+                  <span slot="input">
+                    <template is="dom-if" if="[[linkField(hacker, item.name)]]">
+                      <a target="_blank" href="[[linkField(hacker, item.name)]]">
+                        [[get(hacker, item.name)]]
+                      </a>
+                    </template>
+
+                    <template is="dom-if" if="[[!linkField(hacker, item.name)]]">
                       [[get(hacker, item.name)]]
-                    </a>
-                  </template>
-
-                  <template is="dom-if" if="[[!linkField(hacker, item.name)]]">
-                    [[get(hacker, item.name)]]
-                  </template>
-                </span>
-              </paper-input-container>
+                    </template>
+                  </span>
+                </paper-input-container>
+              </template>
             </template>
-          </template>
-        </div>
-      </template>
+          </div>
+        </template>
 
-      <template is="dom-if" if="[[eq(selected, 'Resume')]]">
-        <iframe src="[[resumeLink(hacker.resume)]]"></iframe>
-      </template>
+        <template is="dom-if" if="[[eq(selected, 'Resume')]]">
+          <iframe src="[[resumeLink(hacker.resume)]]"></iframe>
+        </template>
 
-      <template is="dom-if" if="[[eq(selected, 'Comments')]]">
-        <nw-comments
-          comments="{{hacker.comments}}"
-          name="[[name]]"
-          email="[[email]]">
-        </nw-comments>
-      </template>
-    </div>
+        <template is="dom-if" if="[[eq(selected, 'Comments')]]">
+          <nw-comments
+            comments="{{hacker.comments}}"
+            name="[[name]]"
+            email="[[email]]">
+          </nw-comments>
+        </template>
+      </div>
 
-    <div id="actions">
-      <template is="dom-if" if="[[!hacker.acceptance_sent]]">
-        <select on-change="onSelect">
-          <template is="dom-repeat" items="[[categories]]">
-            <option selected$="[[eq(item, hacker.status)]]">[[item]]</option>
-          </template>
-        </select>
-      </template>
+      <div id="actions">
+        <template is="dom-if" if="[[!hacker.acceptance_sent]]">
+          <select on-change="onSelect">
+            <template is="dom-repeat" items="[[categories]]">
+              <option selected$="[[eq(item, hacker.status)]]">[[item]]</option>
+            </template>
+          </select>
+        </template>
 
-      <paper-checkbox checked="{{hacker.checked_in}}" on-change="checkIn">Checked In</paper-checkbox>
+        <paper-checkbox checked="{{hacker.checked_in}}" on-change="checkIn">Checked In</paper-checkbox>
 
-      <template is="dom-if" if="[[acceptanceSent(hacker)]]">
-        <span>
-          <a on-tap="resetRSVPTime">Reset RSVP Time</a>
-          (<a target="_blank" href="[[rsvpLink(hacker)]]">Link</a>,
-          [[timeTo(hacker.acceptance_sent.Time)]])
+        <template is="dom-if" if="[[acceptanceSent(hacker)]]">
+          <span>
+            <a on-tap="resetRSVPTime">Reset RSVP Time</a>
+            (<a target="_blank" href="[[rsvpLink(hacker)]]">Link</a>,
+            [[timeTo(hacker.acceptance_sent.Time)]])
+          </span>
+        </template>
+
+        <span class="right">
+          <span>[[hacker.status]]</span>,
+          ID: <a target="_blank" href="[[firebaseLink(form, sid)]]">[[sid]]</a>,
         </span>
-      </template>
-
-      <span class="right">
-        <span>[[hacker.status]]</span>,
-        ID: <a target="_blank" href="[[firebaseLink(form, sid)]]">[[sid]]</a>,
-      </span>
+      </div>
     </div>
 
     <firebase-document
            path="[[submissionPath(form, sid)]]"
+           hidden
            data="{{hacker}}">
     </firebase-document>
   </template>

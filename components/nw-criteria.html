@@ -1,0 +1,115 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="nw-criteria">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #question, #criteria, #summary {
+        padding: 15px;
+      }
+
+      #question {
+        background-color: var(--primary-color);
+        color: var(--dark-text-color);
+        font-weight: bold;
+      }
+
+      #question paper-button {
+        color: var(--dark-text-color);
+        border: 2px solid var(--dark-text-color);
+        width: 36px;
+        padding: 5px;
+        text-align: center;
+        border-radius: 2px;
+      }
+
+      #criteria {
+        flex-grow: 10000;
+        overflow: auto;
+      }
+
+      #summary {
+        background-color: #eee;
+      }
+
+      paper-button {
+        min-width: 0;
+      }
+
+      .question {
+        padding-left: 15px;
+      }
+    </style>
+
+    <div id="question">
+      <p>
+      What is the question?
+      </p>
+
+      <paper-button>0</paper-button>
+      <paper-button>1</paper-button>
+      <paper-button>2</paper-button>
+    </div>
+
+    <div id="criteria">
+      <template is="dom-repeat" items="[[questions]]">
+        <h4>[[item.name]]</h4>
+
+        <template is="dom-repeat" items="[[item.questions]]">
+          <div class="question">
+          0/[[item.worth]] [[item.name]]
+          </div>
+        </template>
+      </template>
+    </div>
+
+    <div id="summary">
+      Total 0/10
+    </div>
+  </template>
+
+  <script>
+class NWCriteria extends Polymer.Element {
+  static get is () { return 'nw-criteria' }
+
+  static get properties () {
+    return {
+      questions: {
+        value: [
+          {
+            name: 'General',
+            questions: [
+              { name: 'Owns a dog?', worth: 1 },
+              { name: 'Owns a big house?', worth: 1 },
+            ]
+          },
+          {
+            name: 'Ambition',
+            questions: [
+              { name: 'Wants to become a pet owner', worth: 1 },
+              { name: 'Is an extremely hard worker', worth: 1 },
+            ]
+          },
+          {
+            name: 'Community',
+            questions: [
+              { name: 'Is a part of the school\'s community', worth: 3 },
+            ]
+          }
+        ]
+      }
+    }
+  }
+
+  slugify (str) {
+    return str.replace(/[^a-zA-Z]+/g, ' ').trim().replace(/ /g, '-').toLowerCase()
+  }
+}
+
+customElements.define(NWCriteria.is, NWCriteria)
+  </script>
+</dom-module>
