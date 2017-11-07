@@ -393,7 +393,7 @@ Polymer({
           questions.push({
             name: e.name,
             type: e.tagName.toLowerCase(),
-            label: (e.label || e.textContent).trim()
+            label: (e.label || e.textContent.trim().split("\n")[0]).trim()
           })
         }
 
