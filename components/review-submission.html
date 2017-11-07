@@ -4,6 +4,7 @@
 <link rel="import" href="../bower_components/paper-input/paper-input-container.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-badge/paper-badge.html">
 
 <link rel="import" href="nw-comments.html">
 
@@ -57,7 +58,21 @@
         <paper-tab>Resume</paper-tab>
       </template>
 
-      <paper-tab>Comments</paper-tab>
+      <paper-tab>
+        <span id="comments">
+          Comments
+          &nbsp;&nbsp;
+        </span>
+
+        <template
+              is="dom-if"
+              if="[[numComments(hacker.comments, hacker.comments.*)]]">
+          <paper-badge
+              for="comments"
+              label="[[numComments(hacker.comments, hacker.comments.*)]]">
+          </paper-badge>
+        </template>
+      </paper-tab>
     </paper-tabs>
 
     <div id="content">
@@ -160,7 +175,7 @@ class ReviewSubmission extends Polymer.Element {
   }
 
   eq (a, b) {
-    return a === b
+    return (a || '').trim() === (b || '').trim()
   }
 
   has (hacker, name) {
@@ -224,6 +239,10 @@ class ReviewSubmission extends Polymer.Element {
 
   acceptanceSent (hacker) {
     return hacker.acceptance_sent && hacker.status === 'accepted'
+  }
+
+  numComments (comments) {
+    return Object.keys(comments || {}).length
   }
 }
 
