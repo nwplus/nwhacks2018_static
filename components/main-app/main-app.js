@@ -64,10 +64,12 @@ Polymer({
 
     window.addEventListener("hashchange", this.handleLoad.bind(this))
   },
+
   loadPage: function (route) {
     const pageURL = 'components/' + route + '/' + route + '.html'
     this.importHref(pageURL, this.handleLoad, this.handle404, true)
   },
+
   handleLoad: function () {
     // Using setTimeout so the page will load before attempting to navigate to
     // anchor.

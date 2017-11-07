@@ -1,50 +1,50 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
-<link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
-<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
 
 <link rel="import" href="../firebase-config/firebase-config.html">
 <link rel="import" href="../lunr-js.html">
 <link rel="import" href="../moment-js.html">
 <link rel="import" href="../light-page.html">
-
-<!-- form types -->
-<link rel="import" href="../register-form/register-form.html">
-<link rel="import" href="../volunteer-form/volunteer-form.html">
-<link rel="import" href="../mentorexpo-form/mentorexpo-form.html">
+<link rel="import" href="../review-submission.html">
 
 <dom-module id="select-hackers">
   <template>
     <style include="light-page">
       :host {
+        display: flex;
+        flex-direction: column;
+
+        height: calc(100vh - 65px);
+
         padding-bottom: 0;
         height: calc(100vh - 65px);
         padding: 0;
+
+        --paper-input-container: {
+          padding-bottom: 8px;
+        };
       }
+
       #filters {
         padding: 0 15px 15px;
         border-bottom: 1px solid #eee;
       }
+
       iron-list {
         margin: 0 0;
-        height: 1000px;
         overflow-x: hidden;
       }
+
       paper-input, paper-dropdown-menu {
         display: inline-block;
-      }
-      paper-card {
-        color: black;
-        max-width: 900px;
-        margin: 5px auto;
-        display: block;
       }
       table {
         text-align: left;
@@ -88,6 +88,24 @@
       }
       [label="Response"] {
         width: 170px;
+      }
+
+      #container {
+        display: flex;
+        flex-grow: 10000;
+      }
+
+      #list {
+        width: 320px;
+        flex-shrink: 0;
+      }
+
+      #review {
+        flex-grow: 1000;
+      }
+
+      paper-item {
+        cursor: pointer;
       }
     </style>
     <div id="filters">
@@ -140,201 +158,33 @@
 
       <a on-tap="export">Export to CSV</a>
     </div>
-    <!-- <template is="dom-repeat" items="{{hackers}}" as="hacker" filter="{{filter(status)}}" observe="status"> -->
-    <iron-list id="list" items="{{filtered}}" as="hacker">
-      <template>
-        <div>
-          <paper-card heading="[[title(hacker)]]">
-            <div class="card-content">
-              <table>
-                <tbody>
-                  <tr>
-                    <th> School </th>
-                    <td>[[hacker.school]]</td>
-                  </tr>
-                  <tr>
-                    <th>City</th>
-                    <td>[[hacker.city]]</td>
-                  </tr>
-                  <template is="dom-if" if="[[hacker.github]]">
-                    <tr>
-                      <th>GitHub</th>
-                      <td>
-                        <a target="_blank" href="[[githubLink(hacker.github)]]">[[hacker.github]]</a>
-                      </td>
-                    </tr>
-                  </template>
-                  <template is="dom-if" if="[[hacker.linkedin]]">
-                    <tr>
-                      <th>LinkedIn</th>
-                      <td>
-                        <a target="_blank" href="[[linkedinLink(hacker.linkedin)]]">[[hacker.linkedin]]</a>
-                      </td>
-                    </tr>
-                  </template>
-                  <template is="dom-if" if="[[hacker.personalsite]]">
-                    <tr>
-                      <th>Personal Site</th>
-                      <td>
-                        <a target="_blank" href="[[hacker.personalsite]]">[[hacker.personalsite]]</a>
-                      </td>
-                    </tr>
-                  </template>
-                  <template is="dom-if" if="[[hacker.resume]]">
-                    <tr>
-                      <th>Resume</th>
-                      <td>
-                        <a target="_blank" href="[[resumeLink(hacker.resume)]]">Resume</a>
-                      </td>
-                    </tr>
-                  </template>
-                  <tr>
-                    <th>Phone Number</th>
-                    <td>[[hacker.phone]]</td>
-                  </tr>
-                  <tr>
-                    <th>T-Shirt Size</th>
-                    <td>[[hacker.tshirt]]</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h3>Why do you want to come to nwHacks?</h3>
-              <p>[[hacker.reason]]</p>
 
-              <template is="dom-if" if="[[hacker.travel_reimbursement]]">
-                <div class="tag">Travel Reimbursement</div>
-              </template>
-              <template is="dom-if" if="[[hacker.first_hackathon]]">
-                <div class="tag">First Hackathon</div>
-              </template>
-              <template is="dom-if" if="[[hacker.mentor]]">
-                <div class="tag">Wants to Mentor</div>
-              </template>
-              <template is="dom-if" if="[[hacker.duplicate]]">
-                <div class="tag bad">Multiple Submissions</div>
-              </template>
+    <div id="container">
+      <iron-list id="list" items="{{filtered}}" as="hacker">
+        <template>
+          <div>
+            <paper-item on-tap="select">
+              <paper-item-body two-line>
+                <div>
+                  [[title(hacker)]]
+                  <span class="right">[[hacker.index]]</span>
+                </div>
+                <div secondary>
+                  [[hacker.email]]
+                </div>
+              </paper-item-body>
+            </paper-item>
+          </div>
+        </template>
+      </iron-list>
 
-              <template is="dom-if" if="[[hacker.hs]]">
-                <div class="tag bad">Minor</div>
-              </template>
-
-              <template is="dom-if" if="[[hacker.rsvp]]">
-                <h2>Response</h2>
-
-                <table>
-                  <tbody>
-                    <tr>
-                      <th>Faculty</th>
-                      <td>[[hacker.rsvp.faculty]]</td>
-                    </tr>
-                    <tr>
-                      <th>Year</th>
-                      <td>[[hacker.rsvp.year]]</td>
-                    </tr>
-                    <tr>
-                      <th>Gender</th>
-                      <td>[[hacker.rsvp.gender]]</td>
-                    </tr>
-                    <tr>
-                      <th>Do you have any dietary restrictions?</th>
-                      <td>[[hacker.rsvp.dietary]]</td>
-                    </tr>
-                    <tr>
-                      <th>Do you have a valid passport?</th>
-                      <td>[[hacker.rsvp.passport]]</td>
-                    </tr>
-                    <tr>
-                      <th>Are you 19+?</th>
-                      <td>[[hacker.rsvp.age]]</td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <template is="dom-if" if="[[hacker.rsvp.anything_else]]">
-                  <h3>Anything else?</h3>
-                  <p>[[hacker.rsvp.anything_else]]</p>
-                </template>
-              </template>
-
-              <template is="dom-if" if="[[respondedWith(hacker, 0)]]">
-                <div class="tag bad">No Response</div>
-              </template>
-              <template is="dom-if" if="[[respondedWith(hacker, 1)]]">
-                <div class="tag">Going</div>
-              </template>
-              <template is="dom-if" if="[[respondedWith(hacker, 2)]]">
-                <div class="tag bad">Not Going</div>
-              </template>
-              <template is="dom-if" if="[[respondedWith(hacker, 3)]]">
-                <div class="tag warn">Need Reimbursement</div>
-              </template>
-
-              <!--
-              <br>
-              <paper-input label="Phone Number" type="tel" on-change="phoneChange" value="{{hacker.phone}}"></paper-input>
-              -->
-            </div>
-            <div class="card-actions">
-              <!--
-              <paper-dropdown-menu label="Status" vertical-align="bottom">
-                <paper-listbox class="dropdown-content"
-                  selected="{{hacker.status}}" attr-for-selected="status">
-                  <template is="dom-repeat" items="[[categories]]">
-                    <paper-item status="[[item]]">[[item]]</paper-item>
-                  </template>
-                </paper-listbox>
-              </paper-dropdown-menu>
-
-              <paper-dropdown-menu label="Team Status" vertical-align="bottom">
-                <paper-listbox class="dropdown-content"
-                  selected="{{hacker.status}}" attr-for-selected="status">
-                  <template is="dom-repeat" items="[[categories]]">
-                    <paper-item status="[[item]]">[[item]]</paper-item>
-                  </template>
-                </paper-listbox>
-              </paper-dropdown-menu>
-              -->
-
-              <template is="dom-if" if="[[!hacker.acceptance_sent]]">
-                <span>
-                  <select on-change="onSelect">
-                    <template is="dom-repeat" items="[[categories]]">
-                      <option selected$="[[eq(item, hacker.status)]]">[[item]]</option>
-                    </template>
-                  </select>
-
-                  <template is="dom-if" if="[[hasTeammates(hacker)]]">
-                    Team:
-                    <select on-change="onSelectTeam">
-                      <option></option>
-                      Team: <template is="dom-repeat" items="[[categories]]">
-                        <option>[[item]]</option>
-                      </template>
-                    </select>
-                  </template>
-                </span>
-              </template>
-
-              <paper-checkbox checked="{{hacker.checked_in}}" on-change="checkIn">Checked In</paper-checkbox>
-
-              <template is="dom-if" if="[[acceptanceSent(hacker)]]">
-                <span>
-                  <a on-tap="resetRSVPTime">Reset RSVP Time</a>
-                  (<a target="_blank" href="[[rsvpLink(hacker)]]">Link</a>,
-                  [[timeTo(hacker.acceptance_sent.Time)]])
-                </span>
-              </template>
-
-              <span class="right">
-                <span>[[hacker.status]]</span>,
-                ID: <a target="_blank" href="[[firebaseLink(hacker.id)]]">[[hacker.id]]</a>,
-                #<span>[[hacker.index]]</span>
-              </span>
-            </div>
-          </paper-card>
-        </div>
-      </template>
-    </iron-list>
+      <review-submission
+        id="review"
+        form="[[form]]"
+        sid="[[sid]]"
+        questions="[[questions]]">
+      </review-submission>
+    </div>
 
     <paper-dialog id="error" modal>
       <h2>Error</h2>

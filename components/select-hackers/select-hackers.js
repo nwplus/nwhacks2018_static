@@ -5,6 +5,11 @@ Object.freeze(categories)
 const responseCategories = ['no response', 'going', 'not going', 'need reimbursement']
 Object.freeze(responseCategories)
 
+const formComponentOverride = {
+  'registration': 'register'
+}
+Object.freeze(formComponentOverride)
+
 Polymer({
   is: 'select-hackers',
 
@@ -12,6 +17,10 @@ Polymer({
     hackers: {
       type: Array,
       value: []
+    },
+
+    questions: {
+      type: Object
     },
 
     form: {
@@ -49,18 +58,6 @@ Polymer({
 
   refresh: function () { this.incr++ },
 
-  attached: function () {
-    var self = this
-    setTimeout(function () { self.resize() }, 100)
-    window.addEventListener('resize', function () { self.resize() })
-    this.getQuestionMapping('register-form')
-  },
-
-  resize: function () {
-    var top = this.$.list.getBoundingClientRect().top
-    this.$.list.style.height = window.innerHeight - top + 'px'
-  },
-
   observers: [
     'refresh(filters.status)',
     'refresh(filters.checked_in)',
@@ -73,7 +70,8 @@ Polymer({
     'handleRegistrations(registrations)',
     'handleRegistrations(registrations.*)',
     'handlePartials(registrations.*)',
-    'filter(hackers, filters, incr, hackers.*)'
+    'filter(hackers, filters, incr, hackers.*)',
+    'getQuestionMapping(form)'
   ],
 
   cleanEmail: function (email) {
@@ -154,46 +152,12 @@ Polymer({
 
     this.updateEmailIndex(hackers)
 
-    this.clusters = this.clusterTeams(hackers)
 
     // Update search
     this.updateLunrIndex(hackers)
 
     console.log('hackers update')
     this.hackers = hackers
-  },
-
-  // clusterTeams returns a {[email: string]: Set[email: string]}
-  clusterTeams: function (hackers) {
-    const clusters = {}
-    hackers.forEach((hacker) => {
-      if (hacker.duplicate || !hacker.teammates || hacker.teammates.trim().length === 0) {
-        return
-      }
-      const teammates = hacker.teammates.split(',').map((a) => this.cleanEmail(a))
-      teammates.forEach((teammate) => {
-        if (!this.emailIndex[teammate]) {
-          return
-        }
-        this.addPersonToCluster(clusters, hacker.cleanEmail, teammate)
-      })
-    })
-    return clusters
-  },
-
-  addPersonToCluster: function (clusters, key, email) {
-    const targetCluster = (clusters[key] || new Set())
-    const existingCluster = clusters[email]
-    targetCluster.add(key)
-    targetCluster.add(email)
-    if (existingCluster && targetCluster !== existingCluster) {
-      existingCluster.forEach((e) => {
-        targetCluster.add(e)
-        clusters[e] = targetCluster
-      })
-    }
-    clusters[key] = targetCluster
-    clusters[email] = targetCluster
   },
 
   updateEmailIndex: function (hackers) {
@@ -254,8 +218,7 @@ Polymer({
   },
 
   title: function (hacker) {
-    const name = hacker.name || hacker.first_name + ' ' + hacker.last_name
-    return name + ' (' + hacker.email + ')'
+    return hacker.name || hacker.first_name + ' ' + hacker.last_name
   },
 
   filter: function (hackers, filters, _) {
@@ -303,30 +266,6 @@ Polymer({
     this.$.list.scroll(0, scroll)
   },
 
-  resumeLink: function (resume) {
-    return 'https://firebasestorage.googleapis.com/v0/b/nwhacks-96701.appspot.com/o/' + encodeURIComponent(resume) + '?alt=media'
-  },
-
-  githubLink: function (username) {
-    if (!username) {
-      return
-    }
-    if (username.indexOf('github.com') > 0) {
-      return username
-    }
-    return 'https://github.com/' + username
-  },
-
-  linkedinLink: function (username) {
-    if (!username) {
-      return
-    }
-    if (username.indexOf('linkedin.com') > 0) {
-      return username
-    }
-    return 'https://linkedin.com/in/' + username
-  },
-
   selected: function (status) {
     var index = categories.indexOf(status)
     if (index >= 0) {
@@ -350,6 +289,10 @@ Polymer({
       return false
     }
     return (hacker.rsvp ? 1 : 0) === response
+  },
+
+  select: function (e) {
+    this.sid = e.model.hacker.$key
   },
 
   onSelect: function (e) {
@@ -385,35 +328,25 @@ Polymer({
     var hacker = e.model.hacker
     this.patchHacker(hacker)
   },
+
   checkIn: function (e) {
     var hacker = e.model.hacker
     this.patchHacker(hacker)
   },
+
   patchHacker: function (hacker) {
     delete hacker.$key
     this.$.regs.setStoredValue('/registrations/' + hacker.id, hacker)
   },
+
   refreshList: function () { this.incr++ },
+
   handleErr: function (a, b, c) { this.handleError(a, b.error) },
-  hackerAdminURL: function (hacker) {
-    return '/api/admin/nwhacks/registration/' + hacker.id + '/change/'
-  },
+
   handleError: function (e, err) {
     console.log('Error', err)
     this.error = err
     this.$.error.open()
-  },
-
-  hasTeammates: function (hacker) {
-    return !!this.clusters[hacker.cleanEmail]
-  },
-
-  teammates: function (hacker) {
-    const cluster = this.clusters[hacker.cleanEmail]
-    if (cluster) {
-      return Array.from(cluster).sort()
-    }
-    return []
   },
 
   scrollToEmail: function (e) {
@@ -423,10 +356,6 @@ Polymer({
         this.$.list.scrollToIndex(i)
       }
     })
-  },
-
-  acceptanceSent: function (hacker) {
-    return hacker.acceptance_sent && hacker.status === 'accepted'
   },
 
   rsvpLink: function (hacker) {
@@ -443,34 +372,39 @@ Polymer({
     return moment(time).add(7, 'days').fromNow()
   },
 
-  firebaseLink: function (id) {
-    if (!id) {
-      return
-    }
-    return 'https://console.firebase.google.com/project/nwhacks-96701/database/data/registrations/' + id
-  },
 
-  getQuestionMapping: function (name) {
-    const elem = document.createElement(name)
-    elem.style.display = 'none'
-    document.body.append(elem)
-    let q = [elem]
-    while (q.length > 0) {
-      const e = q.pop()
-      q = q.concat(Array.from(e.children))
-      if (e.root) {
-        q = q.concat(Array.from(e.root.children))
+  getQuestionMapping: function (form) {
+    form = formComponentOverride[form] || form
+    const elemName = form + '-form'
+    const pageURL = 'components/' + elemName + '/' + elemName + '.html'
+
+    // import form element.
+    this.importHref(pageURL, () => {
+      const elem = document.createElement(elemName)
+      elem.style.display = 'none'
+      document.body.append(elem)
+
+      const questions = []
+      let q = [elem]
+      while (q.length > 0) {
+        const e = q.shift()
+
+        if (e.validate && e.name) {
+          questions.push({
+            name: e.name,
+            type: e.tagName.toLowerCase(),
+            label: (e.label || e.textContent).trim()
+          })
+        }
+
+        // Add element children to worklist.
+        q = Array.from(e.children).concat(q)
+        if (e.root) {
+          q = Array.from(e.root.children).concat(q)
+        }
       }
-      if (e.validate && e.label) {
-        e.value = e.label
-        e.checked = e.label
-        e.selectedItemLabel = e.label
-        console.log(e.label, e)
-      }
-    }
-    setTimeout(() => {
-      debugger
+      this.questions = questions
       elem.remove()
-    }, 10);
+    }, null, true)
   }
 })
