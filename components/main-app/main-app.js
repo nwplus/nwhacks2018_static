@@ -12,6 +12,7 @@ Polymer({
         this.handleLoad()
       }, 100)
 
+      this.hideHeader = false
       this.hideFooter = false
       this.adminPage = false
 
@@ -41,6 +42,7 @@ Polymer({
     })
 
     page('/admin/*', (_, next) => {
+      this.hideHeader = true
       this.hideFooter = true
       this.adminPage = true
       next()
