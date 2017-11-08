@@ -154,6 +154,7 @@
 
         <span class="right">
           <span>[[hacker.status]]</span>
+          <a href="[[permalink]]">Permalink</a>,
           <a target="_blank" href="[[firebaseLink(form, sid)]]">Firebase</a>
         </span>
       </div>
@@ -188,8 +189,17 @@ class ReviewSubmission extends Polymer.Element {
 
   static get observers () {
     return [
-      'reset(sid)'
+      'reset(sid)',
+      'updateLink(form, sid)'
     ]
+  }
+
+  updateLink (form, sid) {
+    if (!form || !sid) {
+      return
+    }
+    this.permalink = '/admin/select/' + form + '/' + sid
+    page(this.permalink)
   }
 
   reset () {

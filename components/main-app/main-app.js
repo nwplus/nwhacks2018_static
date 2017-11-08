@@ -36,9 +36,9 @@ Polymer({
     page('/dayof', () => {
       this.route = 'dayof-page'
     })
-    page('/rsvp/:id', (e) => {
+    page('/rsvp/:id', (ctx) => {
       this.route = 'rsvp-page'
-      this.params = e.params
+      this.params = ctx.params
     })
 
     page('/admin/*', (_, next) => {
@@ -46,6 +46,10 @@ Polymer({
       this.hideFooter = true
       this.adminPage = true
       next()
+    })
+    page('/admin/select/:form/:sid', (ctx) => {
+      this.route = 'select-hackers'
+      this.params = ctx.params
     })
     page('/admin/select', () => {
       this.route = 'select-hackers'

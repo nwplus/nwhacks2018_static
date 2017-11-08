@@ -309,7 +309,10 @@
 
         <!-- Admin Pages -->
         <template is="dom-if" data-route="select-hackers">
-          <select-hackers></select-hackers>
+          <select-hackers
+            sid="[[params.sid]]"
+            form="[[params.form]]">
+          </select-hackers>
         </template>
         <template is="dom-if" data-route="stats-page">
           <stats-page></stats-page>
