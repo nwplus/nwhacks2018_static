@@ -103,15 +103,15 @@
               <template is="dom-if" if="[[has(hacker, item.name)]]">
                 <paper-input-container always-float-label>
                   <label slot="label">[[item.label]]</label>
-                  <span slot="input">
-                    <template is="dom-if" if="[[linkField(hacker, item.name)]]">
-                      <a target="_blank" href="[[linkField(hacker, item.name)]]">
-                        [[get(hacker, item.name)]]
+                  <span slot="input" class="paper-input-input">
+                    <template is="dom-if" if="[[linkField(hacker, item.name, hacker.*)]]">
+                      <a target="_blank" href="[[linkField(hacker, item.name, hacker.*)]]">
+                        [[get(hacker, item.name, hacker.*)]]
                       </a>
                     </template>
 
-                    <template is="dom-if" if="[[!linkField(hacker, item.name)]]">
-                      [[get(hacker, item.name)]]
+                    <template is="dom-if" if="[[!linkField(hacker, item.name, hacker.*)]]">
+                      [[get(hacker, item.name, hacker.*)]]
                     </template>
                   </span>
                 </paper-input-container>
@@ -162,7 +162,8 @@
 
     <firebase-document
            path="[[submissionPath(form, sid)]]"
-           hidden
+           log
+           disabled="[[disabled]]"
            data="{{hacker}}">
     </firebase-document>
   </template>
@@ -183,6 +184,16 @@ class ReviewSubmission extends Polymer.Element {
 
       selected: {
         type: String
+      },
+
+      hacker: {
+        type: Object,
+        notify: true
+      },
+
+      disabled: {
+        type: Boolean,
+        value: false
       }
     }
   }
