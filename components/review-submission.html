@@ -8,6 +8,7 @@
 
 <link rel="import" href="nw-comments.html">
 <link rel="import" href="nw-criteria.html">
+<link rel="import" href="document-viewer.html">
 
 <dom-module id="review-submission">
   <template>
@@ -45,9 +46,8 @@
     padding: 16px;
   }
 
-  iframe {
+  document-viewer {
     flex-grow: 10000;
-    border: none;
   }
 
   #actions {
@@ -121,7 +121,7 @@
         </template>
 
         <template is="dom-if" if="[[eq(selected, 'Resume')]]">
-          <iframe src="[[resumeLink(hacker.resume)]]"></iframe>
+          <document-viewer src="[[resumeLink(hacker.resume)]]"></document-viewer>
         </template>
 
         <template is="dom-if" if="[[eq(selected, 'Comments')]]">
@@ -237,6 +237,10 @@ class ReviewSubmission extends Polymer.Element {
   }
 
   resumeLink (resume) {
+    if (!resume) {
+      return
+    }
+
     return 'https://firebasestorage.googleapis.com/v0/b/nwhacks-2018.appspot.com/o/' + encodeURIComponent(resume) + '?alt=media'
   }
 

@@ -1,0 +1,48 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="document-viewer">
+  <template>
+    <style>
+      :host {
+        display: flex;
+      }
+      iframe {
+        border: none;
+        flex-grow: 10000;
+      }
+    </style>
+
+    <iframe src="[[embed(src)]]"></iframe>
+  </template>
+  <script>
+const whitelist = ['pdf']
+
+class DocumentViewer extends Polymer.Element {
+  static get is () { return 'document-viewer' }
+
+  static get properties () {
+    return {
+      src: {
+        type: String
+      }
+    }
+  }
+
+  embed (src) {
+    if (!src || src.length === 0) {
+      return ''
+    }
+    const parser = document.createElement('a')
+    parser.href = src
+    const parts = parser.pathname.split('.')
+    const ext = parts[parts.length-1]
+    if (whitelist.indexOf(ext) !== -1) {
+      return src
+    }
+    return 'https://docs.google.com/gview?url=' + encodeURIComponent(src) + '&embedded=true'
+  }
+}
+
+customElements.define(DocumentViewer.is, DocumentViewer)
+  </script>
+</dom-module>
