@@ -1,4 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="nw-score.html">
 
 <dom-module id="nw-criteria">
   <template>
@@ -8,7 +11,7 @@
         flex-direction: column;
       }
 
-      #question, #criteria, #summary {
+      #question, #criteria {
         padding: 15px;
       }
 
@@ -30,10 +33,16 @@
       #criteria {
         flex-grow: 10000;
         overflow: auto;
+        padding-top: 0;
       }
 
       #summary {
         background-color: #eee;
+        padding: 0 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        overflow: hidden;
       }
 
       paper-button {
@@ -41,34 +50,69 @@
       }
 
       .question {
-        padding-left: 15px;
+        cursor: pointer;
+        color: var(--secondary-text-color);
+      }
+
+      .question[filled] {
+        color: var(--light-text-color);
+      }
+
+      .question[selected] {
+        color: var(--primary-color);
+        font-weight: bold;
+      }
+
+      h4 {
+        margin-bottom: 10px;
+      }
+
+      nw-score {
+        margin: 0 10px;
       }
     </style>
 
     <div id="question">
       <p>
-      What is the question?
+      [[selected.name]]
       </p>
 
-      <paper-button>0</paper-button>
-      <paper-button>1</paper-button>
-      <paper-button>2</paper-button>
+      <template is="dom-repeat" items="[[levels(selected.worth)]]">
+        <paper-button on-tap="handleScore">[[item]]</paper-button>
+      </template>
     </div>
 
     <div id="criteria">
-      <template is="dom-repeat" items="[[questions]]">
-        <h4>[[item.name]]</h4>
+      <template is="dom-repeat" items="[[questions]]" as="category">
+        <h4>[[category.name]]</h4>
 
-        <template is="dom-repeat" items="[[item.questions]]">
-          <div class="question">
-          0/[[item.worth]] [[item.name]]
+        <template is="dom-repeat" items="[[category.questions]]">
+          <div
+            class="question"
+            on-tap="handleSelect"
+            filled$="[[isSet(item.score)]]"
+            selected$="[[isSelected(selected, item)]]">
+
+            <nw-score
+              score="[[criteriaScore(criteria, item.slug)]]"
+              total="[[item.worth]]">
+            </nw-score>
+            [[item.name]]
           </div>
         </template>
       </template>
     </div>
 
     <div id="summary">
-      Total 0/10
+      <span>
+        Total
+        <nw-score
+         score="[[criteria.score]]"
+         total="[[criteria.total]]">
+        </nw-score>
+      </span>
+
+      <paper-button on-tap="clearCriteria">Clear</paper-button>
     </div>
   </template>
 
@@ -101,8 +145,137 @@ class NWCriteria extends Polymer.Element {
             ]
           }
         ]
+      },
+
+      _questions: {
+        computed: 'flattenQuestions(questions)'
+      },
+
+      criteria: {
+        notify: true
+      },
+
+      sid: {
+        type: String
       }
     }
+  }
+
+  static get observers () {
+    return [
+      'computeScore(_questions)',
+      'computeScore(criteria)',
+      'reset(_questions, sid)'
+    ]
+  }
+
+  or (a, b) {
+    return a || b
+  }
+
+  isSet (v) {
+    return v !== undefined && v !== null
+  }
+
+  reset (questions) {
+    this.setSelected(questions[0])
+  }
+
+  clearCriteria () {
+    this.criteria = {}
+  }
+
+  flattenQuestions (questions) {
+    const flat = []
+    for (const cat of questions) {
+      for (const q of cat.questions) {
+        q.slug = this.slugify(q.name)
+        q.index = flat.length
+        flat.push(q)
+      }
+    }
+
+    return flat
+  }
+
+  levels (max) {
+    const l = []
+    for (let i = 0; i <= max; i++) {
+      l.push(i)
+    }
+    return l
+  }
+
+  handleSelect (e) {
+    this.setSelected(e.model.item)
+  }
+
+  setSelected (selected) {
+    this.selected = selected
+  }
+
+  handleScore (e) {
+    const score = e.model.item
+    if (!this.criteria) {
+      this.criteria = {}
+    }
+    this.set(['criteria', this.selected.slug], score)
+
+    const i = this.selected.index + 1
+    const q = this._questions[i]
+    if (q) {
+      this.setSelected(q)
+    }
+
+    this.computeScore()
+  }
+
+  computeScore () {
+    if (!this._questions) {
+      return
+    }
+    if (!this.criteria) {
+      this.criteria = {}
+    }
+
+    const total = this._questions.map((q) => q.worth).reduce((a, b) => a + b, 0)
+
+    let finished = true
+    let started = false
+    let score = 0
+
+    for (const q of this._questions) {
+      if (!this.criteria.hasOwnProperty(q.slug)) {
+        finished = false
+        continue
+      }
+
+      started = true
+      score += this.criteria[q.slug]
+    }
+
+    if (started) {
+      setTimeout(() => {
+        this.set('criteria.total', total)
+      }, 1)
+    }
+
+    if (!finished) {
+      return
+    }
+    this.set('criteria.score', score)
+  }
+
+  criteriaScore (criteria, slug) {
+    if (!criteria) {
+      return
+    }
+
+    return criteria[slug]
+  }
+
+  isSelected (selected, item) {
+    return selected === item
   }
 
   slugify (str) {

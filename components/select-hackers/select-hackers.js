@@ -19,6 +19,10 @@ Polymer({
       value: []
     },
 
+    sid: {
+      value: ''
+    },
+
     questions: {
       type: Object
     },
@@ -110,11 +114,11 @@ Polymer({
     console.log('rendering!')
 
     // Convert {[id]: hacker} to hacker[] sorted by ID.
-    const hackers = this.registrations.map((a) => {
+    const hackers = this.registrations
+
+    hackers.forEach((a) => {
       a.id = a.$key
-      return a
     })
-    hackers.sort(function (a, b) { return a.id < b.id ? -1 : 1 })
 
     // Deduplicate hackers
     var dedup = {}
@@ -129,6 +133,7 @@ Polymer({
         count: count + 1
       }
     })
+
     hackers.forEach((hacker, i) => {
       const {last, count} = dedup[hacker.cleanEmail]
       if (count > 1 && last !== hacker.id) {
@@ -158,6 +163,10 @@ Polymer({
 
     console.log('hackers update')
     this.hackers = hackers
+  },
+
+  index: function (hacker) {
+    return hacker.index
   },
 
   updateEmailIndex: function (hackers) {
@@ -264,6 +273,10 @@ Polymer({
     this.filtered = filtered
     this.filteredCount = filtered.length
     this.$.list.scroll(0, scroll)
+
+    filtered.forEach((hacker, i) => {
+      this.linkPaths(['filtered', i], ['registrations', hacker.index])
+    })
   },
 
   selected: function (status) {

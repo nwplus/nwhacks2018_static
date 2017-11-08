@@ -15,6 +15,9 @@
 :host {
   display: flex;
 }
+  :host([hidden]) {
+    display: none;
+  }
 
   #tabs {
     display: flex;
@@ -54,6 +57,7 @@
 
   #criteria {
     flex-shrink: 0;
+    border-right: 1px solid #eee;
   }
 
   .right {
@@ -61,7 +65,11 @@
   }
     </style>
 
-    <nw-criteria id="criteria"></nw-criteria>
+    <nw-criteria
+      id="criteria"
+      sid="[[sid]]"
+      criteria="{{hacker.criteria}}">
+    </nw-criteria>
 
     <div id="tabs">
       <paper-tabs selected="{{selected}}" attr-for-selected="text-content" scrollable>
@@ -145,8 +153,8 @@
         </template>
 
         <span class="right">
-          <span>[[hacker.status]]</span>,
-          ID: <a target="_blank" href="[[firebaseLink(form, sid)]]">[[sid]]</a>,
+          <span>[[hacker.status]]</span>
+          <a target="_blank" href="[[firebaseLink(form, sid)]]">Firebase</a>
         </span>
       </div>
     </div>

@@ -1,0 +1,79 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="tinygradient-js.html">
+
+<dom-module id="nw-score">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+        color: var(--secondary-text-color);
+        font-weight: normal;
+      }
+
+      span {
+        width: 0.6em;
+        display: inline-block;
+        text-align: center;
+      }
+    </style>
+    <span>[[_score]]</span>/<span>[[_total]]</span>
+  </template>
+  <script>
+const gradient = tinygradient('red', 'orange', '#27AE60').hsv(20, 'short')
+
+class NWScore extends Polymer.Element {
+  static get is () { return 'nw-score' }
+
+  static get properties () {
+    return {
+      score: {
+        type: Number
+      },
+
+      total: {
+        type: Number
+      },
+
+      _total: {
+        type: Number,
+        value: '-',
+        computed: 'computeScore(total)'
+      },
+
+      _score: {
+        type: Number,
+        value: '-',
+        computed: 'computeScore(score)'
+      }
+    }
+  }
+
+  static get observers () {
+    return [
+      'updateColor(score, total)'
+    ]
+  }
+
+  computeScore (score) {
+    if (score === undefined) {
+      return '-'
+    }
+
+    return score
+  }
+
+  updateColor (score, total) {
+    if (score === undefined || total === undefined) {
+      this.style.color = ''
+      return
+    }
+
+    const i = Math.round(score/total * (gradient.length - 1));
+    this.style.color = gradient[i].toRgbString()
+  }
+}
+
+customElements.define(NWScore.is, NWScore)
+  </script>
+</dom-module>
