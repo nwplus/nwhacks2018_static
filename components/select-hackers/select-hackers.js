@@ -54,6 +54,10 @@ Polymer({
       }
     },
 
+    isAdmin: {
+      value: false
+    },
+
     responseCategories: {
       type: Array,
       value: responseCategories

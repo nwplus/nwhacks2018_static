@@ -94,7 +94,7 @@
             selected$="[[isSelected(selected, item)]]">
 
             <nw-score
-              score="[[criteriaScore(criteria, item.slug)]]"
+              score="[[criteriaScore(criteria, item.slug, criteria.*)]]"
               total="[[item.worth]]">
             </nw-score>
             [[item.name]]
@@ -152,7 +152,8 @@ class NWCriteria extends Polymer.Element {
       },
 
       criteria: {
-        notify: true
+        notify: true,
+        type: Object
       },
 
       sid: {
@@ -234,9 +235,6 @@ class NWCriteria extends Polymer.Element {
     if (!this._questions) {
       return
     }
-    if (!this.criteria) {
-      this.criteria = {}
-    }
 
     const total = this._questions.map((q) => q.worth).reduce((a, b) => a + b, 0)
 
@@ -245,7 +243,7 @@ class NWCriteria extends Polymer.Element {
     let score = 0
 
     for (const q of this._questions) {
-      if (!this.criteria.hasOwnProperty(q.slug)) {
+      if (!this.criteria || !this.criteria.hasOwnProperty(q.slug)) {
         finished = false
         continue
       }
@@ -256,12 +254,18 @@ class NWCriteria extends Polymer.Element {
 
     if (started) {
       setTimeout(() => {
+        if (!this.criteria) {
+          this.criteria = {}
+        }
         this.set('criteria.total', total)
       }, 1)
     }
 
     if (!finished) {
       return
+    }
+    if (!this.criteria) {
+      this.criteria = {}
     }
     this.set('criteria.score', score)
   }

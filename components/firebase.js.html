@@ -3,7 +3,10 @@
 <link rel="import" href="../bower_components/polymerfire/firebase-database-script.html">
 
 <script>
-  // Initialize Firebase
+// Initialize Firebase if it hasn't been initialized already.
+try {
+  firebase.app()
+} catch (e) {
   var config = {
     apiKey: "AIzaSyATJyN_W5ZJiiaOPwhn8ljIxn85Eo5uQEA",
     authDomain: "nwhacks-2018.firebaseapp.com",
@@ -13,4 +16,5 @@
     messagingSenderId: "838873768070"
   };
   firebase.initializeApp(config);
+}
 </script>
