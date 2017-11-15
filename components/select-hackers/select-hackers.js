@@ -199,15 +199,29 @@ Polymer({
 
     const search = lunr(function () {
       this.ref('index')
+      this.field('emailSplit')
       for (const field of fields) {
         this.field(field)
       }
     })
-    hackers.forEach(function (hacker, i) {
-      hacker.emailSplit = hacker.email.replace(/@/g, ' ')
-      search.add(hacker)
-    })
+
     this.lunr = search
+
+    this.asyncBuildIndex(search, hackers)
+  },
+
+  asyncBuildIndex: function (index, hackers) {
+    if (!hackers || hackers.length === 0) {
+      return
+    }
+    requestIdleCallback(() => {
+      const batchSize = 25
+      hackers.slice(0, batchSize).forEach((hacker) => {
+        hacker.emailSplit = hacker.email.replace(/@/g, ' ')
+        index.add(hacker)
+      })
+      this.asyncBuildIndex(index, hackers.slice(batchSize))
+    })
   },
 
   responseCat: function (i) { return this.responseCategories[i] },

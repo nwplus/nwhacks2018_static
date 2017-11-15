@@ -94,6 +94,7 @@
       #container {
         display: flex;
         flex-grow: 10000;
+        overflow: hidden;
       }
 
       #list {
@@ -172,8 +173,8 @@
             <paper-item on-tap="select">
               <paper-item-body two-line>
                 <div>
-                  [[title(hacker)]]
                   <span class="right">[[index(hacker)]]</span>
+                  [[title(hacker)]]
                 </div>
                 <div secondary>
                   [[hacker.email]]
