@@ -1,0 +1,25 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../light-page.html">
+<link rel="import" href="../admin-list.html">
+
+<dom-module id="admin-settings">
+  <template>
+    <style include="light-page">
+    </style>
+
+    <h1 title>Admin Settings</h1>
+
+    <div class="content">
+      <h2>Permissions</h2>
+      <admin-list></admin-list>
+    </div>
+  </template>
+  <script>
+class AdminSettings extends Polymer.Element {
+  static get is () { return 'admin-settings' }
+}
+
+customElements.define(AdminSettings.is, AdminSettings)
+  </script>
+</dom-module>

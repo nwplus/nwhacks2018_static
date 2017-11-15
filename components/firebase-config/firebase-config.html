@@ -71,7 +71,7 @@ Polymer({
   ],
 
   or: function (a, b) {
-    return a === true || b === true
+    return a === true || (a && !!a.email) || b === true || (b && !!b.email)
   },
 
   formatEmail: function (email) {

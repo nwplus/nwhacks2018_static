@@ -47,6 +47,9 @@ Polymer({
       this.adminPage = true
       next()
     })
+    page('/admin/settings', () => {
+      this.route = 'admin-settings'
+    })
     page('/admin/select/:form/:sid', (ctx) => {
       this.route = 'select-hackers'
       this.params = ctx.params

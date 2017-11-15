@@ -1,0 +1,110 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="firebase-config/firebase-config.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+
+<dom-module id="admin-list">
+  <template>
+    <style include="shared-styles">
+      #input {
+        display: flex;
+        align-items: center;
+      }
+      paper-input {
+        flex-grow: 10000;
+      }
+    </style>
+
+    <ul>
+      <template is="dom-repeat" items="[[list(admins, admins.*)]]">
+        <li>
+          [[item.body.name]]
+          <a href="mailto:[[item.email]]">[[item.email]]</a>
+          <paper-icon-button icon="delete-forever" on-tap="delete"></paper-icon-button>
+        </li>
+      </template>
+    </ul>
+
+    <div id="input">
+      <paper-input label="Name" required type="name" auto-validate value="{{name}}">
+      </paper-input>
+      &nbsp;
+      <paper-input label="Email" required type="email" auto-validate value="{{email}}">
+      </paper-input>
+      &nbsp;
+      <paper-button on-tap="submit">Add Admin</paper-button>
+    </div>
+
+    <firebase-config is-admin="{{isAdmin}}" auth name="admins">
+    </firebase-config>
+
+    <template is="dom-if" if="[[isAdmin]]">
+      <firebase-document app-name="admins"
+                         path="/admins"
+                         data="{{admins}}">
+      </firebase-document>
+    </template>
+
+  </template>
+  <script>
+class AdminList extends Polymer.Element {
+  static get is () { return 'admin-list' }
+
+  list (admins) {
+    const l = []
+    for (const id of Object.keys(admins)) {
+      l.push({
+        id: id,
+        email: unescape(id),
+        body: admins[id]
+      })
+    }
+    return l
+  }
+
+  validate () {
+    let valid = true
+    for (const e of this.$.input.children) {
+      if (e.validate && !e.validate()) {
+        valid = false
+      }
+    }
+    return valid
+  }
+
+  formatEmail (email) {
+    if (!email) {
+      return;
+    }
+    return email.replace(/\./g, '%2E')
+  }
+
+  submit () {
+    if (!this.validate()) {
+      return
+    }
+
+    this.set(['admins', this.formatEmail(this.email)], {
+      name: this.name,
+      email: this.email,
+    })
+    this.name = ''
+    this.email = ''
+  }
+
+  delete (e) {
+    const admin = e.model.item
+    const name = admin.body.name || ''
+    if (!confirm('Remove admin ' + name + ' (' + admin.email + ')?')) {
+      return
+    }
+    this.set(['admins', admin.id], null)
+  }
+}
+
+customElements.define(AdminList.is, AdminList)
+  </script>
+</dom-module>

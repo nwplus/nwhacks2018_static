@@ -264,6 +264,9 @@
       </a>
       -->
       <template is="dom-if" if="[[adminPage]]">
+        <a href="/admin/settings" class="med right">
+          <paper-button>Settings</paper-button>
+        </a>
         <a href="/admin/checkin" class="med right">
           <paper-button>Check-In</paper-button>
         </a>
@@ -319,6 +322,9 @@
         </template>
         <template is="dom-if" data-route="checkin-page">
           <checkin-page></checkin-page>
+        </template>
+        <template is="dom-if" data-route="admin-settings">
+          <admin-settings></admin-settings>
         </template>
       </iron-lazy-pages>
     </div>
