@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
@@ -44,50 +44,54 @@
   </template>
 
   <script>
-Polymer({
-  is: 'firebase-config',
+class FirebaseConfig extends Polymer.Element {
+  static get is () { return 'firebase-config' }
 
-  properties: {
-    isAdmin: {
-      notify: true,
-      computed: 'or(isAdminUID, isAdminEmail)'
-    },
-    statusKnown: { notify: true },
-    user: { notify: true },
-    signedIn: { notify: true },
-    name: {
-      type: String,
-      notify: true
-    },
-    auth: {
-      type: Boolean,
-      value: false
+  static get properties () {
+    return {
+      isAdmin: {
+        notify: true,
+        computed: 'or(isAdminUID, isAdminEmail)'
+      },
+      statusKnown: { notify: true },
+      user: { notify: true },
+      signedIn: { notify: true },
+      name: {
+        type: String,
+        notify: true
+      },
+      auth: {
+        type: Boolean,
+        value: false
+      }
     }
-  },
+  }
 
-  observers: [
-    'signIn(signedIn, statusKnown, auth)',
-    'warnNotAdmin(signedIn, isAdmin, statusKnown, auth)'
-  ],
+  static get observers () {
+    return [
+      'signIn(signedIn, statusKnown, auth)',
+      'warnNotAdmin(signedIn, isAdmin, statusKnown, auth)'
+    ]
+  }
 
-  or: function (a, b) {
+  or (a, b) {
     return a === true || (a && !!a.email) || b === true || (b && !!b.email)
-  },
+  }
 
-  formatEmail: function (email) {
+  formatEmail (email) {
     if (!email) {
       return;
     }
     return email.replace(/\./g, '%2E')
-  },
+  }
 
-  signIn: function (signedIn, statusKnown, auth) {
+  signIn (signedIn, statusKnown, auth) {
     if (statusKnown && !signedIn && auth) {
       this.root.querySelector('#auth').signInWithPopup()
     }
-  },
+  }
 
-  warnNotAdmin: function (signedIn, isAdmin, statusKnown, auth) {
+  warnNotAdmin (signedIn, isAdmin, statusKnown, auth) {
     if (!statusKnown || !auth) {
       return
     }
@@ -97,11 +101,13 @@ Polymer({
       this.error = 'You are not an admin or data is still loading.'
       this.$.error.open()
     }
-  },
+  }
 
-  handleError: function (e, err) {
+  handleError (e, err) {
     this.err = err
   }
-})
+}
+
+customElements.define(FirebaseConfig.is, FirebaseConfig)
   </script>
 </dom-module>
