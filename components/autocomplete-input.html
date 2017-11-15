@@ -19,6 +19,7 @@
            query-fn="[[otherMatchBound]]"
            placeholder="[[placeholder]]"
            value="{{value}}"
+           show-results-on-focus
            highlight-first>
     </paper-autocomplete>
   </template>
@@ -131,7 +132,11 @@ class AutoCompleteInput extends Polymer.Element {
   }
 
   validate () {
-    return this.$.input.validate()
+    const valid = this.$.input.validate() && this.value && this.value.length > 0
+    if (!valid) {
+      this.$.input.root.querySelector("paper-input").invalid = true
+    }
+    return valid
   }
 }
 
