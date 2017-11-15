@@ -190,19 +190,18 @@ Polymer({
     }
     this.lastLunrIndexCount = hackers.length
 
+    const fields = new Set()
+    hackers.forEach((hacker) => {
+      for (const field of Object.keys(hacker)) {
+        fields.add(field)
+      }
+    })
+
     const search = lunr(function () {
       this.ref('index')
-      this.field('id')
-      this.field('city')
-      this.field('email')
-      this.field('emailSplit')
-      this.field('github')
-      this.field('personalsite')
-      this.field('linkedin')
-      this.field('name')
-      this.field('reason')
-      this.field('school')
-      this.field('teammates')
+      for (const field of fields) {
+        this.field(field)
+      }
     })
     hackers.forEach(function (hacker, i) {
       hacker.emailSplit = hacker.email.replace(/@/g, ' ')
