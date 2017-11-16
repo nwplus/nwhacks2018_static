@@ -67,14 +67,7 @@ Polymer({
   refresh: function () { this.incr++ },
 
   observers: [
-    'refresh(filters.status)',
-    'refresh(filters.checked_in)',
-    'refresh(filters.response)',
     'refresh(filters.search)',
-    'refresh(filters.mentor)',
-    'refresh(filters.first)',
-    'refresh(filters.reimbursement)',
-    'refresh(filters.missing_passport)',
     'handleRegistrations(registrations)',
     'handleRegistrations(registrations.*)',
     'handlePartials(registrations.*)',
@@ -197,30 +190,31 @@ Polymer({
       }
     })
 
-    const search = lunr(function () {
-      this.ref('index')
-      this.field('emailSplit')
-      for (const field of fields) {
-        this.field(field)
-      }
-    })
-
-    this.lunr = search
-
-    this.asyncBuildIndex(search, hackers)
+    const builder = new lunr.Builder()
+    builder.pipeline.add(lunr.trimmer, lunr.stopWordFilter, lunr.stemmer)
+    builder.searchPipeline.add(lunr.stemmer)
+    builder.ref('index')
+    builder.field('emailSplit')
+    for (const field of fields) {
+      builder.field(field)
+    }
+    this.asyncBuildIndex(builder, hackers)
   },
 
-  asyncBuildIndex: function (index, hackers) {
+  asyncBuildIndex: function (builder, hackers) {
     if (!hackers || hackers.length === 0) {
+      this.lunr = builder.build()
+      console.log('asyncBuildIndex: done!')
       return
     }
+
     requestIdleCallback(() => {
       const batchSize = 25
       hackers.slice(0, batchSize).forEach((hacker) => {
         hacker.emailSplit = hacker.email.replace(/@/g, ' ')
-        index.add(hacker)
+        builder.add(hacker)
       })
-      this.asyncBuildIndex(index, hackers.slice(batchSize))
+      this.asyncBuildIndex(builder, hackers.slice(batchSize))
     })
   },
 
@@ -248,38 +242,14 @@ Polymer({
   },
 
   filter: function (hackers, filters, _) {
-    var results = hackers
+    var filtered = hackers
     this.totalCount = hackers.length
     if (filters.search.length >= 3) {
       var rawResults = this.lunr.search(filters.search)
-      results =
-          rawResults.map(function (result) { return hackers[result.ref] })
+      filtered = rawResults.map((result) => {
+        return hackers[result.ref]
+      })
     }
-    var status = filters.status
-    var response = filters.response
-    var responseIdx = this.responded(response)
-    var filtered = results.filter((hacker, b, c) => {
-      var good = (status === '' || status === 'null' || status === 'All' ||
-                  status === hacker.status) &&
-          (response === '' || response === 'null' || response === 'All' ||
-           this.respondedWith(hacker, responseIdx)) && !hacker.duplicate
-      if (filters.mentor) {
-        good = good && hacker.mentor
-      }
-      if (filters.checked_in) {
-        good = good && hacker.checked_in
-      }
-      if (filters.reimbursement) {
-        good = good && hacker.travel_reimbursement
-      }
-      if (filters.first) {
-        good = good && hacker.first_hackathon
-      }
-      if (filters.missing_passport) {
-        good = good && hacker.rsvp && hacker.rsvp.passport === 'No'
-      }
-      return good
-    })
 
     filtered.forEach((hacker, i) => {
       hacker.filteredIndex = i

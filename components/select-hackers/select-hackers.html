@@ -123,36 +123,12 @@
       </paper-dropdown-menu>
       &nbsp;
 
-      <paper-dropdown-menu label="Status" selected-item-label="{{filters.status}}">
-        <paper-listbox slot="dropdown-content" selected="[[selected(hacker.status)]]">
-          <paper-item>All</paper-item>
-          <template is="dom-repeat" items="[[categories]]">
-            <paper-item>[[item]]</paper-item>
-          </template>
-        </paper-listbox>
-      </paper-dropdown-menu>
-      &nbsp;
-
-      <paper-dropdown-menu label="Response" selected-item-label="{{filters.response}}">
-        <paper-listbox slot="dropdown-content" selected="[[responded(hacker.response)]]">
-          <paper-item>All</paper-item>
-          <template is="dom-repeat" items="[[responseCategories]]">
-            <paper-item>[[item]]</paper-item>
-          </template>
-        </paper-listbox>
-      </paper-dropdown-menu>
-      &nbsp;
-
       <paper-input
         label="Search"
         value="{{filters.search}}"
         minlength="3"
         auto-validate>
       </paper-input>
-
-      <paper-checkbox checked="{{filters.first}}">First Time</paper-checkbox> &nbsp;
-      <paper-checkbox checked="{{filters.reimbursement}}">Needs Reimbursement</paper-checkbox> &nbsp;
-      <paper-checkbox checked="{{filters.checked_in}}">Checked In</paper-checkbox> &nbsp;
 
       Showing
       <span>{{filteredCount}}</span>
@@ -228,7 +204,6 @@
     </firebase-query>
 
   </template>
-  <script src="/bower_components/lunr.js/lunr.min.js"></script>
   <script src="/bower_components/comma-separated-values/csv.min.js"></script>
   <script src="./select-hackers.js"></script>
 </dom-module>

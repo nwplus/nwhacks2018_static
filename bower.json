@@ -35,7 +35,7 @@
     "iron-pages": "PolymerElements/iron-pages#^2.0.0",
     "webcomponentsjs": "^1.0.0",
     "paper-listbox": "polymerelements/paper-listbox#^2.0.0",
-    "lunr.js": "~0.6.0",
+    "lunr.js": "^2.0.0",
     "iron-list": "PolymerElements/iron-list#^2.0.0",
     "iron-selector": "PolymerElements/iron-selector#^2.0.0",
     "comma-separated-values": "~3.6.4",
