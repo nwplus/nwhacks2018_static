@@ -177,6 +177,21 @@ Polymer({
     this.emailIndex = emailIndex
   },
 
+  filterFields: function(fields, questions) {
+    const qmap = {}
+    for (const q of questions) {
+      qmap[q.name] = q
+    }
+    const display = []
+    for (const f of fields) {
+      const q = qmap[f]
+      if (q) {
+        display.push(q)
+      }
+    }
+    return display
+  },
+
   updateLunrIndex: function (hackers) {
     if (this.lastLunrIndexCount === hackers.length) {
       return
@@ -189,13 +204,14 @@ Polymer({
         fields.add(field)
       }
     })
+    this.fields = Array.from(fields)
 
     const builder = new lunr.Builder()
     builder.pipeline.add(lunr.trimmer, lunr.stopWordFilter, lunr.stemmer)
     builder.searchPipeline.add(lunr.stemmer)
     builder.ref('index')
     builder.field('emailSplit')
-    for (const field of fields) {
+    for (const field of this.fields) {
       builder.field(field)
     }
     this.asyncBuildIndex(builder, hackers)
@@ -276,6 +292,10 @@ Polymer({
     console.log('Error', err)
     this.error = err
     this.$.error.open()
+  },
+
+  showFilters: function () {
+    this.$.filterhelp.open()
   },
 
   getQuestionMapping: function (form) {
