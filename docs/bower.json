@@ -54,6 +54,7 @@
     "paper-badge": "^2.0.0",
     "tinygradient": "^0.3.1",
     "paper-dialog-scrollable": "^2.0.0",
-    "iron-a11y-keys": "^2.0.0"
+    "iron-a11y-keys": "^2.0.0",
+    "paper-tooltip": "^2.0.1"
   }
 }
