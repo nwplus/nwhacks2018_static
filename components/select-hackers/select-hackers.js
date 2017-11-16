@@ -178,6 +178,9 @@ Polymer({
   },
 
   filterFields: function(fields, questions) {
+    if (!fields || !questions) {
+      return []
+    }
     const qmap = {}
     for (const q of questions) {
       qmap[q.name] = q

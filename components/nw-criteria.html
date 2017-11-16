@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-a11y-keys/iron-a11y-keys.html">
 
 <link rel="import" href="nw-score.html">
 
@@ -19,6 +20,10 @@
         background-color: var(--primary-color);
         color: var(--dark-text-color);
         font-weight: bold;
+      }
+
+      #buttons {
+        white-space: nowrap;
       }
 
       #question paper-button {
@@ -52,6 +57,7 @@
       .question {
         cursor: pointer;
         color: var(--secondary-text-color);
+        display: flex;
       }
 
       .question[filled] {
@@ -69,6 +75,7 @@
 
       nw-score {
         margin: 0 10px;
+        flex-shrink: 0;
       }
     </style>
 
@@ -77,12 +84,21 @@
       [[selected.name]]
       </p>
 
-      <template is="dom-repeat" items="[[levels(selected.worth)]]">
-        <paper-button on-tap="handleScore">[[item]]</paper-button>
-      </template>
+      <div id="buttons">
+        <template is="dom-repeat" items="[[levels(selected.worth)]]">
+          <paper-button on-tap="handleScore">[[item]]</paper-button>
+        </template>
+      </div>
     </div>
 
     <div id="criteria">
+      <template is="dom-if" if="[[criteriaUrl]]">
+        <p>
+        <a target="_blank" href="[[criteriaUrl]]">
+          View Criteria Descriptions
+        </a>
+        </p>
+      </template>
       <template is="dom-repeat" items="[[questions]]" as="category">
         <h4>[[category.name]]</h4>
 
@@ -97,7 +113,9 @@
               score="[[criteriaScore(criteria, item.slug, criteria.*)]]"
               total="[[item.worth]]">
             </nw-score>
+            <div class="label">
             [[item.name]]
+            </div>
           </div>
         </template>
       </template>
@@ -114,6 +132,22 @@
 
       <paper-button on-tap="clearCriteria">Clear</paper-button>
     </div>
+
+    <iron-a11y-keys
+      target="[[target]]"
+      keys="0 1 2 3 4 5 6 7 8 9"
+      on-keys-pressed="handleKeyScore">
+    </iron-a11y-keys>
+    <iron-a11y-keys
+      target="[[target]]"
+      keys="n"
+      on-keys-pressed="handleNext">
+    </iron-a11y-keys>
+    <iron-a11y-keys
+      target="[[target]]"
+      keys="p"
+      on-keys-pressed="handlePrev">
+    </iron-a11y-keys>
   </template>
 
   <script>
@@ -122,26 +156,38 @@ class NWCriteria extends Polymer.Element {
 
   static get properties () {
     return {
+      criteriaUrl: {
+        type: String,
+        value: 'https://docs.google.com/document/d/1Rb3VcuFiI33MgC-BTnUHqSZOBMGZ5z2tQZTmnqP0p1Y/edit'
+      },
+
       questions: {
         value: [
           {
-            name: 'General',
+            name: 'Past Experience',
             questions: [
-              { name: 'Owns a dog?', worth: 1 },
-              { name: 'Owns a big house?', worth: 1 },
+              { name: 'Github/Personal Website', worth: 5 },
+              { name: 'Linkedin/Resume', worth: 5 },
             ]
           },
           {
-            name: 'Ambition',
+            name: 'Written Response',
             questions: [
-              { name: 'Wants to become a pet owner', worth: 1 },
-              { name: 'Is an extremely hard worker', worth: 1 },
+              { name: 'What do you want to get out of nwHacks?', worth: 5 },
+              {
+                name: 'Tell us about a recent project you\'ve worked on that excites you!',
+                worth: 5
+              },
             ]
           },
           {
-            name: 'Community',
+            name: 'Bonus',
             questions: [
-              { name: 'Is a part of the school\'s community', worth: 3 },
+              {
+                name: 'If you were a piece of technology, what would you be?',
+                worth: 1,
+                bonus: true
+              },
             ]
           }
         ]
@@ -168,6 +214,24 @@ class NWCriteria extends Polymer.Element {
       'computeScore(criteria)',
       'reset(_questions, sid)'
     ]
+  }
+
+  connectedCallback () {
+    super.connectedCallback()
+
+    this.target = document.body
+  }
+
+  handleNext (e) {
+    this.moveSelected(1)
+  }
+
+  handlePrev (e) {
+    this.moveSelected(-1)
+  }
+
+  handleKeyScore (e) {
+    this.setScore(parseInt(e.detail.keyboardEvent.key))
   }
 
   or (a, b) {
@@ -217,18 +281,26 @@ class NWCriteria extends Polymer.Element {
 
   handleScore (e) {
     const score = e.model.item
+    this.setScore(score)
+  }
+
+  setScore (score) {
     if (!this.criteria) {
       this.criteria = {}
     }
     this.set(['criteria', this.selected.slug], score)
 
-    const i = this.selected.index + 1
+    this.moveSelected(1)
+
+    this.computeScore()
+  }
+
+  moveSelected (rel) {
+    const i = this.selected.index + rel
     const q = this._questions[i]
     if (q) {
       this.setSelected(q)
     }
-
-    this.computeScore()
   }
 
   computeScore () {

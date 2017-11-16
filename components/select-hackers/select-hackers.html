@@ -178,7 +178,6 @@
                   [[title(hacker)]]
                 </div>
                 <div secondary>
-                  [[hacker.email]]
                   <template is="dom-if" if="[[hacker.criteria]]">
                     <nw-score
                       score="[[hacker.criteria.score]]"
@@ -186,6 +185,7 @@
                       class="right">
                     </nw-score>
                   </template>
+                  [[hacker.email]]
                 </div>
               </paper-item-body>
             </paper-item>
