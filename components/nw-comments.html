@@ -52,7 +52,11 @@
     </div>
 
     <div id="input">
-      <paper-textarea label="Comment" type="text" value="{{value}}">
+      <paper-textarea
+        label="Comment"
+        type="text"
+        stop-keyboard-event-propagation
+        value="{{value}}">
       </paper-textarea>
       <paper-button on-tap="comment" class="register" disabled="[[!value]]">Comment</paper-button>
     </div>

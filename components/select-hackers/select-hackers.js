@@ -237,6 +237,10 @@ Polymer({
     })
   },
 
+  clearSearch: function () {
+    this.set('filters.search', '')
+  },
+
   responseCat: function (i) { return this.responseCategories[i] },
 
   export: function () {

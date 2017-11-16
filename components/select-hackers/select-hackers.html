@@ -129,6 +129,14 @@
       paper-item {
         cursor: pointer;
       }
+
+      paper-input {
+        --paper-icon-button: {
+          height: 24px;
+          width: 24px;
+          padding: 2px;
+        };
+      }
     </style>
     <div id="filters">
       <paper-dropdown-menu id="form" label="Form" selected-item-label="{{form}}">
@@ -145,7 +153,16 @@
         label="Search"
         value="{{filters.search}}"
         minlength="3"
+        stop-keyboard-event-propagation
         auto-validate>
+        <paper-icon-button
+          slot="suffix"
+          on-tap="clearSearch"
+          icon="clear"
+          alt="clear"
+          hidden$="[[!filters.search]]"
+          title="clear">
+        </paper-icon-button>
       </paper-input>
       &nbsp;
 

@@ -1,6 +1,10 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/iron-a11y-keys/iron-a11y-keys.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/hardware-icons.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 
 <link rel="import" href="nw-score.html">
 
@@ -77,6 +81,11 @@
         margin: 0 10px;
         flex-shrink: 0;
       }
+
+      #secondaryControls {
+        display: flex;
+        align-items: center;
+      }
     </style>
 
     <div id="question">
@@ -86,7 +95,12 @@
 
       <div id="buttons">
         <template is="dom-repeat" items="[[levels(selected.worth)]]">
-          <paper-button on-tap="handleScore">[[item]]</paper-button>
+          <span>
+            <paper-button on-tap="handleScore">[[item]]</paper-button>
+            <paper-tooltip>
+              ⌨ [[item]]
+            </paper-tooltip>
+          </span>
         </template>
       </div>
     </div>
@@ -130,8 +144,60 @@
         </nw-score>
       </span>
 
-      <paper-button on-tap="clearCriteria">Clear</paper-button>
+      <span id="secondaryControls">
+        <paper-button id="clearCriteria" on-tap="clearCriteria">Clear</paper-button>
+        <paper-tooltip
+          for="clearCriteria"
+          position="top">
+          Resets Criteria
+        </paper-tooltip>
+
+        <paper-icon-button
+          id="viewShortcuts"
+          on-tap="handleViewShortcuts"
+          icon="hardware:keyboard">
+        </paper-icon-button>
+        <paper-tooltip
+          for="viewShortcuts"
+          position="top">
+          Keyboard Shortcuts
+        </paper-tooltip>
+      </span>
     </div>
+
+    <paper-dialog id="keyboardShortcuts" modal>
+      <h2>Keyboard Shortcuts</h2>
+      <paper-dialog-scrollable>
+        <div>
+          <ul>
+            <li>
+              <p>
+              <code>?</code> - View this help.
+              </p>
+            </li>
+            <li>
+              <p>
+              <code>0-9</code> - Score the current criteria and advance to the
+              next.
+              </p>
+            </li>
+            <li>
+              <p>
+              <code>n</code> - Next criteria.
+              </p>
+            </li>
+            <li>
+              <p>
+              <code>p</code> - Previous criteria.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus>close</paper-button>
+      </div>
+    </paper-dialog>
 
     <iron-a11y-keys
       target="[[target]]"
@@ -147,6 +213,11 @@
       target="[[target]]"
       keys="p"
       on-keys-pressed="handlePrev">
+    </iron-a11y-keys>
+    <iron-a11y-keys
+      target="[[target]]"
+      keys="?"
+      on-keys-pressed="handleViewShortcuts">
     </iron-a11y-keys>
   </template>
 
@@ -222,6 +293,10 @@ class NWCriteria extends Polymer.Element {
     this.target = document.body
   }
 
+  handleViewShortcuts () {
+    this.$.keyboardShortcuts.open()
+  }
+
   handleNext (e) {
     this.moveSelected(1)
   }
@@ -288,6 +363,9 @@ class NWCriteria extends Polymer.Element {
     if (!this.criteria) {
       this.criteria = {}
     }
+    if (score > this.selected.worth) {
+      return
+    }
     this.set(['criteria', this.selected.slug], score)
 
     this.moveSelected(1)
@@ -308,7 +386,10 @@ class NWCriteria extends Polymer.Element {
       return
     }
 
-    const total = this._questions.map((q) => q.worth).reduce((a, b) => a + b, 0)
+    const total = this._questions
+      .filter(q => !q.bonus)
+      .map(q => q.worth)
+      .reduce((a, b) => a + b, 0)
 
     let finished = true
     let started = false
