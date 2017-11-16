@@ -35,7 +35,7 @@
     "iron-pages": "PolymerElements/iron-pages#^2.0.0",
     "webcomponentsjs": "^1.0.0",
     "paper-listbox": "polymerelements/paper-listbox#^2.0.0",
-    "lunr.js": "~0.6.0",
+    "lunr.js": "^2.0.0",
     "iron-list": "PolymerElements/iron-list#^2.0.0",
     "iron-selector": "PolymerElements/iron-selector#^2.0.0",
     "comma-separated-values": "~3.6.4",
@@ -52,6 +52,7 @@
     "smoothscroll": "^0.4.0",
     "paper-tabs": "^2.0.0",
     "paper-badge": "^2.0.0",
-    "tinygradient": "^0.3.1"
+    "tinygradient": "^0.3.1",
+    "paper-dialog-scrollable": "^2.0.0"
   }
 }
