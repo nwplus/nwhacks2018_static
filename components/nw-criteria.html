@@ -282,7 +282,7 @@ class NWCriteria extends Polymer.Element {
   static get observers () {
     return [
       'computeScore(_questions)',
-      'computeScore(criteria)',
+      'computeScore(criteria, criteria.*)',
       'reset(_questions, sid)'
     ]
   }
