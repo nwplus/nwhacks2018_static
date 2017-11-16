@@ -219,11 +219,9 @@ Polymer({
   },
 
   responseCat: function (i) { return this.responseCategories[i] },
+
   export: function () {
     const copy = JSON.parse(JSON.stringify(this.filtered))
-    copy.forEach((hacker) => {
-      hacker.resume = this.resumeLink(hacker.resume)
-    })
     var csv = new CSV(copy, {header: true}).encode()
     this.downloadFile('applicants_export.csv', csv)
   },
@@ -244,7 +242,7 @@ Polymer({
   filter: function (hackers, filters, _) {
     var filtered = hackers
     this.totalCount = hackers.length
-    if (filters.search.length >= 3) {
+    if (filters.search.length >= 1) {
       var rawResults = this.lunr.search(filters.search)
       filtered = rawResults.map((result) => {
         return hackers[result.ref]
@@ -266,77 +264,8 @@ Polymer({
     })
   },
 
-  selected: function (status) {
-    var index = categories.indexOf(status)
-    if (index >= 0) {
-      return index
-    }
-    return 0
-  },
-
-  responded: function (status) {
-    var index = responseCategories.indexOf(status)
-    if (index >= 0) {
-      return index
-    }
-    return 0
-  },
-
-  eq: function (a, b) { return a === b },
-
-  respondedWith: function (hacker, response) {
-    if (!hacker.acceptance_sent || hacker.status !== 'accepted') {
-      return false
-    }
-    return (hacker.rsvp ? 1 : 0) === response
-  },
-
   select: function (e) {
     this.sid = e.model.hacker.$key
-  },
-
-  onSelect: function (e) {
-    const status = e.target.value
-    const hacker = e.model.hacker
-    this.setHackerStatus(hacker, status)
-  },
-
-  onSelectTeam: function (e) {
-    const status = e.target.value
-    e.target.value = ''
-    const hacker = e.model.hacker
-    const teammates = this.teammates(hacker)
-    teammates.forEach((email) => {
-      const h = this.emailIndex[email]
-      this.setHackerStatus(h, status)
-    })
-  },
-
-  setHackerStatus: function (hacker, status) {
-    if (categories.indexOf(status) === -1) {
-      console.log('ignoring status:', status)
-      return
-    }
-
-    if (hacker.status !== status) {
-      this.set('filtered.' + hacker.filteredIndex + '.status', status)
-      this.patchHacker(hacker)
-    }
-  },
-
-  phoneChange: function (e) {
-    var hacker = e.model.hacker
-    this.patchHacker(hacker)
-  },
-
-  checkIn: function (e) {
-    var hacker = e.model.hacker
-    this.patchHacker(hacker)
-  },
-
-  patchHacker: function (hacker) {
-    delete hacker.$key
-    this.$.regs.setStoredValue('/registrations/' + hacker.id, hacker)
   },
 
   refreshList: function () { this.incr++ },
@@ -348,30 +277,6 @@ Polymer({
     this.error = err
     this.$.error.open()
   },
-
-  scrollToEmail: function (e) {
-    const email = e.model.item
-    this.filtered.forEach((hacker, i) => {
-      if (hacker.cleanEmail === email) {
-        this.$.list.scrollToIndex(i)
-      }
-    })
-  },
-
-  rsvpLink: function (hacker) {
-    return '/rsvp/' + hacker.id + '#begin'
-  },
-
-  resetRSVPTime: function (e) {
-    const hacker = e.model.hacker
-    e.model.set('hacker.acceptance_sent.Time', moment().format())
-    this.patchHacker(hacker)
-  },
-
-  timeTo: function (time) {
-    return moment(time).add(7, 'days').fromNow()
-  },
-
 
   getQuestionMapping: function (form) {
     form = formComponentOverride[form] || form
