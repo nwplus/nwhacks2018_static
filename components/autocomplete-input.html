@@ -68,24 +68,24 @@ class AutoCompleteInput extends Polymer.Element {
   }
 
   computeIndex (schools, abrv) {
+    const self = this
     const index = lunr(function () {
       this.ref('index')
       this.field('name')
       if (abrv) {
         this.field('abrv')
       }
-    })
 
-    schools.forEach((school, i) => {
-      const datum = {
-        index: i,
-        name: school
-      }
-      if (abrv) {
-        datum.abrv = this.abrv(school)
-      }
-
-      index.add(datum)
+      schools.forEach((school, i) => {
+        const datum = {
+          index: i,
+          name: school
+        }
+        if (abrv) {
+          datum.abrv = self.abrv(school)
+        }
+        this.add(datum)
+      })
     })
 
     return index
