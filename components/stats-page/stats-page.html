@@ -1,5 +1,4 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../firebase-config/firebase-config.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
 <link rel="import" href="../chart-js.html">
 <link rel="import" href="../lodash.html">
@@ -101,12 +100,8 @@
     <category-chart label="Majority" data="[[rsvpMajority]]">
     </category-chart>
 
-    <firebase-config is-admin="{{isAdmin}}" auth name="stats">
-    </firebase-config>
-
     <template is="dom-if" if="[[isAdmin]]">
       <firebase-document id="regs"
-                         app-name="stats"
                          path="/form/registration"
                          data="{{registrations}}">
       </firebase-document>

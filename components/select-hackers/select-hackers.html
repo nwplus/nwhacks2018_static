@@ -252,22 +252,6 @@
       </div>
     </paper-dialog>
 
-    <paper-dialog id="error" modal>
-      <h2>Error</h2>
-      <p>[[error]]</p>
-      <p>Please try again later or use a different browser.</p>
-      <div class="buttons">
-        <paper-button dialog-confirm autofocus>close</paper-button>
-      </div>
-    </paper-dialog>
-
-    <firebase-config
-      is-admin="{{isAdmin}}"
-      handle-error="[[handleError]]"
-      user="{{user}}"
-      auth>
-    </firebase-config>
-
     <firebase-query
       id="regs"
       disabled="[[!isAdmin]]"

@@ -145,12 +145,8 @@
       </div>
     </paper-card>
 
-    <firebase-config is-admin="{{isAdmin}}" auth name="checkin">
-    </firebase-config>
-
     <template is="dom-if" if="[[isAdmin]]">
       <firebase-document id="regs"
-                         app-name="checkin"
                          path="/registrations"
                          data="{{registrations}}">
       </firebase-document>

@@ -315,16 +315,6 @@ class SelectHackers extends Polymer.Element {
     this.incr++
   }
 
-  handleErr (a, b, c) {
-    this.handleError(a, b.error)
-  }
-
-  handleError (e, err) {
-    console.log('Error', err)
-    this.error = err
-    this.$.error.open()
-  }
-
   showFilters () {
     this.$.filterhelp.open()
   }

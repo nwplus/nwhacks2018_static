@@ -39,12 +39,8 @@
       <paper-button on-tap="submit">Add Admin</paper-button>
     </div>
 
-    <firebase-config is-admin="{{isAdmin}}" auth name="admins">
-    </firebase-config>
-
     <template is="dom-if" if="[[isAdmin]]">
-      <firebase-document app-name="admins"
-                         path="/admins"
+      <firebase-document path="/admins"
                          data="{{admins}}">
       </firebase-document>
     </template>

@@ -105,7 +105,7 @@ class MainApp extends Polymer.Element {
     document.title = title
   }
 
-  isAdmin (page) {
+  adminPage (page) {
     return page === 'admin'
   }
 

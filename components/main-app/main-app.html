@@ -242,7 +242,7 @@
 
     <a id="mlh-trust-badge"
        class="badge"
-       hidden$="[[isAdmin(page)]]"
+       hidden$="[[adminPage(page)]]"
        style="display:block;max-width:100px;min-width:60px;position:absolute;right:100px;top:50;width:10%;z-index:50;"
        href="https://mlh.io/seasons/na-2018/events?utm_source=na-2018&amp;utm_medium=TrustBadge&amp;utm_campaign=na-2018&amp;utm_content=black"
        target="_blank">
@@ -257,7 +257,7 @@
       <a href="/#begin">
         <paper-icon-button src="/svg/NWHacks-NavBar-Logo.svg"></paper-icon-button>
       </a>
-      <template is="dom-if" if="[[!isAdmin(page)]]">
+      <template is="dom-if" if="[[!adminPage(page)]]">
         <a href="/#sponsors" class="big right">
           <paper-button>Sponsors</paper-button>
         </a>
@@ -284,7 +284,7 @@
         <paper-button>register</paper-button>
       </a>
       -->
-      <template is="dom-if" if="[[isAdmin(page)]]">
+      <template is="dom-if" if="[[adminPage(page)]]">
         <a href="/admin/settings" class="med right">
           <paper-button>Settings</paper-button>
         </a>
@@ -348,17 +348,29 @@
             selected="[[subPage]]">
 
             <template is="dom-if" restamp data-route="select">
-              <select-hackers route="{{subSubRoute}}">
+              <select-hackers
+                is-admin="[[isAdmin]]"
+                user="[[user]]"
+                route="{{subSubRoute}}">
               </select-hackers>
             </template>
             <template is="dom-if" restamp data-route="stats">
-              <stats-page></stats-page>
+              <stats-page
+                is-admin="[[isAdmin]]"
+                user="[[user]]">
+              </stats-page>
             </template>
             <template is="dom-if" restamp data-route="checkin">
-              <checkin-page></checkin-page>
+              <checkin-page
+                is-admin="[[isAdmin]]"
+                user="[[user]]">
+              </checkin-page>
             </template>
             <template is="dom-if" restamp data-route="settings">
-              <admin-settings></admin-settings>
+              <admin-settings
+                is-admin="[[isAdmin]]"
+                user="[[user]]">
+              </admin-settings>
             </template>
           </iron-lazy-pages>
         </div>
@@ -369,7 +381,7 @@
       </iron-lazy-pages>
     </div>
 
-    <nwhacks-footer hidden$="[[isAdmin(page)]]"></nwhacks-footer>
+    <nwhacks-footer hidden$="[[adminPage(page)]]"></nwhacks-footer>
 
     <iron-location hash="{{hash}}">
     </iron-location>
@@ -385,6 +397,21 @@
       data="{{routeData}}"
       tail="{{subRoute}}">
     </app-route>
+
+    <firebase-config
+      is-admin="{{isAdmin}}"
+      user="{{user}}"
+      auth="[[adminPage(page)]]">
+    </firebase-config>
+
+    <paper-dialog id="error" modal>
+      <h2>Error</h2>
+      <p>[[error]]</p>
+      <p>Please try again later or use a different browser.</p>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus>close</paper-button>
+      </div>
+    </paper-dialog>
   </template>
 
   <script src="main-app.js"></script>
