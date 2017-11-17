@@ -13,10 +13,8 @@
     "components/register-closed/register-closed.html",
     "components/volunteer-form/volunteer-form.html",
     "components/mentorexpo-form/mentorexpo-form.html",
-
-    "components/generic-form.html",
-    "bower_components/iron-meta/iron-meta.html",
-    "bower_components/iron-icon/iron-icon.html"
+    "components/admin-settings/admin-settings.html",
+    "components/notfound-page/notfound-page.html"
   ],
   "sources": [
     "components/**/*",
