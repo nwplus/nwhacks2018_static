@@ -1,8 +1,14 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
+
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/iron-lazy-pages/iron-lazy-pages.html">
+<link rel="import" href="../../bower_components/iron-location/iron-location.html">
+<link rel="import" href="../../bower_components/neon-animation/web-animations.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/neon-animation/web-animations.html">
 
 <link rel="import" href="../firebase-config/firebase-config.html">
 <link rel="import" href="../shared-styles.html">
@@ -222,11 +228,21 @@
       a[hidden] {
         display: none !important;
       }
+
+      paper-progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        --paper-progress-indeterminate-cycle-duration: 5s;
+        --paper-progress-container-color: transparent;
+      }
     </style>
 
     <a id="mlh-trust-badge"
        class="badge"
-       hidden$="[[hideHeader]]"
+       hidden$="[[isAdmin(page)]]"
        style="display:block;max-width:100px;min-width:60px;position:absolute;right:100px;top:50;width:10%;z-index:50;"
        href="https://mlh.io/seasons/na-2018/events?utm_source=na-2018&amp;utm_medium=TrustBadge&amp;utm_campaign=na-2018&amp;utm_content=black"
        target="_blank">
@@ -241,7 +257,7 @@
       <a href="/#begin">
         <paper-icon-button src="/svg/NWHacks-NavBar-Logo.svg"></paper-icon-button>
       </a>
-      <template is="dom-if" if="[[!adminPage]]">
+      <template is="dom-if" if="[[!isAdmin(page)]]">
         <a href="/#sponsors" class="big right">
           <paper-button>Sponsors</paper-button>
         </a>
@@ -268,7 +284,7 @@
         <paper-button>register</paper-button>
       </a>
       -->
-      <template is="dom-if" if="[[adminPage]]">
+      <template is="dom-if" if="[[isAdmin(page)]]">
         <a href="/admin/settings" class="med right">
           <paper-button>Settings</paper-button>
         </a>
@@ -282,61 +298,94 @@
           <paper-button>Hackers</paper-button>
         </a>
       </template>
+
+      <paper-progress indeterminate disabled="[[!loading]]"></paper-progress>
     </nav>
 
     <div class="wrapper" id="begin">
-      <iron-lazy-pages id="pages" attr-for-selected="data-route" selected="{{route}}">
-        <template is="dom-if" restamp data-route="index-page">
+      <iron-lazy-pages
+        id="pages"
+        attr-for-selected="data-route"
+        selected="[[page]]">
+
+        <template is="dom-if" restamp data-route="index">
           <index-page></index-page>
         </template>
-        <template is="dom-if" restamp data-route="dayof-page">
+        <template is="dom-if" restamp data-route="dayof">
           <dayof-page></dayof-page>
         </template>
-        <template is="dom-if" restamp data-route="sponsor-page">
+        <template is="dom-if" restamp data-route="sponsors">
           <sponsor-page></sponsor-page>
         </template>
-        <template is="dom-if" restamp data-route="review-page">
-          <review-page></review-page>
-        </template>
-        <template is="dom-if" restamp data-route="rsvp-page">
+        <template is="dom-if" restamp data-route="rsvp">
           <rsvp-page params="{{params}}"></rsvp-page>
         </template>
 
-        <template is="dom-if" restamp data-route="register-form">
+        <template is="dom-if" restamp data-route="register">
           <register-form></register-form>
         </template>
         <template is="dom-if" restamp data-route="register-closed">
           <register-closed></register-closed>
         </template>
-        <template is="dom-if" data-route="mentorexpo-form">
+        <template is="dom-if" restamp data-route="mentorexpo">
           <mentorexpo-form></mentorexpo-form>
         </template>
-        <template is="dom-if" data-route="volunteer-form">
+        <template is="dom-if" restamp data-route="volunteer">
           <volunteer-form></volunteer-form>
         </template>
 
         <!-- Admin Pages -->
-        <template is="dom-if" data-route="select-hackers">
-          <select-hackers
-            sid="[[params.sid]]"
-            form="[[params.form]]">
-          </select-hackers>
-        </template>
-        <template is="dom-if" data-route="stats-page">
-          <stats-page></stats-page>
-        </template>
-        <template is="dom-if" data-route="checkin-page">
-          <checkin-page></checkin-page>
-        </template>
-        <template is="dom-if" data-route="admin-settings">
-          <admin-settings></admin-settings>
+        <div data-route="admin">
+          <app-route
+            route="{{subRoute}}"
+            pattern="/:page"
+            data="{{subRouteData}}"
+            tail="{{subSubRoute}}">
+          </app-route>
+
+          <iron-lazy-pages
+            attr-for-selected="data-route"
+            selected="[[subPage]]">
+
+            <template is="dom-if" restamp data-route="select">
+              <select-hackers route="{{subSubRoute}}">
+              </select-hackers>
+            </template>
+            <template is="dom-if" restamp data-route="stats">
+              <stats-page></stats-page>
+            </template>
+            <template is="dom-if" restamp data-route="checkin">
+              <checkin-page></checkin-page>
+            </template>
+            <template is="dom-if" restamp data-route="settings">
+              <admin-settings></admin-settings>
+            </template>
+          </iron-lazy-pages>
+        </div>
+
+        <template is="dom-if" restamp data-route="notfound">
+          <notfound-page></notfound-page>
         </template>
       </iron-lazy-pages>
     </div>
 
-    <nwhacks-footer hidden$="[[hideFooter]]"></nwhacks-footer>
+    <nwhacks-footer hidden$="[[isAdmin(page)]]"></nwhacks-footer>
+
+    <iron-location hash="{{hash}}">
+    </iron-location>
+
+    <app-location
+      route="{{route}}"
+      url-space-regex="^[[rootPath]]">
+    </app-location>
+
+    <app-route
+      route="{{route}}"
+      pattern="[[rootPath]]:page"
+      data="{{routeData}}"
+      tail="{{subRoute}}">
+    </app-route>
   </template>
 
-  <script src="/bower_components/page/page.js"></script>
   <script src="main-app.js"></script>
 </dom-module>

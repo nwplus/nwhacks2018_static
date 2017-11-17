@@ -5,88 +5,60 @@ Polymer.setPassiveTouchGestures(true)
 class MainApp extends Polymer.Element {
   static get is () { return 'main-app' }
 
+  static get properties () {
+    return {
+      page: {
+        type: String,
+        observer: '_pageChanged'
+      },
+      loading: {
+        type: Boolean,
+        value: true
+      },
+      routeData: Object,
+      subroute: String
+    }
+  }
+
   static get observers () {
     return [
-      'loadPage(route)'
+      '_routePageChanged(routeData.page)',
+      '_subRoutePageChanged(subRouteData.page)',
+      'handleLoad(hash)'
     ]
   }
 
-  connectedCallback () {
-    super.connectedCallback()
-
-    page('*', (ctx, next) => {
-      setTimeout(() => {
-        this.handleLoad()
-      }, 100)
-
-      this.hideHeader = false
-      this.hideFooter = false
-      this.adminPage = false
-
-      next()
-    })
-    page('/register-closed', () => {
-      this.route = 'register-closed'
-    })
-    page('/register', () => {
-      this.route = 'register-form'
-    })
-    page('/mentorexpo', () => {
-      this.route = 'mentorexpo-form'
-    })
-    page('/volunteer', () => {
-      this.route = 'volunteer-form'
-    })
-    page('/sponsors', () => {
-      this.route = 'sponsor-page'
-    })
-    page('/dayof', () => {
-      this.route = 'dayof-page'
-    })
-    page('/rsvp/:id', (ctx) => {
-      this.route = 'rsvp-page'
-      this.params = ctx.params
-    })
-
-    page('/admin/*', (_, next) => {
-      this.hideHeader = true
-      this.hideFooter = true
-      this.adminPage = true
-      next()
-    })
-    page('/admin/settings', () => {
-      this.route = 'admin-settings'
-    })
-    page('/admin/select/:form/:sid', (ctx) => {
-      this.route = 'select-hackers'
-      this.params = ctx.params
-    })
-    page('/admin/select', () => {
-      this.route = 'select-hackers'
-    })
-    page('/admin/checkin', () => {
-      this.route = 'checkin-page'
-    })
-    page('/admin/stats', () => {
-      this.route = 'stats-page'
-    })
-    page('/', () => {
-      this.route = 'index-page'
-    })
-
-    // 404
-    page('*', this.handle404.bind(this))
-    page()
-
-    window.addEventListener("hashchange", this.handleLoad.bind(this))
+  _routePageChanged (page) {
+    this.page = page || 'index'
   }
 
-  loadPage (route) {
-    const pageURL = 'components/' + route + '/' + route + '.html'
-    Polymer.importHref(pageURL, this.handleLoad.bind(this), this.handle404, true)
+  _subRoutePageChanged (page) {
+    this.subPage = page
+    if (page && page.length > 0) {
+      this._pageChanged(page)
+    }
+  }
+
+  _pageChanged (page) {
+    if (page === 'admin') {
+      return
+    }
+
+    this.loading = true
+    window.scrollTo(0, 0)
+
+    const el = this.elementForPage(page)
+    const pageURL = 'components/' + el + '/' + el + '.html'
+    Polymer.importHref(
+      pageURL,
+      this.handleLoad.bind(this),
+      this.handle404.bind(this),
+      true
+    )
   }
 
   handleLoad () {
+    this.loading = false
     // Using setTimeout so the page will load before attempting to navigate to
     // anchor.
     setTimeout(() => {
@@ -96,9 +68,9 @@ class MainApp extends Polymer.Element {
   }
 
   searchElems () {
-    const elems = Array.prototype.filter.call(this.$.pages.children, (a) => a.tagName !== 'DOM-IF')
+    const elems = Array.from(this.$.pages.children).filter((a) => a.tagName !== 'DOM-IF')
     elems.push(this)
-    return elems.filter((a) => a.$$)
+    return elems.filter((a) => a.$)
   }
 
   navigateAnchor () {
@@ -108,20 +80,21 @@ class MainApp extends Polymer.Element {
     }
 
     for (const elem of this.searchElems()) {
-      const matching = elem.$$('#' + target)
+      const matching = elem.$[target]
       if (!matching) {
         continue
       }
       matching.scrollIntoView(true)
-      break
+      return true
     }
+    return false
   }
 
   updateTitle () {
     const title = 'nwHacks 2018'
     const elems = this.searchElems()
     for (const elem of elems) {
-      const matching = elem.$$('h1[title]')
+      const matching = elem.root.querySelector('h1[title]')
       if (!matching) {
         continue
       }
@@ -132,9 +105,25 @@ class MainApp extends Polymer.Element {
     document.title = title
   }
 
+  isAdmin (page) {
+    return page === 'admin'
+  }
+
   handle404 () {
-    console.log('404!', this.route)
-    page.redirect('/')
+    console.log('404!', this.page, this.route)
+    this.page = 'notfound'
+  }
+
+  elementForPage (page) {
+    return {
+      mentorexpo: 'mentorexpo-form',
+      volunteer: 'volunteer-form',
+      register: 'register-form',
+      sponsors: 'sponsor-page',
+      'register-closed': 'register-closed',
+      select: 'select-hackers',
+      settings: 'admin-settings'
+    }[page] || page + '-page'
   }
 }
 
