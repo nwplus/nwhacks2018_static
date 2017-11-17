@@ -16,7 +16,7 @@ class MainApp extends Polymer.Element {
         value: true
       },
       routeData: Object,
-      subroute: String
+      subRoute: String
     }
   }
 

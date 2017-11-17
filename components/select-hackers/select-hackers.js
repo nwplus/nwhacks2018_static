@@ -10,83 +10,101 @@ const formComponentOverride = {
 }
 Object.freeze(formComponentOverride)
 
-Polymer({
-  is: 'select-hackers',
+class SelectHackers extends Polymer.Element {
+  static get is () { return 'select-hackers' }
 
-  properties: {
-    hackers: {
-      type: Array,
-      value: []
-    },
+  static get properties () {
+    return {
+      hackers: {
+        type: Array,
+        value: []
+      },
 
-    sid: {
-      value: ''
-    },
+      sid: {
+        value: ''
+      },
 
-    questions: {
-      type: Object
-    },
+      questions: {
+        type: Object
+      },
 
-    form: {
-      type: String,
-      value: 'registration'
-    },
+      form: {
+        type: String,
+        value: 'registration'
+      },
 
-    incr: {
-      type: Number,
-      value: 0
-    },
+      incr: {
+        type: Number,
+        value: 0
+      },
 
-    categories: {
-      type: Array,
-      value: categories
-    },
+      categories: {
+        type: Array,
+        value: categories
+      },
 
-    filters: {
-      type: Object,
-      value: function () {
-        return {
-          search: '',
-          status: '',
-          response: '',
-          missing_passport: false
+      filters: {
+        type: Object,
+        value () {
+          return {
+            search: '',
+            status: '',
+            response: '',
+            missing_passport: false
+          }
         }
-      }
-    },
+      },
 
-    isAdmin: {
-      value: false
-    },
+      isAdmin: {
+        value: false
+      },
 
-    responseCategories: {
-      type: Array,
-      value: responseCategories
+      responseCategories: {
+        type: Array,
+        value: responseCategories
+      },
+
+      route: String,
+      routeData: Object,
+      subRoute: String
     }
-  },
+  }
 
-  refresh: function () { this.incr++ },
+  static get observers () {
+    return [
+      'refresh(filters.search)',
+      'handleRegistrations(registrations)',
+      'handleRegistrations(registrations.*)',
+      'handlePartials(registrations.*)',
+      'filter(hackers, filters, incr, hackers.*)',
+      'getQuestionMapping(form)',
+      'handleRouteData(routeData.form, routeData.sid)'
+    ]
+  }
 
-  observers: [
-    'refresh(filters.search)',
-    'handleRegistrations(registrations)',
-    'handleRegistrations(registrations.*)',
-    'handlePartials(registrations.*)',
-    'filter(hackers, filters, incr, hackers.*)',
-    'getQuestionMapping(form)'
-  ],
+  handleRouteData (form, sid) {
+    if (!form || !sid) {
+      return
+    }
 
-  cleanEmail: function (email) {
+    this.form = form
+    this.sid = sid
+  }
+
+  refresh () { this.incr++ }
+
+  cleanEmail (email) {
     return (email || '').toLowerCase().trim()
-  },
+  }
 
-  handleRegistrations: function () {
+  handleRegistrations () {
     if (this.lastRender) {
       clearTimeout(this.lastRender)
     }
     this.lastRender = setTimeout(this.handleRegistrationsInternal.bind(this), 300)
-  },
+  }
 
-  handlePartials: function (change) {
+  handlePartials (change) {
     const path = change.path
     if (!this.hasPrefix(path, 'registrations.#')) {
       return
@@ -101,13 +119,13 @@ Polymer({
     const filteredPath = 'filtered.#' + filteredIndex + '.' + bits.slice(2).join('.')
     console.log(filteredPath)
     this.notifyPath(filteredPath)
-  },
+  }
 
-  hasPrefix: function (a, prefix) {
+  hasPrefix (a, prefix) {
     return a.slice(0, prefix.length) === prefix
-  },
+  }
 
-  handleRegistrationsInternal: function () {
+  handleRegistrationsInternal () {
     console.log('rendering!')
 
     // Convert {[id]: hacker} to hacker[] sorted by ID.
@@ -160,13 +178,13 @@ Polymer({
 
     console.log('hackers update')
     this.hackers = hackers
-  },
+  }
 
-  index: function (hacker) {
+  index (hacker) {
     return hacker.index
-  },
+  }
 
-  updateEmailIndex: function (hackers) {
+  updateEmailIndex (hackers) {
     const emailIndex = {}
     hackers.forEach((hacker) => {
       if (hacker.duplicate) {
@@ -175,9 +193,9 @@ Polymer({
       emailIndex[hacker.cleanEmail] = hacker
     })
     this.emailIndex = emailIndex
-  },
+  }
 
-  filterFields: function(fields, questions) {
+  filterFields (fields, questions) {
     if (!fields || !questions) {
       return []
     }
@@ -193,9 +211,9 @@ Polymer({
       }
     }
     return display
-  },
+  }
 
-  updateLunrIndex: function (hackers) {
+  updateLunrIndex (hackers) {
     if (this.lastLunrIndexCount === hackers.length) {
       return
     }
@@ -218,9 +236,9 @@ Polymer({
       builder.field(field)
     }
     this.asyncBuildIndex(builder, hackers)
-  },
+  }
 
-  asyncBuildIndex: function (builder, hackers) {
+  asyncBuildIndex (builder, hackers) {
     if (!hackers || hackers.length === 0) {
       this.lunr = builder.build()
       console.log('asyncBuildIndex: done!')
@@ -235,34 +253,34 @@ Polymer({
       })
       this.asyncBuildIndex(builder, hackers.slice(batchSize))
     })
-  },
+  }
 
-  clearSearch: function () {
+  clearSearch () {
     this.set('filters.search', '')
-  },
+  }
 
-  responseCat: function (i) { return this.responseCategories[i] },
+  responseCat (i) { return this.responseCategories[i] }
 
-  export: function () {
+  export () {
     const copy = JSON.parse(JSON.stringify(this.filtered))
     var csv = new CSV(copy, {header: true}).encode()
     this.downloadFile('applicants_export.csv', csv)
-  },
+  }
 
-  downloadFile: function (filename, content) {
+  downloadFile (filename, content) {
     var blob = new Blob([content])
     const a = document.createElement('a')
     a.setAttribute('download', filename)
     a.setAttribute('href', URL.createObjectURL(blob))
     document.body.appendChild(a)
     a.click()
-  },
+  }
 
-  title: function (hacker) {
+  title (hacker) {
     return hacker.name || hacker.first_name + ' ' + hacker.last_name
-  },
+  }
 
-  filter: function (hackers, filters, _) {
+  filter (hackers, filters, _) {
     var filtered = hackers
     this.totalCount = hackers.length
     if (filters.search.length >= 1) {
@@ -285,33 +303,39 @@ Polymer({
     filtered.forEach((hacker, i) => {
       this.linkPaths(['filtered', i], ['registrations', hacker.index])
     })
-  },
+  }
 
-  select: function (e) {
+  select (e) {
     this.sid = e.model.hacker.$key
-  },
+    this.set('routeData.form',  this.form)
+    this.set('routeData.sid', this.sid)
+  }
 
-  refreshList: function () { this.incr++ },
+  refreshList () {
+    this.incr++
+  }
 
-  handleErr: function (a, b, c) { this.handleError(a, b.error) },
+  handleErr (a, b, c) {
+    this.handleError(a, b.error)
+  }
 
-  handleError: function (e, err) {
+  handleError (e, err) {
     console.log('Error', err)
     this.error = err
     this.$.error.open()
-  },
+  }
 
-  showFilters: function () {
+  showFilters () {
     this.$.filterhelp.open()
-  },
+  }
 
-  getQuestionMapping: function (form) {
+  getQuestionMapping (form) {
     form = formComponentOverride[form] || form
     const elemName = form + '-form'
     const pageURL = 'components/' + elemName + '/' + elemName + '.html'
 
     // import form element.
-    this.importHref(pageURL, () => {
+    Polymer.importHref(pageURL, () => {
       const elem = document.createElement(elemName)
       elem.style.display = 'none'
       document.body.append(elem)
@@ -339,4 +363,6 @@ Polymer({
       elem.remove()
     }, null, true)
   }
-})
+}
+
+customElements.define(SelectHackers.is, SelectHackers)
