@@ -144,12 +144,14 @@ Polymer({
   },
 
   updateSize: function(height, width) {
+    if (!height || !width) {
+      return
+    }
     const naturalArea = (height*width);
     //const visualArea = this.visualArea();
     const scalingFactor = Math.sqrt(this.area/naturalArea);
     this.computedHeight = scalingFactor*height;
     this.computedWidth = scalingFactor*width;
-    console.log(this.href, this.area, this.computedHeight*this.computedWidth);
   },
   computeDuo: function(srcSolid) {
     return srcSolid.length > 0;
