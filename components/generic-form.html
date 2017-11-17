@@ -197,6 +197,7 @@
       }
 
       filePromise.then(() => {
+        this.data.submitted = (new Date()).toString()
         return firebase.database().ref('form/' + this.name).child(userKey).set(this.data)
       }).then(() => {
         return firebase.database()
