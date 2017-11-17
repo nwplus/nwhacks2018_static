@@ -9,6 +9,7 @@ build/: bower_components/ components index.html css/main.css $(JS) $(HTML) polym
 
 bower_components/: bower.json
 	bower update
+	bower prune
 
 docs/index.html: build/
 	rm -rf docs; cp -R build/default/ docs
