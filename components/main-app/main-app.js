@@ -1,12 +1,19 @@
-Polymer({
-  is: 'main-app',
+// Gesture events like tap and track generated from touch will not be
+// preventable, allowing for better scrolling performance.
+Polymer.setPassiveTouchGestures(true)
 
-  observers: [
-    'loadPage(route)'
-  ],
+class MainApp extends Polymer.Element {
+  static get is () { return 'main-app' }
 
-  ready: function () {
-    page.base('')
+  static get observers () {
+    return [
+      'loadPage(route)'
+    ]
+  }
+
+  connectedCallback () {
+    super.connectedCallback()
+
     page('*', (ctx, next) => {
       setTimeout(() => {
         this.handleLoad()
@@ -72,29 +79,29 @@ Polymer({
     page()
 
     window.addEventListener("hashchange", this.handleLoad.bind(this))
-  },
+  }
 
-  loadPage: function (route) {
+  loadPage (route) {
     const pageURL = 'components/' + route + '/' + route + '.html'
-    this.importHref(pageURL, this.handleLoad, this.handle404, true)
-  },
+    Polymer.importHref(pageURL, this.handleLoad.bind(this), this.handle404, true)
+  }
 
-  handleLoad: function () {
+  handleLoad () {
     // Using setTimeout so the page will load before attempting to navigate to
     // anchor.
     setTimeout(() => {
       this.updateTitle()
       this.navigateAnchor()
-    }, 1);
-  },
+    }, 1)
+  }
 
-  searchElems: function () {
+  searchElems () {
     const elems = Array.prototype.filter.call(this.$.pages.children, (a) => a.tagName !== 'DOM-IF')
     elems.push(this)
     return elems.filter((a) => a.$$)
-  },
+  }
 
-  navigateAnchor: function() {
+  navigateAnchor () {
     const target = window.location.hash.slice(1)
     if (!target) {
       return
@@ -108,9 +115,9 @@ Polymer({
       matching.scrollIntoView(true)
       break
     }
-  },
+  }
 
-  updateTitle: function () {
+  updateTitle () {
     const title = 'nwHacks 2018'
     const elems = this.searchElems()
     for (const elem of elems) {
@@ -123,10 +130,12 @@ Polymer({
     }
 
     document.title = title
-  },
+  }
 
-  handle404: function () {
+  handle404 () {
     console.log('404!', this.route)
     page.redirect('/')
   }
-});
+}
+
+customElements.define(MainApp.is, MainApp)
