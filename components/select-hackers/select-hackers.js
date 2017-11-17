@@ -87,8 +87,10 @@ class SelectHackers extends Polymer.Element {
       return
     }
 
-    this.form = form
-    this.sid = sid
+    this.setProperties({
+      form,
+      sid
+    })
   }
 
   refresh () { this.incr++ }
@@ -307,11 +309,7 @@ class SelectHackers extends Polymer.Element {
 
   select (e) {
     this.sid = e.model.hacker.$key
-    if (!this.routeActive) {
-      this.set('route.path', '/')
-    }
-    this.set('routeData.form', this.form)
-    this.set('routeData.sid', this.sid)
+    this.set('route.path', `/${this.form}/${this.sid}`)
   }
 
   refreshList () {
