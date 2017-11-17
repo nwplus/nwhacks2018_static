@@ -1,0 +1,58 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="light-page.html">
+
+<dom-module id="error-dialog">
+  <template>
+    <style include="light-page">
+      :host {
+        background-color: transparent;
+      }
+    </style>
+
+    <paper-dialog id="error" modal>
+      <h2>Error</h2>
+      <p>[[error]]</p>
+      <p>Please try again later or use a different browser.</p>
+      <p>
+      If the problem persists please reach out to the development team
+      by <a href="https://github.com/nwhacks/nwhacks2018_static/issues"
+        target="_blank">filing an issue</a>.
+      </p>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus on-tap="close">Close</paper-button>
+      </div>
+    </paper-dialog>
+  </template>
+
+  <script>
+class ErrorDialog extends Polymer.Element {
+  static get is () { return 'error-dialog' }
+
+  static get properties () {
+    return {
+      error: {
+        type: String,
+        notify: true,
+        observer: '_updateError'
+      }
+    }
+  }
+
+  _updateError (error) {
+    if (error) {
+      console.error(error)
+      this.$.error.open()
+    } else {
+      this.$.error.close()
+    }
+  }
+
+  close () {
+    this.error = null
+  }
+}
+
+customElements.define(ErrorDialog.is, ErrorDialog)
+  </script>
+</dom-module>

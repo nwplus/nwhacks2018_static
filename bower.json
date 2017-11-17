@@ -55,6 +55,7 @@
     "paper-dialog-scrollable": "^2.0.0",
     "iron-a11y-keys": "^2.0.0",
     "paper-tooltip": "^2.0.1",
-    "app-route": "PolymerElements/app-route#^2.0.3"
+    "app-route": "PolymerElements/app-route#^2.0.3",
+    "app-storage": "^2.0.2"
   }
 }

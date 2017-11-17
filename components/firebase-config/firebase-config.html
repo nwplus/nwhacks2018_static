@@ -4,14 +4,28 @@
 <link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
 
+<link rel="import" href="../error-dialog.html">
+
 <dom-module id="firebase-config">
   <template>
-    <paper-dialog id="error" modal>
-      <h2>Error</h2>
-      <p>[[error]]</p>
-      <p>Please try again later or use a different browser.</p>
+    <error-dialog error="{{error}}"></error-dialog>
+
+    <paper-dialog id="signin" modal>
+      <h2>Sign In</h2>
+      <p>Please sign in to continue.</p>
       <div class="buttons">
-        <paper-button dialog-confirm autofocus>close</paper-button>
+        <template is="dom-repeat" items="[[authProviders]]">
+          <paper-button on-tap="login">[[item]]</paper-button>
+        </template>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="verifyEmail" modal>
+      <h2>Verify Email</h2>
+      <p>We need to verify your email. Please check your email for a
+      verification link and then refresh this page.</p>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus>Close</paper-button>
       </div>
     </paper-dialog>
 
@@ -26,7 +40,6 @@
       <firebase-auth id="auth"
                      app-name="[[name]]"
                      user="{{user}}"
-                     provider="google"
                      on-error="handleError"
                      signed-in="{{signedIn}}"
                      status-known="{{statusKnown}}">
@@ -35,11 +48,11 @@
 
     <firebase-document app-name="[[name]]"
                        path="/admins/[[user.uid]]"
-                       data="{{isAdminUID}}">
+                       data="{{adminUID}}">
     </firebase-document>
     <firebase-document app-name="[[name]]"
                        path="/admins/[[formatEmail(user.email)]]"
-                       data="{{isAdminEmail}}">
+                       data="{{adminEmail}}">
     </firebase-document>
   </template>
 
@@ -51,18 +64,30 @@ class FirebaseConfig extends Polymer.Element {
     return {
       isAdmin: {
         notify: true,
-        computed: 'or(isAdminUID, isAdminEmail)'
+        computed: '_computeIsAdmin(user.emailVerified, adminUID, adminEmail)'
       },
+
       statusKnown: { notify: true },
+
       user: { notify: true },
+
       signedIn: { notify: true },
+
       name: {
         type: String,
         notify: true
       },
+
       auth: {
         type: Boolean,
         value: false
+      },
+
+      authProviders: {
+        value: [
+          'Google',
+          'GitHub'
+        ]
       }
     }
   }
@@ -70,12 +95,28 @@ class FirebaseConfig extends Polymer.Element {
   static get observers () {
     return [
       'signIn(signedIn, statusKnown, auth)',
-      'warnNotAdmin(signedIn, isAdmin, statusKnown, auth)'
+      'warnNotAdmin(signedIn, isAdmin, statusKnown, auth, user.emailVerified)',
+      'warnEmailVerified(signedIn, statusKnown, user.emailVerified, user)'
     ]
   }
 
-  or (a, b) {
-    return a === true || (a && !!a.email) || b === true || (b && !!b.email)
+  login (e) {
+    const auth = this.root.querySelector('#auth')
+    const provider = e.model.item.toLowerCase()
+    auth.signInWithPopup(provider).then(() => {
+      this.$.signin.close()
+    }).catch((error) => {
+      this.handleError(null, error)
+    })
+  }
+
+  _computeIsAdmin (emailVerified, adminUID, adminEmail) {
+    if (!emailVerified) {
+      return false
+    }
+
+    return adminUID === true || (adminUID && !!adminUID.email)
+      || adminEmail === true || (adminEmail && !!adminEmail.email)
   }
 
   formatEmail (email) {
@@ -87,24 +128,36 @@ class FirebaseConfig extends Polymer.Element {
 
   signIn (signedIn, statusKnown, auth) {
     if (statusKnown && !signedIn && auth) {
-      this.root.querySelector('#auth').signInWithPopup()
+      this.$.signin.open()
     }
   }
 
-  warnNotAdmin (signedIn, isAdmin, statusKnown, auth) {
-    if (!statusKnown || !auth) {
+  warnEmailVerified (signedIn, statusKnown, emailVerified, user) {
+    if (!signedIn || !statusKnown || emailVerified) {
+      return
+    }
+
+    this.$.verifyEmail.open()
+    user.sendEmailVerification()
+  }
+
+  warnNotAdmin (signedIn, isAdmin, statusKnown, auth, emailVerified) {
+    if (!statusKnown || !auth || !emailVerified) {
       return
     }
     if (signedIn && isAdmin === true) {
-      this.$.error.close()
+      this.error = null
     } else if (signedIn) {
       this.error = 'You are not an admin or data is still loading.'
-      this.$.error.open()
     }
   }
 
   handleError (e, err) {
     this.err = err
+  }
+
+  logout () {
+    this.root.querySelector('#auth').signOut()
   }
 }
 

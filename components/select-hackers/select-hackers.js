@@ -307,7 +307,10 @@ class SelectHackers extends Polymer.Element {
 
   select (e) {
     this.sid = e.model.hacker.$key
-    this.set('routeData.form',  this.form)
+    if (!this.routeActive) {
+      this.set('route.path', '/')
+    }
+    this.set('routeData.form', this.form)
     this.set('routeData.sid', this.sid)
   }
 

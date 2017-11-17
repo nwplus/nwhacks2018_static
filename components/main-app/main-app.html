@@ -12,6 +12,7 @@
 
 <link rel="import" href="../firebase-config/firebase-config.html">
 <link rel="import" href="../shared-styles.html">
+<link rel="import" href="../error-dialog.html">
 <link rel="import" href="../nwhacks-footer/nwhacks-footer.html">
 
 <dom-module id="main-app">
@@ -197,7 +198,7 @@
         text-decoration: none;
         color: inherit;
       }
-      #menu a.right {
+      .right {
         float: right;
       }
       #menu a:hover {
@@ -285,6 +286,9 @@
       </a>
       -->
       <template is="dom-if" if="[[adminPage(page)]]">
+        <span class="right">
+          <paper-button on-tap="logout" hidden$="[[!signedIn]]">Logout</paper-button>
+        </span>
         <a href="/admin/settings" class="med right">
           <paper-button>Settings</paper-button>
         </a>
@@ -399,19 +403,14 @@
     </app-route>
 
     <firebase-config
+      id="auth"
       is-admin="{{isAdmin}}"
       user="{{user}}"
+      signed-in="{{signedIn}}"
       auth="[[adminPage(page)]]">
     </firebase-config>
 
-    <paper-dialog id="error" modal>
-      <h2>Error</h2>
-      <p>[[error]]</p>
-      <p>Please try again later or use a different browser.</p>
-      <div class="buttons">
-        <paper-button dialog-confirm autofocus>close</paper-button>
-      </div>
-    </paper-dialog>
+    <error-dialog error="{{error}}"></error-dialog>
   </template>
 
   <script src="main-app.js"></script>

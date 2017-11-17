@@ -28,6 +28,12 @@ class MainApp extends Polymer.Element {
     ]
   }
 
+  ready () {
+    super.ready()
+
+    this.addEventListener('error', this.handleError)
+  }
+
   _routePageChanged (page) {
     this.page = page || 'index'
   }
@@ -109,6 +115,10 @@ class MainApp extends Polymer.Element {
     return page === 'admin'
   }
 
+  handleError (e) {
+    this.error = e.detail
+  }
+
   handle404 () {
     console.log('404!', this.page, this.route)
     this.page = 'notfound'
@@ -124,6 +134,10 @@ class MainApp extends Polymer.Element {
       select: 'select-hackers',
       settings: 'admin-settings'
     }[page] || page + '-page'
+  }
+
+  logout () {
+    this.$.auth.logout()
   }
 }
 
