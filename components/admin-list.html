@@ -6,6 +6,7 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 
 <link rel="import" href="firebase-config/firebase-config.html">
+<link rel="import" href="moment-js.html">
 
 <dom-module id="admin-list">
   <template>
@@ -17,17 +18,36 @@
       paper-input {
         flex-grow: 10000;
       }
+      table {
+        width: 100%;
+      }
     </style>
 
-    <ul>
-      <template is="dom-repeat" items="[[list(admins, admins.*)]]">
-        <li>
-          [[item.body.name]]
-          <a href="mailto:[[item.email]]">[[item.email]]</a>
-          <paper-icon-button icon="delete-forever" on-tap="delete"></paper-icon-button>
-        </li>
-      </template>
-    </ul>
+    <table>
+      <thead>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Last Accessed</th>
+      </thead>
+      <tbody>
+        <template is="dom-repeat" items="[[list(admins, admins.*)]]">
+          <tr>
+            <td>
+              [[item.body.name]]
+            </td>
+            <td>
+              <a href="mailto:[[item.email]]">[[item.email]]</a>
+            </td>
+            <td>
+              [[ago(item.body.last_accessed)]]
+            </td>
+            <td>
+              <paper-icon-button icon="delete-forever" on-tap="delete"></paper-icon-button>
+            </td>
+            <tr>
+        </template>
+      </tbody>
+    </table>
 
     <div id="input">
       <paper-input label="Name" required type="name" auto-validate value="{{name}}">
@@ -62,6 +82,13 @@ class AdminList extends Polymer.Element {
     return l
   }
 
+  ago (time) {
+    if (!time) {
+      return 'never'
+    }
+    return moment(time).fromNow()
+  }
+
   validate () {
     let valid = true
     for (const e of this.$.input.children) {
@@ -74,7 +101,7 @@ class AdminList extends Polymer.Element {
 
   formatEmail (email) {
     if (!email) {
-      return;
+      return
     }
     return email.replace(/\./g, '%2E')
   }

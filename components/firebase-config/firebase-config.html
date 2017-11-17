@@ -96,7 +96,8 @@ class FirebaseConfig extends Polymer.Element {
     return [
       'signIn(signedIn, statusKnown, auth)',
       'warnNotAdmin(signedIn, isAdmin, statusKnown, auth, user.emailVerified)',
-      'warnEmailVerified(signedIn, statusKnown, user.emailVerified, user)'
+      'warnEmailVerified(signedIn, statusKnown, user.emailVerified, user)',
+      'updateInfo(isAdmin, user.displayName)'
     ]
   }
 
@@ -150,6 +151,17 @@ class FirebaseConfig extends Polymer.Element {
     } else if (signedIn) {
       this.error = 'You are not an admin or data is still loading.'
     }
+  }
+
+  updateInfo (isAdmin, name) {
+    if (!isAdmin || !name) {
+      return
+    }
+
+    setTimeout(() => {
+      this.set('adminEmail.name', name)
+      this.set('adminEmail.last_accessed', (new Date()).toString())
+    }, 10)
   }
 
   handleError (e, err) {
