@@ -8,6 +8,7 @@
 
 <link rel="import" href="nw-comments.html">
 <link rel="import" href="nw-criteria.html">
+<link rel="import" href="nw-viewing.html">
 <link rel="import" href="document-viewer.html">
 
 <dom-module id="review-submission">
@@ -156,8 +157,15 @@
 
         <span class="right">
           <span>[[hacker.status]]</span>
-          <a href="[[permalink]]">Permalink</a>,
           <a target="_blank" href="[[firebaseLink(form, sid)]]">Firebase</a>
+
+          <nw-viewing
+            viewing
+            viewers="{{hacker.viewers}}"
+            position="left"
+            name="[[name]]"
+            email="[[email]]">
+          </nw-viewing>
         </span>
       </div>
     </div>
@@ -201,16 +209,8 @@ class ReviewSubmission extends Polymer.Element {
 
   static get observers () {
     return [
-      'reset(sid)',
-      'updateLink(form, sid)'
+      'reset(sid)'
     ]
-  }
-
-  updateLink (form, sid) {
-    if (!form || !sid) {
-      return
-    }
-    this.permalink = '/admin/select/' + form + '/' + sid
   }
 
   reset () {

@@ -18,6 +18,7 @@
 <link rel="import" href="../light-page.html">
 <link rel="import" href="../review-submission.html">
 <link rel="import" href="../nw-score.html">
+<link rel="import" href="../nw-viewing.html">
 
 <dom-module id="select-hackers">
   <template>
@@ -203,6 +204,15 @@
                       class="right">
                     </nw-score>
                   </template>
+
+                  <nw-viewing
+                    class="right"
+                    position="left"
+                    viewers="[[hacker.viewers]]"
+                    email="[[user.email]]"
+                    name="[[user.displayName]]">
+                  </nw-viewing>
+
                   [[hacker.email]]
                 </div>
               </paper-item-body>

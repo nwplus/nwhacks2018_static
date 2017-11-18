@@ -1,0 +1,128 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+
+<link rel="import" href="moment-js.html">
+
+<dom-module id="nw-viewing">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+      }
+      .viewer {
+        height: 10px;
+        width: 10px;
+        border-radius: 10000px;
+        display: inline-block;
+        margin: 0 5px;
+      }
+    </style>
+
+    <template is="dom-repeat" items="[[_viewers]]">
+      <div class="viewer" style="[[viewerStyle(item.email)]]">
+        <paper-tooltip position="[[position]]">
+          [[item.name]] <br> ([[item.email]])
+        </paper-tooltip>
+      </div>
+    </template>
+  </template>
+
+  <script>
+// refreshRate is the rate we update viewing information.
+const refreshRate = 10
+
+class NWViewing extends Polymer.Element {
+  static get is () { return 'nw-viewing' }
+
+  static get properties () {
+    return {
+      viewers: {
+        type: Object,
+        notify: true
+      },
+
+      name: String,
+      email: String,
+      position: String,
+
+      viewing: {
+        type: Boolean,
+        value: false
+      }
+    }
+  }
+
+  static get observers () {
+    return [
+      '_updateViewers(viewers, viewers.*, viewers.*.*, now)',
+      '_updateViewing(viewing, name, email)'
+    ]
+  }
+
+  connectedCallback () {
+    super.connectedCallback()
+
+    this._refresh = setInterval(() => {
+      this._updateViewing()
+    }, 1000 * refreshRate / 2)
+  }
+
+  disconnectedCallback () {
+    super.disconnectedCallback()
+
+    clearInterval(this._refresh)
+  }
+
+  _updateViewing () {
+    this.now = moment()
+
+    if (!this.viewing || !this.email) {
+      return
+    }
+
+    if (!this.viewers) {
+      this.viewers = {}
+    }
+
+    this.set(['viewers', btoa(this.email)], {
+      email: this.email,
+      name: this.name,
+      time: moment().toISOString()
+    })
+  }
+
+  _updateViewers (viewers) {
+    if (!viewers) {
+      setTimeout(() => {
+        this._updateViewing()
+      }, 1)
+      return
+    }
+
+    this._viewers = Object.values(viewers).filter(v => {
+      // filter all elements that are older than 1 minute
+      return v.email !== this.email && moment(v.time).add(refreshRate, 'seconds').isAfter()
+    })
+  }
+
+  viewerStyle (email) {
+    const hue = this.hashString(email) % 360
+    return `background-color: hsl(${hue}, 80%, 50%`
+  }
+
+  hashString (str) {
+    var hash = 0, i, chr
+    if (str.length === 0) return hash;
+    for (i = 0; i < str.length; i++) {
+      chr   = str.charCodeAt(i)
+      hash  = ((hash << 5) - hash) + chr
+      hash |= 0 // Convert to 32bit integer
+    }
+    return hash
+  }
+}
+
+customElements.define(NWViewing.is, NWViewing)
+  </script>
+</dom-module>
