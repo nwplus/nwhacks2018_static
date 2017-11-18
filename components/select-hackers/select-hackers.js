@@ -234,7 +234,7 @@ class SelectHackers extends Polymer.Element {
 
     const blacklist = new Set([
       '$key', 'index', 'id', 'birthday', 'submitted', 'resume', 'phone',
-      'emergency_phone', 'cleanEmail'
+      'emergency_phone', 'cleanEmail', 'filteredIndex'
     ])
     this.fields = Array.from(fields).filter(a => {
       return !blacklist.has(a)
