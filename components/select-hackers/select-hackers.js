@@ -224,16 +224,26 @@ class SelectHackers extends Polymer.Element {
     const fields = new Set()
     hackers.forEach((hacker) => {
       for (const field of Object.keys(hacker)) {
+        const type = typeof hacker[field]
+        if (type === 'object') {
+          continue
+        }
         fields.add(field)
       }
     })
-    this.fields = Array.from(fields)
+
+    const blacklist = new Set([
+      '$key', 'index', 'id', 'birthday', 'submitted', 'resume', 'phone',
+      'emergency_phone', 'cleanEmail'
+    ])
+    this.fields = Array.from(fields).filter(a => {
+      return !blacklist.has(a)
+    })
 
     const builder = new lunr.Builder()
     builder.pipeline.add(lunr.trimmer, lunr.stopWordFilter, lunr.stemmer)
     builder.searchPipeline.add(lunr.stemmer)
     builder.ref('index')
-    builder.field('emailSplit')
     for (const field of this.fields) {
       builder.field(field)
     }
@@ -243,6 +253,7 @@ class SelectHackers extends Polymer.Element {
   asyncBuildIndex (builder, hackers) {
     if (!hackers || hackers.length === 0) {
       this.lunr = builder.build()
+      this.pruneIndex(this.lunr)
       console.log('asyncBuildIndex: done!')
       return
     }
@@ -250,11 +261,35 @@ class SelectHackers extends Polymer.Element {
     requestIdleCallback(() => {
       const batchSize = 25
       hackers.slice(0, batchSize).forEach((hacker) => {
-        hacker.emailSplit = hacker.email.replace(/@/g, ' ')
         builder.add(hacker)
       })
       this.asyncBuildIndex(builder, hackers.slice(batchSize))
+    }, {
+      timeout: 100
     })
+  }
+
+  pruneIndex (index) {
+    const empty = {}
+    const handler = {
+      get: function (target, name, receiver) {
+        return target[name] || empty
+      }
+    }
+
+    for (const key of Object.keys(index.invertedIndex)) {
+      const val = index.invertedIndex[key]
+      for (const field of Object.keys(val)) {
+        if (field === '_index') {
+          continue
+        }
+
+        if (Object.keys(val[field]).length === 0) {
+          delete val[field]
+        }
+      }
+      index.invertedIndex[key] = new Proxy(val, handler)
+    }
   }
 
   clearSearch () {
