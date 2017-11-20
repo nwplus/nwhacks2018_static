@@ -340,7 +340,11 @@ class NWCriteria extends Polymer.Element {
 
   levels (max) {
     const l = []
-    for (let i = 0; i <= max; i++) {
+    let first = 0
+    if (max > 1) {
+      first = 1
+    }
+    for (let i = first; i <= max; i++) {
       l.push(i)
     }
     return l
@@ -363,7 +367,7 @@ class NWCriteria extends Polymer.Element {
     if (!this.criteria) {
       this.criteria = {}
     }
-    if (score > this.selected.worth) {
+    if (this.levels(this.selected.worth).indexOf(score) === -1) {
       return
     }
     this.set(['criteria', this.selected.slug], score)
