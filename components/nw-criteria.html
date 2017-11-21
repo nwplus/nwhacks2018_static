@@ -266,7 +266,7 @@ const questions = [
     name: pastExperienceName,
     questions: [
       { name: 'Github/Personal Website', worth: 5, field: 'github'},
-      { name: 'Linkedin/Resume', worth: 5, field: 'technology' },
+      { name: 'Linkedin/Resume', worth: 5, field: 'linkedin' },
     ],
     weight: experienceWeight
   },
@@ -325,6 +325,10 @@ class NWCriteria extends Polymer.Element {
       qid: {
         notify: true,
         type: String
+      },
+
+      search: {
+        type: String
       }
     }
   }
@@ -332,6 +336,7 @@ class NWCriteria extends Polymer.Element {
   static get observers () {
     return [
       'computeScore(_questions, criteria, criteria.*)',
+      'selectDefault(_questions, search)',
       'reset(_questions, sid)'
     ]
   }
@@ -399,16 +404,30 @@ class NWCriteria extends Polymer.Element {
     this.qid = e.model.item.field
   }
 
+  reset (questions) {
+    if (!this.isSet(this.selected)) {
+      this.setSelected(questions[0])
+    }
+
+    if (this.isSet(this.search)) {
+      this.selectDefault(questions)
+    }
+  }
+
+  selectDefault (questions) {
+    for (var i = 0; i < questions.length; i++) {
+      if (questions[i].field == this.search) {
+        this.setSelected(questions[i])
+      }
+    }
+  }
+
   or (a, b) {
     return a || b
   }
 
   isSet (v) {
     return v !== undefined && v !== null
-  }
-
-  reset (questions) {
-    this.setSelected(questions[0])
   }
 
   clearCriteria () {
@@ -467,8 +486,9 @@ class NWCriteria extends Polymer.Element {
       }
       this.set(['criteria', this.selected.slug], score)
     }
-
-    this.moveSelected(1)
+    // since criteria questions are split up among people,
+    // moveSelected might be annoying here
+    //this.moveSelected(1)
 
     this.computeScore()
   }

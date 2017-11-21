@@ -72,7 +72,8 @@
       id="criteria"
       sid="[[sid]]"
       criteria="{{hacker.criteria}}"
-      qid="{{qid}}">
+      qid="{{qid}}"
+      search="[[search]]">
     </nw-criteria>
 
     <div id="tabs">
@@ -208,6 +209,10 @@ class ReviewSubmission extends Polymer.Element {
 
       qid: {
         notify: true,
+        type: String
+      },
+
+      search: {
         type: String
       }
     }
