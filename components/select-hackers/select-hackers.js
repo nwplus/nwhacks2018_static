@@ -176,6 +176,7 @@ class SelectHackers extends Polymer.Element {
     // Update search
     this.updateLunrIndex(hackers)
 
+    console.log('updated')
     this.hackers = hackers
   }
 
@@ -346,6 +347,9 @@ class SelectHackers extends Polymer.Element {
       if (filters.scoreMax !== this.filterDefaults.scoreMax) {
         valid = valid && hacker.criteria && hacker.criteria.score <= filters.scoreMax
       }
+      if (filters.missingCriteria) {
+        valid = valid && (!hacker.criteria || !hacker.criteria[filters.missingCriteria])
+      }
 
       return valid
     })
@@ -356,6 +360,7 @@ class SelectHackers extends Polymer.Element {
 
     // Maintain scroll position
     const scroll = this.$.list.scrollTop
+    console.log('filtered')
     this.filtered = filtered
     this.filteredCount = filtered.length
     this.$.list.scroll(0, scroll)

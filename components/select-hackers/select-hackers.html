@@ -65,9 +65,6 @@
         overflow-x: hidden;
       }
 
-      paper-input, paper-dropdown-menu {
-        display: inline-block;
-      }
       table {
         text-align: left;
         width: 100%;
@@ -261,6 +258,11 @@
             </paper-range-slider>
           </span>
         </paper-input-container>
+
+        <paper-input
+          label="Missing Criteria (Ex: linkedin-resume)"
+          value="{{filters.missingCriteria}}">
+        </paper-input>
 
         <h3>Properties</h3>
         <p>
