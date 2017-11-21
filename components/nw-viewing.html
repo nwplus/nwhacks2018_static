@@ -88,7 +88,7 @@ class NWViewing extends Polymer.Element {
     this.set(['viewers', btoa(this.email)], {
       email: this.email,
       name: this.name,
-      time: moment().toISOString()
+      time: firebase.database.ServerValue.TIMESTAMP
     })
   }
 
@@ -101,7 +101,7 @@ class NWViewing extends Polymer.Element {
     }
 
     this._viewers = Object.values(viewers).filter(v => {
-      // filter all elements that are older than 1 minute
+      // filter all elements that are older than the refresh rate
       return v.email !== this.email && moment(v.time).add(refreshRate, 'seconds').isAfter()
     })
   }
