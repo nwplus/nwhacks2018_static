@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../area-img.html">
 
 <link rel="import" href="../nwhacks-header/nwhacks-header.html">
@@ -442,8 +442,8 @@
                 <h2>How much does it cost?</h2>
                 <p>nwHacks is 100% free for all participants. However,
                 registration is strictly limited to high school and university
-                students, and recent graduates only. A bus will be sent to the University of Washington for attendees 
-                from Seattle and the surrounding area. For other hackers, we will be offering a limited number of travel 
+                students, and recent graduates only. A bus will be sent to the University of Washington for attendees
+                from Seattle and the surrounding area. For other hackers, we will be offering a limited number of travel
                 reimbursements of up to $200 per person (economy flights only).</p>
 
                 <h2>Can I work on my previous projects?</h2>
@@ -493,7 +493,7 @@
               </div>
             -->
             <div class="sponsors-giga">
-                <br><area-img src="/svg/scotiabank_large.svg" href="http://scotiabank.com" area="100000"></area-img>
+                <br><area-img src="/svg/logos/scotiabank.svg" href="http://scotiabank.com" area="100000"></area-img>
                 <br><br><br><area-img src="/svg/logos/finning_digital.svg" href="http://www.finning.com/en_CA.html" area="60000"></area-img><br>
                 <area-img src="/svg/logos/telus.svg" href="https://labs.telus.com/" area="70000"></area-img>
                 <area-img src="/svg/logos/pia-logo.svg" href="https://www.privateinternetaccess.com/" area="70000"></area-img>
@@ -503,7 +503,7 @@
                 <area-img src="/svg/logos/rbc_outline.svg" src-solid="/svg/logos/rbc.svg" href="http://www.rbc.com/techjobs/" area="70000"></area-img><br>
                 <br>
                 <area-img src="/svg/logos/microsoft_large.svg" href="https://www.microsoft.com" area="70000"  class="sponsor-padding"></area-img>
-                <area-img src="/svg/logos/mojio.svg" href="https://www.moj.io/" area="70000"></area-img>    
+                <area-img src="/svg/logos/mojio.svg" href="https://www.moj.io/" area="70000"></area-img>
                 <br><br><area-img src="/img/logos/sap-ixp.png" href="https://www.sap.com/canada/about/careers/university-programs/students/internships/internship-experience-project.html" area="60000"></area-img>
                 <area-img src="/svg/logos/right-mesh.svg" href="https://www.rightmesh.io/" area="50000"></area-img>
 
@@ -524,8 +524,8 @@
             </div>
             <div class="sponsors-kilo">
                 <area-img src="/svg/logos/red-transparent.svg" href="https://redacademy.com/" area="20000"></area-img>
-                <area-img src="/img/logos/cat_small.png" href="https://ca.com" area="20000"></area-img>
-                <area-img src="/img/logos/google_small.png" href="https://google.com" area="20000"></area-img>
+                <area-img src="/svg/logos/cat.svg" href="https://ca.com" area="20000"></area-img>
+                <area-img src="/svg/logos/google-logo.svg" href="https://google.com" area="20000"></area-img>
 
                 <!--
                 <area-img src="/img/logos/namecheap.png"
@@ -625,9 +625,10 @@
     </template>
 
     <script>
-        Polymer({
-            is: 'index-page'
-        })
+class IndexPage extends Polymer.Element {
+  static get is () { return 'index-page' }
+}
+customElements.define(IndexPage.is, IndexPage)
     </script>
 
 </dom-module>

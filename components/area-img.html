@@ -1,3 +1,5 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
 <dom-module id="area-img">
   <template>
     <style>
@@ -71,9 +73,9 @@
       <img id="img"
            src="[[src]]"
            class="transparent"
-           natural-height="{{height::load}}"
-           natural-width="{{width::load}}"
+           on-load="updateSize"
            width="[[computedWidth]]">
+
       <template is="dom-if" if="[[srcSolid]]">
         <img src="[[srcSolid]]"
              class="solid"
@@ -81,40 +83,39 @@
       </template>
     </a>
   </template>
+
   <script>
-Polymer({
-  is: 'area-img',
+class AreaImage extends Polymer.Element {
+  static get is () { return 'area-img' }
 
-  properties: {
-    src: {
-      type: String,
-      value: "",
-    },
-    href: {
-      type: String,
-      value: "",
-    },
-    srcSolid: {
-      type: String,
-      value: "",
-    },
-    area: {
-      type: Number,
-      value: 43200,
-    },
-    isDuo: {
-      type: Boolean,
-      computed: 'computeDuo(srcSolid)',
+  static get properties () {
+    return {
+      src: {
+        type: String,
+        value: "",
+      },
+      href: {
+        type: String,
+        value: "",
+      },
+      srcSolid: {
+        type: String,
+        value: "",
+      },
+      area: {
+        type: Number,
+        value: 43200,
+      },
+      isDuo: {
+        type: Boolean,
+        computed: 'computeDuo(srcSolid)',
+      }
     }
-  },
-
-  observers: [
-    'updateSize(height, width)'
-  ],
+  }
 
   // visualArea looks at the left and right most pixel of the image at each line
   // and uses it to calculate the visual area of the image.
-  visualArea: function() {
+  visualArea () {
     const w = 100;
     const h = 100;
     const canvas = document.createElement('canvas');
@@ -141,21 +142,24 @@ Polymer({
       area += (rightMost - leftMost)*this.width/w;
     }
     return area*this.height/h;
-  },
+  }
 
-  updateSize: function(height, width) {
-    if (!height || !width) {
-      return
-    }
-    const naturalArea = (height*width);
+  updateSize () {
+    const height = this.$.img.height
+    const width = this.$.img.width
+
+    const naturalArea = height*width;
     //const visualArea = this.visualArea();
     const scalingFactor = Math.sqrt(this.area/naturalArea);
     this.computedHeight = scalingFactor*height;
     this.computedWidth = scalingFactor*width;
-  },
-  computeDuo: function(srcSolid) {
+  }
+
+  computeDuo (srcSolid) {
     return srcSolid.length > 0;
   }
-});
+}
+
+customElements.define(AreaImage.is, AreaImage)
   </script>
 </dom-module>
