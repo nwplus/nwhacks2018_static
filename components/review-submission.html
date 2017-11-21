@@ -71,7 +71,8 @@
     <nw-criteria
       id="criteria"
       sid="[[sid]]"
-      criteria="{{hacker.criteria}}">
+      criteria="{{hacker.criteria}}"
+      qid="{{qid}}">
     </nw-criteria>
 
     <div id="tabs">
@@ -104,7 +105,7 @@
           <div id="info">
             <template is="dom-repeat" items="[[questions]]">
               <template is="dom-if" if="[[has(hacker, item.name)]]">
-                <paper-input-container always-float-label>
+                <paper-input-container id="[[item.name]]" always-float-label>
                   <label slot="label">[[item.label]]</label>
                   <span slot="input" class="paper-input-input">
                     <template is="dom-if" if="[[linkField(hacker, item.name, hacker.*)]]">
@@ -203,13 +204,19 @@ class ReviewSubmission extends Polymer.Element {
       disabled: {
         type: Boolean,
         value: false
+      },
+
+      qid: {
+        notify: true,
+        type: String
       }
     }
   }
 
   static get observers () {
     return [
-      'reset(sid)'
+      'reset(sid)',
+      'scrollSubmission(qid)'
     ]
   }
 
@@ -291,6 +298,10 @@ class ReviewSubmission extends Polymer.Element {
 
   numComments (comments) {
     return Object.keys(comments || {}).length
+  }
+
+  scrollSubmission() {
+    this.shadowRoot.querySelector("#" + this.qid).scrollIntoView()
   }
 }
 

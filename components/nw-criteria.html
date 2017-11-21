@@ -129,6 +129,7 @@
         </h4>
 
         <template is="dom-repeat" items="[[category.questions]]">
+          <a on-tap="handleScroll">
           <div
             class="question"
             on-tap="handleSelect"
@@ -143,6 +144,7 @@
             [[item.name]]
             </div>
           </div>
+          </a>
         </template>
       </template>
     </div>
@@ -263,18 +265,19 @@ const questions = [
   {
     name: pastExperienceName,
     questions: [
-      { name: 'Github/Personal Website', worth: 5 },
-      { name: 'Linkedin/Resume', worth: 5 },
+      { name: 'Github/Personal Website', worth: 5, field: 'github'},
+      { name: 'Linkedin/Resume', worth: 5, field: 'technology' },
     ],
     weight: experienceWeight
   },
   {
     name: 'Written Response',
     questions: [
-      { name: 'What do you want to get out of nwHacks?', worth: 5 },
+      { name: 'What do you want to get out of nwHacks?', worth: 5, field: 'reason'},
       {
         name: 'Tell us about a recent project you\'ve worked on that excites you!',
-        worth: 5
+        worth: 5,
+        field: 'project'
       },
     ],
     weight: experienceWeight
@@ -285,7 +288,8 @@ const questions = [
       {
         name: 'If you were a piece of technology, what would you be?',
         worth: 1,
-        bonus: true
+        bonus: true,
+        field: 'technology'
       },
     ]
   }
@@ -315,6 +319,11 @@ class NWCriteria extends Polymer.Element {
       },
 
       sid: {
+        type: String
+      },
+
+      qid: {
+        notify: true,
         type: String
       }
     }
@@ -384,6 +393,10 @@ class NWCriteria extends Polymer.Element {
       val = parseInt(key)
     }
     this.setScore(val)
+  }
+
+  handleScroll (e) {
+    this.qid = e.model.item.field
   }
 
   or (a, b) {
