@@ -70,7 +70,12 @@ class NWScore extends Polymer.Element {
     }
 
     const i = Math.round(Math.min(score/total, 1) * (gradient.length - 1));
-    this.style.color = gradient[i].toRgbString()
+    let grad = gradient[i]
+    if (!grad) {
+      this.style.color = ''
+      return
+    }
+    this.style.color = grad.toRgbString()
   }
 }
 

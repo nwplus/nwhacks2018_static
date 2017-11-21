@@ -68,6 +68,11 @@
         color: var(--light-text-color);
       }
 
+      .weight {
+        font-weight: normal;
+        color: var(--secondary-text-color);
+      }
+
       .question[selected] {
         color: var(--primary-color);
         font-weight: bold;
@@ -114,7 +119,14 @@
         </p>
       </template>
       <template is="dom-repeat" items="[[questions]]" as="category">
-        <h4>[[category.name]]</h4>
+        <h4>
+          [[category.name]]
+          <template is="dom-if" if="[[displayWeight(category, category.weight, criteria.*)]]">
+            <span class="weight">
+              ×[[displayWeight(category, category.weight, criteria.*)]]
+            </span>
+          </template>
+        </h4>
 
         <template is="dom-repeat" items="[[category.questions]]">
           <div
@@ -222,6 +234,63 @@
   </template>
 
   <script>
+
+const pastExperienceName = 'Past Experience'
+
+function experienceWeight (category) {
+  const total = this.categoryTotal(pastExperienceName)
+  if (!total) {
+    return
+  }
+  let weight = undefined
+  if (total <= 5) {
+    weight = 0.8
+  } else if (total <= 8) {
+    weight = 0.85
+  } else if (total <= 10) {
+    weight = 0.9
+  }
+  if (!weight) {
+    return
+  }
+  if (category.name !== pastExperienceName) {
+    weight = 1 - weight
+  }
+  return weight
+}
+
+const questions = [
+  {
+    name: pastExperienceName,
+    questions: [
+      { name: 'Github/Personal Website', worth: 5 },
+      { name: 'Linkedin/Resume', worth: 5 },
+    ],
+    weight: experienceWeight
+  },
+  {
+    name: 'Written Response',
+    questions: [
+      { name: 'What do you want to get out of nwHacks?', worth: 5 },
+      {
+        name: 'Tell us about a recent project you\'ve worked on that excites you!',
+        worth: 5
+      },
+    ],
+    weight: experienceWeight
+  },
+  {
+    name: 'Bonus',
+    questions: [
+      {
+        name: 'If you were a piece of technology, what would you be?',
+        worth: 1,
+        bonus: true
+      },
+    ]
+  }
+]
+
 class NWCriteria extends Polymer.Element {
   static get is () { return 'nw-criteria' }
 
@@ -233,35 +302,7 @@ class NWCriteria extends Polymer.Element {
       },
 
       questions: {
-        value: [
-          {
-            name: 'Past Experience',
-            questions: [
-              { name: 'Github/Personal Website', worth: 5 },
-              { name: 'Linkedin/Resume', worth: 5 },
-            ]
-          },
-          {
-            name: 'Written Response',
-            questions: [
-              { name: 'What do you want to get out of nwHacks?', worth: 5 },
-              {
-                name: 'Tell us about a recent project you\'ve worked on that excites you!',
-                worth: 5
-              },
-            ]
-          },
-          {
-            name: 'Bonus',
-            questions: [
-              {
-                name: 'If you were a piece of technology, what would you be?',
-                worth: 1,
-                bonus: true
-              },
-            ]
-          }
-        ]
+        value: questions
       },
 
       _questions: {
@@ -281,8 +322,7 @@ class NWCriteria extends Polymer.Element {
 
   static get observers () {
     return [
-      'computeScore(_questions)',
-      'computeScore(criteria, criteria.*)',
+      'computeScore(_questions, criteria, criteria.*)',
       'reset(_questions, sid)'
     ]
   }
@@ -291,6 +331,38 @@ class NWCriteria extends Polymer.Element {
     super.connectedCallback()
 
     this.target = document.body
+  }
+
+  displayWeight (category) {
+    const weight = this.weight(category)
+    if (weight) {
+      return weight.toFixed(2)
+    }
+    return weight
+  }
+
+  weight (category) {
+    if (!category.weight) {
+      return
+    }
+    return category.weight.call(this, category)
+  }
+
+  categoryTotal (label) {
+    if (!this.criteria) {
+      return
+    }
+
+    for (const cat of this.questions) {
+      if (cat.name !== label) {
+        continue
+      }
+      let total = 0
+      for (const q of cat.questions) {
+        total += this.criteria[q.slug]
+      }
+      return total
+    }
   }
 
   handleViewShortcuts () {
@@ -331,6 +403,7 @@ class NWCriteria extends Polymer.Element {
       for (const q of cat.questions) {
         q.slug = this.slugify(q.name)
         q.index = flat.length
+        q.category = cat
         flat.push(q)
       }
     }
@@ -390,23 +463,23 @@ class NWCriteria extends Polymer.Element {
       return
     }
 
-    const total = this._questions
-      .filter(q => !q.bonus)
-      .map(q => q.worth)
-      .reduce((a, b) => a + b, 0)
-
     let finished = true
     let started = false
     let score = 0
+    let total = 0
 
     for (const q of this._questions) {
+      const weight = this.weight(q.category) || 1
+      if (!q.bonus) {
+        total += weight * q.worth
+      }
       if (!this.criteria || !this.criteria.hasOwnProperty(q.slug)) {
         finished = false
         continue
       }
 
       started = true
-      score += this.criteria[q.slug]
+      score += weight * this.criteria[q.slug]
     }
 
     if (started) {
@@ -424,7 +497,14 @@ class NWCriteria extends Polymer.Element {
     if (!this.criteria) {
       this.criteria = {}
     }
-    this.set('criteria.score', score)
+    this.set('criteria.score', this.roundNumber(score, 4))
+  }
+
+  // https://stackoverflow.com/questions/246193/how-do-i-round-a-number-in-javascript#478445
+  roundNumber (number, digits) {
+    var multiple = Math.pow(10, digits);
+    var rndedNum = Math.round(number * multiple) / multiple;
+    return rndedNum;
   }
 
   criteriaScore (criteria, slug) {
