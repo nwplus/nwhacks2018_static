@@ -12,6 +12,8 @@
 <link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-badge/paper-badge.html">
+<link rel="import" href="../../bower_components/paper-range-slider/paper-range-slider.html">
 
 <link rel="import" href="../firebase-config/firebase-config.html">
 <link rel="import" href="../lunr-js.html">
@@ -168,7 +170,18 @@
       </paper-input>
       &nbsp;
 
-      <paper-icon-button icon="filter-list" on-tap="showFilters"></paper-icon-button>
+      <paper-icon-button
+        id="showFilters"
+        icon="filter-list"
+        on-tap="showFilters">
+      </paper-icon-button>
+      <template is="dom-if" if="[[numFilters(filters, filters.*)]]">
+        <paper-badge
+          for="showFilters"
+          label="[[numFilters(filters, filters.*)]]">
+        </paper-badge>
+      </template>
+
       &nbsp;
 
       <span>
@@ -236,11 +249,24 @@
     <paper-dialog id="filterhelp" modal>
       <h2>Filters</h2>
       <paper-dialog-scrollable>
+        <paper-input-container always-float-label>
+          <label slot="label">Score</label>
+          <span slot="input" class="paper-input-input">
+            <paper-range-slider
+              min="[[filterDefaults.scoreMin]]"
+              max="[[filterDefaults.scoreMax]]"
+              value-min="{{filters.scoreMin}}"
+              value-max="{{filters.scoreMax}}"
+              pin>
+            </paper-range-slider>
+          </span>
+        </paper-input-container>
+
+        <h3>Properties</h3>
         <p>
           You can filter search results by specific properties by adding
           <code>property:value</code> pairs.
         </p>
-        <h3>Properties</h3>
         <div>
           <ul>
             <template is="dom-repeat" items="[[filterFields(fields, questions)]]">

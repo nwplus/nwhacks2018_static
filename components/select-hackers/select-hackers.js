@@ -33,11 +33,6 @@ class SelectHackers extends Polymer.Element {
         value: 'registration'
       },
 
-      incr: {
-        type: Number,
-        value: 0
-      },
-
       categories: {
         type: Array,
         value: categories
@@ -47,10 +42,18 @@ class SelectHackers extends Polymer.Element {
         type: Object,
         value () {
           return {
-            search: '',
-            status: '',
-            response: '',
-            missing_passport: false
+            scoreMax: 20,
+            scoreMin: 0
+          }
+        }
+      },
+
+      filterDefaults: {
+        type: Object,
+        value () {
+          return {
+            scoreMax: 20,
+            scoreMin: 0
           }
         }
       },
@@ -72,11 +75,10 @@ class SelectHackers extends Polymer.Element {
 
   static get observers () {
     return [
-      'refresh(filters.search)',
       'handleRegistrations(registrations)',
       'handleRegistrations(registrations.*)',
       'handlePartials(registrations.*)',
-      'filter(hackers, filters, incr, hackers.*)',
+      'filter(hackers, filters, hackers.*, filters.*)',
       'getQuestionMapping(form)',
       'handleRouteData(routeData.form, routeData.sid)'
     ]
@@ -92,8 +94,6 @@ class SelectHackers extends Polymer.Element {
       sid
     })
   }
-
-  refresh () { this.incr++ }
 
   cleanEmail (email) {
     return (email || '').toLowerCase().trim()
@@ -128,8 +128,6 @@ class SelectHackers extends Polymer.Element {
   }
 
   handleRegistrationsInternal () {
-    console.log('rendering!')
-
     // Convert {[id]: hacker} to hacker[] sorted by ID.
     const hackers = this.registrations
 
@@ -178,8 +176,20 @@ class SelectHackers extends Polymer.Element {
     // Update search
     this.updateLunrIndex(hackers)
 
-    console.log('hackers update')
     this.hackers = hackers
+  }
+
+  numFilters (filters) {
+    if (!filters) {
+      return
+    }
+    let count = 0
+    for (const filter of Object.keys(filters)) {
+      if (filter !== 'search' && filters[filter] && this.filterDefaults[filter] !== filters[filter]) {
+        count += 1
+      }
+    }
+    return count
   }
 
   index (hacker) {
@@ -320,12 +330,25 @@ class SelectHackers extends Polymer.Element {
   filter (hackers, filters, _) {
     var filtered = hackers
     this.totalCount = hackers.length
-    if (filters.search.length >= 1) {
+    if (filters.search && filters.search.length >= 1) {
       var rawResults = this.lunr.search(filters.search)
       filtered = rawResults.map((result) => {
         return hackers[result.ref]
       })
     }
+
+    filtered = filtered.filter((hacker) => {
+      let valid = true
+
+      if (filters.scoreMin !== this.filterDefaults.scoreMin) {
+        valid = valid && hacker.criteria && hacker.criteria.score >= filters.scoreMin
+      }
+      if (filters.scoreMax !== this.filterDefaults.scoreMax) {
+        valid = valid && hacker.criteria && hacker.criteria.score <= filters.scoreMax
+      }
+
+      return valid
+    })
 
     filtered.forEach((hacker, i) => {
       hacker.filteredIndex = i
@@ -345,10 +368,6 @@ class SelectHackers extends Polymer.Element {
   select (e) {
     this.sid = e.model.hacker.$key
     this.set('route.path', `/${this.form}/${this.sid}`)
-  }
-
-  refreshList () {
-    this.incr++
   }
 
   showFilters () {
