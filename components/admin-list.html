@@ -111,9 +111,10 @@ class AdminList extends Polymer.Element {
       return
     }
 
-    this.set(['admins', this.formatEmail(this.email)], {
+    const email = this.email.toLowerCase()
+    this.set(['admins', this.formatEmail(email)], {
       name: this.name,
-      email: this.email,
+      email: email,
     })
     this.name = ''
     this.email = ''
