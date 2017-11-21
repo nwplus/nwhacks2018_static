@@ -160,7 +160,7 @@ class FirebaseConfig extends Polymer.Element {
 
     setTimeout(() => {
       this.set('adminEmail.name', name)
-      this.set('adminEmail.last_accessed', (new Date()).toString())
+      this.set('adminEmail.last_accessed', firebase.database.ServerValue.TIMESTAMP)
     }, 10)
   }
 

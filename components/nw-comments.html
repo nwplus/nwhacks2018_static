@@ -101,7 +101,7 @@ class NWComments extends Polymer.Element {
       name: this.name,
       email: this.email,
       body: this.value,
-      time: '' + new Date()
+      time: firebase.database.ServerValue.TIMESTAMP
     })
     this.value = ''
   }
