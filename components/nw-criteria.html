@@ -213,7 +213,7 @@
 
     <iron-a11y-keys
       target="[[target]]"
-      keys="0 1 2 3 4 5 6 7 8 9"
+      keys="0 1 2 3 4 5 6 7 8 9 -"
       on-keys-pressed="handleKeyScore">
     </iron-a11y-keys>
     <iron-a11y-keys
@@ -378,7 +378,12 @@ class NWCriteria extends Polymer.Element {
   }
 
   handleKeyScore (e) {
-    this.setScore(parseInt(e.detail.keyboardEvent.key))
+    const key = e.detail.keyboardEvent.key
+    let val = key
+    if (key !== '-') {
+      val = parseInt(key)
+    }
+    this.setScore(val)
   }
 
   or (a, b) {
@@ -420,6 +425,7 @@ class NWCriteria extends Polymer.Element {
     for (let i = first; i <= max; i++) {
       l.push(i)
     }
+    l.push('-')
     return l
   }
 
@@ -440,10 +446,14 @@ class NWCriteria extends Polymer.Element {
     if (!this.criteria) {
       this.criteria = {}
     }
-    if (this.levels(this.selected.worth).indexOf(score) === -1) {
-      return
+    if (score === '-') {
+      this.set(['criteria', this.selected.slug], null)
+    } else {
+      if (this.levels(this.selected.worth).indexOf(score) === -1) {
+        return
+      }
+      this.set(['criteria', this.selected.slug], score)
     }
-    this.set(['criteria', this.selected.slug], score)
 
     this.moveSelected(1)
 
@@ -473,7 +483,8 @@ class NWCriteria extends Polymer.Element {
       if (!q.bonus) {
         total += weight * q.worth
       }
-      if (!this.criteria || !this.criteria.hasOwnProperty(q.slug)) {
+      if (!this.criteria || !this.criteria.hasOwnProperty(q.slug)
+        || this.criteria[q.slug] === undefined || this.criteria[q.slug] === null) {
         finished = false
         continue
       }
@@ -492,6 +503,7 @@ class NWCriteria extends Polymer.Element {
     }
 
     if (!finished) {
+      this.set('criteria.score', null)
       return
     }
     if (!this.criteria) {

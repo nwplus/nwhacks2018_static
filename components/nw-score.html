@@ -56,7 +56,7 @@ class NWScore extends Polymer.Element {
   }
 
   computeScore (score) {
-    if (score === undefined) {
+    if (score === undefined || score === null) {
       return '-'
     }
 
@@ -64,7 +64,7 @@ class NWScore extends Polymer.Element {
   }
 
   updateColor (score, total) {
-    if (score === undefined || total === undefined) {
+    if (score === undefined || score === null || total === undefined || total === null) {
       this.style.color = ''
       return
     }
