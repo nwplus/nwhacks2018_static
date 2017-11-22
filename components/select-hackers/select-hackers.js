@@ -348,7 +348,8 @@ class SelectHackers extends Polymer.Element {
         valid = valid && hacker.criteria && hacker.criteria.score <= filters.scoreMax
       }
       if (filters.missingCriteria) {
-        valid = valid && (!hacker.criteria || !hacker.criteria[filters.missingCriteria])
+        valid = valid && (!hacker.criteria ||
+          !hacker.criteria.hasOwnProperty(filters.missingCriteria))
       }
 
       return valid
