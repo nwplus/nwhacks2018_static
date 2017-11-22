@@ -208,7 +208,6 @@ class ReviewSubmission extends Polymer.Element {
       },
 
       qid: {
-        notify: true,
         type: String
       },
 
@@ -227,7 +226,11 @@ class ReviewSubmission extends Polymer.Element {
 
   reset () {
     this.selected = 'Info'
-    this.$.content.scrollTop = 0
+    if (this.qid != undefined && this.qid != null) {
+      this.scrollSubmission()
+    }
+    // stay in the same section for easier marking
+    //this.$.content.scrollTop = 0
   }
 
   eq (a, b) {
@@ -306,7 +309,10 @@ class ReviewSubmission extends Polymer.Element {
   }
 
   scrollSubmission() {
-    this.shadowRoot.querySelector("#" + this.qid).scrollIntoView()
+    var ele = this.shadowRoot.querySelector("#" + this.qid)
+    if (ele != null) {
+      ele.scrollIntoView()
+    } 
   }
 }
 

@@ -407,6 +407,7 @@ class NWCriteria extends Polymer.Element {
   reset (questions) {
     if (!this.isSet(this.selected)) {
       this.setSelected(questions[0])
+      this.qid = questions[0].field
     }
 
     if (this.isSet(this.search)) {
@@ -418,6 +419,7 @@ class NWCriteria extends Polymer.Element {
     for (var i = 0; i < questions.length; i++) {
       if (questions[i].field == this.search) {
         this.setSelected(questions[i])
+        this.qid = this.search
       }
     }
   }
