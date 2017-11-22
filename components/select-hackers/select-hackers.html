@@ -260,7 +260,7 @@
         disabled="[[!isAdmin]]"
         questions="[[questions]]"
         search="[[filters.search]]"
-        >
+        _questions="{{_questions}}">
       </review-submission>
     </div>
 
@@ -280,10 +280,17 @@
           </span>
         </paper-input-container>
 
-        <paper-input
-          label="Missing Criteria (Ex: linkedin-resume)"
-          value="{{filters.missingCriteria}}">
-        </paper-input>
+        <paper-dropdown-menu
+          label="Missing Criteria"
+          selected-item-label="{{filters.missingCriteria}}">
+
+          <paper-listbox slot="dropdown-content">
+            <paper-item></paper-item>
+            <template is="dom-repeat" items="[[_questions]]">
+              <paper-item>[[item.slug]]</paper-item>
+            </template>
+          </paper-listbox>
+        </paper-dropdown-menu>
 
         <h3>Properties</h3>
         <p>
