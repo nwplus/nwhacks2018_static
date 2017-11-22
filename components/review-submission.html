@@ -73,6 +73,7 @@
       sid="[[sid]]"
       criteria="{{hacker.criteria}}"
       qid="{{qid}}"
+      _questions="{{_questions}}"
       search="[[search]]">
     </nw-criteria>
 
@@ -213,6 +214,11 @@ class ReviewSubmission extends Polymer.Element {
 
       search: {
         type: String
+      },
+
+      _questions: {
+        type: Array,
+        notify: true
       }
     }
   }
@@ -312,7 +318,7 @@ class ReviewSubmission extends Polymer.Element {
     var ele = this.shadowRoot.querySelector("#" + this.qid)
     if (ele != null) {
       ele.scrollIntoView()
-    } 
+    }
   }
 }
 
