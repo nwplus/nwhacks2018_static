@@ -84,6 +84,10 @@ class SelectHackers extends Polymer.Element {
     ]
   }
 
+  selected (sid1, sid2) {
+    return sid1 === sid2
+  }
+
   handleRouteData (form, sid) {
     if (!form || !sid) {
       return

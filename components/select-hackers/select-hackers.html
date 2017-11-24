@@ -131,6 +131,10 @@
         cursor: pointer;
       }
 
+      #list paper-item[selected] {
+        background-color: #eee;
+      }
+
       paper-input {
         --paper-icon-button: {
           height: 24px;
@@ -200,7 +204,7 @@
         as="hacker">
         <template>
           <div>
-            <paper-item on-tap="select">
+            <paper-item on-tap="select" selected$="[[selected(hacker.$key, sid)]]">
               <paper-item-body two-line>
                 <div>
                   <span class="right">[[index(hacker)]]</span>
