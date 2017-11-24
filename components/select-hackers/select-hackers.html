@@ -14,6 +14,7 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-badge/paper-badge.html">
 <link rel="import" href="../../bower_components/paper-range-slider/paper-range-slider.html">
+<link rel="import" href="../../bower_components/iron-a11y-keys/iron-a11y-keys.html">
 
 <link rel="import" href="../firebase-config/firebase-config.html">
 <link rel="import" href="../lunr-js.html">
@@ -311,6 +312,16 @@
       tail="{{subRoute}}">
     </app-route>
 
+    <iron-a11y-keys
+      target="[[target]]"
+      keys="j"
+      on-keys-pressed="handleNext">
+    </iron-a11y-keys>
+    <iron-a11y-keys
+      target="[[target]]"
+      keys="k"
+      on-keys-pressed="handlePrev">
+    </iron-a11y-keys>
   </template>
   <script src="/bower_components/comma-separated-values/csv.min.js"></script>
   <script src="./select-hackers.js"></script>
