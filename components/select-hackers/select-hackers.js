@@ -69,7 +69,12 @@ class SelectHackers extends Polymer.Element {
 
       route: String,
       routeData: Object,
-      subRoute: String
+      subRoute: String,
+
+      lunr: {
+        type: Object,
+        value: false
+      }
     }
   }
 
@@ -343,6 +348,10 @@ class SelectHackers extends Polymer.Element {
     }
 
     filtered = filtered.filter((hacker) => {
+      if (hacker.duplicate) {
+        return false
+      }
+
       let valid = true
 
       if (filters.scoreMin !== this.filterDefaults.scoreMin) {
