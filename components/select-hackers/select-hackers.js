@@ -77,6 +77,13 @@ class SelectHackers extends Polymer.Element {
                 return a.$key < b.$key ? -1 : 1
               })
               return a
+            },
+
+            Name: function (a) {
+              a.sort((a, b) => {
+                return (a.first_name + ' ' + a.last_name).toLowerCase() < (b.first_name + ' ' + b.last_name).toLowerCase() ? -1 : 1
+              })
+              return a
             }
           }
         }
