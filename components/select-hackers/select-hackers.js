@@ -58,6 +58,30 @@ class SelectHackers extends Polymer.Element {
         }
       },
 
+      sorts: {
+        type: Object,
+        value () {
+          return {
+            Relevance: function (a) {
+              return a
+            },
+
+            Score: function (a) {
+              return a.sort((a, b) => {
+                return ((a.criteria && a.criteria.score) || 0) - ((b.criteria && b.criteria.score) || 0)
+              })
+            },
+
+            ID: function (a) {
+              a.sort((a, b) => {
+                return a.$key < b.$key ? -1 : 1
+              })
+              return a
+            }
+          }
+        }
+      },
+
       isAdmin: {
         value: false
       },
@@ -84,6 +108,12 @@ class SelectHackers extends Polymer.Element {
     ]
   }
 
+  constructor () {
+    super()
+
+    this.sort = Object.keys(this.sorts)[0]
+  }
+
   handleRouteData (form, sid) {
     if (!form || !sid) {
       return
@@ -97,6 +127,10 @@ class SelectHackers extends Polymer.Element {
 
   cleanEmail (email) {
     return (email || '').toLowerCase().trim()
+  }
+
+  keys (a) {
+    return Object.keys(a)
   }
 
   handleRegistrations () {

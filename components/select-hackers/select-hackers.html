@@ -167,6 +167,15 @@
       </paper-input>
       &nbsp;
 
+      <paper-dropdown-menu id="form" label="Sort" selected-item-label="{{sort}}">
+        <paper-listbox slot="dropdown-content">
+          <template is="dom-repeat" items="[[keys(sorts)]]">
+            <paper-item>[[item]]</paper-item>
+          </template>
+        </paper-listbox>
+      </paper-dropdown-menu>
+      &nbsp;
+
       <paper-icon-button
         id="showFilters"
         icon="filter-list"
