@@ -14,6 +14,7 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-badge/paper-badge.html">
 <link rel="import" href="../../bower_components/paper-range-slider/paper-range-slider.html">
+<link rel="import" href="../../bower_components/iron-a11y-keys/iron-a11y-keys.html">
 
 <link rel="import" href="../firebase-config/firebase-config.html">
 <link rel="import" href="../lunr-js.html">
@@ -131,6 +132,10 @@
         cursor: pointer;
       }
 
+      #list paper-item[selected] {
+        background-color: #eee;
+      }
+
       paper-input {
         --paper-icon-button: {
           height: 24px;
@@ -155,6 +160,7 @@
         value="{{filters.search}}"
         minlength="3"
         stop-keyboard-event-propagation
+        disabled="[[!lunr]]"
         auto-validate>
         <paper-icon-button
           slot="suffix"
@@ -209,7 +215,7 @@
         as="hacker">
         <template>
           <div>
-            <paper-item on-tap="select">
+            <paper-item on-tap="select" selected$="[[selected(hacker.$key, sid)]]">
               <paper-item-body two-line>
                 <div>
                   <span class="right">[[index(hacker)]]</span>
@@ -250,7 +256,7 @@
         disabled="[[!isAdmin]]"
         questions="[[questions]]"
         search="[[filters.search]]"
-        _questions="{{_questions}}">
+        >
       </review-submission>
     </div>
 
@@ -270,17 +276,10 @@
           </span>
         </paper-input-container>
 
-        <paper-dropdown-menu
-          label="Missing Criteria"
-          selected-item-label="{{filters.missingCriteria}}">
-
-          <paper-listbox slot="dropdown-content">
-            <paper-item></paper-item>
-            <template is="dom-repeat" items="[[_questions]]">
-              <paper-item>[[item.slug]]</paper-item>
-            </template>
-          </paper-listbox>
-        </paper-dropdown-menu>
+        <paper-input
+          label="Missing Criteria (Ex: linkedin-resume)"
+          value="{{filters.missingCriteria}}">
+        </paper-input>
 
         <h3>Properties</h3>
         <p>
@@ -322,6 +321,16 @@
       tail="{{subRoute}}">
     </app-route>
 
+    <iron-a11y-keys
+      target="[[target]]"
+      keys="j"
+      on-keys-pressed="handleNext">
+    </iron-a11y-keys>
+    <iron-a11y-keys
+      target="[[target]]"
+      keys="k"
+      on-keys-pressed="handlePrev">
+    </iron-a11y-keys>
   </template>
   <script src="/bower_components/comma-separated-values/csv.min.js"></script>
   <script src="./select-hackers.js"></script>

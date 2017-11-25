@@ -205,6 +205,16 @@
               <code>p</code> - Previous criteria.
               </p>
             </li>
+            <li>
+              <p>
+              <code>j</code> - Next hacker.
+              </p>
+            </li>
+            <li>
+              <p>
+              <code>k</code> - Previous hacker.
+              </p>
+            </li>
           </ul>
         </div>
       </paper-dialog-scrollable>
@@ -265,20 +275,20 @@ const questions = [
   {
     name: pastExperienceName,
     questions: [
-      { name: 'Github/Personal Website', worth: 5, field: 'github'},
-      { name: 'Linkedin/Resume', worth: 5, field: 'linkedin' },
+      { name: 'Github/Personal Website', worth: 5, field: 'github' },
+      { name: 'Linkedin/Resume', worth: 5, field: 'linkedin' }
     ],
     weight: experienceWeight
   },
   {
     name: 'Written Response',
     questions: [
-      { name: 'What do you want to get out of nwHacks?', worth: 5, field: 'reason'},
+      { name: 'What do you want to get out of nwHacks?', worth: 5, field: 'reason' },
       {
         name: 'Tell us about a recent project you\'ve worked on that excites you!',
         worth: 5,
         field: 'project'
-      },
+      }
     ],
     weight: experienceWeight
   },
@@ -290,8 +300,9 @@ const questions = [
         worth: 1,
         bonus: true,
         field: 'technology'
-      },
-    ]
+      }
+    ],
+    weight: experienceWeight
   }
 ]
 
@@ -310,7 +321,6 @@ class NWCriteria extends Polymer.Element {
       },
 
       _questions: {
-        notify: true,
         computed: 'flattenQuestions(questions)'
       },
 

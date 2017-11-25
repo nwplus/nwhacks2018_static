@@ -35,5 +35,8 @@
       "name": "default",
       "preset": "es5-bundled"
     }
-  ]
+  ],
+  "lint": {
+    "rules": ["polymer-2"]
+  }
 }

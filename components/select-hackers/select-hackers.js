@@ -93,7 +93,12 @@ class SelectHackers extends Polymer.Element {
 
       route: String,
       routeData: Object,
-      subRoute: String
+      subRoute: String,
+
+      lunr: {
+        type: Object,
+        value: false
+      }
     }
   }
 
@@ -101,7 +106,6 @@ class SelectHackers extends Polymer.Element {
     return [
       'handleRegistrations(registrations)',
       'handleRegistrations(registrations.*)',
-      'handlePartials(registrations.*)',
       'filter(hackers, filters, hackers.*, filters.*)',
       'getQuestionMapping(form)',
       'handleRouteData(routeData.form, routeData.sid)'
@@ -112,6 +116,11 @@ class SelectHackers extends Polymer.Element {
     super()
 
     this.sort = Object.keys(this.sorts)[0]
+    this.target = document.body
+  }
+
+  selected (sid1, sid2) {
+    return sid1 === sid2
   }
 
   handleRouteData (form, sid) {
@@ -138,23 +147,6 @@ class SelectHackers extends Polymer.Element {
       clearTimeout(this.lastRender)
     }
     this.lastRender = setTimeout(this.handleRegistrationsInternal.bind(this), 300)
-  }
-
-  handlePartials (change) {
-    const path = change.path
-    if (!this.hasPrefix(path, 'registrations.#')) {
-      return
-    }
-    const bits = path.split('.')
-    const item = bits.slice(0, 2).join('.')
-    const hacker = this.get(item)
-    const filteredIndex = hacker.filteredIndex
-    if (this.filtered[filteredIndex] !== hacker) {
-      return
-    }
-    const filteredPath = 'filtered.#' + filteredIndex + '.' + bits.slice(2).join('.')
-    console.log(filteredPath)
-    this.notifyPath(filteredPath)
   }
 
   hasPrefix (a, prefix) {
@@ -279,7 +271,7 @@ class SelectHackers extends Polymer.Element {
 
     const blacklist = new Set([
       '$key', 'index', 'id', 'birthday', 'submitted', 'resume', 'phone',
-      'emergency_phone', 'cleanEmail', 'filteredIndex'
+      'emergency_phone', 'cleanEmail'
     ])
     this.fields = Array.from(fields).filter(a => {
       return !blacklist.has(a)
@@ -373,6 +365,10 @@ class SelectHackers extends Polymer.Element {
     }
 
     filtered = filtered.filter((hacker) => {
+      if (hacker.duplicate) {
+        return false
+      }
+
       let valid = true
 
       if (filters.scoreMin !== this.filterDefaults.scoreMin) {
@@ -382,15 +378,10 @@ class SelectHackers extends Polymer.Element {
         valid = valid && hacker.criteria && hacker.criteria.score <= filters.scoreMax
       }
       if (filters.missingCriteria) {
-        valid = valid && (!hacker.criteria ||
-          !hacker.criteria.hasOwnProperty(filters.missingCriteria))
+        valid = valid && (!hacker.criteria || !hacker.criteria[filters.missingCriteria])
       }
 
       return valid
-    })
-
-    filtered.forEach((hacker, i) => {
-      hacker.filteredIndex = i
     })
 
     // Maintain scroll position
@@ -405,9 +396,50 @@ class SelectHackers extends Polymer.Element {
     })
   }
 
+  handleNext () {
+    this.selectMove(1)
+  }
+
+  handlePrev () {
+    this.selectMove(-1)
+  }
+
   select (e) {
-    this.sid = e.model.hacker.$key
-    this.set('route.path', `/${this.form}/${this.sid}`)
+    this.setSID(e.model.hacker.$key)
+  }
+
+  selectMove (dir) {
+    const hacker = this.hackerBySID(this.sid)
+    if (!hacker) {
+      return
+    }
+    const filteredIndex = this.filtered.indexOf(hacker)
+    if (filteredIndex === -1) {
+      return
+    }
+    const newIndex = (filteredIndex + dir) % this.filtered.length
+    const newHacker = this.filtered[newIndex]
+    if (!newHacker) {
+      return
+    }
+    this.setSID(newHacker.$key)
+    const list = this.$.list
+    if (list.lastVisibleIndex < newIndex || list.firstVisibleIndex > newIndex) {
+      list.scrollToIndex(newIndex)
+    }
+  }
+
+  hackerBySID (sid) {
+    for (const hacker of this.hackers) {
+      if (!hacker.duplicate && hacker.$key === sid) {
+        return hacker
+      }
+    }
+  }
+
+  setSID (sid) {
+    this.sid = sid
+    this.set('route.path', `/${this.form}/${sid}`)
   }
 
   showFilters () {
