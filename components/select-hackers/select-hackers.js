@@ -82,6 +82,12 @@ class SelectHackers extends Polymer.Element {
         }
       },
 
+      sort: String,
+      sortAsc: {
+        type: Boolean,
+        value: false
+      },
+
       isAdmin: {
         value: false
       },
@@ -106,7 +112,7 @@ class SelectHackers extends Polymer.Element {
     return [
       'handleRegistrations(registrations)',
       'handleRegistrations(registrations.*)',
-      'filter(hackers, filters, hackers.*, filters.*)',
+      'filter(hackers, filters, hackers.*, filters.*, sort, sortAsc)',
       'getQuestionMapping(form)',
       'handleRouteData(routeData.form, routeData.sid)'
     ]
@@ -117,6 +123,14 @@ class SelectHackers extends Polymer.Element {
 
     this.sort = Object.keys(this.sorts)[0]
     this.target = document.body
+  }
+
+  sortIcon (sortAsc) {
+    return sortAsc ? "arrow-upward" : "arrow-downward"
+  }
+
+  changeSortDir () {
+    this.sortAsc = !this.sortAsc
   }
 
   selected (sid1, sid2) {
@@ -355,6 +369,10 @@ class SelectHackers extends Polymer.Element {
   }
 
   filter (hackers, filters, _) {
+    if (!this.sort) {
+      return
+    }
+
     var filtered = hackers
     this.totalCount = hackers.length
     if (filters.search && filters.search.length >= 1) {
@@ -382,6 +400,15 @@ class SelectHackers extends Polymer.Element {
       }
 
       return valid
+    })
+
+    filtered = this.sorts[this.sort].call(this, filtered)
+    if (this.sortAsc) {
+      filtered = filtered.reverse()
+    }
+
+    hackers.forEach((hacker, i) => {
+      hacker.index = i
     })
 
     // Maintain scroll position
