@@ -1,0 +1,37 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="html-sandbox">
+  <template>
+    <style>
+      :host {
+        display: flex;
+        margin: 16px 0;
+      }
+      iframe {
+        border: none;
+        width: 100%;
+      }
+    </style>
+
+    <iframe id="frame" sandbox src="[[dataURL(html)]]">
+    </iframe>
+  </template>
+  <script>
+class HTMLSandbox extends Polymer.Element {
+  static get is () { return 'html-sandbox' }
+
+  static get properties () {
+    return {
+      html: String
+    }
+  }
+
+  dataURL (html) {
+    return 'data:text/html;charset=utf-8,' + html
+  }
+}
+customElements.define(HTMLSandbox.is, HTMLSandbox)
+  </script>
+</dom-module>
+
+

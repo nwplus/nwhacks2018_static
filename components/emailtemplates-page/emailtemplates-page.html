@@ -1,0 +1,248 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../../bower_components/marked-element/marked-element.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<link rel="import" href="../html-sandbox.html">
+
+<dom-module id="emailtemplates-page">
+  <template>
+    <style include="light-page">
+      :host {
+        display: flex;
+        flex-direction: column;
+
+        height: calc(100vh - 65px);
+        padding: 0;
+
+        --paper-input-container: {
+          padding-bottom: 16px;
+        };
+      }
+      .columns {
+        display: flex;
+      }
+      .columns > div {
+        flex-grow: 100000;
+        padding: 0 16px;
+        overflow-y: auto;
+      }
+      .rows {
+        display: flex;
+        flex-direction: column;
+      }
+      iron-list {
+        flex-grow: 100000;
+        margin: 0 0;
+        overflow-x: hidden;
+      }
+      #newContainer {
+        display: flex;
+      }
+      .fill {
+        flex-basis: 50%;
+      }
+      html-sandbox {
+        flex-grow: 100000;
+      }
+      table, td, th {
+        border-collapse: collapse;
+        border: none;
+      }
+      td, th {
+        text-align: left;
+        padding: 5px 8px;
+      }
+      tr:nth-child(2n) {
+        background-color: #eee;
+      }
+      th {
+        border-bottom: 2px solid var(--primary-color);
+      }
+    </style>
+
+    <div class="columns">
+      <div class="rows">
+        <h1 title>Email Templates</h1>
+        <iron-list items="[[values(templates, templates.*)]]">
+          <template>
+            <paper-item on-tap="select">
+              <paper-item-body two-line>
+                <div>
+                  [[item.slug]]
+                </div>
+                <div secondary>
+                  [[item.subj]]
+                </div>
+              </paper-item-body>
+            </paper-item>
+          </template>
+        </iron-list>
+        <h3>New Template</h3>
+        <div id="newContainer">
+          <paper-input
+            id="slug"
+            required
+            auto-validate
+            label="Slug"
+            value="{{slug}}"></paper-input>
+          <paper-button on-tap="new">New</paper-button>
+        </div>
+      </div>
+
+      <template is="dom-if" if="[[template]]">
+        <div class="fill">
+          <h2>[[template.slug]]</h2>
+
+          <paper-input
+            value="{{template.subj}}"
+            label="Subject">
+          </paper-input>
+
+          <paper-textarea
+            value="{{template.body}}"
+            label="Body (Markdown)">
+          </paper-textarea>
+
+          <h2>Variables</h2>
+          <table border="1" class="docutils">
+            <thead valign="bottom">
+              <tr class="row-odd">
+                <th class="head">Variable</th>
+                <th class="head">Description</th>
+              </tr>
+            </thead>
+            <tbody valign="top">
+              <tr class="row-even">
+                <td>%recipient%</td>
+                <td>Full recipient spec, like “Bob &lt;<a class="reference external" href="mailto:bob%40example.com">bob<span>@</span>example<span>.</span>com</a>&gt;” (for using as value for “To” MIME header).</td>
+              </tr>
+              <tr class="row-odd">
+                <td>%recipient_email%</td>
+                <td>Recipient’s email address, like <a class="reference external" href="mailto:bob%40example.com">bob<span>@</span>example<span>.</span>com</a>.</td>
+              </tr>
+              <tr class="row-even">
+                <td>%recipient_name%</td>
+                <td>Recipient’s full name, like “John Q. Public”.</td>
+              </tr>
+              <tr class="row-odd">
+                <td>%recipient_fname%</td>
+                <td>Recipient’s first name.</td>
+              </tr>
+              <tr class="row-even">
+                <td>%recipient_lname%</td>
+                <td>Recipient’s last name.</td>
+              </tr>
+              <tr class="row-odd">
+                <td>%unsubscribe_url%</td>
+                <td>A generated URL which allows users to unsubscribe from messages.</td>
+              </tr>
+              <tr class="row-even">
+                <td>%mailing_list_unsubscribe_url%</td>
+                <td>A generated URL which allows users to unsubscribe from mailing lists.</td>
+              </tr>
+              <tr class="row-odd">
+                <td>%unsubscribe_email%</td>
+                <td>An email address which can be used for automatic unsubscription by adding it to List-Unsubscribe MIME header.</td>
+              </tr>
+              <tr class="row-even">
+                <td>%recipient.yourvar%</td>
+                <td>Accessing a custom datavalue.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="fill rows">
+          <h2>Preview</h2>
+
+          <h3>[[render(template.subj)]]</h3>
+
+          <html-sandbox html="[[renderBody(template.body, emailTemplate)]]">
+          </html-sandbox>
+        </div>
+      </template>
+    </div>
+
+    <template is="dom-if" if="[[isAdmin]]">
+      <firebase-document path="/admin/emailtemplates"
+                         data="{{templates}}">
+      </firebase-document>
+    </template>
+
+    <iron-ajax
+           auto
+           url="/data/email.html"
+           handle-as="text"
+           last-response="{{emailTemplate}}">
+    </iron-ajax>
+  </template>
+  <script>
+class EmailTemplatesPage extends Polymer.Element {
+  static get is () { return 'emailtemplates-page' }
+
+  static get properties () {
+    return {
+      template: {
+        type: Object
+      }
+    }
+  }
+
+  values (obj) {
+    return Object.values(obj || {})
+  }
+
+  select (e) {
+    this.template = e.model.item
+    this.linkPaths('template', ['templates', this.template.slug])
+    this.linkPaths(['templates', this.template.slug], 'template')
+  }
+
+  renderBody (body, template) {
+    return this.render(template.replace('{{.}}', marked(body)))
+  }
+
+  new () {
+    if (!this.$.slug.validate()) {
+      return
+    }
+
+    if (this.templates.hasOwnProperty(this.slug)) {
+      this.slug = ''
+      return
+    }
+
+    this.set(['templates', this.slug], {
+      slug: this.slug
+    })
+
+    this.slug = ''
+  }
+
+  render (text) {
+    if (!text) {
+      return
+    }
+
+    text = text.replace(/%recipient%/g, "First Last <last@example.com>")
+    text = text.replace(/%recipient_email%/g, "last@example.com")
+    text = text.replace(/%recipient_name%/g, "First Last")
+    text = text.replace(/%recipient_fname%/g, "First")
+    text = text.replace(/%recipient_lname%/g, "Last")
+    text = text.replace(/%unsubscribe_url%/g, "https://example.com/unsubscribe_url")
+    text = text.replace(/%mailing_list_unsubscribe_url%/g, "https://example.com/mailing_list_unsubscribe_url")
+    text = text.replace(/%unsubscribe_email%/g, "unsubscribe@example.com")
+    return text
+  }
+}
+
+customElements.define(EmailTemplatesPage.is, EmailTemplatesPage)
+  </script>
+</dom-module>
+

@@ -376,6 +376,13 @@
                 user="[[user]]">
               </admin-settings>
             </template>
+            <template is="dom-if" restamp data-route="emailtemplates">
+              <emailtemplates-page
+                is-admin="[[isAdmin]]"
+                user="[[user]]"
+                route="{{subSubRoute}}">
+              </emailtemplates-page>
+            </template>
           </iron-lazy-pages>
         </div>
 
