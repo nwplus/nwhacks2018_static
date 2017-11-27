@@ -322,7 +322,10 @@
           <sponsor-page></sponsor-page>
         </template>
         <template is="dom-if" restamp data-route="rsvp">
-          <rsvp-page params="{{params}}"></rsvp-page>
+          <rsvp-page
+            params="{{params}}"
+            sid="[[subRouteData.page]]">
+          </rsvp-page>
         </template>
 
         <template is="dom-if" restamp data-route="register">

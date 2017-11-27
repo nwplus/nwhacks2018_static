@@ -23,7 +23,7 @@ class MainApp extends Polymer.Element {
   static get observers () {
     return [
       '_routePageChanged(routeData.page)',
-      '_subRoutePageChanged(subRouteData.page)',
+      '_subRoutePageChanged(routeData.page, subRouteData.page)',
       'handleLoad(hash)'
     ]
   }
@@ -38,9 +38,9 @@ class MainApp extends Polymer.Element {
     this.page = page || 'index'
   }
 
-  _subRoutePageChanged (page) {
+  _subRoutePageChanged (category, page) {
     this.subPage = page
-    if (page && page.length > 0) {
+    if (category === 'admin' && page && page.length > 0) {
       this._pageChanged(page)
     }
   }
