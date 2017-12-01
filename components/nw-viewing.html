@@ -46,6 +46,11 @@ class NWViewing extends Polymer.Element {
       email: String,
       position: String,
 
+      disabled: {
+        type: Boolean,
+        value: false
+      },
+
       viewing: {
         type: Boolean,
         value: false
@@ -77,7 +82,7 @@ class NWViewing extends Polymer.Element {
   _updateViewing () {
     this.now = moment()
 
-    if (!this.viewing || !this.email) {
+    if (!this.viewing || !this.email || this.disabled) {
       return
     }
 

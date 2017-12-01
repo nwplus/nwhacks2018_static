@@ -179,6 +179,7 @@
             viewing
             viewers="{{hacker.viewers}}"
             position="left"
+            disabled="[[!hacker.first_name]]"
             name="[[name]]"
             email="[[email]]">
           </nw-viewing>
@@ -189,6 +190,7 @@
     <firebase-document
            path="[[submissionPath(form, sid)]]"
            disabled="[[disabled]]"
+           sequential-transactions
            data="{{hacker}}">
     </firebase-document>
   </template>
