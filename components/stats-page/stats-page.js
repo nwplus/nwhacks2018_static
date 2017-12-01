@@ -118,7 +118,9 @@ Polymer({
         });
       });
 
-      datum.email = datum.email.toLowerCase().trim();
+      if (datum.email) {
+        datum.email = datum.email.toLowerCase().trim();
+      }
       var email = datum.email;
       var isDuplicate = students[email] && datum.status != 'accepted' ||
           students[email] && students[email].status == 'accepted';
