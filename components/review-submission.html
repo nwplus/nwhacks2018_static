@@ -239,17 +239,12 @@ class ReviewSubmission extends Polymer.Element {
   static get observers () {
     return [
       'reset(sid)',
-      'scrollSubmission(qid)'
+      'scrollSubmission(sid, qid, hacker)'
     ]
   }
 
   reset () {
     this.selected = 'Info'
-    if (this.qid != undefined && this.qid != null) {
-      this.scrollSubmission()
-    }
-    // stay in the same section for easier marking
-    //this.$.content.scrollTop = 0
   }
 
   handleRender (e) {
@@ -337,11 +332,17 @@ class ReviewSubmission extends Polymer.Element {
     return Object.keys(comments || {}).length
   }
 
-  scrollSubmission() {
-    var ele = this.shadowRoot.querySelector("#" + this.qid)
-    if (ele != null) {
-      ele.scrollIntoView()
+  scrollSubmission () {
+    if (!this.qid) {
+      return;
     }
+
+    setTimeout(() => {
+      var ele = this.shadowRoot.querySelector("#" + this.qid)
+      if (ele != null) {
+        ele.scrollIntoView()
+      }
+    }, 1);
   }
 }
 

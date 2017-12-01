@@ -456,7 +456,9 @@ class SelectHackers extends Polymer.Element {
     if (!newHacker) {
       return
     }
+
     this.setSID(newHacker.$key)
+
     const list = this.$.list
     if (list.lastVisibleIndex < newIndex || list.firstVisibleIndex > newIndex) {
       list.scrollToIndex(newIndex)
