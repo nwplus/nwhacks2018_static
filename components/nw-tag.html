@@ -1,0 +1,104 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="nw-tag">
+  <template>
+    <style>
+      .tag {
+        background: #eee;
+        border-radius: 3px 0 0 3px;
+        color: #999;
+        display: inline-block;
+        height: 26px;
+        line-height: 26px;
+        padding: 0 20px 0 23px;
+        position: relative;
+        margin: 0 10px 10px 0;
+        text-decoration: none;
+        -webkit-transition: color 0.2s;
+      }
+
+      .tag::before {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+        content: '';
+        height: 6px;
+        left: 10px;
+        position: absolute;
+        width: 6px;
+        top: 10px;
+      }
+
+      .tag::after {
+        background: #fff;
+        border-bottom: 13px solid transparent;
+        border-left: 10px solid currentColor;
+        border-top: 13px solid transparent;
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+
+      .text {
+        color: white;
+      }
+    </style>
+
+    <span class="tag" style$="[[style(_hash)]]">
+      <span class="text">
+      [[tag]]
+      </span>
+    </span>
+  </template>
+  <script>
+class NWTag extends Polymer.Element {
+  static get is () { return 'nw-tag' }
+
+  static get properties () {
+    return {
+      tag: String
+    }
+  }
+
+  static get observers () {
+    return [
+      'computeHash(tag)'
+    ]
+  }
+
+  computeHash (tag) {
+    if (!window.crypto || !window.crypto.subtle || !window.crypto.subtle.digest) {
+      this._hash = this.hashCode(tag)
+      return
+    }
+
+    var buffer = new TextEncoder("utf-8").encode(tag);
+    return crypto.subtle.digest("SHA-1", buffer).then((hash) => {
+      this._hash = this.hashCode(new Uint32Array(hash).toString())
+    });
+  }
+
+  style (hash) {
+    const h = Math.abs(hash % 360)
+    return `background-color: hsl(${h.toFixed(0)}, 36%, 36%);
+            color: hsl(${h.toFixed(0)}, 36%, 36%);`
+  }
+
+  hashCode (str) {
+    var hash = 0, i, chr
+    if (str.length === 0) {
+      return hash
+    }
+    for (i = 0; i < str.length; i++) {
+      chr   = str.charCodeAt(i)
+      hash  = ((hash << 5) - hash) + chr
+      hash |= 0
+    }
+    return hash
+  }
+}
+
+customElements.define(NWTag.is, NWTag)
+  </script>
+</dom-module>

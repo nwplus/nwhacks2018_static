@@ -1,0 +1,146 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="moment-js.html">
+<link rel="import" href="nw-tag.html">
+
+<dom-module id="tag-manager">
+  <template>
+    <style include="shared-styles">
+      #input {
+        display: flex;
+        align-items: center;
+      }
+      paper-input {
+        flex-grow: 10000;
+      }
+      table {
+        width: 100%;
+      }
+    </style>
+
+    <table>
+      <thead>
+        <th>Tag</th>
+        <th>Created</th>
+        <th>Locked</th>
+      </thead>
+      <tbody>
+        <template is="dom-repeat" items="{{_tags}}">
+          <tr>
+            <td>
+              <nw-tag tag="[[item.name]]"></nw-tag>
+            </td>
+            <td>
+              [[ago(item.created)]]
+            </td>
+            <td>
+              <paper-icon-button
+                icon="[[lockIcon(item.locked)]]"
+                on-tap="lock">
+              </paper-icon-button>
+              <paper-icon-button
+                icon="delete-forever"
+                on-tap="delete">
+              </paper-icon-button>
+            </td>
+            <tr>
+        </template>
+      </tbody>
+    </table>
+
+    <div id="input">
+      <paper-input label="Tag" required type="name" auto-validate value="{{name}}">
+      </paper-input>
+      &nbsp;
+      <paper-button on-tap="submit">Add Tag</paper-button>
+    </div>
+
+    <template is="dom-if" if="[[isAdmin]]">
+      <firebase-document path="/admin/tags"
+                         data="{{tags}}">
+      </firebase-document>
+    </template>
+  </template>
+
+  <script>
+class TagManager extends Polymer.Element {
+  static get is () { return 'tag-manager' }
+
+  static get observers () {
+    return [
+      '_updateTags(tags, tags.*)'
+    ]
+  }
+
+  _updateTags (tags) {
+    const l = []
+    for (const id of Object.keys(tags)) {
+      const tag = tags[id]
+      if (!tag) {
+        continue
+      }
+      l.push(tag)
+    }
+    this._tags = l
+    l.forEach((tag, i) => {
+      this.linkPaths(['tags', tag.name], ['_tags', i])
+      this.linkPaths(['_tags', i], ['tags', tag.name])
+    })
+  }
+
+  ago (time) {
+    if (!time) {
+      return 'never'
+    }
+    return moment(time).fromNow()
+  }
+
+  lockIcon (locked) {
+    return locked ? 'lock' : 'lock-open'
+  }
+
+  validate () {
+    let valid = true
+    for (const e of this.$.input.children) {
+      if (e.validate && !e.validate()) {
+        valid = false
+      }
+    }
+    return valid
+  }
+
+  lock (e) {
+    e.model.set('item.locked', !e.model.item.locked)
+  }
+
+  delete (e) {
+    const tag = e.model.item
+    if (!confirm(`Delete ${tag.name}?`)) {
+      return
+    }
+
+    this.set(['tags', tag.name], null)
+  }
+
+  submit () {
+    if (!this.validate()) {
+      return
+    }
+
+    this.set(['tags', this.name], {
+      name: this.name,
+      created: moment().toISOString()
+    })
+    this.name = ''
+  }
+}
+
+customElements.define(TagManager.is, TagManager)
+  </script>
+</dom-module>

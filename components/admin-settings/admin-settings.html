@@ -2,6 +2,7 @@
 
 <link rel="import" href="../light-page.html">
 <link rel="import" href="../admin-list.html">
+<link rel="import" href="../tag-manager.html">
 
 <dom-module id="admin-settings">
   <template>
@@ -13,6 +14,9 @@
     <div class="content">
       <h2>Permissions</h2>
       <admin-list is-admin="[[isAdmin]]"></admin-list>
+
+      <h2>Tags</h2>
+      <tag-manager is-admin="[[isAdmin]]"></tag-manager>
     </div>
   </template>
   <script>
