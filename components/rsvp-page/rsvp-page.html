@@ -275,11 +275,11 @@ class RSVPPage extends Polymer.Element {
 
   validate () {
     let valid = true
-    for (const input of this.inputs()) {
+    this.inputs().forEach((input) => {
       if (!input.validate()) {
         valid = false
       }
-    }
+    })
     this.valid = valid
     return valid
   }
