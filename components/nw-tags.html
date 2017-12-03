@@ -9,15 +9,22 @@
 <dom-module id="nw-tags">
   <template>
     <style>
-      paper-icon-button {
+      nw-tag + paper-icon-button {
         margin-left: -13px;
+        margin-right: -5px;
       }
       .add {
         cursor: pointer;
       }
+      paper-icon-button {
+        opacity: 0.3;
+      }
+      paper-icon-button:hover {
+        opacity: 1;
+      }
     </style>
 
-    <template is="dom-repeat" items="[[list(tags, tags.*)]]">
+    <template is="dom-repeat" items="[[list(tags, tags.*, tags.*.*)]]">
       <nw-tag tag="[[item]]"></nw-tag>
 
       <template is="dom-if" if="[[unlocked(item, _allTags)]]">
@@ -26,7 +33,7 @@
       </template>
     </template>
 
-    <paper-icon-button icon="add" on-tap="showTags">
+    <paper-icon-button icon="label" on-tap="showTags">
     </paper-icon-button>
 
     <paper-dialog id="addtag" modal>
@@ -66,8 +73,12 @@ class NWTags extends Polymer.Element {
     }
   }
 
-  list (tags) {
-    return Object.keys(tags || {})
+  list () {
+    let tags = this.tags
+    if (!tags) {
+      tags = {}
+    }
+    return Object.keys(tags).filter(key => tags[key])
   }
 
   values (allTags, tags) {

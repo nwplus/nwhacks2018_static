@@ -200,11 +200,14 @@
 
       &nbsp;
 
+      <paper-icon-button
+        icon="build"
+        on-tap="openBulkDialog">
+      </paper-icon-button>
+      &nbsp;
+
       <span>
-        Showing
-        <span>{{filteredCount}}</span>
-        of
-        <span>{{totalCount}}</span>
+        Showing [[filteredCount]] of [[totalCount]]
       </span>
       &nbsp;
 
@@ -347,6 +350,32 @@
             </template>
           </ul>
         </div>
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus>close</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="bulkactions" modal>
+      <h2>Bulk Actions</h2>
+      <paper-dialog-scrollable>
+        <p class="tag bad">
+        WARNING: These changes will affect [[filteredCount]] of [[totalCount]] entries.
+        </p>
+
+        <h3>Modify Tags</h3>
+        <p>Specify some tags below, and then add/remove them from all filtered
+        entries.</p>
+        <p>
+          <nw-tags
+            id="bulktags"
+            tags="{{bulk_tags}}"
+            disabled="[[!isAdmin]]">
+          </nw-tags>
+        </p>
+        <paper-button on-tap="bulkSetTags">Add Tags</paper-button>
+        <paper-button on-tap="bulkRemoveTags">Remove Tags</paper-button>
+
       </paper-dialog-scrollable>
       <div class="buttons">
         <paper-button dialog-confirm autofocus>close</paper-button>

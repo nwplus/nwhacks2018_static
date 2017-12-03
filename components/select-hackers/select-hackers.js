@@ -40,6 +40,13 @@ class SelectHackers extends Polymer.Element {
         value: categories
       },
 
+      bulk_tags: {
+        type: Object,
+        value () {
+          return {}
+        }
+      },
+
       filters: {
         type: Object,
         value () {
@@ -178,12 +185,35 @@ class SelectHackers extends Polymer.Element {
     return a.slice(0, prefix.length) === prefix
   }
 
+  bulkSetTags () {
+    const tags = this.$.bulktags.list()
+    const hackers = this.filtered
+    if (!confirm(`You are about to add tags to ${hackers.length} entries.
+        Tags: ${tags.join(', ')}`)) {
+      return
+    }
+    for (const tag of tags) {
+      this.tag(tag, hackers, false)
+    }
+  }
+
+  bulkRemoveTags () {
+    const tags = this.$.bulktags.list()
+    const hackers = this.filtered
+    if (!confirm(`You are about to remove tags from ${hackers.length} entries.
+        Tags: ${tags.join(', ')}`)) {
+      return
+    }
+    for (const tag of tags) {
+      this.tag(tag, hackers, true)
+    }
+  }
+
   tag (tag, hackers, clear) {
     const regs = this.$.regs
     const value = clear ? null : true
     for (const hacker of hackers) {
       const path = `${regs.path}/${hacker.$key}/tags/${tag}`
-      console.log(path, value)
       regs.setStoredValue(path, value)
     }
   }
@@ -554,6 +584,10 @@ class SelectHackers extends Polymer.Element {
       this.questions = questions
       elem.remove()
     }, null, true)
+  }
+
+  openBulkDialog () {
+    this.$.bulkactions.open()
   }
 }
 
