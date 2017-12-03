@@ -16,7 +16,7 @@ docs/index.html: build/
 	rm -rf docs; cp -R build/default/ docs
 	svgo -f docs/svg/logos/
 
-$(EXTRA_URLS): docs/index.html
+$(EXTRA_URLS): build/ docs/index.html
 	cp docs/index.html $@
 
 docs/favicon.png: favicon.png

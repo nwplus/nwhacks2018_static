@@ -28,7 +28,6 @@
   ],
   "extraDependencies": [
     "CNAME",
-    "404.html",
     "bower_components/webcomponentsjs/*.js"
   ],
   "builds": [
