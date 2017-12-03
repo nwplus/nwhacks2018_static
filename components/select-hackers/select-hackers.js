@@ -45,7 +45,8 @@ class SelectHackers extends Polymer.Element {
         value () {
           return {
             scoreMax: 20,
-            scoreMin: 0
+            scoreMin: 0,
+            firstN: 0
           }
         }
       },
@@ -55,7 +56,8 @@ class SelectHackers extends Polymer.Element {
         value () {
           return {
             scoreMax: 20,
-            scoreMin: 0
+            scoreMin: 0,
+            firstN: 0
           }
         }
       },
@@ -253,7 +255,7 @@ class SelectHackers extends Polymer.Element {
     }
     let count = 0
     for (const filter of Object.keys(filters)) {
-      if (filter !== 'search' && filters[filter] && this.filterDefaults[filter] !== filters[filter]) {
+      if (filter !== 'search' && filters[filter] && this.filterDefaults[filter] != filters[filter]) {
         count += 1
       }
     }
@@ -444,6 +446,11 @@ class SelectHackers extends Polymer.Element {
     filtered = this.sorts[this.sort].call(this, filtered)
     if (this.sortAsc) {
       filtered = filtered.reverse()
+    }
+
+    const firstN = parseInt(filters.firstN || '')
+    if (firstN) {
+      filtered = filtered.slice(0, firstN)
     }
 
     hackers.forEach((hacker, i) => {
