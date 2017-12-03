@@ -10,6 +10,8 @@ const formComponentOverride = {
 }
 Object.freeze(formComponentOverride)
 
+const weakSubmitted = new WeakMap()
+
 class SelectHackers extends Polymer.Element {
   static get is () { return 'select-hackers' }
 
@@ -227,6 +229,14 @@ class SelectHackers extends Polymer.Element {
     this.hackers = hackers
   }
 
+  weakSubmitted (hacker) {
+    if (!weakSubmitted.has(hacker)) {
+      const submitted = moment(hacker.submitted || 0)
+      weakSubmitted.set(hacker, submitted)
+    }
+    return weakSubmitted.get(hacker)
+  }
+
   numFilters (filters) {
     if (!filters) {
       return
@@ -389,6 +399,9 @@ class SelectHackers extends Polymer.Element {
       })
     }
 
+    let submitted_before = moment(filters.submitted_before || 0)
+    let submitted_after = moment(filters.submitted_after || 0)
+
     filtered = filtered.filter((hacker) => {
       if (hacker.duplicate) {
         return false
@@ -404,6 +417,12 @@ class SelectHackers extends Polymer.Element {
       }
       if (filters.tag) {
         valid = valid && hacker.tags && hacker.tags.hasOwnProperty(filters.tag)
+      }
+      if (filters.submitted_after) {
+        valid = valid && this.weakSubmitted(hacker) >= submitted_after
+      }
+      if (filters.submitted_before) {
+        valid = valid && this.weakSubmitted(hacker) <= submitted_before
       }
       if (filters.missingCriteria) {
         valid = valid && (!hacker.criteria || !hacker.criteria[filters.missingCriteria])
