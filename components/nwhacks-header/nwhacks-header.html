@@ -103,7 +103,7 @@
                 text-align: center;
             }
 
-            #title object {
+            #title img {
                 height: var(--logo-size);
                 padding: 75px 0;
                 max-width: calc(100vw - 100px);
@@ -182,8 +182,8 @@
 
             #wide-button:hover {
                 background-color: #41ae78;
-                box-shadow: 0px 3px 20px black; 
-            }            
+                box-shadow: 0px 3px 20px black;
+            }
 
             #clear-wide-button {
                 display: inline-block;
@@ -348,20 +348,20 @@
         <div id="header">
             <div id="scenery">
                 <div id="star-cluster"></div>
-                <object data="/svg/scenery/big_mountain.svg" type="image/svg+xml" id="mountain"></object>
-                <object data="/svg/scenery/tall_tree.svg" type="image/svg+xml" id="tall-tree"></object>
-                <object data="/svg/scenery/medium_tree.svg" type="image/svg+xml" id="normal-tree"></object>
-                <object data="/svg/scenery/medium_tree.svg" type="image/svg+xml" id="medium-tree"></object>
-                <object data="/svg/scenery/short_tree.svg" type="image/svg+xml" id="small-tree"></object>
-                <object data="/svg/scenery/medium_tree.svg" type="image/svg+xml" id="right-normal-tree"></object>
-                <object data="/svg/scenery/medium_tree.svg" type="image/svg+xml" id="right-medium-tree"></object>
+                <img src="/svg/scenery/big_mountain.svg" id="mountain">
+                <img src="/svg/scenery/tall_tree.svg" id="tall-tree">
+                <img src="/svg/scenery/medium_tree.svg" id="normal-tree">
+                <img src="/svg/scenery/medium_tree.svg" id="medium-tree">
+                <img src="/svg/scenery/short_tree.svg" id="small-tree">
+                <img src="/svg/scenery/medium_tree.svg" id="right-normal-tree">
+                <img src="/svg/scenery/medium_tree.svg" id="right-medium-tree">
             </div>
 
 
             <div id="title">
                 <div id="logos">
                     <a href="/">
-                        <object data="/svg/nwHacks_logo.svg" type="image/svg+xml" id="main-logo"></object>
+                        <img src="/svg/nwHacks_logo.svg" id="main-logo">
                     </a>
                 </div>
                 <br>
@@ -371,8 +371,8 @@
                 </div>
             </div>
             <div id="buttons">
-                
-                
+
+
                 <br>
                 <a class="none" href="/volunteer"><paper-button id="clear-wide-button">Volunteer</paper-button></a>
                 <a class="none" href="/register"><paper-button class="register" id="wide-button">Register</paper-button></a>
@@ -381,7 +381,7 @@
 
                 <h3>Second round application deadline: Dec 14th, 2017</h3>
                 <br>
-                
+
                 <a href="/sponsors" class="link" id="sponsor-line">Interested in becoming a sponsor?</a>
             </div>
         </div>
