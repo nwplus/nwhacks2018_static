@@ -1,0 +1,26 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="nw-tag.html">
+
+<dom-module id="nw-tags">
+  <template>
+    <style>
+    </style>
+
+    <template is="dom-repeat" items="[[list(tags, tags.*)]]">
+      <nw-tag tag="[[item]]"></nw-tag>
+    </template>
+  </template>
+
+  <script>
+class NWTags extends Polymer.Element {
+  static get is () { return 'nw-tags' }
+
+  list (tags) {
+    return Object.keys(tags || {})
+  }
+}
+
+customElements.define(NWTags.is, NWTags)
+  </script>
+</dom-module>

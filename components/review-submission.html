@@ -7,10 +7,12 @@
 <link rel="import" href="../bower_components/paper-badge/paper-badge.html">
 <link rel="import" href="../bower_components/marked-element/marked-element.html">
 
+<link rel="import" href="moment-js.html">
 <link rel="import" href="nw-comments.html">
 <link rel="import" href="nw-criteria.html">
 <link rel="import" href="nw-viewing.html">
 <link rel="import" href="document-viewer.html">
+<link rel="import" href="nw-tags.html">
 
 <dom-module id="review-submission">
   <template>
@@ -65,8 +67,7 @@
   }
 
   .right {
-    float: right;
-  }
+    float: right; }
     </style>
 
     <nw-criteria
@@ -172,7 +173,8 @@
         </template>
 
         <span class="right">
-          <span>[[hacker.status]]</span>
+          <nw-tags tags="[[hacker.tags]]"></nw-tags>
+          <span title="[[hacker.submitted]]">[[time(hacker.submitted)]]</span>
           <a target="_blank" href="[[firebaseLink(form, sid)]]">Firebase</a>
 
           <nw-viewing
@@ -304,6 +306,13 @@ class ReviewSubmission extends Polymer.Element {
     }
 
     return 'https://firebasestorage.googleapis.com/v0/b/nwhacks-2018.appspot.com/o/' + encodeURIComponent(resume) + '?alt=media'
+  }
+
+  time (time) {
+    if (!time) {
+      return 'never'
+    }
+    return moment(time).fromNow()
   }
 
   githubLink (username) {
