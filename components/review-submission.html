@@ -164,16 +164,10 @@
 
         <paper-checkbox checked="{{hacker.checked_in}}" on-change="checkIn">Checked In</paper-checkbox>
 
-        <template is="dom-if" if="[[acceptanceSent(hacker)]]">
-          <span>
-            <a on-tap="resetRSVPTime">Reset RSVP Time</a>
-            (<a target="_blank" href="[[rsvpLink(hacker)]]">Link</a>,
-            [[timeTo(hacker.acceptance_sent.Time)]])
-          </span>
-        </template>
-
         <span class="right">
-          <nw-tags tags="[[hacker.tags]]"></nw-tags>
+          <nw-tags
+            disabled="[[disabled]]"
+            tags="{{hacker.tags}}"></nw-tags>
           <span title="[[hacker.submitted]]">[[time(hacker.submitted)]]</span>
           <a target="_blank" href="[[firebaseLink(form, sid)]]">Firebase</a>
 
