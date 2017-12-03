@@ -6,8 +6,7 @@
 <dom-module id="bool-input">
   <template>
     <style include="shared-styles">
-      :host {
-        display: block;
+      div {
         margin-bottom: 38px;
       }
 
@@ -37,15 +36,17 @@
       }
     </style>
 
-    <label invalid$="[[!valid]]" focused$="[[focused]]" for="input">
-      [[label]]
-      <slot></slot>
-    </label>
+    <div>
+      <label invalid$="[[!valid]]" focused$="[[focused]]" for="input">
+        [[label]]
+        <slot></slot>
+      </label>
 
-    <paper-radio-group id="input" selected="{{selected}}" invalid$="[[!valid]]">
-      <paper-radio-button name="true" focused="{{focused}}">Yes</paper-radio-button>
-      <paper-radio-button name="false" focused="{{focused}}">No</paper-radio-button>
-    </paper-radio-group>
+      <paper-radio-group id="input" selected="{{selected}}" invalid$="[[!valid]]">
+        <paper-radio-button name="true" focused="{{focused}}">[[yesLabel]]</paper-radio-button>
+        <paper-radio-button name="false" focused="{{focused}}">[[noLabel]]</paper-radio-button>
+      </paper-radio-group>
+    </div>
 
   </template>
 
@@ -61,6 +62,16 @@
           observer: 'validate'
         },
 
+        yesLabel: {
+          type: String,
+          value: 'Yes'
+        },
+
+        noLabel: {
+          type: String,
+          value: 'No'
+        },
+
         checked: {
           notify: true,
           computed: 'computeChecked(value)'
@@ -72,6 +83,11 @@
 
         name: {
           type: String
+        },
+
+        required: {
+          type: Boolean,
+          value: true
         }
       }
     }
@@ -89,7 +105,7 @@
     }
 
     validate () {
-      this.valid = this.value !== undefined && this.value !== null
+      this.valid = (!this.required || (this.value !== undefined && this.value !== null))
       return this.valid
     }
   }

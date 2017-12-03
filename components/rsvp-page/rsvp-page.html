@@ -3,10 +3,12 @@
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
 
-<link rel="import" href="../radio-group.html">
 <link rel="import" href="../moment-js.html">
+<link rel="import" href="../bool-input.html">
 <link rel="import" href="../light-page.html">
 
 <dom-module id="rsvp-page">
@@ -15,7 +17,6 @@
       #form {
         max-width: 640px;
         margin: 0 auto;
-        text-align: center;
       }
       .invalid {
         color: red;
@@ -23,21 +24,124 @@
       #buttons {
         margin: 32px 0;
       }
+      paper-checkbox {
+        display: block;
+        margin: 15px;
+      }
     </style>
 
-    <div id="form">
-    <h1 title>Will you be going to nwHacks?</h1>
-    <h2>Jan 13-14, 2018 @ University of British Columbia</h2>
+    <form id="form">
+      <h1 title>Will you be going to nwHacks?</h1>
+      <h2>Jan 13-14, 2018 @ University of British Columbia</h2>
+
       <p class="invalid" hidden$="{{!hasRSVPed}}">
       <b>You've already RSVPed.</b>
       </p>
 
-      <div id="buttons">
-      <paper-button class="register" on-tap="yes">Yes! I'll Be There!</paper-button>
-      <br>
-      <paper-button class="button" on-tap="no">No. I can't make it.</paper-button>
+      <bool-input
+         name="going"
+         value="{{data.going}}"
+         label="Will you be attending nwHacks 2018?"
+         yes-label="Yes! I can't wait!"
+         no-label="No, I am no longer able to attend.">
+      </bool-input>
+
+      <div hidden$="[[!data.going]]">
+        <bool-input
+           required="[[data.going]]"
+           name="large_electronic"
+           value="{{data.large_electronic}}"
+           label="Are you planning on brining a desktop/additional monitor/other
+           large device to use for your project?">
+        </bool-input>
+
+        <div hidden$="[[!data.large_electronic]]">
+          <p>
+          Our venue is a research facility with certain electricity limitations,
+          requiring us to be mindful of the number of large electronics that are
+          plugged in at any given time.
+          </p>
+          <paper-textarea
+           required="[[data.large_electronic]]"
+           auto-validate
+           error-message="Required"
+           label="Please explain what hardware you intend to bring and why it is necessary for your project."
+           rows=4
+           name="large_electronic_reason"
+           value="{{data.large_electronic_reason}}">
+          </paper-textarea>
+        </div>
+
+
+        <p>
+        Listed below are potential sponsor workshops. Please check all that you
+        would be interested in attending!
+        </p>
+
+        <paper-checkbox
+           value="{{data.workshop_amazon_alexa}}"
+           name="workshop_amazon_alexa">
+          Amazon Alexa
+        </paper-checkbox>
+
+        <paper-checkbox
+           value="{{data.workshop_chatbots}}"
+           name="workshop_chatbots">
+          Chatbots
+        </paper-checkbox>
+
+        <paper-checkbox
+           value="{{data.workshop_apis_101}}"
+           name="workshop_apis_101">
+          APIs 101
+        </paper-checkbox>
+
+        <paper-checkbox
+           value="{{data.workshop_server_hosting}}"
+           name="workshop_server_hosting">
+          Server Hosting
+        </paper-checkbox>
+
+        <paper-checkbox
+           value="{{data.workshop_cybersecurity}}"
+           name="workshop_cybersecurity">
+          Cybersecurity
+        </paper-checkbox>
+
+        <paper-checkbox
+           value="{{data.workshop_iot}}"
+           name="workshop_iot">
+          IoT
+        </paper-checkbox>
+
+        <paper-checkbox
+           value="{{data.workshop_cryptocurrency}}"
+           name="workshop_cryptocurrency">
+          Cryptocurrency
+        </paper-checkbox>
+
+        <paper-checkbox
+           value="{{data.workshop_wearables}}"
+           name="workshop_wearables">
+          Wearables
+        </paper-checkbox>
+
+        <paper-input
+           label="Any other workshops you'd be interested in?"
+           name="workshop_other"
+           value="{{data.workshop_other}}">
+        </paper-input>
       </div>
-    </div>
+
+
+      <p class="invalid" hidden$="{{valid}}">
+        You must fill out all required fields.
+      </p>
+
+      <center>
+        <paper-button elevation="1" on-tap="submit" class="register">RSVP</paper-button>
+      </center>
+    </form>
 
 
     <paper-dialog no-cancel-on-esc-key id="invalidid" modal>
@@ -80,8 +184,18 @@
     <paper-dialog no-cancel-on-esc-key id="rsvped" modal>
       <h2>RSVP Successful</h2>
       <p>
-        All set!
-        See you at nwHacks!
+        Thanks for filling out the form — we can’t wait to see you at nwHacks 2018!
+      </p>
+
+      <p>
+        If you have any questions, don’t hesitate to shoot us a message on
+        <a href="https://www.facebook.com/nwHacks">Facebook</a> or via
+        <a href="mailto:apply@nwhacks.io">email</a>.
+      </p>
+
+      <p>
+        Your friends,<br>
+        The nwHacks team
       </p>
       <div class="buttons">
         <a class="none" href="/"><paper-button dialog-confirm autofocus>Return Home</paper-button></a>
@@ -92,33 +206,27 @@
                        path="[[hackerStatusKey(sid)]]"
                        data="{{status}}">
     </firebase-document>
-    <firebase-document path="[[hackerAcceptanceSentKey(sid)]]"
-                       data="{{acceptanceSent}}">
-    </firebase-document>
     <firebase-document path="[[hackerRSVPKey(sid)]]"
                        data="{{rsvp}}">
     </firebase-document>
   </template>
   <script>
 'use strict';
-const respCategories = ['No Response', 'Going', 'Travel Reimbursement Required', 'Not Going']
-Object.freeze(respCategories)
+
+const workshops = `
+`.trim().split('\n')
 
 class RSVPPage extends Polymer.Element {
   static get is () { return 'rsvp-page' }
 
   static get properties () {
     return {
-      categories: {
-        type: Array,
-        value: respCategories,
-      },
       sid: String,
       valid: {
         type: Boolean,
         value: true,
       },
-      form: {
+      data: {
         type: Object,
         value () { return {} }
       },
@@ -139,57 +247,43 @@ class RSVPPage extends Polymer.Element {
 
   static get observers () {
     return [
-      'blockRegistration(status, rsvp, acceptanceSent)'
+      'blockRegistration(status, rsvp)'
     ]
   }
 
-  blockRegistration (status, rsvp, acceptanceSent) {
+  blockRegistration (status, rsvp) {
     const hasRSVPed = Object.keys(rsvp || {}).length > 0
     this.hasRSVPed = hasRSVPed
-
-    if (status === "accepted" && acceptanceSent.Valid === true) {
-      const blockedTime = moment(acceptanceSent.Time).add(7, 'days')
-      this.deadline = blockedTime.fromNow()
-      this.missedDeadline = moment().isAfter(blockedTime) && !hasRSVPed
-      if (this.missedDeadline) {
-        this.$.toolate.open()
-      } else {
-        this.$.toolate.close()
-      }
-    }
   }
 
   handleStatus (status, oldStatus) {
     if (!oldStatus) {
       return
     }
-    if (status === "accepted") {
+    if (Object.keys(status).length > 0) {
       this.$.invalidid.close()
     } else {
       this.$.invalidid.open()
     }
   }
 
-  yes () {
-    this.form = {
-      going: true
-    }
-    this.submit()
-  }
-
-  no () {
-    this.form = {
-      going: false
-    }
-    this.submit()
-  }
-
   validate () {
-    if (this.missedDeadline) {
-      return false
+    let valid = true
+    for (const input of this.inputs()) {
+      if (!input.validate()) {
+        valid = false
+      }
     }
-    return true
+    this.valid = valid
+    return valid
   }
+
+  inputs () {
+    return Array.from(this.children)
+                .concat(Array.from(this.$.form.querySelectorAll('*')))
+                .filter((a) => a.validate)
+  }
+
 
   submit () {
     this.valid = this.validate()
@@ -197,7 +291,7 @@ class RSVPPage extends Polymer.Element {
       return
     }
     this.$.rsvping.open()
-    this.$.rsvp.setStoredValue('/form/registration/'+this.sid+'/rsvp', this.form).then(() => {
+    this.$.rsvp.setStoredValue('/form/registration/'+this.sid+'/rsvp', this.data).then(() => {
       this.$.rsvping.close()
       this.$.rsvped.open()
     }).catch((e) => {
@@ -208,11 +302,7 @@ class RSVPPage extends Polymer.Element {
   }
 
   hackerStatusKey (id) {
-    return '/form/registration/'+id+'/status'
-  }
-
-  hackerAcceptanceSentKey (id) {
-    return '/form/registration/'+id+'/acceptance_sent'
+    return '/form/registration/'+id+'/tags'
   }
 
   hackerRSVPKey (id) {
