@@ -28,6 +28,15 @@ class MainApp extends Polymer.Element {
     ]
   }
 
+  constructor () {
+    super()
+
+    this.notify = window.notify
+    window.addEventListener('notify', (e) => {
+      this.notify = e.detail
+    })
+  }
+
   ready () {
     super.ready()
 
@@ -138,6 +147,10 @@ class MainApp extends Polymer.Element {
 
   logout () {
     this.$.auth.logout()
+  }
+
+  notifyButton () {
+    this.notify.buttonTapHandler()
   }
 }
 

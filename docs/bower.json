@@ -58,6 +58,7 @@
     "app-route": "PolymerElements/app-route#^2.0.3",
     "app-storage": "^2.0.2",
     "paper-range-slider": "^1.0.2",
-    "marked-element": "^2.3.2"
+    "marked-element": "^2.3.2",
+    "paper-toast": "^2.0.0"
   }
 }

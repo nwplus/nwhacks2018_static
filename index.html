@@ -17,14 +17,44 @@
 
 
     <script>
-      window.Polymer = {rootPath: '/'};
+      window.Polymer = {rootPath: '/'}
       // Load and register pre-caching Service Worker
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
           navigator.serviceWorker.register('service-worker.js', {
             scope: Polymer.rootPath,
-          });
-        });
+          }).then(function(registration) {
+            registration.onupdatefound = function () {
+              var installingWorker = registration.installing
+
+              installingWorker.onstatechange = function () {
+                switch (installingWorker.state) {
+                  case 'installed':
+                    if (navigator.serviceWorker.controller) {
+                      console.log('New version available')
+                      window.notify = {
+                        message: 'New version available',
+                        buttonText: 'Reload to update',
+                        buttonTapHandler: function() {
+                          window.location.reload()
+                        },
+                        duration: 0
+                      }
+                      window.dispatchEvent(new CustomEvent('notify', {
+                        detail: window.notify
+                      }))
+                    }
+                    break;
+                  case 'redundant':
+                    console.error('The installing service worker became redundant.')
+                    break
+                  default:
+                    break
+                }
+              }
+            }
+          })
+        })
       }
     </script>
 

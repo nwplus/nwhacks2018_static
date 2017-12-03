@@ -1,7 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 
 <link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
-
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/iron-lazy-pages/iron-lazy-pages.html">
@@ -9,6 +8,7 @@
 <link rel="import" href="../../bower_components/neon-animation/web-animations.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 
 <link rel="import" href="../firebase-config/firebase-config.html">
 <link rel="import" href="../shared-styles.html">
@@ -155,6 +155,14 @@
         --paper-tooltip: {
           font-size: 0.8em;
         };
+      }
+
+      paper-toast {
+        font-size: 1em;
+      }
+
+      paper-toast paper-button {
+        color: var(--primary-color);
       }
 
       @media (max-width: 768px){
@@ -421,6 +429,15 @@
     </firebase-config>
 
     <error-dialog error="{{error}}"></error-dialog>
+
+    <paper-toast
+      id="notify"
+      duration="0"
+      text="[[notify.message]]"
+      opened="[[notify]]">
+
+      <paper-button on-tap="notifyButton">[[notify.buttonText]]</paper-button>
+    </paper-toast>
   </template>
 
   <script src="main-app.js"></script>
