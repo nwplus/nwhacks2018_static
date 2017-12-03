@@ -228,7 +228,13 @@ class RSVPPage extends Polymer.Element {
       },
       data: {
         type: Object,
-        value () { return {} }
+        value () {
+          return {
+            // This version corresponds to the validation in Firebase to ensure
+            // people don't submit old forms.
+            version: 1
+          }
+        }
       },
       status: {
         type: String,
