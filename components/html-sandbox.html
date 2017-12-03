@@ -13,7 +13,7 @@
       }
     </style>
 
-    <iframe id="frame" sandbox src="[[dataURL(html)]]">
+    <iframe id="frame" sandbox src="[[_html]]">
     </iframe>
   </template>
   <script>
@@ -26,8 +26,20 @@ class HTMLSandbox extends Polymer.Element {
     }
   }
 
+  static get observers () {
+    return [
+      'dataURL(html)'
+    ]
+  }
+
   dataURL (html) {
-    return 'data:text/html;charset=utf-8,' + html
+    this._debouncer = Polymer.Debouncer.debounce(
+      this._debouncer,
+      Polymer.Async.timeOut.after(300),
+      () => {
+        this._html = 'data:text/html;charset=utf-8,' + escape(this.html)
+      }
+    )
   }
 }
 customElements.define(HTMLSandbox.is, HTMLSandbox)

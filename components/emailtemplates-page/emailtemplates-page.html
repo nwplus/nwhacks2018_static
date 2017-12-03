@@ -205,7 +205,7 @@ class EmailTemplatesPage extends Polymer.Element {
   }
 
   renderBody (body, template) {
-    return this.render(template.replace('{{.}}', marked(body)))
+    return this.render(template.replace('{{.}}', marked(body || '')))
   }
 
   new () {
