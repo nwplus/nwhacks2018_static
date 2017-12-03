@@ -56,16 +56,17 @@ Polymer({
   renderData: function(data) {
     data.sort(function(a, b) { return b.id - a.id; });
     _.each(this.charts, function(chart) { chart.destroy(); });
-    this.charts = [];
-    var charts = this.charts;
-    this.registrationCount = data.length;
-    var univs = {};
-    var students = {};
-    var cities = {};
-    var deDupStudents = 0;
-    var acceptedStudents = 0;
-    var offeredStudents = 0;
-    var checked_in = 0;
+    this.charts = []
+    var charts = this.charts
+    this.registrationCount = data.length
+    var univs = {}
+    var students = {}
+    var cities = {}
+    var deDupStudents = 0
+    var acceptedStudents = 0
+    var offeredStudents = 0
+    let rsvpStudents = 0
+    var checked_in = 0
 
     // T-Shirts
     var tshirtData = {
@@ -125,9 +126,22 @@ Polymer({
       var isDuplicate = students[email] && datum.status != 'accepted' ||
           students[email] && students[email].status == 'accepted';
 
-      if (datum.acceptance_sent && datum.status == 'accepted') {
+      let accepted = false
+      for (let key of Object.keys(datum.tags || {})) {
+        if (key.indexOf('accepted') !== -1) {
+          accepted = true
+        }
+      }
+
+      const going = accepted && datum.rsvp && datum.rsvp.going
+
+      if (accepted) {
         const index = datum.rsvp ? 1 : 0;
         responseData.datasets[0].data[index]++;
+
+        if (datum.rsvp) {
+          rsvpStudents++
+        }
       }
 
       if (isDuplicate) {
@@ -135,7 +149,8 @@ Polymer({
       }
       deDupStudents++;
       students[email] = datum;
-      if (datum.status == 'accepted' && datum.rsvp) {
+
+      if (going) {
         var index = tshirtData.labels.indexOf(datum.tshirt);
         tshirtData.datasets[0].data[index] += 1;
       }
@@ -159,23 +174,23 @@ Polymer({
         }
       }
       cities[location].total += 1;
-      if (datum.status == 'accepted') {
+
+      if (accepted) {
         univs[datum.school].accepted += 1;
         cities[location].accepted += 1;
-        acceptedStudents++;
+        acceptedStudents++
+        offeredStudents++
       }
-      if (datum.acceptance_sent) {
-        offeredStudents++;
-      }
-      if (datum.rsvp) {
+      if (going) {
         univs[datum.school].acceptedResp += 1;
         cities[location].acceptedResp += 1;
       }
     });
 
-    this.deDupStudents = deDupStudents;
-    this.acceptedResp = acceptedStudents;
-    this.offeredStudents = offeredStudents;
+    this.deDupStudents = deDupStudents
+    this.acceptedStudents = acceptedStudents
+    this.rsvpStudents = rsvpStudents
+    this.offeredStudents = offeredStudents
 
     // Univerisities
     var data = {
@@ -194,7 +209,7 @@ Polymer({
           data: []
         },
         {
-          label: 'Accepted Students',
+          label: 'Going Students',
           backgroundColor: 'rgba(0,220,220,0.5)',
           borderColor: 'rgba(0,220,220,0.8)',
           data: []
@@ -237,7 +252,7 @@ Polymer({
           data: []
         },
         {
-          label: 'Accepted Students',
+          label: 'Going Students',
           backgroundColor: 'rgba(0,220,220,0.5)',
           borderColor: 'rgba(0,220,220,0.8)',
           data: []
@@ -285,14 +300,19 @@ Polymer({
         {}));
     this.going = responseData.datasets[0].data[1];
 
-    const rsvped = this.hackers.filter((a) => !!a.rsvp).map((a) => a.rsvp);
-    this.dietaryRestrictions = rsvped.map((a) => a.dietary);
-    this.rsvpGender = rsvped.map((a) => a.gender);
-    this.rsvpFaculty = rsvped.map((a) => a.faculty);
-    this.rsvpYear = rsvped.map((a) => a.year);
-    this.rsvpPassport = rsvped.map((a) => a.passport);
-    this.rsvpMajority = rsvped.map((a) => a.age);
-    this.checked_in = checked_in;
+    const rsvped = this.hackers.filter((a) => a.rsvp && a.rsvp.going)
+    this.dietaryRestrictions = rsvped.map((a) => {
+      if (a.dietary_other) {
+        return `${a.dietary} - ${a.dietary_other}`
+      }
+      return a.dietary
+    })
+    this.rsvpGender = rsvped.map((a) => a.gender)
+    this.rsvpFaculty = rsvped.map((a) => a.major)
+    this.rsvpYear = rsvped.map((a) => a.graduation)
+    this.rsvpPassport = rsvped.map((a) => a.passport)
+    this.rsvpMajority = rsvped.map((a) => moment(a.birthday).fromNow(true))
+    this.checked_in = checked_in
   },
 
   // https://stackoverflow.com/questions/4878756/javascript-how-to-capitalize-first-letter-of-each-word-like-a-2-word-city

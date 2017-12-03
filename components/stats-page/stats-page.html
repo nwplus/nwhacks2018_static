@@ -5,6 +5,7 @@
 <link rel="import" href="../category-chart.html">
 
 <link rel="import" href="../light-page.html">
+<link rel="import" href="../moment-js.html">
 
 <dom-module id="stats-page">
   <template>
@@ -40,18 +41,18 @@
           </tr>
           <tr>
             <td>De-duplicated (by email)</td>
-            <td>[[regDeDup]]</td>
+            <td>[[deDupStudents]]</td>
           </tr>
           <tr>
             <td>Accepted</td>
-            <td>[[accepted]]</td>
+            <td>[[acceptedStudents]]</td>
           </tr>
           <tr>
-            <td>Offered</td>
-            <td>[[offered]]</td>
+            <td>RSVP yes/no</td>
+            <td>[[rsvpStudents]]</td>
           </tr>
           <tr>
-            <td>Offered and Going</td>
+            <td>Accepted and Going</td>
             <td>[[going]]</td>
           </tr>
           <tr>
@@ -97,7 +98,7 @@
     <category-chart label="Passport" data="[[rsvpPassport]]">
     </category-chart>
 
-    <category-chart label="Majority" data="[[rsvpMajority]]">
+    <category-chart label="Majority (Age)" data="[[rsvpMajority]]">
     </category-chart>
 
     <template is="dom-if" if="[[isAdmin]]">
