@@ -80,8 +80,9 @@ class NWTag extends Polymer.Element {
 
   style (hash) {
     const h = Math.abs(hash % 360)
-    return `background-color: hsl(${h.toFixed(0)}, 36%, 36%);
-            color: hsl(${h.toFixed(0)}, 36%, 36%);`
+    const color = `hsl(${h.toFixed(0)}, 50%, 40%)`
+    return `background-color: ${color};
+            color: ${color}`
   }
 
   hashCode (str) {
