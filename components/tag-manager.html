@@ -44,10 +44,13 @@
                 icon="[[lockIcon(item.locked)]]"
                 on-tap="lock">
               </paper-icon-button>
-              <paper-icon-button
-                icon="delete-forever"
-                on-tap="delete">
-              </paper-icon-button>
+
+              <template is="dom-if" if="[[!item.locked]]">
+                <paper-icon-button
+                  icon="delete-forever"
+                  on-tap="delete">
+                </paper-icon-button>
+              </template>
             </td>
             <tr>
         </template>
