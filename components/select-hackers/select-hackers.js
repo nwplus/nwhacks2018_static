@@ -176,6 +176,16 @@ class SelectHackers extends Polymer.Element {
     return a.slice(0, prefix.length) === prefix
   }
 
+  tag (tag, hackers, clear) {
+    const regs = this.$.regs
+    const value = clear ? null : true
+    for (const hacker of hackers) {
+      const path = `${regs.path}/${hacker.$key}/tags/${tag}`
+      console.log(path, value)
+      regs.setStoredValue(path, value)
+    }
+  }
+
   handleRegistrationsInternal () {
     // Convert {[id]: hacker} to hacker[] sorted by ID.
     const hackers = this.registrations
