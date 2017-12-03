@@ -132,6 +132,11 @@
             #spacer {
               padding-bottom: 150px;
             }
+            @media (max-width: 1024px){
+              #spacer {
+                padding-bottom: 0px;
+              }
+            }
             @media (max-width: 425px){
               #spacer {
                 padding-bottom: 80px;
@@ -165,10 +170,122 @@
               color: #27AE60;
               font-weight: bold;
             }
+            #schedule .content {
+              margin: 0 auto;
+              display: inline-block;
+              position: relative;
+              padding-left: 15px;
+              padding-right: 15px;
+              z-index: 10;
+              width: 90%;
+            }
+            #schedule h2 {
+              color: #27AE60;
+              font-size: 35px;
+              font-weight: bold;
+              display: block;
+              width:340px;
+              height: 70px;
+              text-align: left;
+            }
+
+            #event-container {
+              margin: 0 auto;
+              text-align: center;
+            }
+            #schedule #event {
+              display: inline-block;
+              width:340px;
+              height: 70px;
+              padding-bottom: 5px;
+            }
+            #schedule #event #time {
+                float:left;
+                width:90px;
+                height: 80px;
+                text-align: left;
+            }
+            #schedule #event #title {
+                float:right;
+                width: 250px;
+                height: 80px;
+                text-align: left;
+            }
+            #schedule #event #title h3 {
+                font-weight: normal;
+                margin-left: 30px;
+            }
+            #schedule #event #title p {
+                margin: 4px 0px 0px 30px;
+            }
+
+            @media (max-width: 769px){
+              #schedule .content .column {
+                width: 100%;
+                display: block;
+              }
+              #schedule .content {
+                margin: 0 auto;
+                width: 50%;
+                display: inline-block;
+              }
+            }
+            @media (max-width: 620px){
+              #schedule .content {
+                margin: 0 auto;
+                width: 100%;
+                display: inline-block;
+              }
+            }
+            @media (max-width: 760px){
+              #schedule #event #ghost { /* used to prevent centering in last element */
+                display: none;
+              }
+              #schedule h2 {
+                /*text-align: center;*/
+                margin-left: -5px;
+              } 
+            }
+/*
+            @media (max-width: 769px) {
+              #schedule .content .column {
+                width: 100%;
+                display: block;
+                margin: 0 auto;
+              }
+            }*/
+
+            @media (max-width: 370px){
+              #schedule h2 {
+                margin-left: 0px;
+                font-size: 30px;
+              } 
+              #schedule #event h3 {
+                font-size: 18px;
+              }
+              #schedule #event {
+                width: 320px;
+              }
+              #schedule #event #time {
+                width: 70px;
+                font-size: 16px;
+              }
+            }
+            
+            #schedule h3 {
+              font-size: 20px;
+            }
             #schedule img {
               display: inline-block;
               width: 472px;
             }
+            #schedule p {
+              line-height: 27px;
+              font-size: 15px;
+              letter-spacing: 0px;
+              font-weight: 500;
+            }
+
             @media (max-width: 768px){
               #schedule img {
                 width: 75%;
@@ -473,8 +590,134 @@
 
         <div id="calendar">
         <div id="schedule">
-            <h1>Schedule TBA</h1>
-            <img src="/svg/Map.svg" id="map"/>
+            <h1>Schedule</h1>
+            <img src="/svg/Map.svg" id="map"/><br>
+          <div class="content">
+            <div class="column">
+            <div id="event-container">
+                <div id="event"><h2>Saturday, January 13</h2></div>
+                
+                <div id="event">
+                  <h3 id="time">9:30 AM</h3>
+                  <div id="title">
+                    <h3>Sponsor Booth Setup</h3>
+                    <p>East & West Atrium</p>
+                  </div>
+                </div>
+                
+                <div id="event">
+                  <h3 id="time">10:00 AM</h3>
+                  <div id="title">
+                    <h3>Check-in & Bus Arrival</h3>
+                    <p>War Memorial Gym</p>
+                  </div>
+                </div>
+
+                <div id="event">
+                  <h3 id="time">11:45 AM</h3>
+                  <div id="title">
+                    <h3>Opening Ceremony</h3>
+                    <p>War Memorial Gym</p>
+                  </div>
+                </div>
+
+                <div id="event">
+                  <h3 id="time">1:00 PM</h3>
+                  <div id="title">
+                    <h3>Lunch + Hacking Begins!</h3>
+                    <p>West Atrium</p>
+                  </div>
+                </div>
+
+                <div id="event">
+                  <h3 id="time"></h3>
+                  <div id="title">
+                    <h3>Team Formation</h3>
+                    <p>LSC 3</p>
+                  </div>
+                </div>
+
+                <div id="event">
+                  <h3 id="time">1:30 PM</h3>
+                  <div id="title">
+                    <h3>Mentor Orientation</h3>
+                    <p>Room 1330</p>
+                  </div>
+                </div>
+
+                <div id="event">
+                  <h3 id="time">7:00 PM</h3>
+                  <div id="title">
+                    <h3>Dinner</h3>
+                    <p>West Atrium</p>
+                  </div>
+                </div>
+
+                <div id="event ghost">
+                  <!-- ghost event -->
+                </div>
+
+            </div>
+          </div>            
+            <div class="column">
+            <div id="event-container">
+                <div id="event">
+                  <h2>Sunday, January 14</h2>
+                </div>
+                
+                <div id="event">
+                  <h3 id="time">8:00 AM</h3>
+                  <div id="title">
+                    <h3>Breakfast</h3>
+                    <p>West Atrium</p>
+                  </div>
+                </div>
+                
+
+                <div id="event">
+                  <h3 id="time">1:00 PM</h3>
+                  <div id="title">
+                    <h3>Projects Due!</h3>
+                    <p></p>
+                  </div>
+                </div>
+
+                <div id="event">
+                  <h3 id="time">12:45 PM</h3>
+                  <div id="title">
+                    <h3>Lunch</h3>
+                    <p>West Atrium</p>
+                  </div>
+                </div>
+
+                <div id="event">
+                  <h3 id="time">1:15 PM</h3>
+                  <div id="title">
+                    <h3>Judges Orientation</h3>
+                    <p>Room 1330</p>
+                  </div>
+                </div>
+
+                <div id="event">
+                  <h3 id="time">2:00 PM</h3>
+                  <div id="title">
+                    <h3>Demos</h3>
+                    <p>East & West Atrium</p>
+                  </div>
+                </div>
+
+                <div id="event">
+                  <h3 id="time">4:15 PM</h3>
+                  <div id="title">
+                    <h3>Closing Ceremony</h3>
+                    <p>WOOD 2</p>
+                  </div>
+                </div>
+
+            </div>
+          </div>
+            </div>
+          </div>
         </div>
         </div>
 
