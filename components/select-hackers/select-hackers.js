@@ -460,6 +460,9 @@ class SelectHackers extends Polymer.Element {
       if (filters.tag) {
         valid = valid && hacker.tags && hacker.tags.hasOwnProperty(filters.tag)
       }
+      if (filters.no_tag) {
+        valid = valid && (!hacker.tags || !hacker.tags.hasOwnProperty(filters.no_tag))
+      }
       if (filters.submitted_after) {
         valid = valid && this.weakSubmitted(hacker) >= submitted_after
       }

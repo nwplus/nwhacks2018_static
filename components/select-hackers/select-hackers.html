@@ -296,7 +296,7 @@
         </paper-dropdown-menu>
 
         <paper-dropdown-menu
-          label="Tag"
+          label="Has Tag"
           selected-item-label="{{filters.tag}}">
 
           <paper-listbox slot="dropdown-content">
@@ -306,6 +306,19 @@
             </template>
           </paper-listbox>
         </paper-dropdown-menu>
+
+        <paper-dropdown-menu
+          label="Doesn't Have Tag"
+          selected-item-label="{{filters.no_tag}}">
+
+          <paper-listbox slot="dropdown-content">
+            <paper-item></paper-item>
+            <template is="dom-repeat" items="[[tags]]">
+              <paper-item>[[item.name]]</paper-item>
+            </template>
+          </paper-listbox>
+        </paper-dropdown-menu>
+
 
         <paper-input
           label="Show First N"
