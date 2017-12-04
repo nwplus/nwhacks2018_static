@@ -41,9 +41,10 @@
         padding: 0 16px;
         overflow-y: auto;
       }
-      .rows {
+      .columns .rows {
         display: flex;
         flex-direction: column;
+        overflow: hidden;
       }
       iron-list {
         flex-grow: 100000;
@@ -136,6 +137,7 @@
           </paper-input>
 
           <paper-textarea
+            always-float-label
             value="{{template.draftBody}}"
             label="Body (Markdown)">
           </paper-textarea>
@@ -228,6 +230,14 @@
            handle-as="text"
            last-response="{{emailTemplate}}">
     </iron-ajax>
+
+    <app-route
+      route="{{route}}"
+      active="{{routeActive}}"
+      pattern="/:slug"
+      data="{{routeData}}"
+      tail="{{subRoute}}">
+    </app-route>
   </template>
   <script>
 class EmailTemplatesPage extends Polymer.Element {
@@ -250,8 +260,13 @@ class EmailTemplatesPage extends Polymer.Element {
 
   static get observers () {
     return [
-      'migrateTemplates(template)'
+      'migrateTemplates(template)',
+      '_pathChange(routeData.slug)'
     ]
+  }
+
+  _pathChange (slug) {
+    this.slug = slug
   }
 
   eq (a, b) {
@@ -278,6 +293,7 @@ class EmailTemplatesPage extends Polymer.Element {
 
   select (e) {
     this.slug = e.model.item.$key
+    this.set('route.path', this.slug)
   }
 
   renderBody (body, template) {
