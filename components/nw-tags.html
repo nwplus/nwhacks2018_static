@@ -83,7 +83,7 @@ class NWTags extends Polymer.Element {
 
   values (allTags, tags) {
     if (!tags) {
-      return
+      tags = {}
     }
 
     return Object.values(allTags || {}).filter(a => !tags.hasOwnProperty(a.name))
@@ -102,6 +102,9 @@ class NWTags extends Polymer.Element {
   }
 
   add (e) {
+    if (!this.tags) {
+      this.tags = {}
+    }
     this.set(['tags', e.model.item.name], true)
     this.$.addtag.close()
   }
