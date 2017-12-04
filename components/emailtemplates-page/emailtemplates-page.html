@@ -10,6 +10,8 @@
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tab.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
 
 <link rel="import" href="../nw-viewing.html">
 <link rel="import" href="../html-sandbox.html">
@@ -79,7 +81,7 @@
     <div class="columns">
       <div class="rows">
         <h1 title>Email Templates</h1>
-        <iron-list items="[[values(templates, templates.*)]]">
+        <iron-list items="[[templates]]">
           <template>
             <paper-item on-tap="select">
               <paper-item-body two-line>
@@ -100,12 +102,12 @@
             required
             auto-validate
             label="Slug"
-            value="{{slug}}"></paper-input>
+            value="{{_slug}}"></paper-input>
           <paper-button on-tap="new">New</paper-button>
         </div>
       </div>
 
-      <template is="dom-if" if="[[template]]">
+      <template is="dom-if" if="[[slug]]">
         <div class="fill">
 
           <div class="right">
@@ -210,11 +212,15 @@
       </template>
     </div>
 
-    <template is="dom-if" if="[[isAdmin]]">
-      <firebase-document path="/admin/emailtemplates"
-                         data="{{templates}}">
-      </firebase-document>
-    </template>
+    <firebase-query path="/admin/emailtemplates"
+                       disabled="[[!isAdmin]]"
+                       data="{{templates}}">
+    </firebase-query>
+
+    <firebase-document path="/admin/emailtemplates/[[slug]]"
+                       disabled="[[!isAdmin]]"
+                       data="{{template}}">
+    </firebase-document>
 
     <iron-ajax
            auto
@@ -236,7 +242,9 @@ class EmailTemplatesPage extends Polymer.Element {
       selected: {
         value: 'Draft',
         type: String
-      }
+      },
+
+      slug: String
     }
   }
 
@@ -268,17 +276,14 @@ class EmailTemplatesPage extends Polymer.Element {
     }
   }
 
-  values (obj) {
-    return Object.values(obj || {})
-  }
-
   select (e) {
-    this.template = e.model.item
-    this.linkPaths('template', ['templates', this.template.slug])
-    this.linkPaths(['templates', this.template.slug], 'template')
+    this.slug = e.model.item.$key
   }
 
   renderBody (body, template) {
+    if (!template) {
+      return
+    }
     return this.render(template.replace('{{.}}', marked(body || '')))
   }
 
@@ -291,16 +296,16 @@ class EmailTemplatesPage extends Polymer.Element {
       return
     }
 
-    if (this.templates.hasOwnProperty(this.slug)) {
-      this.slug = ''
+    if (this.templates.hasOwnProperty(this._slug)) {
+      this._slug = ''
       return
     }
 
-    this.set(['templates', this.slug], {
-      slug: this.slug
+    this.set(['templates', this._slug], {
+      slug: this._slug
     })
 
-    this.slug = ''
+    this._slug = ''
   }
 
   render (text) {
