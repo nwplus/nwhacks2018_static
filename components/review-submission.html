@@ -70,18 +70,24 @@
     float: right; }
     </style>
 
-    <nw-criteria
-      id="criteria"
-      sid="[[sid]]"
-      criteria="{{hacker.criteria}}"
-      qid="{{qid}}"
-      _questions="{{_questions}}"
-      search="[[search]]">
-    </nw-criteria>
+    <template is="dom-if" if="[[!hacker.rsvp]]">
+      <nw-criteria
+        id="criteria"
+        sid="[[sid]]"
+        criteria="{{hacker.criteria}}"
+        qid="{{qid}}"
+        _questions="{{_questions}}"
+        search="[[search]]">
+      </nw-criteria>
+    </template>
 
     <div id="tabs">
       <paper-tabs selected="{{selected}}" attr-for-selected="text-content" scrollable>
         <paper-tab>Info</paper-tab>
+
+        <template is="dom-if" if="[[hacker.rsvp]]">
+          <paper-tab>RSVP</paper-tab>
+        </template>
 
         <template is="dom-if" if="[[hacker.resume]]">
           <paper-tab>Resume</paper-tab>
@@ -138,6 +144,10 @@
               </template>
             </template>
           </div>
+        </template>
+
+        <template is="dom-if" if="[[eq(selected, 'RSVP')]]">
+          <code><pre>[[stringify(hacker.rsvp)]]</pre></code>
         </template>
 
         <template is="dom-if" if="[[eq(selected, 'Resume')]]">
@@ -245,6 +255,10 @@ class ReviewSubmission extends Polymer.Element {
 
   reset () {
     this.selected = 'Info'
+  }
+
+  stringify (obj) {
+    return JSON.stringify(obj, '', '  ')
   }
 
   handleRender (e) {
