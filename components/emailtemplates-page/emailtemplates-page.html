@@ -8,7 +8,10 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 
+<link rel="import" href="../nw-viewing.html">
 <link rel="import" href="../html-sandbox.html">
 
 <dom-module id="emailtemplates-page">
@@ -24,6 +27,9 @@
         --paper-input-container: {
           padding-bottom: 16px;
         };
+      }
+      paper-item {
+        cursor: pointer;
       }
       .columns {
         display: flex;
@@ -65,6 +71,9 @@
       th {
         border-bottom: 2px solid var(--primary-color);
       }
+      .right {
+        float: right;
+      }
     </style>
 
     <div class="columns">
@@ -98,15 +107,34 @@
 
       <template is="dom-if" if="[[template]]">
         <div class="fill">
+
+          <div class="right">
+            <nw-viewing
+              viewing
+              viewers="{{template.viewers}}"
+              position="left"
+              disabled="[[!template.slug]]"
+              email="[[user.email]]"
+              name="[[user.displayName]]">
+            </nw-viewing>
+
+            <paper-button
+               on-tap="publish"
+               class="register"
+               disabled="[[!different(template.body, template.draftBody, template.subj, template.draftSubj)]]">
+              Publish
+            </paper-button>
+          </div>
+
           <h2>[[template.slug]]</h2>
 
           <paper-input
-            value="{{template.subj}}"
+            value="{{template.draftSubj}}"
             label="Subject">
           </paper-input>
 
           <paper-textarea
-            value="{{template.body}}"
+            value="{{template.draftBody}}"
             label="Body (Markdown)">
           </paper-textarea>
 
@@ -160,11 +188,24 @@
         </div>
         <div class="fill rows">
           <h2>Preview</h2>
+          <paper-tabs selected="{{selected}}" attr-for-selected="text-content" scrollable>
+            <paper-tab>Draft</paper-tab>
+            <paper-tab>Published</paper-tab>
+          </paper-tabs>
 
-          <h3>[[render(template.subj)]]</h3>
+          <template is="dom-if" if="[[eq(selected, 'Draft')]]">
+            <h3>[[render(template.draftSubj)]]</h3>
 
-          <html-sandbox html="[[renderBody(template.body, emailTemplate)]]">
-          </html-sandbox>
+            <html-sandbox html="[[renderBody(template.draftBody, emailTemplate)]]">
+            </html-sandbox>
+          </template>
+
+          <template is="dom-if" if="[[eq(selected, 'Published')]]">
+            <h3>[[render(template.subj)]]</h3>
+
+            <html-sandbox html="[[renderBody(template.body, emailTemplate)]]">
+            </html-sandbox>
+          </template>
         </div>
       </template>
     </div>
@@ -190,7 +231,40 @@ class EmailTemplatesPage extends Polymer.Element {
     return {
       template: {
         type: Object
+      },
+
+      selected: {
+        value: 'Draft',
+        type: String
       }
+    }
+  }
+
+  static get observers () {
+    return [
+      'migrateTemplates(template)'
+    ]
+  }
+
+  eq (a, b) {
+    return a === b
+  }
+
+  publish () {
+    if (!confirm('Are you sure you want to publish? This isn\'t reversable.')) {
+      return
+    }
+
+    this.set('template.subj', this.template.draftSubj)
+    this.set('template.body', this.template.draftBody)
+  }
+
+  migrateTemplates (template) {
+    if (template.subj && !template.draftSubj) {
+      this.set('template.draftSubj', template.subj)
+    }
+    if (template.body && !template.draftBody) {
+      this.set('template.draftBody', template.body)
     }
   }
 
@@ -206,6 +280,10 @@ class EmailTemplatesPage extends Polymer.Element {
 
   renderBody (body, template) {
     return this.render(template.replace('{{.}}', marked(body || '')))
+  }
+
+  different (body, draftBody, subj, draftSubj) {
+    return body !== draftBody || subj !== draftSubj
   }
 
   new () {
