@@ -23,6 +23,7 @@
 <link rel="import" href="../review-submission.html">
 <link rel="import" href="../nw-score.html">
 <link rel="import" href="../nw-viewing.html">
+<link rel="import" href="../filtrex-js/filtrex-js.html">
 
 <dom-module id="select-hackers">
   <template>
@@ -333,11 +334,15 @@
         </paper-input>
 
         <paper-textarea
-          label="DANGER! Raw JS Filter Query `filter(a => (...))`"
+          label="Filter Expression"
           value="{{filters.jsEval}}"
           rows=3
           type="text">
         </paper-textarea>
+        <a target="_blank"
+          href="https://github.com/joewalnes/filtrex#expressions">
+          Expression Documentation
+        </a>
 
         <pre class="invalid">[[jsEvalError]]</pre>
 

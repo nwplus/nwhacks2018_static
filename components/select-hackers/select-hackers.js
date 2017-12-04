@@ -445,6 +445,14 @@ class SelectHackers extends Polymer.Element {
     let submitted_after = moment(filters.submitted_after || 0)
 
     this.jsEvalError = ''
+    let expressionFilter
+    if (filters.jsEval) {
+      try {
+        expressionFilter = compileExpression(filters.jsEval)
+      } catch (e) {
+        this.jsEvalError = e.toString()
+      }
+    }
 
     filtered = filtered.filter((hacker) => {
       if (hacker.duplicate) {
@@ -474,13 +482,8 @@ class SelectHackers extends Polymer.Element {
       if (filters.missingCriteria) {
         valid = valid && (!hacker.criteria || !hacker.criteria[filters.missingCriteria])
       }
-      if (filters.jsEval) {
-        try {
-          const a = hacker;
-          valid = valid && eval(filters.jsEval)
-        } catch (e) {
-          this.jsEvalError = e.toString()
-        }
+      if (filters.jsEval && expressionFilter) {
+        valid = valid && expressionFilter(this.flatten(hacker))
       }
 
       return valid
@@ -510,6 +513,26 @@ class SelectHackers extends Polymer.Element {
     filtered.forEach((hacker, i) => {
       this.linkPaths(['filtered', i], ['registrations', hacker.index])
     })
+  }
+
+  flatten (obj) {
+    const to = {}
+    this._flatten(to, obj, '')
+    return to
+  }
+
+  _flatten (to, obj, path) {
+    if (typeof obj === 'object') {
+      for (const key of Object.keys(obj)) {
+        if (path) {
+          this._flatten(to, obj[key], path + '.' + key)
+        } else {
+          this._flatten(to, obj[key], key)
+        }
+      }
+    } else {
+      to[path] = obj
+    }
   }
 
   handleNext () {
