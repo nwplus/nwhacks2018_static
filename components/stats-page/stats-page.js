@@ -39,26 +39,14 @@ Polymer({
   is: 'stats-page',
 
   observers: [
-    'handleRegistrations(registrations)',
-    'renderData(hackers)',
+    'renderData(registrations)'
   ],
 
-  handleRegistrations: function(registrations) {
-    var hackers = [];
-    for (var id in registrations) {
-      var hacker = registrations[id];
-      hacker.id = id;
-      hackers.push(hacker);
-    }
-    this.hackers = hackers;
-  },
-
-  renderData: function(data) {
-    data.sort(function(a, b) { return b.id - a.id; });
+  renderData: function (registrations) {
     _.each(this.charts, function(chart) { chart.destroy(); });
     this.charts = []
     var charts = this.charts
-    this.registrationCount = data.length
+    this.registrationCount = registrations.length
     var univs = {}
     var students = {}
     var cities = {}
@@ -102,7 +90,7 @@ Polymer({
 
     var self = this;
 
-    _.each(data, function(datum) {
+    _.each(registrations, function(datum) {
       // Cleanup step
       _.each(patterns, function(pattern, remap) {
         _.each(pattern, function(p) {
@@ -305,7 +293,7 @@ Polymer({
         {}));
     this.going = responseData.datasets[0].data[1];
 
-    const rsvped = this.hackers.filter((a) => a.rsvp && a.rsvp.going)
+    const rsvped = registrations.filter((a) => a.rsvp && a.rsvp.going)
     this.dietaryRestrictions = rsvped.map((a) => {
       if (a.dietary_other) {
         return `${a.dietary} - ${a.dietary_other}`

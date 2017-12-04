@@ -1,5 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="../chart-js.html">
 <link rel="import" href="../lodash.html">
 <link rel="import" href="../category-chart.html">
@@ -101,12 +101,11 @@
     <category-chart label="Majority (Age)" data="[[rsvpMajority]]">
     </category-chart>
 
-    <template is="dom-if" if="[[isAdmin]]">
-      <firebase-document id="regs"
-                         path="/form/registration"
-                         data="{{registrations}}">
-      </firebase-document>
-    </template>
+    <firebase-query id="regs"
+                    disabled="[[!isAdmin]]"
+                    path="/form/registration"
+                    data="{{registrations}}">
+    </firebase-query>
   </template>
 
   <script src="stats-page.js"></script>
