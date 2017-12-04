@@ -444,6 +444,8 @@ class SelectHackers extends Polymer.Element {
     let submitted_before = moment(filters.submitted_before || 0)
     let submitted_after = moment(filters.submitted_after || 0)
 
+    this.jsEvalError = ''
+
     filtered = filtered.filter((hacker) => {
       if (hacker.duplicate) {
         return false
@@ -471,6 +473,14 @@ class SelectHackers extends Polymer.Element {
       }
       if (filters.missingCriteria) {
         valid = valid && (!hacker.criteria || !hacker.criteria[filters.missingCriteria])
+      }
+      if (filters.jsEval) {
+        try {
+          const a = hacker;
+          valid = valid && eval(filters.jsEval)
+        } catch (e) {
+          this.jsEvalError = e.toString()
+        }
       }
 
       return valid
