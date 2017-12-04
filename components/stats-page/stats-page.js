@@ -82,20 +82,20 @@ Polymer({
     };
 
     var responseData = {
-      labels: ['No Response', 'Going'],
+      labels: ['No Response', 'Going', 'Not Going'],
       datasets: [{
-        data: [0, 0],
+        data: [0, 0, 0],
         backgroundColor: [
           '#666',
           '#4BAE74',
-          /*'#FF6B6B',
-          '#FDB45C',*/
+          '#FF6B6B',
+          /*'#FDB45C',*/
         ],
         hoverBackgroundColor: [
           '#888',
           '#377F54',
-          /*'#D74343',
-          '#FFC870',*/
+          '#D74343',
+          /*'#FFC870',*/
         ],
       }]
     };
@@ -136,8 +136,13 @@ Polymer({
       const going = accepted && datum.rsvp && datum.rsvp.going
 
       if (accepted) {
-        const index = datum.rsvp ? 1 : 0;
-        responseData.datasets[0].data[index]++;
+        let index = 0
+        if (going) {
+          index = 1
+        } else if (datum.rsvp && !datum.rsvp.going) {
+          index = 2
+        }
+        responseData.datasets[0].data[index]++
 
         if (datum.rsvp) {
           rsvpStudents++
