@@ -326,7 +326,7 @@ class SelectHackers extends Polymer.Element {
   }
 
   updateLunrIndex (hackers) {
-    if (this.lastLunrIndexCount === hackers.length) {
+    if (this.lastLunrIndexCount === hackers.length || hackers.length === 0) {
       return
     }
     this.lastLunrIndexCount = hackers.length
