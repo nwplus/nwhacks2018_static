@@ -13,6 +13,7 @@
 <link rel="import" href="nw-viewing.html">
 <link rel="import" href="document-viewer.html">
 <link rel="import" href="nw-tags.html">
+<link rel="import" href="nw-email.html">
 
 <dom-module id="review-submission">
   <template>
@@ -46,7 +47,7 @@
     padding: 16px 16px 0;
   }
 
-  #info {
+  .pad {
     padding: 16px;
   }
 
@@ -107,12 +108,15 @@
                 label="[[numComments(hacker.comments, hacker.comments.*)]]">
             </paper-badge>
           </template>
+
         </paper-tab>
+
+        <paper-tab>Email</paper-tab>
       </paper-tabs>
 
       <div id="content">
         <template is="dom-if" if="[[eq(selected, 'Info')]]">
-          <div id="info">
+          <div id="info" class="pad">
             <template is="dom-repeat" items="[[questions]]">
               <template is="dom-if" if="[[has(hacker, item.name)]]">
                 <paper-input-container id="[[item.name]]" always-float-label>
@@ -147,7 +151,9 @@
         </template>
 
         <template is="dom-if" if="[[eq(selected, 'RSVP')]]">
-          <code><pre>[[stringify(hacker.rsvp)]]</pre></code>
+          <div class="pad">
+            <code><pre>[[stringify(hacker.rsvp)]]</pre></code>
+          </div>
         </template>
 
         <template is="dom-if" if="[[eq(selected, 'Resume')]]">
@@ -160,6 +166,15 @@
             name="[[name]]"
             email="[[email]]">
           </nw-comments>
+        </template>
+
+        <template is="dom-if" if="[[eq(selected, 'Email')]]">
+          <div class="pad">
+            <nw-email
+              disabled="[[disabled]]"
+              args="[[emailArgs(sid, hacker)]]">
+            </nw-email>
+          </div>
         </template>
       </div>
 
@@ -351,6 +366,15 @@ class ReviewSubmission extends Polymer.Element {
 
   numComments (comments) {
     return Object.keys(comments || {}).length
+  }
+
+  emailArgs (sid, hacker) {
+    return {
+      to: hacker.email,
+      first_name: hacker.first_name,
+      last_name: hacker.last_name,
+      id: sid
+    }
   }
 
   scrollSubmission () {

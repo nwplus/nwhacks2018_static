@@ -1,0 +1,74 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+
+<dom-module id="nw-job">
+  <template>
+    <firebase-document
+      disabled="[[!id]]"
+      path="/admin/queue/[[id]]"
+      data="{{_data}}">
+    </firebase-document>
+  </template>
+  <script>
+class NWJob extends Polymer.Element {
+  static get is () { return 'nw-job' }
+
+  static get properties () {
+    return {
+      id: {
+        type: String,
+        notify: true,
+        readOnly: true
+      },
+      args: Object,
+      type: String,
+      return: {
+        computed: '_echo(_data.return)',
+        type: Boolean,
+        notify: true,
+        readOnly: true
+      },
+      error: {
+        computed: '_echo(_data.error)',
+        type: Boolean,
+        notify: true,
+        readOnly: true
+      },
+      finished: {
+        computed: '_echo(_data.finished)',
+        value: false,
+        type: Boolean,
+        notify: true,
+        readOnly: true
+      },
+      started: {
+        computed: '_echo(_data.started)',
+        value: false,
+        type: Boolean,
+        notify: true,
+        readOnly: true
+      }
+    }
+  }
+
+  _echo (val) {
+    return val
+  }
+
+  generateRequest () {
+    const task = {
+      type: this.type,
+      args: this.args,
+      time: firebase.database.ServerValue.TIMESTAMP
+    }
+    console.log('queueing task', task)
+    this._setId(firebase.database().ref('admin/queue').push(task).key)
+
+  }
+}
+
+customElements.define(NWJob.is, NWJob)
+  </script>
+</dom-module>
+

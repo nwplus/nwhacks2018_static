@@ -1,0 +1,73 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="nw-job.html">
+
+<dom-module id="nw-email">
+  <template>
+    <style include="shared-styles">
+    </style>
+    <h2>Send Email</h2>
+
+    <paper-dropdown-menu
+      id="template"
+      label="Template"
+      required
+      selected-item-label="{{args.template}}">
+      <paper-listbox slot="dropdown-content">
+        <template is="dom-repeat" items="[[_templates]]">
+          <paper-item>[[item.slug]]</paper-item>
+        </template>
+      </paper-listbox>
+    </paper-dropdown-menu>
+
+    <a href="/admin/emailtemplates">View/Edit Templates</a>
+
+    <code class="invalid" hidden$="[[!error]]"><pre>[[error]]</pre></code>
+    <p hidden$="[[!finished]]">Finished!</p>
+
+    <paper-button class="register" on-tap="send">Send Email</paper-button>
+
+    <nw-job
+      id="job"
+      type="send_email"
+      args="[[args]]"
+      finished="{{finished}}"
+      error="{{error}}">
+    </nw-job>
+
+    <firebase-query
+      path="/admin/emailtemplates"
+      data="{{_templates}}"
+      disabled="[[disabled]]">
+    </firebase-query>
+  </template>
+  <script>
+class NWEmail extends Polymer.Element {
+  static get is () { return 'nw-email' }
+
+  static get properties () {
+    return {
+      args: {
+        type: Object,
+        value () { return {} }
+      }
+    }
+  }
+
+  send () {
+    if (!this.$.template.validate()) {
+      return
+    }
+
+    this.$.job.generateRequest()
+  }
+}
+customElements.define(NWEmail.is, NWEmail)
+  </script>
+</dom-module>
