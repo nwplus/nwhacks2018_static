@@ -18,57 +18,60 @@
 <dom-module id="review-submission">
   <template>
     <style include="shared-styles">
-:host {
-  display: flex;
-}
-  :host([hidden]) {
-    display: none;
-  }
+      :host {
+        display: flex;
+          overflow: hidden;
+      }
+      :host([hidden]) {
+        display: none;
+      }
 
-  #tabs {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 10000;
-  }
+      #tabs {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 10000;
+        overflow: hidden;
+      }
 
-  paper-tabs {
-    flex-shrink: 0;
-  }
+      paper-tabs {
+        flex-shrink: 0;
+      }
 
-  #content {
-    flex-grow: 10000;
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-  }
+      #content {
+        flex-grow: 10000;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+      }
 
-  nw-comments {
-    flex-grow: 10000;
-    padding: 16px 16px 0;
-  }
+      nw-comments {
+        flex-grow: 10000;
+        padding: 16px 16px 0;
+      }
 
-  .pad {
-    padding: 16px;
-  }
+      .pad {
+        padding: 16px;
+      }
 
-  document-viewer {
-    flex-grow: 10000;
-  }
+      document-viewer {
+        flex-grow: 10000;
+      }
 
-  #actions {
-    padding: 16px;
-    border-top: 1px
-  }
+      #actions {
+        padding: 16px;
+        border-top: 1px
+      }
 
-  #criteria {
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: 337px;
-    border-right: 1px solid #eee;
-  }
+      #criteria {
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: 337px;
+        border-right: 1px solid #eee;
+      }
 
-  .right {
-    float: right; }
+      .right {
+        float: right;
+      }
     </style>
 
     <template is="dom-if" if="[[!hacker.rsvp]]">
