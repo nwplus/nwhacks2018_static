@@ -4,6 +4,13 @@
 
 <dom-module id="nw-job">
   <template>
+    <style>
+      paper-progress {
+        width: 100%;
+      }
+    </style>
+    <paper-progress indeterminate hidden$="[[!working]]"></paper-progress>
+
     <firebase-document
       disabled="[[!id]]"
       path="/admin/queue/[[id]]"
@@ -48,12 +55,22 @@ class NWJob extends Polymer.Element {
         type: Boolean,
         notify: true,
         readOnly: true
+      },
+      working: {
+        computed: '_isWorking(started, finished)',
+        type: Boolean,
+        notify: true,
+        readOnly: true
       }
     }
   }
 
   _echo (val) {
     return val
+  }
+
+  _isWorking (started, finished) {
+    return started && !finished
   }
 
   generateRequest () {
@@ -64,7 +81,6 @@ class NWJob extends Polymer.Element {
     }
     console.log('queueing task', task)
     this._setId(firebase.database().ref('admin/queue').push(task).key)
-
   }
 }
 

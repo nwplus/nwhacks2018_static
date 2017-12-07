@@ -1,0 +1,122 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../nw-email.html">
+<link rel="import" href="../nw-job.html">
+
+<dom-module id="emails-page">
+  <template>
+    <style include="light-page">
+      table {
+        text-align: left;
+        width: 100%;
+      }
+    </style>
+
+    <h1 title>Emails</h1>
+
+    <div class="content">
+      <h2>Update Mailing Lists</h2>
+
+      <p>This deletes all the mailgun mailings and recreates them. Please be
+      careful because if someone is sending emails while updating it could cause
+      undefined behavior.</p>
+
+      <code class="invalid" hidden$="[[!error]]"><pre>[[error]]</pre></code>
+      <p hidden$="[[!finished]]">Finished!</p>
+
+      <nw-job
+        id="update"
+        args="{}"
+        type="update_mailing_lists"
+        finished="{{finished}}"
+        working="{{working}}"
+        return="{{email_lists}}"
+        error="{{error}}">
+      </nw-job>
+
+      <paper-button class="register" on-tap="update" disabled$="[[working]]">
+        Update Mailing Lists
+      </paper-button>
+
+      <table>
+        <thead>
+          <th>Email</th>
+          <th>Description</th>
+          <th>Email Count</th>
+          <th>Actions</th>
+        </thead>
+        <tbody>
+          <template is="dom-repeat" items="[[values(email_lists)]]">
+            <tr>
+              <td>[[item.name]]</td>
+              <td>[[item.description]]</td>
+              <td>[[item.member_count]]</td>
+              <td>
+                <a href="https://app.mailgun.com/app/lists/[[item.name]]"
+                  target="_blank">
+                  Mailgun
+                </a>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+
+      <h2>Send Email</h2>
+      <p>This sends emails to either a specific email address, or to an entire
+      tag. You need to update the mailing lists above before sending via a
+      tag.</p>
+
+      <paper-input
+        label="Target Email"
+        type="email"
+        value="{{args.email}}">
+      </paper-input>
+
+      <paper-dropdown-menu
+        label="Target Tag"
+        selected-item-label="{{args.tag}}">
+
+        <paper-listbox slot="dropdown-content">
+          <paper-item></paper-item>
+          <template is="dom-repeat" items="[[tags]]">
+            <paper-item>[[item.name]]</paper-item>
+          </template>
+        </paper-listbox>
+      </paper-dropdown-menu>
+
+      <nw-email
+        disabled="[[disabled]]"
+        args="[[args]]">
+      </nw-email>
+    </div>
+
+    <firebase-query
+      disabled="[[!isAdmin]]"
+      path="/admin/tags"
+      data="{{tags}}">
+    </firebase-query>
+  </template>
+  <script>
+class EmailsPage extends Polymer.Element {
+  static get is () { return 'emails-page' }
+
+  static get properties () {
+    return {
+      args: {
+        value () { return {} }
+      }
+    }
+  }
+
+  values (obj) {
+    return Object.values(obj || {})
+  }
+
+  update () {
+    this.$.update.generateRequest()
+  }
+}
+customElements.define(EmailsPage.is, EmailsPage)
+  </script>
+</dom-module>

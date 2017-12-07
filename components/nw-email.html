@@ -31,15 +31,18 @@
     <code class="invalid" hidden$="[[!error]]"><pre>[[error]]</pre></code>
     <p hidden$="[[!finished]]">Finished!</p>
 
-    <paper-button class="register" on-tap="send">Send Email</paper-button>
-
     <nw-job
       id="job"
       type="send_email"
       args="[[args]]"
       finished="{{finished}}"
+      working="{{working}}"
       error="{{error}}">
     </nw-job>
+
+    <paper-button class="register" on-tap="send" disabled$="[[working]]">
+      Send Email
+    </paper-button>
 
     <firebase-query
       path="/admin/emailtemplates"

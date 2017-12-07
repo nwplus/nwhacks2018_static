@@ -394,6 +394,13 @@
                 route="{{subSubRoute}}">
               </emailtemplates-page>
             </template>
+            <template is="dom-if" restamp data-route="emails">
+              <emails-page
+                is-admin="[[isAdmin]]"
+                user="[[user]]"
+                route="{{subSubRoute}}">
+              </emails-page>
+            </template>
           </iron-lazy-pages>
         </div>
 

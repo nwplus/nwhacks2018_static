@@ -15,7 +15,8 @@
     "components/mentorexpo-form/mentorexpo-form.html",
     "components/admin-settings/admin-settings.html",
     "components/emailtemplates-page/emailtemplates-page.html",
-    "components/notfound-page/notfound-page.html"
+    "components/notfound-page/notfound-page.html",
+    "components/emails-page/emails-page.html"
   ],
   "sources": [
     "components/**/*",
