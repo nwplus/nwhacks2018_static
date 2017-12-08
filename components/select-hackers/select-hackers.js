@@ -522,7 +522,6 @@ class SelectHackers extends Polymer.Element {
   }
 
   _flatten (to, obj, path) {
-    to[path] = obj
     if (typeof obj === 'object') {
       for (const key of Object.keys(obj)) {
         if (path) {
@@ -531,6 +530,9 @@ class SelectHackers extends Polymer.Element {
           this._flatten(to, obj[key], key)
         }
       }
+      to[path] = true
+    } else {
+      to[path] = obj
     }
   }
 
