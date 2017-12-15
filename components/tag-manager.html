@@ -18,6 +18,10 @@
       }
       paper-input {
         flex-grow: 10000;
+
+        --paper-input-container: {
+          padding-bottom: 8px;
+        };
       }
       table {
         width: 100%;
@@ -28,6 +32,7 @@
       <thead>
         <th>Tag</th>
         <th>Created</th>
+        <th>RSVP By</th>
         <th>Locked</th>
       </thead>
       <tbody>
@@ -38,6 +43,14 @@
             </td>
             <td>
               [[ago(item.created)]]
+            </td>
+            <td>
+              <paper-input
+                label="RSVP By"
+                type="date"
+                disabled="[[item.locked]]"
+                value="{{item.rsvp_by}}">
+              </paper-input>
             </td>
             <td>
               <paper-icon-button

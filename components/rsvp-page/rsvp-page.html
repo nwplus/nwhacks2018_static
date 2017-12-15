@@ -14,7 +14,7 @@
 <dom-module id="rsvp-page">
   <template>
     <style include="light-page">
-      #form {
+      #container {
         max-width: 640px;
         margin: 0 auto;
       }
@@ -30,119 +30,144 @@
       }
     </style>
 
-    <form id="form">
-      <h1 title>Will you be going to nwHacks?</h1>
-      <h2>Jan 13-14, 2018 @ University of British Columbia</h2>
+    <div id="container">
 
-      <p class="invalid" hidden$="{{!hasRSVPed}}">
-      <b>You've already RSVPed.</b>
-      </p>
+      <template is="dom-if" if="[[!blocked]]">
+        <form id="form">
+          <h1 title>Will you be going to nwHacks?</h1>
+          <h2>Jan 13-14, 2018 @ University of British Columbia</h2>
 
-      <bool-input
-         name="going"
-         value="{{data.going}}"
-         label="Will you be attending nwHacks 2018?"
-         yes-label="Yes! I can't wait!"
-         no-label="No, I am no longer able to attend.">
-      </bool-input>
-
-      <div hidden$="[[!data.going]]">
-        <bool-input
-           required="[[data.going]]"
-           name="large_electronic"
-           value="{{data.large_electronic}}"
-           label="Are you planning on bringing a desktop/additional monitor/other
-           large device to use for your project?">
-        </bool-input>
-
-        <div hidden$="[[!data.large_electronic]]">
-          <p>
-          Our venue is a research facility with certain electricity limitations,
-          requiring us to be mindful of the number of large electronics that are
-          plugged in at any given time.
+          <p class="invalid" hidden$="{{!hasRSVPed}}">
+          <b>You've already RSVPed, but you can update your response below.</b>
           </p>
-          <paper-textarea
-           required="[[data.large_electronic]]"
-           auto-validate
-           error-message="Required"
-           label="Please explain what hardware you intend to bring and why it is necessary for your project."
-           rows=4
-           name="large_electronic_reason"
-           value="{{data.large_electronic_reason}}">
-          </paper-textarea>
-        </div>
+
+          <bool-input
+             name="going"
+             value="{{data.going}}"
+             label="Will you be attending nwHacks 2018?"
+             yes-label="Yes! I can't wait!"
+             no-label="No, I am no longer able to attend.">
+          </bool-input>
+
+          <div hidden$="[[!data.going]]">
+            <bool-input
+               required="[[data.going]]"
+               name="large_electronic"
+               value="{{data.large_electronic}}"
+               label="Are you planning on bringing a desktop/additional monitor/other
+               large device to use for your project?">
+            </bool-input>
+
+            <div hidden$="[[!data.large_electronic]]">
+              <p>
+              Our venue is a research facility with certain electricity limitations,
+              requiring us to be mindful of the number of large electronics that are
+              plugged in at any given time.
+              </p>
+              <paper-textarea
+               required="[[data.large_electronic]]"
+               auto-validate
+               error-message="Required"
+               label="Please explain what hardware you intend to bring and why it is necessary for your project."
+               rows=4
+               name="large_electronic_reason"
+               value="{{data.large_electronic_reason}}">
+              </paper-textarea>
+            </div>
 
 
-        <p>
-        Listed below are potential sponsor workshops. Please check all that you
-        would be interested in attending!
-        </p>
+            <p>
+            Listed below are potential sponsor workshops. Please check all that you
+            would be interested in attending!
+            </p>
 
-        <paper-checkbox
-           value="{{data.workshop_amazon_alexa}}"
-           name="workshop_amazon_alexa">
-          Amazon Alexa
-        </paper-checkbox>
+            <paper-checkbox
+               value="{{data.workshop_amazon_alexa}}"
+               name="workshop_amazon_alexa">
+              Amazon Alexa
+            </paper-checkbox>
 
-        <paper-checkbox
-           value="{{data.workshop_chatbots}}"
-           name="workshop_chatbots">
-          Chatbots
-        </paper-checkbox>
+            <paper-checkbox
+               value="{{data.workshop_chatbots}}"
+               name="workshop_chatbots">
+              Chatbots
+            </paper-checkbox>
 
-        <paper-checkbox
-           value="{{data.workshop_apis_101}}"
-           name="workshop_apis_101">
-          APIs 101
-        </paper-checkbox>
+            <paper-checkbox
+               value="{{data.workshop_apis_101}}"
+               name="workshop_apis_101">
+              APIs 101
+            </paper-checkbox>
 
-        <paper-checkbox
-           value="{{data.workshop_server_hosting}}"
-           name="workshop_server_hosting">
-          Server Hosting
-        </paper-checkbox>
+            <paper-checkbox
+               value="{{data.workshop_server_hosting}}"
+               name="workshop_server_hosting">
+              Server Hosting
+            </paper-checkbox>
 
-        <paper-checkbox
-           value="{{data.workshop_cybersecurity}}"
-           name="workshop_cybersecurity">
-          Cybersecurity
-        </paper-checkbox>
+            <paper-checkbox
+               value="{{data.workshop_cybersecurity}}"
+               name="workshop_cybersecurity">
+              Cybersecurity
+            </paper-checkbox>
 
-        <paper-checkbox
-           value="{{data.workshop_iot}}"
-           name="workshop_iot">
-          IoT
-        </paper-checkbox>
+            <paper-checkbox
+               value="{{data.workshop_iot}}"
+               name="workshop_iot">
+              IoT
+            </paper-checkbox>
 
-        <paper-checkbox
-           value="{{data.workshop_cryptocurrency}}"
-           name="workshop_cryptocurrency">
-          Cryptocurrency
-        </paper-checkbox>
+            <paper-checkbox
+               value="{{data.workshop_cryptocurrency}}"
+               name="workshop_cryptocurrency">
+              Cryptocurrency
+            </paper-checkbox>
 
-        <paper-checkbox
-           value="{{data.workshop_wearables}}"
-           name="workshop_wearables">
-          Wearables
-        </paper-checkbox>
+            <paper-checkbox
+               value="{{data.workshop_wearables}}"
+               name="workshop_wearables">
+              Wearables
+            </paper-checkbox>
 
-        <paper-input
-           label="Any other workshops you'd be interested in?"
-           name="workshop_other"
-           value="{{data.workshop_other}}">
-        </paper-input>
-      </div>
+            <paper-input
+               label="Any other workshops you'd be interested in?"
+               name="workshop_other"
+               value="{{data.workshop_other}}">
+            </paper-input>
+          </div>
 
 
-      <p class="invalid" hidden$="{{valid}}">
-        You must fill out all required fields.
-      </p>
+          <p class="invalid" hidden$="{{valid}}">
+            You must fill out all required fields.
+          </p>
 
-      <center>
-        <paper-button elevation="1" on-tap="submit" class="register">RSVP</paper-button>
-      </center>
-    </form>
+          <center>
+            <paper-button elevation="1" on-tap="submit" class="register">RSVP</paper-button>
+          </center>
+        </form>
+      </template>
 
+      <template is="dom-if" if="[[blocked]]">
+        <h1 title>RSVP Deadline Passed</h1>
+        <template is="dom-if" if="[[rsvp.going]]">
+          <p>
+          You replied saying that you were going to nwHacks. If that is no longer
+          the case please reach out to us via Facebook or
+          <a href="mailto:apply@nwhacks.io">email</a>
+          to let us know.
+          </p>
+        </template>
+        <template is="dom-if" if="[[!rsvp.going]]">
+          <p>
+          Sorry, the RSVP deadline has passed for your acceptance ([[closedAgo]]).
+          Unfortunately, you won't be able to go to nwHacks this year since we have
+          already marked you as not going and have started accepting people from the
+          wait list.
+          </p>
+        </template>
+      </template>
+
+    </div>
 
     <paper-dialog no-cancel-on-esc-key id="invalidid" modal>
       <h2>Invalid ID</h2>
@@ -152,19 +177,6 @@
       <p>
         Please try again, or contact <a href="mailto:info@nwhacks.io">info@nwhacks.io</a>.
       </p>
-    </paper-dialog>
-
-    <paper-dialog no-cancel-on-esc-key id="toolate" modal>
-      <h2>RSVP Deadline Passed</h2>
-      <p>
-      Sorry, the RSVP deadline has passed for your acceptance ([[deadline]]).
-      Unfortunately, you won't be able to go to nwHacks this year since we have
-      already marked you as not going and have started accepting people from the
-      wait list.
-      </p>
-      <div class="buttons">
-        <a class="none" href="/"><paper-button dialog-confirm autofocus>Return Home</paper-button></a>
-      </div>
     </paper-dialog>
 
     <paper-dialog no-cancel-on-esc-key id="rsvping" modal>
@@ -203,18 +215,18 @@
     </paper-dialog>
 
     <firebase-document id="rsvp"
-                       path="[[hackerStatusKey(sid)]]"
+                       path="/form/registration/[[sid]]/tags"
                        data="{{status}}">
     </firebase-document>
-    <firebase-document path="[[hackerRSVPKey(sid)]]"
+    <firebase-document path="/form/registration/[[sid]]/rsvp"
                        data="{{rsvp}}">
+    </firebase-document>
+    <firebase-document path="/admin/tags"
+                       data="{{tags}}">
     </firebase-document>
   </template>
   <script>
 'use strict';
-
-const workshops = `
-`.trim().split('\n')
 
 class RSVPPage extends Polymer.Element {
   static get is () { return 'rsvp-page' }
@@ -224,7 +236,7 @@ class RSVPPage extends Polymer.Element {
       sid: String,
       valid: {
         type: Boolean,
-        value: true,
+        value: true
       },
       data: {
         type: Object,
@@ -232,7 +244,7 @@ class RSVPPage extends Polymer.Element {
           return {
             // This version corresponds to the validation in Firebase to ensure
             // people don't submit old forms.
-            version: 1
+            version: 2
           }
         }
       },
@@ -246,20 +258,46 @@ class RSVPPage extends Polymer.Element {
       },
       hasRSVPed: {
         type: Boolean,
+        computed: '_computeHasRSVPed(rsvp)',
+        value: false
+      },
+      blocked: {
+        type: Boolean,
+        computed: '_computeBlocked(status, tags)',
         value: false
       }
     }
   }
 
-  static get observers () {
-    return [
-      'blockRegistration(status, rsvp)'
-    ]
+  _computeHasRSVPed (rsvp) {
+    return Object.keys(rsvp || {}).length > 0
   }
 
-  blockRegistration (status, rsvp) {
-    const hasRSVPed = Object.keys(rsvp || {}).length > 0
-    this.hasRSVPed = hasRSVPed
+  _computeBlocked (status, tags) {
+    const closeTime = this.closeTime(status, tags)
+    return moment() > closeTime
+  }
+
+  closeTime (status, tags) {
+    if (!status || !tags) {
+      return
+    }
+
+    let closeTime = 0
+    Object.keys(status).forEach((tag) => {
+      const rsvpBy = (tags[tag] || {}).rsvp_by
+      if (!rsvpBy) {
+        return
+      }
+      const time = moment(rsvpBy).endOf('day')
+      if (!closeTime || time > closeTime) {
+        closeTime = time
+      }
+    })
+    if (closeTime) {
+      this.closedAgo = closeTime.fromNow()
+    }
+    return closeTime
   }
 
   handleStatus (status, oldStatus) {
@@ -286,10 +324,9 @@ class RSVPPage extends Polymer.Element {
 
   inputs () {
     return Array.from(this.children)
-                .concat(Array.from(this.$.form.querySelectorAll('*')))
+                .concat(Array.from(this.root.querySelectorAll('#form *')))
                 .filter((a) => a.validate)
   }
-
 
   submit () {
     this.valid = this.validate()
@@ -297,22 +334,14 @@ class RSVPPage extends Polymer.Element {
       return
     }
     this.$.rsvping.open()
-    this.$.rsvp.setStoredValue('/form/registration/'+this.sid+'/rsvp', this.data).then(() => {
+    this.$.rsvp.setStoredValue('/form/registration/' + this.sid + '/rsvp', this.data).then(() => {
       this.$.rsvping.close()
       this.$.rsvped.open()
     }).catch((e) => {
       this.error = e
       this.$.rsvping.close()
       this.$.rsvperror.open()
-    });
-  }
-
-  hackerStatusKey (id) {
-    return '/form/registration/'+id+'/tags'
-  }
-
-  hackerRSVPKey (id) {
-    return '/form/registration/'+id+'/rsvp'
+    })
   }
 }
 
