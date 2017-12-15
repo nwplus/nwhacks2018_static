@@ -82,49 +82,49 @@
             </p>
 
             <paper-checkbox
-               value="{{data.workshop_amazon_alexa}}"
+               checked="{{data.workshop_amazon_alexa}}"
                name="workshop_amazon_alexa">
               Amazon Alexa
             </paper-checkbox>
 
             <paper-checkbox
-               value="{{data.workshop_chatbots}}"
+               checked="{{data.workshop_chatbots}}"
                name="workshop_chatbots">
               Chatbots
             </paper-checkbox>
 
             <paper-checkbox
-               value="{{data.workshop_apis_101}}"
+               checked="{{data.workshop_apis_101}}"
                name="workshop_apis_101">
               APIs 101
             </paper-checkbox>
 
             <paper-checkbox
-               value="{{data.workshop_server_hosting}}"
+               checked="{{data.workshop_server_hosting}}"
                name="workshop_server_hosting">
               Server Hosting
             </paper-checkbox>
 
             <paper-checkbox
-               value="{{data.workshop_cybersecurity}}"
+               checked="{{data.workshop_cybersecurity}}"
                name="workshop_cybersecurity">
               Cybersecurity
             </paper-checkbox>
 
             <paper-checkbox
-               value="{{data.workshop_iot}}"
+               checked="{{data.workshop_iot}}"
                name="workshop_iot">
               IoT
             </paper-checkbox>
 
             <paper-checkbox
-               value="{{data.workshop_cryptocurrency}}"
+               checked="{{data.workshop_cryptocurrency}}"
                name="workshop_cryptocurrency">
               Cryptocurrency
             </paper-checkbox>
 
             <paper-checkbox
-               value="{{data.workshop_wearables}}"
+               checked="{{data.workshop_wearables}}"
                name="workshop_wearables">
               Wearables
             </paper-checkbox>
@@ -132,7 +132,7 @@
             <paper-input
                label="Any other workshops you'd be interested in?"
                name="workshop_other"
-               value="{{data.workshop_other}}">
+               checked="{{data.workshop_other}}">
             </paper-input>
           </div>
 
@@ -185,6 +185,7 @@
         <paper-progress indeterminate></paper-progress>
       </p>
     </paper-dialog>
+
     <paper-dialog no-cancel-on-esc-key id="rsvperror" modal>
       <h2>Error submitting RSVP</h2>
       <p>[[error]]</p>
@@ -193,6 +194,7 @@
         <a class="none" href="/"><paper-button dialog-confirm autofocus>Return Home</paper-button></a>
       </div>
     </paper-dialog>
+
     <paper-dialog no-cancel-on-esc-key id="rsvped" modal>
       <h2>RSVP Successful</h2>
       <p>
