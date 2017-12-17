@@ -411,18 +411,16 @@ class SelectHackers extends Polymer.Element {
   responseCat (i) { return this.responseCategories[i] }
 
   export () {
-    const copy = JSON.parse(JSON.stringify(this.filtered))
-    var csv = new CSV(copy, {header: true}).encode()
+    const flat = this.filtered.map(a => JSON.parse(JSON.stringify(this.flatten(a, false))))
+    var csv = CSV.encode(flat, {header: true})
     this.downloadFile('applicants_export.csv', csv)
   }
 
   downloadFile (filename, content) {
-    var blob = new Blob([content])
-    const a = document.createElement('a')
-    a.setAttribute('download', filename)
-    a.setAttribute('href', URL.createObjectURL(blob))
-    document.body.appendChild(a)
-    a.click()
+    var blob = new Blob([content], {
+      type: 'text/csv;charset=utf-8'
+    })
+    window.saveAs(blob, filename)
   }
 
   title (hacker) {
@@ -490,7 +488,7 @@ class SelectHackers extends Polymer.Element {
         valid = valid && (!hacker.criteria || !hacker.criteria[filters.missingCriteria])
       }
       if (filters.jsEval && expressionFilter) {
-        valid = valid && expressionFilter(this.flatten(hacker))
+        valid = valid && expressionFilter(this.flatten(hacker, true))
       }
       if (!filters.showBlacklisted) {
         valid = valid && !blacklistEmails.has(hacker.cleanEmail)
@@ -525,22 +523,24 @@ class SelectHackers extends Polymer.Element {
     })
   }
 
-  flatten (obj) {
+  flatten (obj, intermediate) {
     const to = {}
-    this._flatten(to, obj, '')
+    this._flatten(to, obj, '', intermediate)
     return to
   }
 
-  _flatten (to, obj, path) {
+  _flatten (to, obj, path, intermediate) {
     if (typeof obj === 'object') {
       for (const key of Object.keys(obj)) {
         if (path) {
-          this._flatten(to, obj[key], path + '.' + key)
+          this._flatten(to, obj[key], path + '.' + key, intermediate)
         } else {
-          this._flatten(to, obj[key], key)
+          this._flatten(to, obj[key], key, intermediate)
         }
       }
-      to[path] = true
+      if (intermediate) {
+        to[path] = true
+      }
     } else {
       to[path] = obj
     }

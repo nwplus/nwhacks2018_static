@@ -60,6 +60,7 @@
     "paper-range-slider": "^1.0.2",
     "marked-element": "^2.3.2",
     "paper-toast": "^2.0.0",
-    "paper-toggle-button": "^2.0.0"
+    "paper-toggle-button": "^2.0.0",
+    "file-saver": "^1.3.3"
   }
 }

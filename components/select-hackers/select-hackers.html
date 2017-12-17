@@ -17,9 +17,11 @@
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/paper-range-slider/paper-range-slider.html">
 <link rel="import" href="../../bower_components/iron-a11y-keys/iron-a11y-keys.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
 
 <link rel="import" href="../firebase-config/firebase-config.html">
 <link rel="import" href="../lunr-js.html">
+<link rel="import" href="../file-saver-js.html">
 <link rel="import" href="../light-page.html">
 <link rel="import" href="../review-submission.html">
 <link rel="import" href="../nw-score.html">
@@ -187,38 +189,52 @@
       </paper-dropdown-menu>
       &nbsp;
 
-      <paper-icon-button
-        icon="[[sortIcon(sortAsc)]]"
-        on-tap="changeSortDir">
-      </paper-icon-button>
+      <div>
+        <paper-icon-button
+          icon="[[sortIcon(sortAsc)]]"
+          on-tap="changeSortDir">
+        </paper-icon-button>
+        <paper-tooltip>Sort Direction</paper-tooltip>
+      </div>
       &nbsp;
 
-      <paper-icon-button
-        id="showFilters"
-        icon="filter-list"
-        on-tap="showFilters">
-      </paper-icon-button>
-      <template is="dom-if" if="[[numFilters(filters, filters.*)]]">
-        <paper-badge
-          for="showFilters"
-          label="[[numFilters(filters, filters.*)]]">
-        </paper-badge>
-      </template>
-
+      <div>
+        <paper-icon-button
+          id="showFilters"
+          icon="filter-list"
+          on-tap="showFilters">
+        </paper-icon-button>
+        <template is="dom-if" if="[[numFilters(filters, filters.*)]]">
+          <paper-badge
+            for="showFilters"
+            label="[[numFilters(filters, filters.*)]]">
+          </paper-badge>
+        </template>
+        <paper-tooltip>Filters</paper-tooltip>
+      </div>
       &nbsp;
 
-      <paper-icon-button
-        icon="build"
-        on-tap="openBulkDialog">
-      </paper-icon-button>
+      <div>
+        <paper-icon-button
+          icon="file-download"
+          on-tap="export">
+        </paper-icon-button>
+        <paper-tooltip>Export CSV</paper-tooltip>
+      </div>
+      &nbsp;
+
+      <div>
+        <paper-icon-button
+          icon="build"
+          on-tap="openBulkDialog">
+        </paper-icon-button>
+        <paper-tooltip>Bulk Actions</paper-tooltip>
+      </div>
       &nbsp;
 
       <span>
         Showing [[filteredCount]] of [[totalCount]]
       </span>
-      &nbsp;
-
-      <a on-tap="export">Export</a>
     </div>
 
     <div id="container">
