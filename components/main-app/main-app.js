@@ -141,7 +141,8 @@ class MainApp extends Polymer.Element {
       sponsors: 'sponsor-page',
       'register-closed': 'register-closed',
       select: 'select-hackers',
-      settings: 'admin-settings'
+      settings: 'admin-settings',
+      blacklist: 'admin-blacklist-page'
     }[page] || page + '-page'
   }
 

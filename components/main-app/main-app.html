@@ -300,6 +300,9 @@
         <a href="/admin/settings" class="med right">
           <paper-button>Settings</paper-button>
         </a>
+        <a href="/admin/blacklist" class="med right">
+          <paper-button>Blacklist</paper-button>
+        </a>
         <a href="/admin/checkin" class="med right">
           <paper-button>Check-In</paper-button>
         </a>
@@ -400,6 +403,13 @@
                 user="[[user]]"
                 route="{{subSubRoute}}">
               </emails-page>
+            </template>
+            <template is="dom-if" restamp data-route="blacklist">
+              <admin-blacklist-page
+                is-admin="[[isAdmin]]"
+                user="[[user]]"
+                route="{{subSubRoute}}">
+              </admin-blacklist-page>
             </template>
           </iron-lazy-pages>
         </div>

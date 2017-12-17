@@ -14,6 +14,7 @@
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-badge/paper-badge.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/paper-range-slider/paper-range-slider.html">
 <link rel="import" href="../../bower_components/iron-a11y-keys/iron-a11y-keys.html">
 
@@ -333,6 +334,10 @@
           min="0">
         </paper-input>
 
+        <paper-toggle-button checked="{{filters.showBlacklisted}}">
+          Show Blacklisted Entries
+        </paper-toggle-button>
+
         <paper-textarea
           label="Filter Expression"
           value="{{filters.jsEval}}"
@@ -420,6 +425,13 @@
       disabled="[[!isAdmin]]"
       path="/form/[[form]]"
       data="{{registrations}}">
+    </firebase-query>
+
+    <firebase-query
+      id="regs"
+      disabled="[[!isAdmin]]"
+      path="/admin/blacklist"
+      data="{{blacklist}}">
     </firebase-query>
 
     <firebase-query

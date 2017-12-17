@@ -14,5 +14,6 @@
   "components/admin-settings/admin-settings.html": {},
   "components/emailtemplates-page/emailtemplates-page.html": {},
   "components/notfound-page/notfound-page.html": {},
-  "components/emails-page/emails-page.html": {}
+  "components/emails-page/emails-page.html": {},
+  "components/admin-blacklist-page/admin-blacklist-page.html": {}
 }

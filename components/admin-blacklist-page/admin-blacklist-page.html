@@ -1,16 +1,16 @@
-<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
-<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
-<link rel="import" href="moment-js.html">
+<link rel="import" href="../moment-js.html">
 
-<dom-module id="admin-list">
+<dom-module id="admin-blacklist-page">
   <template>
-    <style include="shared-styles">
+    <style include="light-page">
       #input {
         display: flex;
         align-items: center;
@@ -20,14 +20,17 @@
       }
     </style>
 
+    <h1 title>Blacklist</h1>
+
     <table>
       <thead>
         <th>Name</th>
         <th>Email</th>
-        <th>Last Accessed</th>
+        <th>Date</th>
+        <th>Reason</th>
       </thead>
       <tbody>
-        <template is="dom-repeat" items="[[list(admins, admins.*)]]">
+        <template is="dom-repeat" items="[[list(blacklist, blacklist.*)]]">
           <tr>
             <td>
               [[item.body.name]]
@@ -36,8 +39,9 @@
               <a href="mailto:[[item.email]]">[[item.email]]</a>
             </td>
             <td>
-              [[ago(item.body.last_accessed)]]
+              [[ago(item.body.date)]]
             </td>
+            <td>[[item.body.reason]]</td>
             <td>
               <paper-icon-button icon="delete-forever" on-tap="delete"></paper-icon-button>
             </td>
@@ -46,6 +50,8 @@
       </tbody>
     </table>
 
+    <h2>Add</h2>
+
     <div id="input">
       <paper-input label="Name" required type="name" auto-validate value="{{name}}">
       </paper-input>
@@ -53,27 +59,29 @@
       <paper-input label="Email" required type="email" auto-validate value="{{email}}">
       </paper-input>
       &nbsp;
-      <paper-button on-tap="submit">Add Admin</paper-button>
+      <paper-input label="Reason" required type="text" auto-validate value="{{reason}}">
+      </paper-input>
+      &nbsp;
+      <paper-button on-tap="submit">Add entry</paper-button>
     </div>
 
     <template is="dom-if" if="[[isAdmin]]">
-      <firebase-document path="/admins"
-                         data="{{admins}}">
+      <firebase-document path="/admin/blacklist"
+                         data="{{blacklist}}">
       </firebase-document>
     </template>
-
   </template>
   <script>
-class AdminList extends Polymer.Element {
-  static get is () { return 'admin-list' }
+class AdminBlacklistPage extends Polymer.Element {
+  static get is () { return 'admin-blacklist-page' }
 
-  list (admins) {
+  list (entries) {
     const l = []
-    for (const id of Object.keys(admins)) {
+    for (const id of Object.keys(entries)) {
       l.push({
         id: id,
         email: unescape(id),
-        body: admins[id]
+        body: entries[id]
       })
     }
     return l
@@ -109,24 +117,26 @@ class AdminList extends Polymer.Element {
     }
 
     const email = this.email.toLowerCase()
-    this.set(['admins', this.formatEmail(email)], {
+    this.set(['blacklist', this.formatEmail(email)], {
       name: this.name,
       email: email,
+      reason: this.reason,
+      date: firebase.database.ServerValue.TIMESTAMP
     })
     this.name = ''
     this.email = ''
+    this.reason = ''
   }
 
   delete (e) {
-    const admin = e.model.item
-    const name = admin.body.name || ''
-    if (!confirm('Remove admin ' + name + ' (' + admin.email + ')?')) {
+    const entry = e.model.item
+    const name = entry.body.name || ''
+    if (!confirm('Remove from blacklist ' + name + ' (' + entry.email + ')?')) {
       return
     }
-    this.set(['admins', admin.id], null)
+    this.set(['blacklist', entry.id], null)
   }
 }
-
-customElements.define(AdminList.is, AdminList)
+customElements.define(AdminBlacklistPage.is, AdminBlacklistPage)
   </script>
 </dom-module>

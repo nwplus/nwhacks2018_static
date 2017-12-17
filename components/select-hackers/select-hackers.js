@@ -53,7 +53,8 @@ class SelectHackers extends Polymer.Element {
           return {
             scoreMax: 20,
             scoreMin: 0,
-            firstN: 0
+            firstN: 0,
+            showBlacklisted: false
           }
         }
       },
@@ -64,7 +65,8 @@ class SelectHackers extends Polymer.Element {
           return {
             scoreMax: 20,
             scoreMin: 0,
-            firstN: 0
+            firstN: 0,
+            showBlacklisted: false
           }
         }
       },
@@ -130,7 +132,7 @@ class SelectHackers extends Polymer.Element {
     return [
       'handleRegistrations(registrations)',
       'handleRegistrations(registrations.*)',
-      'filter(hackers, filters, hackers.*, filters.*, sort, sortAsc)',
+      'filter(hackers, filters, blacklist, hackers.*, filters.*, sort, sortAsc)',
       'getQuestionMapping(form)',
       'handleRouteData(routeData.form, routeData.sid)'
     ]
@@ -427,7 +429,7 @@ class SelectHackers extends Polymer.Element {
     return hacker.name || hacker.first_name + ' ' + hacker.last_name
   }
 
-  filter (hackers, filters, _) {
+  filter (hackers, filters, blacklist) {
     if (!this.sort) {
       return
     }
@@ -440,6 +442,11 @@ class SelectHackers extends Polymer.Element {
         return hackers[result.ref]
       })
     }
+
+    const blacklistEmails = new Set()
+    blacklist.forEach((entry) => {
+      blacklistEmails.add(this.cleanEmail(entry.email))
+    })
 
     let submitted_before = moment(filters.submitted_before || 0)
     let submitted_after = moment(filters.submitted_after || 0)
@@ -484,6 +491,9 @@ class SelectHackers extends Polymer.Element {
       }
       if (filters.jsEval && expressionFilter) {
         valid = valid && expressionFilter(this.flatten(hacker))
+      }
+      if (!filters.showBlacklisted) {
+        valid = valid && !blacklistEmails.has(hacker.cleanEmail)
       }
 
       return valid
