@@ -1,0 +1,57 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="nw-check">
+  <template>
+    <style>
+      :host {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 16px;
+      }
+      iron-icon {
+        height: 2em;
+        width: 2em;
+        margin-right: 10px;
+      }
+      #label {
+        font-size: 1.5em;
+      }
+    </style>
+
+    <iron-icon style="[[checkStyle(checked)]]" icon="[[icon(checked)]]">
+    </iron-icon>
+
+    <div id="label">
+      <slot></slot>
+    </div>
+
+  </template>
+  <script>
+class NWCheck extends Polymer.Element {
+  static get is () { return 'nw-check' }
+
+  static get properties () {
+    return {
+      checked: {
+        type: Boolean,
+        value: false
+      }
+    }
+  }
+
+  icon (checked) {
+    return checked ? 'check' : 'cancel'
+  }
+
+  checkStyle (checked) {
+    return `color: ${checked ? 'green' : 'red'}`
+  }
+}
+
+customElements.define(NWCheck.is, NWCheck)
+  </script>
+</dom-module>

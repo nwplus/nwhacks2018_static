@@ -1,25 +1,20 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
 
 <link rel="import" href="../firebase-config/firebase-config.html">
 <link rel="import" href="../lunr-js.html">
 <link rel="import" href="../light-page.html">
+<link rel="import" href="../nw-tags.html">
+<link rel="import" href="../nw-check.html">
 
 <dom-module id="checkin-page">
   <template>
     <style include="light-page">
-      :host {
-        margin: 0 auto;
-        max-width: 600px;
-        --primary-text-color: #FFFFFF;
-        --secondary-text-color: #CCCCCC;
-        --primary-color: #90cfaa;
-        display: block;
-      }
       paper-card {
         width: 100%;
         color: black;
@@ -41,6 +36,8 @@
 
         border-bottom: 4px solid #D74343;
         background-color: #FF6B6B;
+
+        --primary-text-color: var(--dark-text-color);
 
         --paper-checkbox-label: {
           width: 100%;
@@ -70,18 +67,19 @@
         cursor: pointer;
       }
       .completion:hover {
-        background-color: rgba(0,0,0,0.2);
+        background-color: rgba(0,0,0,0.1);
       }
       .completion[selected] {
-        background-color: rgba(0,0,0,0.5);
+        background-color: rgba(0,0,0,0.2);
       }
       [hidden] {
         display: none;
       }
       code {
         font-family: monospace;
-        background-color: rgba(0,0,0,0.5);
+        background-color: rgba(0,0,0,0.9);
         padding: 6px;
+        color: var(--dark-text-color);
       }
       h3 {
         margin-top: 80px;
@@ -108,49 +106,78 @@
       p:first-child {
         margin-top: 0;
       }
+      nw-tags {
+        display: inline-block;
+        margin: 16px;
+      }
     </style>
 
-    <h1>
+    <h1 title>
       Check-In
     </h1>
 
-    <center>
-      <p>
-      <small>
-        <b>Shortcuts:</b>
-        Search <code>/</code>, Check-In <code>space</code>
-      </small>
-      </p>
-    </center>
+    <div class="content">
 
-    <paper-input label="Search" value="{{query}}" id="search">
-      <iron-icon icon="icons:search" prefix></iron-icon>
-    </paper-input>
+      <center>
+        <p>
+        <small>
+          <b>Shortcuts:</b>
+          Search <code>/</code>, Check-In <code>space</code>
+        </small>
+        </p>
+      </center>
 
-    <template is="dom-repeat" items="[[autocomplete]]">
-      <div class="completion"
-           selected$="[[eq(index, autocompleteIndex)]]"
-           on-tap="handleTap">
-        [[name(registrations, item)]] &lt;[[email(registrations, item)]]&gt;
-      </div>
-    </template>
+      <paper-input
+        label="Search" value="{{query}}"
+        id="search"
+        disabled="[[!lunr]]">
 
-    <paper-card heading="[[heading(display)]]" hidden$="[[!display]]">
-      <div class="card-content">
-        <p warn$="[[warnStatus(display)]]" danger$="[[dangerStatus(display)]]">[[displayStatus(display)]]</p>
-        <p warn$="[[warnAge(display.rsvp.age)]]">[[display.rsvp.age]]</p>
-        <paper-checkbox id="checkbox" checked="{{display.checked_in}}">
-          Checked In
-        </paper-checkbox>
-      </div>
-    </paper-card>
+        <iron-icon icon="icons:search" prefix></iron-icon>
+      </paper-input>
 
-    <template is="dom-if" if="[[isAdmin]]">
-      <firebase-document id="regs"
-                         path="/registrations"
-                         data="{{registrations}}">
-      </firebase-document>
-    </template>
+      <template is="dom-repeat" items="[[autocomplete]]">
+        <div class="completion"
+             selected$="[[eq(index, autocompleteIndex)]]"
+             on-tap="handleTap">
+          [[name(registrations, item)]] &lt;[[email(registrations, item)]]&gt;
+        </div>
+      </template>
+
+      <paper-card heading="[[heading(display)]]" hidden$="[[!display]]">
+        <div class="card-content">
+
+          <nw-check checked="[[display.rsvp.going]]">RSVPed Going</nw-check>
+
+          <nw-check checked="[[waiver.title]]">
+            Signed Waiver
+            <template is="dom-if" if="[[waiver.title]]">
+              &mdash; [[waiver.title]]
+            </template>
+          </nw-check>
+
+          <center>
+            <nw-tags tags="[[display.tags]]" disabled></nw-tags>
+          </center>
+
+          <paper-checkbox id="checkbox" checked="{{display.checked_in}}">
+            Checked In
+          </paper-checkbox>
+        </div>
+      </paper-card>
+
+    </div>
+
+
+    <firebase-document disabled="[[!isAdmin]]"
+                    path="/admin/hellosign/[[formatEmail(display.email)]]"
+                    data="{{waiver}}">
+    </firebase-document>
+
+    <firebase-query id="regs"
+                    disabled="[[!isAdmin]]"
+                    path="/form/registration"
+                    data="{{registrations}}">
+    </firebase-query>
   </template>
 
   <script src="checkin-page.js"></script>

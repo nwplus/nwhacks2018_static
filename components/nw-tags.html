@@ -33,8 +33,10 @@
       </template>
     </template>
 
-    <paper-icon-button icon="label" on-tap="showTags">
-    </paper-icon-button>
+    <template is="dom-if" if="[[!disabled]]">
+      <paper-icon-button icon="label" on-tap="showTags">
+      </paper-icon-button>
+    </template>
 
     <paper-dialog id="addtag" modal>
       <h2>Add Tag</h2>
