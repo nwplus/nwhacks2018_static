@@ -3,6 +3,7 @@
 <link rel="import" href="../light-page.html">
 <link rel="import" href="../admin-list.html">
 <link rel="import" href="../tag-manager.html">
+<link rel="import" href="../hellosign-manager.html">
 
 <dom-module id="admin-settings">
   <template>
@@ -17,6 +18,9 @@
 
       <h2>Tags</h2>
       <tag-manager is-admin="[[isAdmin]]"></tag-manager>
+
+      <h2>HelloSign</h2>
+      <hellosign-manager is-admin="[[isAdmin]]"></hellosign-manager>
     </div>
   </template>
   <script>

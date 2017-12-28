@@ -1,0 +1,45 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="nw-job.html">
+
+<dom-module id="hellosign-manager">
+  <template>
+    <style>
+    </style>
+
+    <h3>Sync Liability Waivers</h3>
+
+    <p>This syncs the signed liability waivers from HelloSign into the Firebase
+    database so we can see them via the Check-In page.</p>
+
+    <code class="invalid" hidden$="[[!error]]"><pre>[[error]]</pre></code>
+    <p hidden$="[[!finished]]">Finished!</p>
+
+    <nw-job
+      id="sync"
+      args="{}"
+      type="hellosign.sync"
+      finished="{{finished}}"
+      working="{{working}}"
+      return="{{email_lists}}"
+      error="{{error}}">
+    </nw-job>
+
+    <paper-button class="register" on-tap="sync" disabled$="[[working]]">
+      Sync
+    </paper-button>
+  </template>
+  <script>
+class HelloSignManager extends Polymer.Element {
+  static get is () { return 'hellosign-manager' }
+
+  sync () {
+    this.$.sync.generateRequest()
+  }
+}
+
+customElements.define(HelloSignManager.is, HelloSignManager)
+  </script>
+</dom-module>
