@@ -5,6 +5,9 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 
 <link rel="import" href="../firebase-config/firebase-config.html">
 <link rel="import" href="../lunr-js.html">
@@ -61,6 +64,9 @@
       }
       [warn] {
         color: orange;
+      }
+      #completions {
+        margin-bottom: 20px;
       }
       .completion {
         padding: 10px;
@@ -135,14 +141,6 @@
         <iron-icon icon="icons:search" prefix></iron-icon>
       </paper-input>
 
-      <template is="dom-repeat" items="[[autocomplete]]">
-        <div class="completion"
-             selected$="[[eq(index, autocompleteIndex)]]"
-             on-tap="handleTap">
-          [[name(registrations, item)]] &lt;[[email(registrations, item)]]&gt;
-        </div>
-      </template>
-
       <paper-card heading="[[heading(display)]]" hidden$="[[!display]]">
         <div class="card-content">
 
@@ -162,8 +160,29 @@
           <paper-checkbox id="checkbox" checked="{{display.checked_in}}">
             Checked In
           </paper-checkbox>
+
+          <nw-check checked="[[display.nfc_written]]">NFC Tag Written</nw-check>
         </div>
       </paper-card>
+
+      <div id="completions">
+        <template is="dom-repeat" items="[[autocomplete]]">
+          <div class="completion"
+               selected$="[[eq(index, autocompleteIndex)]]"
+               on-tap="handleTap">
+            [[name(registrations, item)]] &lt;[[email(registrations, item)]]&gt;
+          </div>
+        </template>
+      </div>
+
+      <paper-dropdown-menu label="NFC Device" selected-item="{{deviceItem}}">
+        <paper-listbox slot="dropdown-content">
+          <paper-item></paper-item>
+          <template is="dom-repeat" items="{{devices}}">
+            <paper-item deviceid="[[item.id]]">[[item.name]] - [[item.model]]</paper-item>
+          </template>
+        </paper-listbox>
+      </paper-dropdown-menu>
 
     </div>
 
@@ -178,6 +197,18 @@
                     path="/form/registration"
                     data="{{registrations}}">
     </firebase-query>
+
+    <firebase-query
+      disabled="[[!isAdmin]]"
+      path="/admin/devices"
+      data="{{devices}}">
+    </firebase-query>
+
+    <firebase-document
+      disabled="[[!isAdmin]]"
+      path="/admin/devices/[[deviceid]]"
+      data="{{device}}">
+    </firebase-document>
   </template>
 
   <script src="checkin-page.js"></script>

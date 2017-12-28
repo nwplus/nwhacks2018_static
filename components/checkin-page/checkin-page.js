@@ -10,6 +10,10 @@ class CheckinPage extends Polymer.Element {
       lunr: {
         type: Object,
         value: false
+      },
+
+      deviceid: {
+        computed: '_computeDeviceID(deviceItem)'
       }
     }
   }
@@ -49,6 +53,13 @@ class CheckinPage extends Polymer.Element {
     document.removeEventListener('keydown', this.keyHandler)
   }
 
+  _computeDeviceID (deviceItem) {
+    if (!deviceItem) {
+      return
+    }
+    return deviceItem.deviceid
+  }
+
   keyHandler (e) {
     console.log(e)
     if (e.code === 'Slash') {
@@ -76,11 +87,18 @@ class CheckinPage extends Polymer.Element {
     if (display.checked_in === undefined) {
       display.checked_in = false
     }
-    this.query = ''
-    this.display = display
+    this.setProperties({
+      display: display,
+      query: '',
+      autocomplete: []
+    })
     this.linkPaths(['registrations', id], 'display')
-    this.autocomplete = []
     this.$.search.blur()
+
+    if (this.device && this.device.id) {
+      this.set('device.write_id', display.$key)
+      this.set('device.write_name', `${display.first_name} ${display.last_name}`)
+    }
   }
 
   heading (hacker) {
