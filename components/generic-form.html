@@ -17,7 +17,13 @@
       }
     </style>
 
-    <form id="form">
+    <template is="dom-if" if="[[closed]]">
+      <center>
+        <p>Sorry, submissions are now closed. Please try again next year!</p>
+      </center>
+    </template>
+
+    <form id="form" hidden$="[[closed]]">
       <slot name="intro">
       </slot>
 
@@ -119,6 +125,11 @@
           value: () => { return {} },
           notify: true,
           type: Object
+        },
+
+        closed: {
+          value: false,
+          type: Boolean
         }
       }
     }
