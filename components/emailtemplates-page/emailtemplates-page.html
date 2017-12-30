@@ -317,8 +317,11 @@ class EmailTemplatesPage extends Polymer.Element {
       return
     }
 
-    this.set(['templates', this._slug], {
-      slug: this._slug
+    const slug = this._name.trim().replace(/\W+/g, '-')
+
+    this.set(['templates', slug], {
+      slug: slug,
+      name: this._slug
     })
 
     this._slug = ''

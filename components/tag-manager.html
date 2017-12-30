@@ -149,7 +149,10 @@ class TagManager extends Polymer.Element {
       return
     }
 
-    this.set(['tags', this.name], {
+    const slug = this.name.trim().replace(/\W+/g, '-')
+
+    this.set(['tags', slug], {
+      slug: slug,
       name: this.name,
       created: moment().toISOString()
     })

@@ -24,10 +24,10 @@
       }
     </style>
 
-    <template is="dom-repeat" items="[[list(tags, tags.*, tags.*.*)]]">
-      <nw-tag tag="[[item]]"></nw-tag>
+    <template is="dom-repeat" items="[[list(tags, _allTags, tags.*, tags.*.*)]]">
+      <nw-tag tag="[[nameOrSlug(item)]]"></nw-tag>
 
-      <template is="dom-if" if="[[unlocked(item, _allTags)]]">
+      <template is="dom-if" if="[[unlocked(item)]]">
         <paper-icon-button icon="clear" on-tap="removeTag">
         </paper-icon-button>
       </template>
@@ -46,7 +46,7 @@
           <nw-tag
             class="add"
             on-tap="add"
-            tag="[[item.name]]">
+            tag="[[nameOrSlug(item)]]">
           </nw-tag>
           </p>
         </template>
@@ -75,12 +75,17 @@ class NWTags extends Polymer.Element {
     }
   }
 
-  list () {
-    let tags = this.tags
+  list (tags, allTags) {
     if (!tags) {
       tags = {}
     }
-    return Object.keys(tags).filter(key => tags[key])
+    if (!allTags) {
+      allTags = {}
+    }
+
+    return Object.keys(tags)
+      .filter(key => tags[key])
+      .map(a => allTags[a])
   }
 
   values (allTags, tags) {
@@ -91,12 +96,12 @@ class NWTags extends Polymer.Element {
     return Object.values(allTags || {}).filter(a => !tags.hasOwnProperty(a.name))
   }
 
-  unlocked (tag, allTags) {
-    if (!allTags) {
-      return
-    }
+  unlocked (tag) {
+    return !tag.locked
+  }
 
-    return !allTags[tag].locked
+  nameOrSlug (a) {
+    return a.name || a.slug
   }
 
   showTags () {
@@ -107,12 +112,12 @@ class NWTags extends Polymer.Element {
     if (!this.tags) {
       this.tags = {}
     }
-    this.set(['tags', e.model.item.name], true)
+    this.set(['tags', e.model.item.slug || e.model.item.name], true)
     this.$.addtag.close()
   }
 
   removeTag (e) {
-    this.set(['tags', e.model.item], null)
+    this.set(['tags', e.model.item.slug || e.model.item.name], null)
   }
 }
 
