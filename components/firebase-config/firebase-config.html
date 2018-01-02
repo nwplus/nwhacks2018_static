@@ -36,15 +36,14 @@
                   messaging-sender-id="838873768070"
                   api-key="AIzaSyATJyN_W5ZJiiaOPwhn8ljIxn85Eo5uQEA">
     </firebase-app>
-    <template is="dom-if" if="[[auth]]">
-      <firebase-auth id="auth"
-                     app-name="[[name]]"
-                     user="{{user}}"
-                     on-error="handleError"
-                     signed-in="{{signedIn}}"
-                     status-known="{{statusKnown}}">
-      </firebase-auth>
-    </template>
+
+    <firebase-auth id="auth"
+                   app-name="[[name]]"
+                   user="{{user}}"
+                   on-error="handleError"
+                   signed-in="{{signedIn}}"
+                   status-known="{{statusKnown}}">
+    </firebase-auth>
 
     <firebase-document app-name="[[name]]"
                        path="/admins/[[user.uid]]"

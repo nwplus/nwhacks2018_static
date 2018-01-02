@@ -240,6 +240,10 @@ class RSVPPage extends Polymer.Element {
         type: Boolean,
         value: true
       },
+      isAdmin: {
+        type: Boolean,
+        value: false
+      },
       data: {
         type: Object,
         value () {
@@ -265,7 +269,7 @@ class RSVPPage extends Polymer.Element {
       },
       blocked: {
         type: Boolean,
-        computed: '_computeBlocked(status, tags)',
+        computed: '_computeBlocked(status, tags, isAdmin)',
         value: false
       }
     }
@@ -275,9 +279,9 @@ class RSVPPage extends Polymer.Element {
     return Object.keys(rsvp || {}).length > 0
   }
 
-  _computeBlocked (status, tags) {
+  _computeBlocked (status, tags, isAdmin) {
     const closeTime = this.closeTime(status, tags)
-    return moment() > closeTime
+    return moment() > closeTime && !isAdmin
   }
 
   closeTime (status, tags) {

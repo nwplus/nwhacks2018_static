@@ -17,13 +17,13 @@
       }
     </style>
 
-    <template is="dom-if" if="[[closed]]">
+    <template is="dom-if" if="[[_closed]]">
       <center>
         <p>Sorry, submissions are now closed. Please try again next year!</p>
       </center>
     </template>
 
-    <form id="form" hidden$="[[closed]]">
+    <form id="form" hidden$="[[_closed]]">
       <slot name="intro">
       </slot>
 
@@ -110,6 +110,11 @@
           type: String
         },
 
+        isAdmin: {
+          type: Boolean,
+          value: false
+        },
+
         alreadySubmitted: {
           type: Boolean,
           value: false
@@ -130,6 +135,11 @@
         closed: {
           value: false,
           type: Boolean
+        },
+
+        _closed: {
+          type: Boolean,
+          computed: '_computeClosed(closed, isAdmin)'
         }
       }
     }
@@ -138,6 +148,10 @@
       return [
         'checkEmail(data.email)'
       ]
+    }
+
+    _computeClosed (closed, isAdmin) {
+      return closed && !isAdmin
     }
 
     checkEmail (email) {

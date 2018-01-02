@@ -335,21 +335,22 @@
         <template is="dom-if" restamp data-route="rsvp">
           <rsvp-page
             params="{{params}}"
+            is-admin="[[isAdmin]]"
             sid="[[subRouteData.page]]">
           </rsvp-page>
         </template>
 
         <template is="dom-if" restamp data-route="register">
-          <register-form></register-form>
+          <register-form is-admin="[[isAdmin]]"></register-form>
         </template>
         <template is="dom-if" restamp data-route="register-closed">
           <register-closed></register-closed>
         </template>
         <template is="dom-if" restamp data-route="mentorexpo">
-          <mentorexpo-form></mentorexpo-form>
+          <mentorexpo-form is-admin="[[isAdmin]]"></mentorexpo-form>
         </template>
         <template is="dom-if" restamp data-route="volunteer">
-          <volunteer-form></volunteer-form>
+          <volunteer-form is-admin="[[isAdmin]]"></volunteer-form>
         </template>
 
         <!-- Admin Pages -->
