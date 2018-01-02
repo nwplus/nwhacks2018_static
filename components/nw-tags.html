@@ -75,7 +75,9 @@ class NWTags extends Polymer.Element {
     }
   }
 
-  list (tags, allTags) {
+  list () {
+    let tags = this.tags
+    let allTags = this._allTags
     if (!tags) {
       tags = {}
     }

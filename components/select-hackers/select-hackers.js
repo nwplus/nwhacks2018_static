@@ -188,7 +188,7 @@ class SelectHackers extends Polymer.Element {
   }
 
   bulkSetTags () {
-    const tags = this.$.bulktags.list()
+    const tags = this.$.bulktags.list().map(a => a.slug || a.name)
     const hackers = this.filtered
     if (!confirm(`You are about to add tags to ${hackers.length} entries.
         Tags: ${tags.join(', ')}`)) {
@@ -200,7 +200,7 @@ class SelectHackers extends Polymer.Element {
   }
 
   bulkRemoveTags () {
-    const tags = this.$.bulktags.list()
+    const tags = this.$.bulktags.list().map(a => a.slug || a.name)
     const hackers = this.filtered
     if (!confirm(`You are about to remove tags from ${hackers.length} entries.
         Tags: ${tags.join(', ')}`)) {
