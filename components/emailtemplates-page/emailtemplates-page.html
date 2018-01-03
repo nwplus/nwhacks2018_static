@@ -103,7 +103,8 @@
             required
             auto-validate
             label="Slug"
-            value="{{_slug}}"></paper-input>
+            value="{{_slug}}">
+          </paper-input>
           <paper-button on-tap="new">New</paper-button>
         </div>
       </div>
@@ -317,7 +318,7 @@ class EmailTemplatesPage extends Polymer.Element {
       return
     }
 
-    const slug = this._name.trim().replace(/\W+/g, '-')
+    const slug = this._slug.trim().replace(/\W+/g, '-')
 
     this.set(['templates', slug], {
       slug: slug,
