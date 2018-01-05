@@ -44,7 +44,12 @@ class NotificationManager extends Polymer.Element {
   static get properties () {
     return {
       args: {
-        value () { return {} }
+        value () {
+          return {
+            title: 'nwHacks 2018',
+            icon: '/img/nwhacks-navbar-logo.png'
+          }
+        }
       }
     }
   }

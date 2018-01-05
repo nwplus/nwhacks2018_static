@@ -73,6 +73,15 @@ class NWNotifications extends Polymer.Element {
   hide () {
     this.userHidden = true
   }
+
+  handleMessage (e) {
+    const payload = e.detail.message
+    console.log('firebase message', payload)
+
+    if (payload.notification) {
+      new Notification(payload.notification.title, payload.notification)
+    }
+  }
 }
 
 customElements.define(NWNotifications.is, NWNotifications)
