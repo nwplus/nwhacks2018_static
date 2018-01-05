@@ -20,7 +20,7 @@
 
     <code class="invalid" hidden$="[[!error]]"><pre>[[error]]</pre></code>
 
-    <code><pre>[[json(ret)]]</pre></code>
+    <code><pre>[[stringify(ret)]]</pre></code>
     <p hidden$="[[!finished]]">Finished!</p>
 
     <nw-job
@@ -65,7 +65,7 @@ class NotificationManager extends Polymer.Element {
     this.$.send.generateRequest()
   }
 
-  json (obj) {
+  stringify (obj) {
     return JSON.stringify(obj, '', '  ')
   }
 }
