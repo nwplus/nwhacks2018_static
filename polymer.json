@@ -31,7 +31,8 @@
   ],
   "extraDependencies": [
     "CNAME",
-    "bower_components/webcomponentsjs/*.js"
+    "bower_components/webcomponentsjs/*.js",
+    "firebase-messaging-sw.js"
   ],
   "builds": [
     {

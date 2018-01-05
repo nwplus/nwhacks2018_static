@@ -1,0 +1,75 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+<link rel="import" href="nw-job.html">
+
+<dom-module id="notification-manager">
+  <template>
+    <style>
+    </style>
+
+    <h3>Send Notification</h3>
+
+    <paper-input value="{{args.title}}" auto-validate required label="Title">
+    </paper-input>
+
+    <paper-input value="{{args.body}}" auto-validate required label="Body">
+    </paper-input>
+
+    <code class="invalid" hidden$="[[!error]]"><pre>[[error]]</pre></code>
+
+    <code><pre>[[json(ret)]]</pre></code>
+    <p hidden$="[[!finished]]">Finished!</p>
+
+    <nw-job
+      id="send"
+      args="{{args}}"
+      type="notification.send"
+      finished="{{finished}}"
+      working="{{working}}"
+      return="{{ret}}"
+      error="{{error}}">
+    </nw-job>
+
+    <paper-button class="register" on-tap="send" disabled$="[[working]]">
+      Send
+    </paper-button>
+  </template>
+  <script>
+class NotificationManager extends Polymer.Element {
+  static get is () { return 'notification-manager' }
+
+  static get properties () {
+    return {
+      args: {
+        value () { return {} }
+      }
+    }
+  }
+
+  validate () {
+    for (const e of this.root.querySelectorAll("paper-input")) {
+      if (!e.validate()) {
+        return false
+      }
+    }
+    return true
+  }
+
+  send () {
+    if (!this.validate()) {
+      return
+    }
+    this.$.send.generateRequest()
+  }
+
+  json (obj) {
+    return JSON.stringify(obj, '', '  ')
+  }
+}
+
+customElements.define(NotificationManager.is, NotificationManager)
+  </script>
+</dom-module>
