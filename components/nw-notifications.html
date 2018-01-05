@@ -1,0 +1,80 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-messaging.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+
+<dom-module id="nw-notifications">
+  <template>
+    <style>
+      #container {
+        padding: 5px 15px;
+        background-color: var(--primary-color);
+        color: var(--dark-text-color);
+        margin: 0 -15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    </style>
+
+    <div id="container">
+      <p>
+        Want real time notifications during the event?
+      </p>
+
+      <span>
+        <paper-button on-tap="enable">Enable Notifications</paper-button>
+        <paper-icon-button icon="clear" on-tap="hide"></paper-icon-button>
+      </span>
+    </div>
+
+    <firebase-messaging
+      id="messaging"
+      token="{{token}}"
+      active="{{active}}"
+      on-message="handleMessage">
+    </firebase-messaging>
+
+    <firebase-document
+      disabled="[[!token]]"
+      path="/messaging/[[token]]"
+      data="[[token]]">
+    </firebase-document>
+
+  </template>
+  <script>
+class NWNotifications extends Polymer.Element {
+  static get is () { return 'nw-notifications' }
+
+  static get properties () {
+    return {
+      hidden: {
+        type: Boolean,
+        reflectToAttribute: true,
+        computed: '_hidden(userHidden, active)'
+      }
+    }
+  }
+
+  _hidden (userHidden, active) {
+    return userHidden || active
+  }
+
+  enable () {
+    this.$.messaging.requestPermission().then(() => {
+      this.enabled = true
+    }, (err) => {
+      this.dispatchEvent(new CustomEvent('error', {detail: err}))
+    })
+  }
+
+  hide () {
+    this.userHidden = true
+  }
+}
+
+customElements.define(NWNotifications.is, NWNotifications)
+  </script>
+</dom-module>

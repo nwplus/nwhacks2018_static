@@ -126,6 +126,7 @@ class MainApp extends Polymer.Element {
 
   handleError (e) {
     this.error = e.detail
+    console.error(e.detail)
   }
 
   handle404 () {
