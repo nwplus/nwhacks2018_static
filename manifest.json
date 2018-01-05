@@ -1,0 +1,9 @@
+{
+  "short_name": "nwHacks 2018",
+  "name": "nwHacks 2018",
+  "start_url": "/?launcher=true",
+  "background_color": "#27AE60",
+  "theme_color": "#27AE60",
+  "display": "standalone",
+  "gcm_sender_id": "103953800507"
+}
