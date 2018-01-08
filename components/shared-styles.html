@@ -14,6 +14,23 @@
         color: var(--link-color);
         text-decoration: none;
       }
+      h2 {
+        font-weight: normal;
+        font-size: 25px;
+        color: #27AE60;
+        margin-top: 0.7em;
+        margin-bottom: 5px;
+        font-weight: lighter;
+      }
+      h1 {
+        margin: 0 auto;
+        padding-top: 80px;
+        padding-bottom: 25px;
+        line-height: normal;
+        font-size: 38px;
+        text-align: center;
+        font-weight: bold;
+      }
       a:hover {
         text-decoration: none;
         color: var(--link-hover-color);
@@ -24,11 +41,8 @@
       .invalid {
         color: red
       }
-      h1 {
-        letter-spacing: 1px;
-        text-align: center;
-        font-weight: 500;
-        font-size: 28pt;
+      h1, h2, h3 {
+        color: var(--header-color);
       }
       h2, h3 {
         margin-bottom: -5px;
@@ -36,6 +50,9 @@
       }
       h2, p, ul, ol {
         font-size: 14pt;
+      }
+      p {
+        color: var(--text-color);
       }
       h2 + p {
         margin-top: 5px;

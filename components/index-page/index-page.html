@@ -3,6 +3,7 @@
 
 <link rel="import" href="../nwhacks-header/nwhacks-header.html">
 <link rel="import" href="../nw-countdown.html">
+<link rel="import" href="../schedule-box/schedule-box.html">
 
 <dom-module id="index-page">
     <template>
@@ -19,10 +20,6 @@
               padding-top: 9%;
               max-width: 600px;
               width: 80%;
-              line-height: normal;
-              font-size: 28pt;
-              font-weight: bold;
-              color: #27AE60;
               text-align: left;
               margin: 1em auto 0;
             }
@@ -56,23 +53,8 @@
             }
 
             #faq  .h1-container  h1 {
-              margin: 0 auto;
               padding-top: 151px;
               padding-bottom: 30px;
-              line-height: normal;
-              font-size: 38px;
-              text-align: center;
-              color: #27AE60;
-              font-weight: bold;
-            }
-
-            #faq h2 {
-              font-size: 25px;
-              color: #27AE60;
-              margin-top: 0.7em;
-              margin-bottom: 5px;
-              letter-spacing: 0px;
-              font-weight: lighter;
             }
 
             #faq p {
@@ -162,136 +144,16 @@
               width: 100%;
               text-align: center;
             }
-            #schedule h1 {
-              margin: 0 auto;
-              padding-bottom: 70px;
-              line-height: normal;
-              font-size: 38px;
-              text-align: center;
-              color: #27AE60;
-              font-weight: bold;
-            }
-            #schedule .content {
-              margin: 0 auto;
-              display: inline-block;
-              position: relative;
-              padding-left: 15px;
-              padding-right: 15px;
-              z-index: 10;
-              width: 90%;
-            }
-            #schedule h2 {
-              color: #27AE60;
-              font-size: 35px;
-              font-weight: bold;
-              display: block;
-              width:340px;
-              height: 70px;
-              text-align: left;
-            }
-
-            #event-container {
-              margin: 0 auto;
-              text-align: center;
-            }
-            #schedule #event {
-              display: inline-block;
-              width:340px;
-              height: 70px;
-              padding-bottom: 5px;
-            }
-            #schedule #event #time {
-                float:left;
-                width:90px;
-                height: 80px;
-                text-align: left;
-            }
-            #schedule #event #title {
-                float:right;
-                width: 250px;
-                height: 80px;
-                text-align: left;
-            }
-            #schedule #event #title h3 {
-                font-weight: normal;
-                margin-left: 30px;
-            }
-            #schedule #event #title p {
-                margin: 4px 0px 0px 30px;
-            }
-
-            @media (max-width: 769px){
-              #schedule .content .column {
-                width: 100%;
-                display: block;
-              }
-              #schedule .content {
-                margin: 0 auto;
-                width: 50%;
-                display: inline-block;
-              }
-            }
-            @media (max-width: 620px){
-              #schedule .content {
-                margin: 0 auto;
-                width: 100%;
-                display: inline-block;
-              }
-            }
-            @media (max-width: 760px){
-              #schedule #event #ghost { /* used to prevent centering in last element */
-                display: none;
-              }
-              #schedule h2 {
-                /*text-align: center;*/
-                margin-left: -5px;
-              }
-            }
-/*
-            @media (max-width: 769px) {
-              #schedule .content .column {
-                width: 100%;
-                display: block;
-                margin: 0 auto;
-              }
-            }*/
-
-            @media (max-width: 370px){
-              #schedule h2 {
-                margin-left: 0px;
-                font-size: 30px;
-              }
-              #schedule #event h3 {
-                font-size: 18px;
-              }
-              #schedule #event {
-                width: 320px;
-              }
-              #schedule #event #time {
-                width: 70px;
-                font-size: 16px;
-              }
-            }
-
-            #schedule h3 {
-              font-size: 20px;
-            }
             #schedule img {
               display: inline-block;
               width: 472px;
             }
-            #schedule p {
-              line-height: 27px;
-              font-size: 15px;
-              letter-spacing: 0px;
-              font-weight: 500;
-            }
-
-            @media (max-width: 768px){
+            @media (max-width: 768px) {
               #schedule img {
                 width: 75%;
               }
             }
+
             .h1-container {
               text-align: left;
                 h1 {
@@ -443,14 +305,6 @@
               max-width: inherit;
               text-align: center;
             }
-            #sponsors h1 {
-              font-size: 40px;
-              color: #27AE60;
-              padding-top: 70px;
-              margin-top: 0;
-              padding-bottom: 0px;
-              font-weight: bold;
-            }
             #sponsors > div {
               margin: 0px 0;
             }
@@ -594,144 +448,12 @@
 
         <div id="calendar">
         <div id="schedule">
-            <h1>Schedule</h1>
-            <img src="/svg/Map.svg" id="map"/><br>
-          <div class="content">
-            <div class="column">
-            <div id="event-container">
-                <div id="event"><h2>Saturday, January 13</h2></div>
-
-                <div id="event">
-                  <h3 id="time">9:30 AM</h3>
-                  <div id="title">
-                    <h3>Sponsor Booth Setup</h3>
-                    <p>East & West Atrium</p>
-                  </div>
-                </div>
-
-                <div id="event">
-                  <h3 id="time">10:00 AM</h3>
-                  <div id="title">
-                    <h3>Check-in & Bus Arrival</h3>
-                    <p>War Memorial Gym</p>
-                  </div>
-                </div>
-
-                <div id="event">
-                  <h3 id="time">11:45 AM</h3>
-                  <div id="title">
-                    <h3>Opening Ceremony</h3>
-                    <p>War Memorial Gym</p>
-                  </div>
-                </div>
-
-                <div id="event">
-                  <h3 id="time">1:00 PM</h3>
-                  <div id="title">
-                    <h3>Lunch + Hacking Begins!</h3>
-                    <p>West Atrium</p>
-                  </div>
-                </div>
-
-                <div id="event">
-                  <h3 id="time"></h3>
-                  <div id="title">
-                    <h3>Team Formation</h3>
-                    <p>LSC 3</p>
-                  </div>
-                </div>
-
-                <div id="event">
-                  <h3 id="time">1:30 PM</h3>
-                  <div id="title">
-                    <h3>Mentor Orientation</h3>
-                    <p>Room 1330</p>
-                  </div>
-                </div>
-
-                <div id="event">
-                  <h3 id="time">7:00 PM</h3>
-                  <div id="title">
-                    <h3>Dinner</h3>
-                    <p>West Atrium</p>
-                  </div>
-                </div>
-
-                <div id="event ghost">
-                  <!-- ghost event -->
-                </div>
-
-            </div>
-          </div>
-            <div class="column">
-            <div id="event-container">
-                <div id="event">
-                  <h2>Sunday, January 14</h2>
-                </div>
-
-                <div id="event">
-                  <h3 id="time">8:00 AM</h3>
-                  <div id="title">
-                    <h3>Breakfast</h3>
-                    <p>West Atrium</p>
-                  </div>
-                </div>
-
-
-                <div id="event">
-                  <h3 id="time">1:00 PM</h3>
-                  <div id="title">
-                    <h3>Projects Due!</h3>
-                    <p></p>
-                  </div>
-                </div>
-
-                <div id="event">
-                  <h3 id="time">12:45 PM</h3>
-                  <div id="title">
-                    <h3>Lunch</h3>
-                    <p>West Atrium</p>
-                  </div>
-                </div>
-
-                <div id="event">
-                  <h3 id="time">1:15 PM</h3>
-                  <div id="title">
-                    <h3>Judges Orientation</h3>
-                    <p>Room 1330</p>
-                  </div>
-                </div>
-
-                <div id="event">
-                  <h3 id="time">2:00 PM</h3>
-                  <div id="title">
-                    <h3>Demos</h3>
-                    <p>East & West Atrium</p>
-                  </div>
-                </div>
-
-                <div id="event">
-                  <h3 id="time">4:15 PM</h3>
-                  <div id="title">
-                    <h3>Closing Ceremony</h3>
-                    <p>WOOD 2</p>
-                  </div>
-                </div>
-
-            </div>
-          </div>
-            </div>
-          </div>
-        </div>
-        </div>
-
-
-        <!--<div id="calendar">-->
-          <!--<schedule-box></schedule-box>-->
-          <!--<schedule-box heading="Workshops"-->
-                        <!--calendar="outerearth.net_k8r36lba3ltbaf62qpu1kfie58@group.calendar.google.com">-->
-          <!--</schedule-box>-->
-        <!--</div>-->
+          <h1>Schedule</h1>
+          <img src="/svg/Map.svg" id="map"/><br>
+          <schedule-box heading=""></schedule-box>
+          <schedule-box heading="Workshops"
+                        calendar="outerearth.net_r1621trcoajdltpp2gqgisgcss@group.calendar.google.com">
+          </schedule-box>
 
         <div id="sponsors" class="sponsor-content">
             <h1>Sponsors</h1>

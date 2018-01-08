@@ -1,0 +1,18 @@
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="light-styles">
+  <template>
+    <style include="shared-styles">
+      :host {
+        background-color: var(--light-background-color);
+        color: var(--light-text-color);
+
+        --header-color: var(--primary-color);
+        --link-color: var(--primary-color);
+        --text-color: var(--light-text-color);
+      }
+    </style>
+
+    <slot></slot>
+  </template>
+</dom-module>
