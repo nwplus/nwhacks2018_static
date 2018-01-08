@@ -9,11 +9,13 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
 
 <link rel="import" href="../firebase-config/firebase-config.html">
 <link rel="import" href="../shared-styles.html">
 <link rel="import" href="../error-dialog.html">
 <link rel="import" href="../nwhacks-footer/nwhacks-footer.html">
+<link rel="import" href="../nw-notifications.html">
 
 <dom-module id="main-app">
   <template>
@@ -171,17 +173,29 @@
         }
       }
 
-      #menu {
+      #menucontainer, app-header {
         position: fixed;
         top: 0;
         right: 0;
         left: 0;
         z-index: 99;
-        padding: var(--menu-padding-vertical) var(--menu-padding) var(--menu-padding-vertical);
-        height: 45px;
+      }
+
+      #menu {
         background-color: var(--light-background-color);
         color: var(--light-text-color);
+        height: 59px;
+        padding: 6px var(--menu-padding);
         transition: background-color 0.2s, box-shadow 0.2s;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap-reverse;
+        overflow: hidden;
+      }
+
+      .spacer {
+        flex-grow: 10000000;
       }
 
       #menu paper-icon-button {
@@ -213,14 +227,6 @@
         color: var(--link-hover-color);
       }
 
-      @media (max-width: 510px) {
-        #menu {
-          position: absolute;
-        }
-        #menu a.med {
-          display: none;
-        }
-      }
       @media (max-width: 815px) {
         #menu paper-icon-button {
           margin-left: calc(var(--menu-padding) / 2);
@@ -228,9 +234,6 @@
         }
         #menu paper-button {
           padding: 17px calc(var(--menu-padding) / 2);
-        }
-        #menu a.big {
-          display: none;
         }
       }
 
@@ -262,60 +265,69 @@
            style="width:100%">
     </a>
 
-    <nav id="menu">
-      <a href="/#begin">
-        <paper-icon-button src="/svg/NWHacks-NavBar-Logo.svg"></paper-icon-button>
-      </a>
-      <template is="dom-if" if="[[!adminPage(page)]]">
-        <a href="/#sponsors" class="big right">
-          <paper-button>Sponsors</paper-button>
+
+    <!--<nav id="menucontainer">-->
+    <app-header reveals condenses fixed>
+      <nw-notifications></nw-notifications>
+
+      <nav id="menu">
+        <a href="/#begin">
+          <paper-icon-button src="/svg/NWHacks-NavBar-Logo.svg"></paper-icon-button>
         </a>
-        <a href="/#calendar" class="med right">
-          <paper-button>Schedule</paper-button>
-        </a>
-        <a href="/#faq" class="med right">
-          <paper-button>FAQ</paper-button>
-        </a>
-        <a href="/#intro" class="med right">
-          <paper-button>About</paper-button>
-        </a>
-        <!--<a href="/#intro" class="big">-->
-          <!--<paper-button>View Hacks</paper-button>-->
-        <!--</a>-->
+
+        <div class="spacer"></div>
+
+        <template is="dom-if" if="[[!adminPage(page)]]">
+          <a href="/#intro" class="med">
+            <paper-button>About</paper-button>
+          </a>
+          <a href="/#faq">
+            <paper-button>FAQ</paper-button>
+          </a>
+          <a href="/#calendar" class="med">
+            <paper-button>Schedule</paper-button>
+          </a>
+          <a href="/#sponsors" class="big">
+            <paper-button>Sponsors</paper-button>
+          </a>
+          <!--<a href="/#intro" class="big">-->
+            <!--<paper-button>View Hacks</paper-button>-->
+          <!--</a>-->
+          <!--
+          <a href="https://nwhacks2017.devpost.com/" class="small right">
+            <paper-button>View Hacks</paper-button>
+          </a>
+          -->
+        </template>
         <!--
-        <a href="https://nwhacks2017.devpost.com/" class="small right">
-          <paper-button>View Hacks</paper-button>
+        <a href="/register#begin" class="small right">
+          <paper-button>register</paper-button>
         </a>
         -->
-      </template>
-      <!--
-      <a href="/register#begin" class="small right">
-        <paper-button>register</paper-button>
-      </a>
-      -->
-      <template is="dom-if" if="[[adminPage(page)]]">
-        <span class="right">
-          <paper-button on-tap="logout" hidden$="[[!signedIn]]">Logout</paper-button>
-        </span>
-        <a href="/admin/settings" class="med right">
-          <paper-button>Settings</paper-button>
-        </a>
-        <a href="/admin/blacklist" class="med right">
-          <paper-button>Blacklist</paper-button>
-        </a>
-        <a href="/admin/checkin" class="med right">
-          <paper-button>Check-In</paper-button>
-        </a>
-        <a href="/admin/stats" class="med right">
-          <paper-button>Stats</paper-button>
-        </a>
-        <a href="/admin/select" class="med right">
-          <paper-button>Hackers</paper-button>
-        </a>
-      </template>
+        <template is="dom-if" if="[[adminPage(page)]]">
+          <span>
+            <paper-button on-tap="logout" hidden$="[[!signedIn]]">Logout</paper-button>
+          </span>
+          <a href="/admin/settings" class="med">
+            <paper-button>Settings</paper-button>
+          </a>
+          <a href="/admin/blacklist" class="med">
+            <paper-button>Blacklist</paper-button>
+          </a>
+          <a href="/admin/checkin" class="med">
+            <paper-button>Check-In</paper-button>
+          </a>
+          <a href="/admin/stats" class="med">
+            <paper-button>Stats</paper-button>
+          </a>
+          <a href="/admin/select" class="med">
+            <paper-button>Hackers</paper-button>
+          </a>
+        </template>
 
-      <paper-progress indeterminate disabled="[[!loading]]"></paper-progress>
-    </nav>
+        <paper-progress indeterminate disabled="[[!loading]]"></paper-progress>
+      </nav>
+    </app-header>
 
     <div class="wrapper" id="begin">
       <iron-lazy-pages

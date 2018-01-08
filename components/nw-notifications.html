@@ -9,13 +9,19 @@
   <template>
     <style>
       #container {
-        padding: 5px 15px;
+        padding: 0 15px;
         background-color: var(--primary-color);
         color: var(--dark-text-color);
-        margin: 0 -15px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
+      }
+      .spacer {
+        flex-grow: 10000000000;
+      }
+      p {
+        margin: 15px 0;
       }
     </style>
 
@@ -24,16 +30,17 @@
         Want real time notifications during the event?
       </p>
 
-      <span>
-        <paper-button on-tap="enable">Enable Notifications</paper-button>
-        <paper-icon-button icon="clear" on-tap="hide"></paper-icon-button>
-      </span>
+      <span class="spacer"></span>
+
+      <paper-button on-tap="enable">Enable Notifications</paper-button>
+      <paper-icon-button icon="clear" on-tap="hide"></paper-icon-button>
     </div>
 
     <firebase-messaging
       id="messaging"
       token="{{token}}"
       active="{{active}}"
+      status-known="{{statusKnown}}"
       on-message="handleMessage">
     </firebase-messaging>
 
@@ -53,13 +60,13 @@ class NWNotifications extends Polymer.Element {
       hidden: {
         type: Boolean,
         reflectToAttribute: true,
-        computed: '_hidden(userHidden, active)'
+        computed: '_hidden(userHidden, active, statusKnown)'
       }
     }
   }
 
-  _hidden (userHidden, active) {
-    return userHidden || active
+  _hidden (userHidden, active, statusKnown) {
+    return userHidden || active || !statusKnown
   }
 
   enable () {
