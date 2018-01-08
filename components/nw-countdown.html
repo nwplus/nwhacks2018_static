@@ -1,0 +1,81 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="moment-js.html">
+
+<dom-module id="nw-countdown">
+  <template>
+    <style>
+      :host {
+        display: flex;
+        background-color: white;
+        color: var(--primary-color);
+      }
+      #content {
+        display: flex;
+        justify-content: space-around;
+        width: 900px;
+        max-width: 100%;
+        margin: 0 auto;
+        flex-wrap: wrap;
+      }
+      .unit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 30px;
+      }
+      span {
+        font-size: 28pt;
+      }
+    </style>
+
+    <div id="content">
+      <div class="unit">
+        <span>[[unit('days', target, _now)]]</span>
+        <label>Days</label>
+      </div>
+      <div class="unit">
+        <span>[[unit('hours', target, _now)]]</span>
+        <label>Hours</label>
+      </div>
+      <div class="unit">
+        <span>[[unit('minutes', target, _now)]]</span>
+        <label>Minutes</label>
+      </div>
+      <div class="unit">
+        <span>[[unit('seconds', target, _now)]]</span>
+        <label>Seconds</label>
+      </div>
+    </div>
+  </template>
+  <script>
+class NWCountdown extends Polymer.Element {
+  static get is () { return 'nw-countdown' }
+
+  static get properties () {
+    return {
+      target: String
+    }
+  }
+
+  connectedCallback () {
+    super.connectedCallback()
+    this._interval = setInterval(() => {
+      this._now = moment()
+    }, 1000)
+  }
+
+  disconnectedCallback () {
+    super.disconnectedCallback()
+    clearInterval(this._interval)
+  }
+
+  unit (unit, target, now) {
+    const diff = moment.duration(moment(target).diff(now))
+    return diff[unit]()
+  }
+}
+
+customElements.define(NWCountdown.is, NWCountdown)
+  </script>
+</dom-module>

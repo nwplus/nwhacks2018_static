@@ -2,6 +2,7 @@
 <link rel="import" href="../area-img.html">
 
 <link rel="import" href="../nwhacks-header/nwhacks-header.html">
+<link rel="import" href="../nw-countdown.html">
 
 <dom-module id="index-page">
     <template>
@@ -244,7 +245,7 @@
               #schedule h2 {
                 /*text-align: center;*/
                 margin-left: -5px;
-              } 
+              }
             }
 /*
             @media (max-width: 769px) {
@@ -259,7 +260,7 @@
               #schedule h2 {
                 margin-left: 0px;
                 font-size: 30px;
-              } 
+              }
               #schedule #event h3 {
                 font-size: 18px;
               }
@@ -271,7 +272,7 @@
                 font-size: 16px;
               }
             }
-            
+
             #schedule h3 {
               font-size: 20px;
             }
@@ -514,6 +515,9 @@
                 </div>
             </div>
         </div>
+        <div id="countdown">
+          <nw-countdown target="2018-01-13T13:00:00-08:00"></nw-countdown>
+        </div>
         <div id="faq">
             <div class="content">
                 <div id="crystal">
@@ -596,7 +600,7 @@
             <div class="column">
             <div id="event-container">
                 <div id="event"><h2>Saturday, January 13</h2></div>
-                
+
                 <div id="event">
                   <h3 id="time">9:30 AM</h3>
                   <div id="title">
@@ -604,7 +608,7 @@
                     <p>East & West Atrium</p>
                   </div>
                 </div>
-                
+
                 <div id="event">
                   <h3 id="time">10:00 AM</h3>
                   <div id="title">
@@ -658,13 +662,13 @@
                 </div>
 
             </div>
-          </div>            
+          </div>
             <div class="column">
             <div id="event-container">
                 <div id="event">
                   <h2>Sunday, January 14</h2>
                 </div>
-                
+
                 <div id="event">
                   <h3 id="time">8:00 AM</h3>
                   <div id="title">
@@ -672,7 +676,7 @@
                     <p>West Atrium</p>
                   </div>
                 </div>
-                
+
 
                 <div id="event">
                   <h3 id="time">1:00 PM</h3>
@@ -731,7 +735,7 @@
 
         <div id="sponsors" class="sponsor-content">
             <h1>Sponsors</h1>
-                        
+
             <div class="sponsors-giga">
                 <br><area-img src="/svg/logos/scotiabank.svg" href="http://scotiabank.com" area="60000"></area-img>
                 <br><area-img src="/img/logos/stdlib-light.png" href="https://stdlib.com/" area="60000"></area-img>
