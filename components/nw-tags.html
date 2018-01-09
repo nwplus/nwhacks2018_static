@@ -40,17 +40,19 @@
 
     <paper-dialog id="addtag" modal>
       <h2>Add Tag</h2>
-      <template is="dom-repeat" items="[[values(_allTags, tags)]]">
-        <template is="dom-if" if="[[!item.locked]]">
-          <p>
-          <nw-tag
-            class="add"
-            on-tap="add"
-            tag="[[nameOrSlug(item)]]">
-          </nw-tag>
-          </p>
+      <paper-dialog-scrollable>
+        <template is="dom-repeat" items="[[values(_allTags, tags)]]">
+          <template is="dom-if" if="[[!item.locked]]">
+            <p>
+            <nw-tag
+              class="add"
+              on-tap="add"
+              tag="[[nameOrSlug(item)]]">
+            </nw-tag>
+            </p>
+          </template>
         </template>
-      </template>
+      </paper-dialog-scrollable>
       <div class="buttons">
         <paper-button dialog-confirm autofocus>Close</paper-button>
       </div>
