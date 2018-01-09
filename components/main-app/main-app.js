@@ -140,10 +140,10 @@ class MainApp extends Polymer.Element {
       volunteer: 'volunteer-form',
       register: 'register-form',
       sponsors: 'sponsor-page',
-      'register-closed': 'register-closed',
       select: 'select-hackers',
       settings: 'admin-settings',
-      blacklist: 'admin-blacklist-page'
+      blacklist: 'admin-blacklist-page',
+      events: 'admin-events-page'
     }[page] || page + '-page'
   }
 

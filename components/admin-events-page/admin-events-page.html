@@ -1,0 +1,153 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
+
+<dom-module id="admin-events-page">
+  <template>
+    <style include="light-page">
+      :host {
+        display: flex;
+        flex-direction: column;
+
+        height: calc(100vh - 65px);
+        padding: 0;
+
+        --paper-input-container: {
+          padding-bottom: 16px;
+        };
+      }
+      paper-item {
+        cursor: pointer;
+      }
+      .columns {
+        display: flex;
+      }
+      .columns > div {
+        flex-grow: 100000;
+        padding: 0 16px;
+        overflow-y: auto;
+      }
+      .columns .rows {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      iron-list {
+        flex-grow: 100000;
+        margin: 0 0;
+        overflow-x: hidden;
+      }
+    </style>
+
+    <div class="columns">
+      <div class="rows">
+        <h1 title>Events</h1>
+        <iron-list items="[[events]]">
+          <template>
+            <paper-item on-tap="select">
+              <paper-item-body>
+                <div>
+                  [[item.name]]
+                </div>
+              </paper-item-body>
+            </paper-item>
+          </template>
+        </iron-list>
+      </div>
+
+      <template is="dom-if" if="[[slug]]">
+        <div class="fill">
+          <h2>[[slug]]</h2>
+          <p>People: [[people]], Servings: [[servings]]</p>
+          <ul>
+            <template is="dom-repeat" items="[[all(slug, registrations)]]">
+
+              <li>
+                [[item.raw.first_name]]
+                [[item.raw.last_name]]
+                &lt;[[item.raw.email]]&gt;
+                - [[item.servings]]
+              </li>
+            </template>
+          </ul>
+        </div>
+      </template>
+    </div>
+
+    <firebase-query
+      disabled="[[!isAdmin]]"
+      path="/admin/events"
+      data="{{events}}">
+    </firebase-query>
+
+    <firebase-query
+      disabled="[[!isAdmin]]"
+      path="/form/registration"
+      data="{{registrations}}">
+    </firebase-query>
+
+    <app-route
+      route="{{route}}"
+      active="{{routeActive}}"
+      pattern="/:slug"
+      data="{{routeData}}"
+      tail="{{subRoute}}">
+    </app-route>
+  </template>
+  <script>
+class AdminEventsPage extends Polymer.Element {
+  static get is () { return 'admin-events-page' }
+
+  static get observers () {
+    return [
+      '_pathChange(routeData.slug)'
+    ]
+  }
+
+  _pathChange (slug) {
+    this.slug = slug
+  }
+
+  select (e) {
+    this.slug = e.model.item.$key
+    this.set('route.path', this.slug)
+  }
+
+  all (slug, registrations) {
+    if (!slug || !registrations) {
+      return
+    }
+    const id = this.getIDFromSlug(slug)
+    let servings = 0
+    const all = registrations.filter(
+      hacker => hacker.events && hacker.events[id]
+    ).map(hacker => {
+      if (!hacker.events || !hacker.events[id]) {
+        return
+      }
+      servings += hacker.events[id]
+      return {
+        raw: hacker,
+        servings: hacker.events[id]
+      }
+    })
+    this.servings = servings
+    this.people = all.length
+    return all
+  }
+
+  getIDFromSlug (slug) {
+    for (const event of this.events) {
+      if (slug === event.$key) {
+        return event.name.replace(/ /g, '_').toLowerCase()
+      }
+    }
+  }
+}
+
+customElements.define(AdminEventsPage.is, AdminEventsPage)
+  </script>
+</dom-module>

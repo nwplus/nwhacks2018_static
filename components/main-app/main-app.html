@@ -306,24 +306,27 @@
         </a>
         -->
         <template is="dom-if" if="[[adminPage(page)]]">
+          <a href="/admin/select">
+            <paper-button>Hackers</paper-button>
+          </a>
+          <a href="/admin/stats">
+            <paper-button>Stats</paper-button>
+          </a>
+          <a href="/admin/checkin">
+            <paper-button>Check-In</paper-button>
+          </a>
+          <a href="/admin/events">
+            <paper-button>Events</paper-button>
+          </a>
+          <a href="/admin/blacklist">
+            <paper-button>Blacklist</paper-button>
+          </a>
+          <a href="/admin/settings">
+            <paper-button>Settings</paper-button>
+          </a>
           <span>
             <paper-button on-tap="logout" hidden$="[[!signedIn]]">Logout</paper-button>
           </span>
-          <a href="/admin/settings" class="med">
-            <paper-button>Settings</paper-button>
-          </a>
-          <a href="/admin/blacklist" class="med">
-            <paper-button>Blacklist</paper-button>
-          </a>
-          <a href="/admin/checkin" class="med">
-            <paper-button>Check-In</paper-button>
-          </a>
-          <a href="/admin/stats" class="med">
-            <paper-button>Stats</paper-button>
-          </a>
-          <a href="/admin/select" class="med">
-            <paper-button>Hackers</paper-button>
-          </a>
         </template>
 
         <paper-progress indeterminate disabled="[[!loading]]"></paper-progress>
@@ -424,6 +427,13 @@
                 user="[[user]]"
                 route="{{subSubRoute}}">
               </admin-blacklist-page>
+            </template>
+            <template is="dom-if" restamp data-route="events">
+              <admin-events-page
+                is-admin="[[isAdmin]]"
+                user="[[user]]"
+                route="{{subSubRoute}}">
+              </admin-events-page>
             </template>
           </iron-lazy-pages>
         </div>
