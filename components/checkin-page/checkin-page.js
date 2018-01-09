@@ -45,12 +45,80 @@ class CheckinPage extends Polymer.Element {
 
     this.keyHandler = this.keyHandler.bind(this)
     document.addEventListener('keydown', this.keyHandler)
+
+    let data = ''
+    let started = false
+    let timeout = null
+    this._cardListener = window.addEventListener('keydown', (e) => {
+      if (e.key === ';' || e.key === '+' || e.key === '%') {
+        data = ''
+        started = true
+        if (timeout) {
+          clearTimeout(timeout)
+        }
+        timeout = setTimeout(() => {
+          started = false
+          timeout = null
+        }, 1000)
+      }
+      if (!started) {
+        return
+      }
+      e.preventDefault()
+      e.stopPropagation()
+      if (this.printableKey(e.keyCode)) {
+        if (e.key === 'Enter') {
+          data += '\n'
+        } else {
+          data += e.key
+        }
+      }
+      if (data.slice(-2) === '?\n' && e.key === 'Enter') {
+        this.checkCard(data)
+        started = false
+      }
+    })
   }
 
   disconnectedCallback () {
     super.disconnectedCallback()
 
+    window.removeEventListener(this._cardListener)
     document.removeEventListener('keydown', this.keyHandler)
+  }
+
+  checkCard (data) {
+    const parts = data.match(/[%;+](\d+)=(\d+)=(\d+)\?/)
+    if (!parts || parts.length !== 4) {
+      console.log('unknown card format!', data, parts)
+      return;
+    }
+    const studentNumber = parts[2]
+    console.log('student number', studentNumber)
+    if (!this.registrations) {
+      return
+    }
+
+    let index = -1
+    this.registrations.forEach((hacker, i) => {
+      if (hacker.student_number == studentNumber) {
+        index = i
+      }
+    })
+    if (index < 0) {
+      alert(`Can't find student number ${studentNumber}`)
+      return
+    }
+    this.setDisplay(index)
+  }
+
+  printableKey (keycode) {
+    return (keycode > 47 && keycode < 58)   || // number keys
+      keycode === 32 || keycode === 13 || // spacebar & return key(s) (if you want to allow carriage returns)
+      (keycode > 64 && keycode < 91)   || // letter keys
+      (keycode > 95 && keycode < 112)  || // numpad keys
+      (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
+      (keycode > 218 && keycode < 223)   // [\]' (in order)
   }
 
   _computeDeviceID (deviceItem) {
@@ -61,8 +129,7 @@ class CheckinPage extends Polymer.Element {
   }
 
   keyHandler (e) {
-    console.log(e)
-    if (e.code === 'Slash') {
+    if (e.key === '/') {
       this.$.search.focus()
     } else if (e.code === 'Space' && this.display) {
       this.set('display.checked_in', !this.display.checked_in)
@@ -82,6 +149,11 @@ class CheckinPage extends Polymer.Element {
     if (!id) {
       return
     }
+    this.setDisplay(id)
+  }
+
+  setDisplay (id) {
+    console.log(id)
     this.displayID = id
     const display = this.registrations[id]
     if (display.checked_in === undefined) {
