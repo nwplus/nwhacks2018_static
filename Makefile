@@ -3,9 +3,9 @@ JS := $(shell find bower_components components -name \*.js -print)
 SCSS := $(shell find css -name \*.scss -print)
 EXTRA_URLS := $(shell sed "s/.*/docs\/&.html/g" < extra-200-urls)
 
-build: docs/index.html docs/favicon.png docs/card-reader.html $(EXTRA_URLS)
+build: docs/index.html docs/favicon.png docs/social.html docs/card-reader.html $(EXTRA_URLS)
 
-build/: bower_components/ components index.html social.html css/main.css $(JS) $(HTML) polymer.json
+build/: bower_components/ components index.html css/main.css $(JS) $(HTML) polymer.json
 	polymer build
 
 bower_components/: bower.json
@@ -21,6 +21,9 @@ $(EXTRA_URLS): build/ docs/index.html
 
 docs/favicon.png: favicon.png
 	cp favicon.png docs/
+
+docs/social.html: social.html
+	cp social.html docs/
 
 docs/card-reader.html: util/card-reader.html
 	vulcanize util/card-reader.html > docs/card-reader.html
