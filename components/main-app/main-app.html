@@ -318,6 +318,9 @@
           <a href="/admin/events">
             <paper-button>Events</paper-button>
           </a>
+          <a href="/admin/shorturls">
+            <paper-button>Short URLs</paper-button>
+          </a>
           <a href="/admin/blacklist">
             <paper-button>Blacklist</paper-button>
           </a>
@@ -434,6 +437,13 @@
                 user="[[user]]"
                 route="{{subSubRoute}}">
               </admin-events-page>
+            </template>
+            <template is="dom-if" restamp data-route="shorturls">
+              <admin-shorturls-page
+                is-admin="[[isAdmin]]"
+                user="[[user]]"
+                route="{{subSubRoute}}">
+              </admin-shorturls-page>
             </template>
           </iron-lazy-pages>
         </div>

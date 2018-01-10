@@ -143,7 +143,8 @@ class MainApp extends Polymer.Element {
       select: 'select-hackers',
       settings: 'admin-settings',
       blacklist: 'admin-blacklist-page',
-      events: 'admin-events-page'
+      events: 'admin-events-page',
+      shorturls: 'admin-shorturls-page'
     }[page] || page + '-page'
   }
 

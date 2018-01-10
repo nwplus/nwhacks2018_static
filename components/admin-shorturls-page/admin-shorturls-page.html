@@ -1,0 +1,141 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="../light-page.html">
+<link rel="import" href="../moment-js.html">
+
+<dom-module id="admin-shorturls-page">
+  <template>
+    <style include="light-page">
+      #input {
+        display: flex;
+        align-items: center;
+      }
+      paper-input {
+        flex-grow: 10000;
+
+        --paper-input-container: {
+          padding-bottom: 8px;
+        };
+      }
+      table {
+        width: 100%;
+      }
+    </style>
+
+    <h1 title>Short URLs</h1>
+
+    <table>
+      <thead>
+        <th>Path</th>
+        <th>Redirect To</th>
+        <th>Creator</th>
+        <th>Created</th>
+      </thead>
+      <tbody>
+        <template is="dom-repeat" items="[[list(urls, urls.*)]]">
+          <tr>
+            <td>
+              <a target="_blank" href="/[[item.body.path]]">nwhacks.io/[[item.body.path]]</a>
+            </td>
+            <td>
+              <a target="_blank" href="[[item.body.url]]">[[item.body.url]]</a>
+            </td>
+            <td>
+              [[item.body.creator]]
+            </td>
+            <td>
+              [[ago(item.body.created)]]
+            </td>
+            <td>
+              <paper-icon-button icon="delete-forever" on-tap="delete"></paper-icon-button>
+            </td>
+            <tr>
+        </template>
+      </tbody>
+    </table>
+
+    <div id="input">
+      <paper-input label="Path" required type="text" auto-validate value="{{path}}">
+      </paper-input>
+      &nbsp;
+      <paper-input label="Redirect To" required type="url" auto-validate value="{{url}}">
+      </paper-input>
+      &nbsp;
+      <paper-button on-tap="submit">Add Short URL</paper-button>
+    </div>
+
+    <template is="dom-if" if="[[isAdmin]]">
+      <firebase-document path="/admin/shorturls"
+                         data="{{urls}}">
+      </firebase-document>
+    </template>
+  </template>
+  <script>
+class AdminShortURLsPage extends Polymer.Element {
+  static get is () { return 'admin-shorturls-page' }
+
+  list (admins) {
+    const l = []
+    for (const id of Object.keys(admins)) {
+      l.push({
+        id: id,
+        email: unescape(id),
+        body: admins[id]
+      })
+    }
+    return l
+  }
+
+  ago (time) {
+    if (!time) {
+      return 'never'
+    }
+    return moment(time).fromNow()
+  }
+
+  validate () {
+    let valid = true
+    for (const e of this.$.input.children) {
+      if (e.validate && !e.validate()) {
+        valid = false
+      }
+    }
+    return valid
+  }
+
+  delete (e) {
+    const url = e.model.item
+    if (!confirm(`Delete ${url.body.path}?`)) {
+      return
+    }
+
+    this.set(['urls', url.id], null)
+  }
+
+  submit () {
+    if (!this.validate()) {
+      return
+    }
+
+    const path = this.path.replace(/(^\/+|\/+$)/g, '')
+    const slug = encodeURIComponent(path).replace(/\./g, '%2E')
+
+    this.set(['urls', slug], {
+      path: path,
+      url: this.url,
+      creator: `${this.user.displayName} <${this.user.email}>`,
+      created: moment().toISOString()
+    })
+    this.name = ''
+  }
+}
+
+customElements.define(AdminShortURLsPage.is, AdminShortURLsPage)
+  </script>
+</dom-module>
