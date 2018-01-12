@@ -97,6 +97,13 @@ class SelectHackers extends Polymer.Element {
                 return (a.first_name + ' ' + a.last_name).toLowerCase() < (b.first_name + ' ' + b.last_name).toLowerCase() ? -1 : 1
               })
               return a
+            },
+
+            "Day Of Waitlist": function (a) {
+              a.sort((a, b) => {
+                return a.dayof_waitlist_time < b.dayof_waitlist_time ? -1 : 1
+              })
+              return a
             }
           }
         }
