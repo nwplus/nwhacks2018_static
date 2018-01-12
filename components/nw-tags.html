@@ -27,7 +27,7 @@
     <template is="dom-repeat" items="[[list(tags, _allTags, tags.*, tags.*.*)]]">
       <nw-tag tag="[[nameOrSlug(item)]]"></nw-tag>
 
-      <template is="dom-if" if="[[unlocked(item)]]">
+      <template is="dom-if" if="[[unlocked(item, disabled)]]">
         <paper-icon-button icon="clear" on-tap="removeTag">
         </paper-icon-button>
       </template>
@@ -59,7 +59,6 @@
     </paper-dialog>
 
     <firebase-document path="/admin/tags"
-                       disabled="[[disabled]]"
                        data="{{_allTags}}">
     </firebase-document>
   </template>
@@ -73,6 +72,11 @@ class NWTags extends Polymer.Element {
       tags: {
         notify: true,
         type: Object
+      },
+
+      disabled: {
+        type: Boolean,
+        value: false
       }
     }
   }
@@ -100,8 +104,8 @@ class NWTags extends Polymer.Element {
     return Object.values(allTags || {}).filter(a => !tags.hasOwnProperty(a.name))
   }
 
-  unlocked (tag) {
-    return !tag.locked
+  unlocked (tag, disabled) {
+    return !disabled && !tag.locked
   }
 
   nameOrSlug (a) {

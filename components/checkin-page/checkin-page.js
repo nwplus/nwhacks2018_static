@@ -3,8 +3,8 @@ class CheckinPage extends Polymer.Element {
 
   static get properties () {
     return {
-      display: {
-        value: false
+      displayID: {
+        value: ''
       },
 
       lunr: {
@@ -22,7 +22,8 @@ class CheckinPage extends Polymer.Element {
     return [
       'handleRegistrations(registrations)',
       'handleSearch(query, lunr)',
-      'updateStatus(display.checked_in)'
+      'updateWaitlist(display.dayof_waitlist)',
+      'updateDisplay(display)'
     ]
   }
 
@@ -42,6 +43,12 @@ class CheckinPage extends Polymer.Element {
       }
       e.preventDefault()
     })
+
+    for (const e of this.root.querySelectorAll("paper-textarea")) {
+      e.addEventListener('keydown', (e) => {
+        e.stopPropagation()
+      })
+    }
 
     this.keyHandler = this.keyHandler.bind(this)
     document.addEventListener('keydown', this.keyHandler)
@@ -153,19 +160,23 @@ class CheckinPage extends Polymer.Element {
   }
 
   setDisplay (id) {
-    console.log(id)
-    this.displayID = id
-    const display = this.registrations[id]
-    if (display.checked_in === undefined) {
-      display.checked_in = false
-    }
+    const registration = this.registrations[id]
     this.setProperties({
-      display: display,
+      displayID: registration.$key,
       query: '',
       autocomplete: []
     })
-    this.linkPaths(['registrations', id], 'display')
     this.$.search.blur()
+  }
+
+  updateDisplay (display) {
+    if (!display) {
+      return
+    }
+
+    if (display.checked_in === undefined) {
+      display.checked_in = false
+    }
 
     if (this.device && this.device.id) {
       this.set('device.write_id', display.$key)
@@ -228,7 +239,7 @@ class CheckinPage extends Polymer.Element {
     if (JSON.stringify(newAutocomplete) !== JSON.stringify(this.autocomplete)) {
       this.autocompleteIndex = 0
       this.autocomplete = newAutocomplete
-      this.display = false
+      this.displayID = ''
     }
   }
 
@@ -274,6 +285,9 @@ class CheckinPage extends Polymer.Element {
 
   name (registrations, id) {
     const hacker = registrations[id]
+    if (!hacker) {
+      return
+    }
     return hacker.first_name + ' ' + hacker.last_name
   }
 
@@ -287,7 +301,7 @@ class CheckinPage extends Polymer.Element {
   }
 
   dangerStatus (hacker) {
-    const status = this.displayStatus(hacker);
+    const status = this.displayStatus(hacker)
     return status === 'rejected'
   }
 
@@ -307,12 +321,11 @@ class CheckinPage extends Polymer.Element {
     return age && age.indexOf('under') !== -1
   }
 
-  updateStatus () {
-    const firebase = this.querySelector('#regs')
-    if (!firebase || !this.displayID || !this.display) {
+  updateWaitlist (waitlist) {
+    if (!waitlist) {
       return
     }
-    firebase.setStoredValue('/form/registration/' + this.displayID + '/checked_in', this.display.checked_in)
+    this.set('display.dayof_waitlist_time',  moment().toISOString())
   }
 
   formatEmail (email) {
