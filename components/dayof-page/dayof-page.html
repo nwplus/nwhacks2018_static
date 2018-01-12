@@ -1,4 +1,5 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/image-icons.html">
@@ -107,19 +108,18 @@
     </style>
 
     <div class="top-buttons">
-      <a class="none" target="_blank" href="https://nwhacks2018.devpost.com/"><paper-button class="register">submit hack</paper-button></a>
+      <a class="none" target="_blank" href="https://nwhacks2018.devpost.com/"><paper-button class="register">Submit Hack</paper-button></a>
       <a class="none" target="_blank" href="https://nwhacks4.slack.com"><paper-button class="button">#slack</paper-button></a>
-      <!--
-      <a class="none" target="_blank" href="https://www.nwhacks.io/documents/nwHacks%202017%20Info%20Package.pdf"><paper-button class="button">
+      <a class="none" target="_blank" href="https://goo.gl/EZd9o6"><paper-button class="button">
           <iron-icon icon="image:picture-as-pdf"></iron-icon>
           &nbsp;
-          info package
-        </paper-button></a>
-      -->
-      <a class="none" target="_blank" href="https://campus.fn.lc/#LSC"><paper-button class="button">
+          Info Package
+        </paper-button>
+      </a>
+      <a class="none" target="_blank" href="https://map.nwhacks.io/#LSC"><paper-button class="button">
           <iron-icon icon="maps:map"></iron-icon>
           &nbsp;
-          map
+          Map
         </paper-button></a>
     </div>
     <div class="grid-container">
@@ -162,10 +162,12 @@
                         calendar="outerearth.net_r1621trcoajdltpp2gqgisgcss@group.calendar.google.com">
           </schedule-box>
         </div>
-        <div id="prizes" class="col-66">
-          <h1>Prizes - TBA</h1>
+        <div id="prizes" class="col-33">
+          <h1>Prizes</h1>
           <center>
-            <a href="https://nwhacks2018.devpost.com/">Devpost</a>
+            <p> See entire listing at
+            <a href="https://nwhacks2018.devpost.com/">Devpost</a>.
+            </p>
           </center>
           <!--
           <div class="row">
@@ -274,12 +276,11 @@
           </div>
           -->
         </div>
-      </div>
-      <div class="row">
         <div id="twitter" class="col-33">
           <h1>Updates</h1>
-          <a class="twitter-timeline" href="https://twitter.com/nwHacks" data-widget-id="701669388655562756">Tweets by @nwHacks</a>
-          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+          <p>Updates will be on slack and the notification system, but
+          you can also follow us on Facebook and Twitter.</p>
+          <a id="twitter" class="twitter-timeline" data-link-color="#27AE60" data-height="900" href="https://twitter.com/nwHacks?ref_src=twsrc%5Etfw">Tweets by nwHacks</a>
         </div>
       </div>
 
@@ -423,8 +424,36 @@
       </div>
   </template>
   <script>
-Polymer({
-  is: "dayof-page",
-});
+// First, load the widgets.js file asynchronously
+window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+
+class DayOfPage extends Polymer.Element {
+  static get is () { return 'dayof-page' }
+
+  connectedCallback () {
+    super.connectedCallback()
+
+    window.twttr.ready(() => {
+      window.twttr.widgets.load(this.$.twitter)
+    })
+  }
+}
+
+customElements.define(DayOfPage.is, DayOfPage)
   </script>
 </dom-module>
