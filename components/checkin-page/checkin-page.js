@@ -21,6 +21,7 @@ class CheckinPage extends Polymer.Element {
   static get observers () {
     return [
       'handleRegistrations(registrations)',
+      'handleForm(form)',
       'handleSearch(query, lunr)',
       'updateWaitlist(display.dayof_waitlist)',
       'updateDisplay(display)'
@@ -92,6 +93,11 @@ class CheckinPage extends Polymer.Element {
 
     window.removeEventListener(this._cardListener)
     document.removeEventListener('keydown', this.keyHandler)
+  }
+
+  handleForm (form) {
+    this.displayID = ''
+    this.lunr = null
   }
 
   checkCard (data) {
