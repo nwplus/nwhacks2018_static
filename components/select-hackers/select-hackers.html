@@ -232,6 +232,15 @@
       </div>
       &nbsp;
 
+      <div>
+        <paper-icon-button
+          icon="settings-applications"
+          on-tap="openSelectSettings">
+        </paper-icon-button>
+        <paper-tooltip>Set Macros</paper-tooltip>
+      </div>
+      &nbsp;
+
       <span>
         Showing [[filteredCount]] of [[totalCount]]
       </span>
@@ -430,6 +439,31 @@
         <paper-button on-tap="bulkSetTags">Add Tags</paper-button>
         <paper-button on-tap="bulkRemoveTags">Remove Tags</paper-button>
 
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus>close</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="adminmacros" modal>
+      <h2>Customize Macros</h2>
+      <paper-dialog-scrollable> 
+        <p>Lorem ipsum</p>
+        <paper-input always-float-label
+                     label="Separate by spaces"
+                     auto-validate
+                     pattern=stringifyRegex(keyRegex)
+                     allowed-pattern=""
+                     error-message="Invalid keys"></paper-input>
+        <!--> TODO implement toggle button connections -->
+        <paper-toggle-button></paper-toggle-button>
+        <template is="dom-repeat" items="[[macroInputs]]">
+          <iron-a11y-keys 
+            target="[[target]]"
+            keys="[[item]]"
+            on-keys-pressed="handleKey">
+          </iron-a11y-keys>
+        </template>
       </paper-dialog-scrollable>
       <div class="buttons">
         <paper-button dialog-confirm autofocus>close</paper-button>

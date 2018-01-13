@@ -1,9 +1,14 @@
 'use strict'
 
 const categories = ['applied', 'accepted', 'waitlisted', 'rejected']
-Object.freeze(categories)
 const responseCategories = ['no response', 'going', 'not going', 'need reimbursement']
+Object.freeze(categories)
 Object.freeze(responseCategories)
+
+const keyRegex = ['\b[a-z0-9]\b', '\bF\d[012]\b', '\bshift\b', '\bctrl\b', '\balt\b', '\bmeta\b',
+'\bup\b', '\bdown\b', '\bleft\b', '\bright\b', '\btab\b', '\besc\b', '\bspace\b', '\b\*\b', '\bpageup\b',
+'\bpagedown\b', '\bhome\b', '\bend\b']
+Object.freeze(keyRegex)
 
 const formComponentOverride = {
   'registration': 'register'
@@ -131,6 +136,18 @@ class SelectHackers extends Polymer.Element {
       lunr: {
         type: Object,
         value: false
+      },
+
+      macros: {
+        type: Array,
+        value: keyRegex
+      },
+
+      macroInputs: {
+        type: String,
+        notify: true,
+        // TODO default keys
+        value: "g"
       }
     }
   }
@@ -141,7 +158,8 @@ class SelectHackers extends Polymer.Element {
       'handleRegistrations(registrations.*)',
       'filter(hackers, filters, blacklist, hackers.*, filters.*, sort, sortAsc)',
       'getQuestionMapping(form)',
-      'handleRouteData(routeData.form, routeData.sid)'
+      'handleRouteData(routeData.form, routeData.sid)',
+      'matchKey(macroInputs)'
     ]
   }
 
@@ -553,6 +571,12 @@ class SelectHackers extends Polymer.Element {
     }
   }
 
+  // handleKey should delegate to extensible functions
+  handleKey () {
+    // TODO
+    console.log("handleKey called")
+  }
+
   handleNext () {
     this.selectMove(1)
   }
@@ -642,6 +666,16 @@ class SelectHackers extends Polymer.Element {
 
   openBulkDialog () {
     this.$.bulkactions.open()
+  }
+
+  openSelectSettings () {
+    this.$.adminmacros.open()
+  }
+
+  stringifyRegex(arr) {
+    // TODO
+    // return arr.join()
+    console.log("stringifyRegex called")
   }
 }
 
