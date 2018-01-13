@@ -10,6 +10,7 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
 
 <link rel="import" href="../firebase-config/firebase-config.html">
 <link rel="import" href="../lunr-js.html">
@@ -25,6 +26,9 @@
       paper-card {
         width: 100%;
         color: black;
+      }
+      paper-item {
+        cursor: pointer;
       }
       paper-checkbox {
         width: 100%;
@@ -235,8 +239,18 @@
       <paper-dropdown-menu label="NFC Device" selected-item="{{deviceItem}}">
         <paper-listbox slot="dropdown-content">
           <paper-item></paper-item>
-          <template is="dom-repeat" items="{{devices}}">
-            <paper-item deviceid="[[item.id]]">[[item.name]] - [[item.model]]</paper-item>
+          <template is="dom-repeat" items="[[sortName(devices)]]">
+            <paper-item deviceid="[[item.id]]">
+              <paper-item-body two-line>
+                <div>
+                  [[item.name]] &lt;[[item.email]]&gt;
+                </div>
+                <div secondary>
+                  [[item.manufacturer]] [[item.model]]
+                  - [[item.id]]
+                </div>
+              </paper-item-body>
+            </paper-item>
           </template>
         </paper-listbox>
       </paper-dropdown-menu>

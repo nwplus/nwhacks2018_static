@@ -341,6 +341,12 @@ class CheckinPage extends Polymer.Element {
     }
     return email.replace(/\./g, '%2E')
   }
+
+  sortName (devices) {
+    return devices.sort((a, b) => {
+      return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
+    })
+  }
 }
 
 customElements.define(CheckinPage.is, CheckinPage)
