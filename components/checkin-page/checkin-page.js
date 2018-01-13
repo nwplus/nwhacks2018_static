@@ -185,7 +185,7 @@ class CheckinPage extends Polymer.Element {
     }
 
     if (this.device && this.device.id) {
-      this.set('device.write_id', display.$key)
+      this.set('device.write_id', this.displayID)
       this.set('device.write_form', this.form)
       this.set('device.write_name', `${display.first_name} ${display.last_name}`)
     }
