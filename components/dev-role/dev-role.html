@@ -1,0 +1,97 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../role-styles.html">
+
+<dom-module id="dev-role">
+    <template>
+        <style include="role-styles">
+            :host {
+                display: block;
+            }
+        </style>
+        <div id="aurora">
+            <div id="small-tagline">nwHacks is searching for a</div>
+            <div id="tagline">Software/Web Developer</div>
+        </div>
+        <div id="content">
+            <h2>You will...</h2>
+            <p>
+                <ul>
+                    <li>
+                        <img class="checkmark" src="svg/checkmark.svg" /> Implement web designs for our club & nwHacks while working collaboratively with the design team.
+                    </li>
+                    <li>
+                        <img class="checkmark" src="svg/checkmark.svg" /> Build shiny new tools to be used for nwHacks 2019 (e.g. a real-time data visualization platform).
+                    </li>
+                    <li>
+                        <img class="checkmark" src="svg/checkmark.svg" /> Maintain and improve existing tools like our website, check-in system, NFC nametag system, and
+                        implement changes as needed.
+                    </li>
+                    <li>
+                        <img class="checkmark" src="svg/checkmark.svg" /> Collaborate with the design team to implement sleek web designs.
+                    </li>
+                    <li>
+                        <img class="checkmark" src="svg/checkmark.svg" /> Work alongside the lead developer and another software developer.
+                    </li>
+                </ul>
+            </p>
+
+            <h2>You are...</h2>
+            <p>
+                <ul>
+                    <li>
+                        <img class="checkmark" src="svg/checkmark.svg" /> Passionate about software and/or web development. You code in your free time and love turning ideas
+                        into reality.
+                    </li>
+                    <li>
+                        <img class="checkmark" src="svg/checkmark.svg" /> Up-to-date with the latest technologies, and excited to learn new tools on the fly.
+                    </li>
+                    <li>
+                        <img class="checkmark" src="svg/checkmark.svg" /> Experienced in developing web apps (or willing to learn).
+                        <li>
+                            <img class="checkmark" src="svg/checkmark.svg" /> In Vancouver during the 2018-2019 academic year.
+                        </li>
+                </ul>
+            </p>
+
+            <h2>Bonus points if you have...</h2>
+            <p>
+                <ul>
+                    <li>
+                        <img class="checkmark" src="svg/checkmark.svg" /> Participated in some hackathons.</li>
+                    <li>
+                        <img class="checkmark" src="svg/checkmark.svg" /> In-depth knowledge of Node.js or a back-end framework.
+                    </li>
+                    <li>
+                        <img class="checkmark" src="svg/checkmark.svg" /> Experience with a front-end framework such as Polymer or React.
+                    </li>
+                </ul>
+            </p>
+
+            <h2>You'll gain...</h2>
+            <p>
+                <ul>
+                    <li>
+                        <img class="checkmark" src="svg/checkmark.svg" /> Tons of development experience, along with peer mentorship.
+                    </li>
+                    <li>
+                        <img class="checkmark" src="svg/checkmark.svg" /> Solid projects and contributions for your Github/resume that you can discuss in interviews.
+                    </li>
+                    <li>
+                        <img class="checkmark" src="svg/checkmark.svg" /> Experience building projects that have high impact.
+                    </li>
+                </ul>
+            </p>
+            <paper-button>Apply now</paper-button>
+        </div>
+
+    </template>
+
+    <script>
+        class DevRole extends Polymer.Element {
+            static get is() { return 'dev-role' }
+        }
+
+        customElements.define(DevRole.is, DevRole)
+    </script>
+
+</dom-module>
