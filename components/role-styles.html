@@ -1,0 +1,129 @@
+<link rel="import" href="../light-page.html">
+<dom-module id="role-styles">
+  <template>
+    <style include="light-page"></style>
+    <style>
+      #content {
+        margin: 0 19% 0 19%;
+        font-family: 'Apercu', 'Roboto', sans-serif !important;
+      }
+
+      #content h2 {
+        line-height: normal;
+        font-size: 32px;
+        font-weight: bold;
+        padding-bottom: 10px;
+        margin-top: 55px;
+      }
+
+      ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      li:last-child {
+        padding-bottom: 0px;
+      }
+
+      li {
+        padding-bottom: 20px;
+        display: block;
+      }
+
+      li .checkmark {
+        vertical-align: middle;
+        padding-right: 10px;
+        padding-bottom: 5px;
+      }
+
+      #aurora {
+        background: url(/svg/aurora-header-alt.svg);
+        background-repeat: no-repeat;
+        background-size: auto;
+        background-position-y: bottom;
+        background-position-x: center;
+        overflow: hidden;
+        height: 449px;
+        width: 100%;
+        display: block;
+        margin: 0 auto;
+      }
+
+      #aurora #small-tagline {
+        font-family: 'Overpass Mono', 'Apercu', 'Roboto', sans-serif !important;
+        font-style: normal;
+        line-height: 35px;
+        font-size: 20px;
+        color: #FFFFFF;
+        vertical-align: middle;
+        text-align: left;
+        margin-left: 19%;
+        margin-right: 19%;
+        padding-top: 170px;
+      }
+
+      #aurora #tagline {
+        font-family: 'Apercu', 'Roboto', sans-serif !important;
+        font-style: normal;
+        font-weight: bold;
+        line-height: 88px;
+        font-size: 50px;
+        color: #FFFFFF;
+        vertical-align: middle;
+        text-align: left;
+        margin: 0px 19% 0 19%;
+      }
+
+      @media (min-width: 2220px) {
+        #aurora #tagline,
+        #aurora #small-tagline {
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 550px) {
+        #aurora #small-tagline {
+          margin-top: 70px;
+          font-size: 15px;
+          line-height: normal;
+        }
+        #aurora #tagline {
+          font-size: 28px;
+          line-height: 50px;
+        }
+      }
+
+      @media (max-width: 435px) {
+        #aurora #small-tagline {
+          text-align: center;
+        }
+        #aurora #tagline {
+          font-size: 25px;
+          text-align: center;
+        }
+      }
+
+      paper-button {
+        font-size: 20px;
+        margin: 50px auto 0px auto;
+        width: 283px;
+        text-align: center;
+        border-bottom: 7px solid #217E49;
+        background-color: #2B9F61;
+        color: white;
+        text-transform: none;
+        display: block;
+      }
+
+      paper-button:hover {
+        box-shadow: 0px 2px 10px 0.5px rgb(158, 158, 158);
+      }
+
+      @media (max-width: 475px) {
+        paper-button {
+          width: auto;
+        }
+      }
+    </style>
+  </template>
+</dom-module>
