@@ -369,6 +369,9 @@
         <template is="dom-if" restamp data-route="hiring">
             <hiring-page></hiring-page>
         </template>
+        <template is="dom-if" restamp data-route="hiring_form">
+          <hiring-form is-admin="[[isAdmin]]"></hiring-form>
+        </template>
         <template is="dom-if" restamp data-route="logistics_role">
           <logistics-role></logistics-role>
         </template>

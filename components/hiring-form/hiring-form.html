@@ -1,0 +1,256 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+
+<link rel="import" href="../light-page.html">
+<link rel="import" href="../generic-form.html">
+<link rel="import" href="../github-input.html">
+<link rel="import" href="../bool-input.html">
+<link rel="import" href="../major-input.html">
+
+<dom-module id="hiring-form">
+  <template>
+    <style include="light-page">
+      :host {
+        display: block;
+      }
+      paper-checkbox {
+        display: block;
+        padding: 8px 0px;
+      }
+    </style>
+
+    <h1 title>NW Team Application</h1>
+
+    <generic-form name="hiring" data="{{data}}" closed is-admin="[[isAdmin]]">
+      <div slot="intro">
+        <p>
+            Placeholder
+        </p>
+      </div>
+
+      <paper-input
+        required
+        auto-validate
+        maxlength="200"
+        error-message="Invalid Phone Number"
+        label="What is your phone number?"
+        placeholder="xxx-xxx-xxxx"
+        type="tel"
+        name="phone"
+        value="{{data.phone}}">
+      </paper-input>
+
+      <paper-dropdown-menu
+      required
+      auto-validate
+      error-message="Required"
+      label="Which gender do you identify as?"
+      horizontal-align="left"
+      name="gender"
+      selected-item-label="{{data.gender}}">
+      <paper-listbox slot="dropdown-content">
+        <paper-item>Female</paper-item>
+        <paper-item>Male</paper-item>
+        <paper-item>Non-binary</paper-item>
+        <paper-item>Prefer not to specify</paper-item>
+      </paper-listbox>
+     </paper-dropdown-menu>
+
+      <paper-input
+        required
+        auto-validate
+        maxlength="200"
+        error-message="Required"
+        label="What is your birthday?"
+        type="date"
+        name="birthday"
+        value="{{data.birthday}}">
+      </paper-input>
+
+      <major-input
+        required
+        label="What is your major? (Intended or declared)"
+        name="major"
+        value="{{data.major}}">
+      </major-input>
+
+      <paper-input
+        required
+        auto-validate
+        maxlength="200"
+        error-message="Required, must be at least 2019"
+        label="What is your expected graduation year?"
+        type="number"
+        min="2019"
+        name="graduation"
+        value="{{data.graduation}}">
+      </paper-input>
+
+      <paper-textarea
+        required
+        auto-validate
+        error-message="Required"
+        label="What are your expected commitments for the 2018-2019 Academic Year?
+        Please include any club exec team positions, co-op/jobs, TAing, etc.?"
+        rows=5
+        name="commitments"
+        value="{{data.commitments}}">
+      </paper-textarea>
+
+      <p>Which positions are you interested in applying for? Please check all that apply:</p>
+
+      <paper-checkbox
+        name="sponsorship_coordinator"
+        checked="{{data.sponsorship_coordinator}}">
+        Sponsorship Coordinator
+      </paper-checkbox>
+
+      <paper-checkbox
+        name="nw_logistics_coordinator"
+        checked="{{data.nw_logistics_coordinator}}">
+        NW Logistics Coordinator
+      </paper-checkbox>
+
+      <paper-checkbox
+        name="technical_evangelist"
+        checked="{{data.technical_evangelist}}">
+        Technical Evangelist
+      </paper-checkbox>
+
+      <paper-checkbox
+        name="developer"
+        checked="{{data.developer}}">
+        Web/Software Developer
+      </paper-checkbox>
+
+      <paper-checkbox
+        name="marketing_director"
+        checked="{{data.marketing_director}}">
+        Marketing Director
+      </paper-checkbox>
+
+      <paper-checkbox
+        name="lead_designer"
+        checked="{{data.lead_designer}}">
+        Lead Designer
+      </paper-checkbox>
+
+      <paper-checkbox
+        name="designer"
+        checked="{{data.designer}}">
+        Designer
+      </paper-checkbox>
+
+      <paper-checkbox
+        name="content_writer"
+        checked="{{data.content_writer}}">
+        Content Writer
+      </paper-checkbox>
+
+      <paper-textarea
+      required
+      auto-validate
+      error-message="Required"
+      label="What would you like to gain and/or learn through your
+      experience with our club?"
+      rows=5
+      name="reason"
+      value="{{data.reason}}">
+      </paper-textarea>
+
+      <paper-textarea
+      required
+      auto-validate
+      error-message="Required"
+      label="Have you ever attended a hackathon before? If so, what did you
+      enjoy most about your experience?"
+      rows=5
+      name="hackathon"
+      value="{{data.hackathon}}">
+      </paper-textarea>
+
+      <paper-textarea
+      auto-validate
+      error-message="Required"
+      label="What is your favourite meme?"
+      rows=3
+      name="meme"
+      value="{{data.meme}}">
+      </paper-textarea>
+
+      <paper-textarea
+      required
+      auto-validate
+      error-message="Required"
+      label="How did you hear about StartupStorm or nwHacks?"
+      rows=3
+      name="hear"
+      value="{{data.hear}}">
+      </paper-textarea>
+
+      <github-input
+        label="GitHub"
+        name="github"
+        value="{{data.github}}">
+      </github-input>
+
+      <paper-input
+      maxlength="200"
+      label="LinkedIn"
+      placeholder="LinkedIn"
+      name="linkedin"
+      value="{{data.linkedin}}">
+      <div slot="prefix">https://linkedin.com/in/</div>
+      </paper-input>
+
+      <p>Please provide a portfolio if you are applying for a design position.</p>
+
+      <paper-input
+      maxlength="200"
+      label="Personal Site"
+      auto-validate
+      error-message="Invalid URL"
+      name="personalsite"
+      value="{{data.personalsite}}"
+      placeholder="https://"
+      type="url">
+      </paper-input>
+
+      <p>Please provide your resume in a PDF format
+          through Google Drive or an equivalent.</p>
+
+      <paper-input
+        required
+        maxlength="200"
+        label="Resume"
+        auto-validate
+        error-message="Invalid URL"
+        name="personalsite"
+        value="{{data.personalsite}}"
+        placeholder="https://"
+        type="url">
+      </paper-input>
+
+    </generic-form>
+
+  </template>
+
+  <script>
+class HiringForm extends Polymer.Element {
+  static get is () { return 'hiring-form' }
+
+  eq (a, b) {
+    return a === b
+  }
+}
+
+customElements.define(HiringForm.is, HiringForm)
+  </script>
+</dom-module>
