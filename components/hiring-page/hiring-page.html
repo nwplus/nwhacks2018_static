@@ -1,0 +1,177 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../light-page.html">
+
+<dom-module id="hiring-page">
+    <template>
+        <style include="light-page">
+            :host {
+                display: block;
+            }
+            
+            #content {
+                margin: 0 15% 0 15%;
+                font-family: 'Apercu', 'Roboto', sans-serif !important;
+            }
+
+            #content h2 {
+                line-height: normal;
+                font-size: 32px;
+                font-weight: bold;
+                padding-bottom: 10px;
+                margin-top: 60px;
+            }
+
+            #role-box {
+                width: auto;
+                border: 2px solid #E0E0E0;
+                box-sizing: border-box;
+                box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.1);
+                border-radius: 4px;
+                display: -ms-flexbox;
+                display: -webkit-flex;
+                display: flex;
+                -ms-flex-align: center;
+                -webkit-align-items: center;
+                -webkit-box-align: center;
+                align-items: center;
+                margin-top: 26px;
+            }
+
+            #role-box:hover {
+                border-color: rgb(0, 175, 0);
+            }
+
+            #role-box #title {
+                line-height: 40px;
+                font-size: 24px;
+                color: #4F4F4F;
+                margin: 20px;
+            }
+
+            #role-box #icon {
+                width: 40px;
+                height: 40px;
+                background-repeat: no-repeat;
+                background-position: center;
+                flex-shrink: 0;
+            }
+
+            
+            @media (max-width: 575px){
+                #role-box #icon, #role-box #arrow {
+                    display: none;
+                }
+            }
+
+            #role-box #arrow {
+                margin: 0px 30px 0px auto;
+                width: 40px;
+                height: 40px;
+                background: url(/img/hiring/arrow.png);
+                background-repeat: no-repeat;
+                background-position: center;
+                overflow: hidden;
+            }
+
+            #aurora {
+                background: url(/svg/aurora-header.svg);
+                background-repeat: no-repeat;
+                background-size: auto;
+                background-position-y: bottom;
+                background-position-x: center;
+                overflow: hidden;
+                height: 449px;
+                width: 100%;
+                display: block;
+            }
+
+            #aurora #tagline {
+                font-family: 'Overpass Mono', 'Apercu', 'Roboto', sans-serif !important;
+                font-style: normal;
+                font-weight: bold;
+                line-height: 88px;
+                font-size: 44px;
+                color: #FFFFFF;
+                text-align: center;
+                vertical-align: middle;
+                padding-top: 170px;
+            }
+
+            @media (max-width: 500px){
+                #aurora #tagline {
+                    font-size: 34px;
+                    line-height: normal;
+                }
+            }
+
+        </style>
+
+        <div id="aurora">
+            <div id="tagline">Hiring (coming soon)</div>
+        </div>
+        <div id="content">
+            <h2>Help shape the future of Vancouver's tech community</h2>
+                <p>
+                    nwHacks (Northwest Hacks) is an annual hackathon held at the University of British Columbia, shaping up to be the premier
+                    community event for young hackers and engineers in the Pacific Northwest Region - including both the
+                    US and Canada. Our event will host some of the best up-and-coming engineers and developers from across
+                    the continent and beyond to create mobile, web, and hardware hacks for 24 hours. Bringing in students
+                    from around the region, nwHacks is committed to encouraging and kickstarting a culture of innovation,
+                    entrepreneurship, and community among future hackers of the region. Blah Blah Blah Blah
+                </p>
+
+                <h2>Open positions for 2018/2019 academic year</h2>
+                        <a href="/logistics_role"><div id="role-box">
+                                <div id="icon" style="background: url(/img/hiring/sponsorship-icon.png); background-repeat: no-repeat; overflow: hidden; margin: 20px;"></div>
+                                <div id="title">nwHacks Logistics Coordinator</div>
+                                <div id="arrow"></div>
+                            </div></a>
+                        <a href="/sponsorship_role"><div id="role-box">
+                            <div id="icon" style="background: url(/img/hiring/sponsorship-icon.png); background-repeat: no-repeat; overflow: hidden; margin: 20px;"></div>
+                            <div id="title">Sponsorship Coordinator</div>
+                            <div id="arrow"></div>
+                        </div></a>
+                        <a href="/marketing_director_role"><div id="role-box">
+                            <div id="icon" style="background: url(/img/hiring/marketing-icon.png); background-repeat: no-repeat; overflow: hidden; margin: 20px;"></div>
+                            <div id="title">Marketing Director</div>
+                            <div id="arrow"></div>
+                        </div></a>
+                        <a href="/lead_designer_role"><div id="role-box">
+                            <div id="icon" style="background: url(/img/hiring/designer-icon.png); background-repeat: no-repeat; overflow: hidden; margin: 20px;"></div>
+                            <div id="title">Lead Designer</div>
+                            <div id="arrow"></div>
+                        </div></a>
+                        <a href="/designer_role"><div id="role-box">
+                            <div id="icon" style="background: url(/img/hiring/designer-icon.png); background-repeat: no-repeat; overflow: hidden; margin: 20px;"></div>
+                            <div id="title">Designer</div>
+                            <div id="arrow"></div>
+                        </div></a>
+                        <a href="/writer_role"><div id="role-box">
+                            <div id="icon" style="background: url(/img/hiring/writer-icon.png); background-repeat: no-repeat; overflow: hidden; margin: 20px;"></div>
+                            <div id="title">Content Writer</div>
+                            <div id="arrow"></div>
+                        </div></a>
+                        <a href="/dev_role"><div id="role-box">
+                            <div id="icon" style="background: url(/img/hiring/dev-icon.png); background-repeat: no-repeat; overflow: hidden; margin: 20px;"></div>
+                            <div id="title">Software/Web Developer</div>
+                            <div id="arrow"></div>
+                        </div></a>
+                        <a href="/evangelist_role"><div id="role-box">
+                            <div id="icon" style="background: url(/img/hiring/evangelist-icon.png); background-repeat: no-repeat; overflow: hidden; margin: 20px;"></div>
+                            <div id="title">Tech Evangelist</div>
+                            <div id="arrow"></div>
+                        </div></a>
+        </div>
+
+    </template>
+
+
+    <script>
+        class HiringPage extends Polymer.Element {
+            static get is() { return 'hiring-page' }
+        }
+
+        customElements.define(HiringPage.is, HiringPage)
+    </script>
+
+</dom-module>
