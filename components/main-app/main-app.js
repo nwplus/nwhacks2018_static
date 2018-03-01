@@ -141,6 +141,7 @@ class MainApp extends Polymer.Element {
       register: 'register-form',
       sponsors: 'sponsor-page',
       hiring: 'hiring-page',
+      hiring_form: 'hiring-form',
       sponsorship_role: 'sponsorship-role',
       marketing_director_role: 'marketing-director-role',
       logistics_role: 'logistics-role',
