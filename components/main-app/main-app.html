@@ -299,6 +299,9 @@
           <a href="/#sponsors" class="big">
             <paper-button>Sponsors</paper-button>
           </a>
+          <!---<a href="/hiring" class="big">
+            <paper-button>Hiring</paper-button>
+          </a>-->
           <!--<a href="/#intro" class="big">-->
             <!--<paper-button>View Hacks</paper-button>-->
           <!--</a>-->
@@ -362,6 +365,35 @@
           </rsvp-page>
         </template>
 
+        
+        <template is="dom-if" restamp data-route="hiring">
+            <hiring-page></hiring-page>
+        </template>
+        <template is="dom-if" restamp data-route="logistics_role">
+          <logistics-role></logistics-role>
+        </template>
+        <template is="dom-if" restamp data-route="sponsorship_role">
+            <sponsorship-role></sponsorship-role>
+          </template>
+        <template is="dom-if" restamp data-route="marketing_director_role">
+          <marketing-director-role></marketing-director-role>
+        </template>
+        <template is="dom-if" restamp data-route="lead_designer_role">
+          <lead-designer-role></lead-designer-role>
+        </template>
+        <template is="dom-if" restamp data-route="designer_role">
+          <designer-role></designer-role>
+        </template>
+        <template is="dom-if" restamp data-route="writer_role">
+          <writer-role></writer-role>
+        </template>
+        <template is="dom-if" restamp data-route="dev_role">
+          <dev-role></dev-role>
+        </template>
+        <template is="dom-if" restamp data-route="evangelist_role">
+          <evangelist-role></evangelist-role>
+        </template>
+  
         <template is="dom-if" restamp data-route="register">
           <register-form is-admin="[[isAdmin]]"></register-form>
         </template>
