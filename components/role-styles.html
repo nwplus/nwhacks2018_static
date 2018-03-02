@@ -66,7 +66,7 @@
         font-family: 'Apercu', 'Roboto', sans-serif !important;
         font-style: normal;
         font-weight: bold;
-        line-height: 88px;
+        /* line-height: 88px; */
         font-size: 50px;
         color: #FFFFFF;
         vertical-align: middle;
@@ -78,6 +78,15 @@
         #aurora #tagline,
         #aurora #small-tagline {
           text-align: center;
+        }
+      }
+
+      @media (max-width: 690px) {
+        #content {
+          margin: 0 5% 0 5%;
+        }
+        #aurora #small-tagline {
+          padding-top: 128px;
         }
       }
 
