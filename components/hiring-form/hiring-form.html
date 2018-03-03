@@ -210,19 +210,6 @@
       <div slot="prefix">https://linkedin.com/in/</div>
       </paper-input>
 
-
-      <p>Please upload your resume.</p>
-
-      <paper-input
-        required
-        auto-validate
-        error-message="Required"
-        always-float-label
-        type="file"
-        label="Resume"
-        name="resume">
-      </paper-input>
-
       <p>Please provide a portfolio if you are applying for a design position.</p>
 
       <paper-input
@@ -234,6 +221,21 @@
       value="{{data.personalsite}}"
       placeholder="https://"
       type="url">
+      </paper-input>
+
+      <p>Please provide your resume in a PDF format
+          through Google Drive or an equivalent.</p>
+
+      <paper-input
+        required
+        maxlength="200"
+        label="Resume"
+        auto-validate
+        error-message="Invalid URL"
+        name="Resume"
+        value="{{data.resume}}"
+        placeholder="https://"
+        type="url">
       </paper-input>
 
     </generic-form>
