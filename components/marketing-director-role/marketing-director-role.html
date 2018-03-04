@@ -2,7 +2,7 @@
 <link rel="import" href="../role-styles.html">
 
 <dom-module id="marketing-director-role">
-    <template>
+  <template>
         <style include="role-styles">
             :host {
                 display: block;
@@ -26,7 +26,7 @@
                             <img class="checkmark" src="svg/checkmark.svg" />“Own” the content curation and production of the club and event’s email newsletters.                        </li>
                     </ul>
                 </p>
-    
+
                 <h2>You are...</h2>
                 <p>
                     <ul>
@@ -42,19 +42,33 @@
                             <img class="checkmark" src="svg/checkmark.svg" />In Vancouver during the 2018-2019 academic year.</li>
                     </ul>
                 </p>
-    
+
+                <h2>You'll gain...</h2>
+                <p>
+                    <ul>
+                        <li>
+                            <img class="checkmark" src="svg/checkmark.svg" />The opportunity to engage, both en masse and individually, with 1000’s of stakeholders (applicants/participants, sponsors, mentors/judges, and everyone who wants to get involved in the PNW hackathon scene!).
+                        </li>
+                            <li>
+                            <img class="checkmark" src="svg/checkmark.svg" />Tons of experience in marketing and PR for a close-knit and incredibly impactful organization.
+                          </li>
+                    </ul>
+                </p>
+
                 <a href="/hiring_form"><paper-button>Apply now</paper-button></a>
             </div>
 
     </template>
 
 
-    <script>
-        class MarketingDirectorRole extends Polymer.Element {
-            static get is() { return 'marketing-director-role' }
-        }
+  <script>
+  class MarketingDirectorRole extends Polymer.Element {
+  static get is() {
+    return "marketing-director-role";
+  }
+}
 
-        customElements.define(MarketingDirectorRole.is, MarketingDirectorRole)
-    </script>
+customElements.define(MarketingDirectorRole.is, MarketingDirectorRole);
+</script>
 
 </dom-module>
