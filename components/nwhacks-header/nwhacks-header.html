@@ -41,6 +41,7 @@
                 top: 194.5px;
                 z-index: -60;
             }
+
             #cloud-left {
                 position: absolute;
                 height: 174.22px;
@@ -56,6 +57,7 @@
                 top: 623px;
                 z-index: -40;
             }
+
             #normal-tree {
                 position: absolute;
                 height: 303px;
@@ -63,6 +65,7 @@
                 top: 665px;
                 z-index: -41;
             }
+
             #medium-tree {
                 position: absolute;
                 height: 303px;
@@ -70,6 +73,7 @@
                 top: 760px;
                 z-index: -40;
             }
+
             #small-tree {
                 position: absolute;
                 height: 170px;
@@ -77,6 +81,7 @@
                 top: 940px;
                 z-index: -40;
             }
+
             #right-normal-tree {
                 position: absolute;
                 height: 368px;
@@ -84,6 +89,7 @@
                 top: 715px;
                 z-index: -40;
             }
+
             #right-medium-tree {
                 position: absolute;
                 height: 440.5px;
@@ -92,6 +98,7 @@
                 top: 562.5px;
                 z-index: -41;
             }
+
             #cloud-right {
                 position: absolute;
                 height: 208px;
@@ -116,7 +123,8 @@
                 position: relative;
                 display: inline-block;
             }
-            #logos > a {
+
+            #logos>a {
                 display: block;
             }
 
@@ -138,6 +146,7 @@
                 max-height: 80px;
                 vertical-align: -13px;
             }
+
             #sponsor-line {
                 font-size: 12pt;
             }
@@ -148,6 +157,7 @@
                 font-weight: normal;
                 letter-spacing: 1px;
             }
+
             #buttons {
                 text-align: center;
                 z-index: 100;
@@ -170,6 +180,7 @@
                 position: relative;
                 top: 2px;
             }
+
             #wide-button {
                 display: inline-block;
                 margin: 0px 0px 0px -5px;
@@ -210,6 +221,7 @@
             }
 
             /* fix input padding for FireFox */
+
             @-moz-document url-prefix() {
                 #header #email-box {
                     padding-bottom: 10px;
@@ -222,10 +234,14 @@
                     bottom: 10px;
                     right: -40px;
                 }
-                 #title .title-sponsor img {
-                     max-height: 50px;
+                #title .title-sponsor img {
+                    max-height: 50px;
                 }
-                #right-medium-tree, #small-tree, #normal-tree, #medium-tree, #cloud-right {
+                #right-medium-tree,
+                #small-tree,
+                #normal-tree,
+                #medium-tree,
+                #cloud-right {
                     display: none;
                 }
                 #email-box {
@@ -243,7 +259,7 @@
                 }
             }
 
-            @media(max-width: 510px){
+            @media(max-width: 510px) {
                 #logos #main-logo {
                     padding-top: 130px;
                 }
@@ -271,7 +287,10 @@
                 max-width: calc(100vw - 100px);
                 padding: 15px 20px;
             }
-            .large-trapezoid h1, .large-trapezoid h2, .large-trapezoid h3 {
+
+            .large-trapezoid h1,
+            .large-trapezoid h2,
+            .large-trapezoid h3 {
                 padding: 0;
                 margin: 0;
             }
@@ -283,57 +302,63 @@
                 font-weight: bold;
                 margin-bottom: 0;
             }
+
             .large-trapezoid h2 {
                 text-decoration: none;
                 font-weight: normal;
                 font-size: 22pt;
                 margin-top: 6px;
             }
+
             .large-trapezoid section {
                 padding: 0 60px;
 
                 display: inline-block;
             }
+
             .large-trapezoid section h3 {
                 letter-spacing: 2px;
                 font-size: 30pt;
                 font-weight: 500;
                 color: $dark-fg-alt;
             }
+
             @media (max-width: 840px) {
                 div.large-trapezoid section {
                     padding: 0 20px;
                 }
 
             }
-            @media (max-width: 772px){
-            .large-trapezoid {
-                max-width: calc(100vw);
-             }
-            .large-trapezoid h1 {
-                font-size: 25pt;
+
+            @media (max-width: 772px) {
+                .large-trapezoid {
+                    max-width: calc(100vw);
+                }
+                .large-trapezoid h1 {
+                    font-size: 25pt;
+                }
+                .large-trapezoid h2 {
+                    font-size: 18pt;
+                    margin-top: 6px;
+                }
             }
-            .large-trapezoid h2 {
-                font-size: 18pt;
-                margin-top: 6px;
-            }
-            }
-            @media (max-width: 345px){
-            .large-trapezoid {
-                max-width: calc(100vw);
-             }
-            .large-trapezoid h1 {
-                font-size: 22pt;
-            }
-            .large-trapezoid h2 {
-                font-size: 18pt;
-                margin-top: 6px;
-            }
+
+            @media (max-width: 345px) {
+                .large-trapezoid {
+                    max-width: calc(100vw);
+                }
+                .large-trapezoid h1 {
+                    font-size: 22pt;
+                }
+                .large-trapezoid h2 {
+                    font-size: 18pt;
+                    margin-top: 6px;
+                }
             }
 
             .small-trapezoid {
                 position: relative;
-                background-color: rgba(35,31,32,0.6);
+                background-color: rgba(35, 31, 32, 0.6);
                 -webkit-transform: skew(-10deg);
                 transform: skew(-10deg);
                 padding: 5px 30px;
@@ -368,21 +393,20 @@
                 <br>
                 <div class="large-trapezoid">
                     <h1>Western Canada's Largest Hackathon</h1>
-                    <h2>Jan 13-14, 2018 @ University of British Columbia</h2>
+                    <h2>Stay tuned for nwHacks 2019!</h2>
                 </div>
             </div>
             <div id="buttons">
-
-
+                <br> Passionate about organizing hackathons?
                 <br>
-                <h3>nwHacks 2018 is over. Hope to see you next year!</h3>
                 <br>
+                <a class="none" href="/hiring">
+                    <paper-button class="register" id="wide-button">Join the team</paper-button>
+                </a>
 
-                <a class="none" href="https://nwhacks2018.devpost.com/"><paper-button class="register"
-                        id="wide-button">View Hacks</paper-button></a>
-
-                <a class="none" href="https://2017.nwhacks.io"><paper-button
-                        id="clear-wide-button">Previous Hacks</paper-button></a>
+                <!-- <a class="none" href="https://2017.nwhacks.io">
+                    <paper-button id="clear-wide-button">Previous Hacks</paper-button>
+                </a> -->
                 <!--
                 <a class="none" href="/volunteer"><paper-button id="clear-wide-button">Volunteer</paper-button></a>
                 <a class="none" href="/register"><paper-button class="register" id="wide-button">Register</paper-button></a>
@@ -394,7 +418,7 @@
                 <br>
                 <br>
 
-                <a href="/sponsors" class="link" id="sponsor-line">Interested in becoming a sponsor?</a>
+                <!-- <a href="/sponsors" class="link" id="sponsor-line">Interested in becoming a sponsor?</a> -->
             </div>
         </div>
     </template>
@@ -402,7 +426,7 @@
         Polymer({
             is: "nwhacks-header",
 
-            submitEmail: function() {
+            submitEmail: function () {
                 this.$.emailForm.submit()
             }
         })
