@@ -330,6 +330,9 @@
           <a href="/admin/blacklist">
             <paper-button>Blacklist</paper-button>
           </a>
+          <a href="/admin/hiring_review">
+            <paper-button>Hiring</paper-button>
+          </a>
           <a href="/admin/settings">
             <paper-button>Settings</paper-button>
           </a>
@@ -468,6 +471,13 @@
                 user="[[user]]"
                 route="{{subSubRoute}}">
               </admin-blacklist-page>
+            </template>
+            <template is="dom-if" restamp data-route="hiring_review">
+              <admin-hiring-page
+                is-admin="[[isAdmin]]"
+                user="[[user]]"
+                route="{{subSubRoute}}">
+              </admin-hiring-page>
             </template>
             <template is="dom-if" restamp data-route="events">
               <admin-events-page

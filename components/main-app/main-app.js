@@ -154,6 +154,7 @@ class MainApp extends Polymer.Element {
       settings: 'admin-settings',
       blacklist: 'admin-blacklist-page',
       events: 'admin-events-page',
+      hiring_review: 'admin-hiring-page',
       shorturls: 'admin-shorturls-page'
     }[page] || page + '-page'
   }

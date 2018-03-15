@@ -1,0 +1,167 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
+
+<dom-module id="admin-hiring-page">
+  <template>
+    <style include="light-page">
+      :host {
+        display: flex;
+        flex-direction: column;
+
+        height: calc(100vh - 65px);
+        padding: 0;
+
+        --paper-input-container: {
+          padding-bottom: 16px;
+        };
+      }
+      paper-item {
+        cursor: pointer;
+      }
+      .columns {
+        display: flex;
+      }
+      .columns > div {
+        flex-grow: 100000;
+        padding: 0 16px;
+        overflow-y: auto;
+      }
+      .columns .rows {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      iron-list {
+        flex-grow: 100000;
+        margin: 0 0;
+        overflow-x: hidden;
+      }
+      .fill {
+        max-width: 50%;
+      }
+      h1 {
+        padding-top: 1em;
+      }
+    </style>
+
+    <div class="columns">
+      <div class="rows">
+        <h1 title>Candidates</h1>
+        <iron-list items="[[candidates]]">
+          <template>
+            <paper-item on-tap="select">
+              <paper-item-body>
+                <div>
+                  [[item.first_name]] [[item.last_name]]
+                </div>
+              </paper-item-body>
+            </paper-item>
+          </template>
+        </iron-list>
+      </div>
+
+      <template is="dom-if" if="[[slug]]">
+        <div class="fill">
+          <h2>[[slug]]</h2>
+          <ul>
+            <tamplate is="dom-if" if="[[item]]">
+              <ul>
+                <li><b>First name:</b> [[item.first_name]]</li>
+                <li><b>Last name:</b> [[item.last_name]]</li>
+                <li><b>Email:</b> [[item.email]]</li>
+                <li><b>Phone number:</b> [[item.phone]]</li>
+                <li><b>Gender:</b> [[item.gender]]</li>
+                <li><b>Birthday:</b> [[item.birthday]]</li>
+                <li><b>Major:</b> [[item.major]]</li>
+                <li><b>Graduation year:</b> [[item.graduation]]</li>
+                <li><b>Desired positions:</b>
+                  <ul>
+                      <template is="dom-if" if="[[item.nw_logistics_coordinator]]">
+                        <li>nwHacks Logistics Coordinator</li>
+                      </template>
+                      <template is="dom-if" if="[[item.sponsorship_coordinator]]">
+                        <li>Sponsorship Coordinator</li>
+                      </template>
+                      <template is="dom-if" if="[[item.marketing_director]]">
+                        <li>Marketing Director</li>
+                      </template>
+                      <template is="dom-if" if="[[item.lead_designer]]">
+                        <li>Lead Visual Designer</li>
+                      </template>
+                      <template is="dom-if" if="[[item.designer]]">
+                        <li>Visual Designer</li>
+                      </template>
+                      <template is="dom-if" if="[[item.content_writer]]">
+                        <li>Content Writer</li>
+                      </template>
+                      <template is="dom-if" if="[[item.developer]]">
+                        <li>Software/Web Developer</li>
+                      </template>
+                      <template is="dom-if" if="[[item.technical_evangelist]]">
+                        <li>Tech Evangelist</li>
+                      </template>
+                  </ul>
+                  <li><b>Resume</b> <a href="[[item.resume]]">[[item.resume]]</a></li>
+                  <li><b>GitHub:</b> <a href="https://www.github.com/[[item.github]]">[[item.github]]</a></li>
+                  <li><b>LinkedIn:</b> <a href="https://www.linkedin.com/in/[[item.linkedin]]">[[item.linkedin]]</a></li>
+                  <li><b>Personal site:</b> <a href="[[item.personalsite]]">[[item.personalsite]]</a></li>
+                  <li><b>Reason:</b> 
+                    <p>[[item.reason]]</p></li>
+                  <li><b>Commitments:</b> 
+                    <p>[[item.commitments]]</p></li>
+                  <li><b>Previous hackathon experience:</b> 
+                    <p>[[item.hackathon]]</p></li>
+                  <li><b>Favourite meme:</b> 
+                    <p>[[item.meme]]</p></li>
+                  <li><b>Referral channel:</b> 
+                    <p>[[item.hear]]</p></li>
+                </li>
+              </ul>
+            </tamplate>
+          </ul>
+        </div>
+      </template>
+    </div>
+
+    <firebase-query
+      disabled="[[!isAdmin]]"
+      path="/form/hiring"
+      data="{{candidates}}">
+    </firebase-query>
+
+    <app-route
+      route="{{route}}"
+      active="{{routeActive}}"
+      pattern="/:slug"
+      data="{{routeData}}"
+      tail="{{subRoute}}">
+    </app-route>
+  </template>
+  <script>
+class AdminHiringPage extends Polymer.Element {
+  static get is () { return 'admin-hiring-page' }
+
+  static get observers () {
+    return [
+      '_pathChange(routeData.slug)'
+    ]
+  }
+
+  _pathChange (slug) {
+    this.slug = slug
+  }
+
+  select (e) {
+    this.slug = e.model.item.$key
+    this.item = e.model.item
+    this.set('route.path', this.slug)
+  }
+}
+
+customElements.define(AdminHiringPage.is, AdminHiringPage)
+  </script>
+</dom-module>
