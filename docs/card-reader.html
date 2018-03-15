@@ -14812,14 +14812,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     },
 
-    attached: Polymer.Element ? null : function() {
-      // Note: the iron-form that this element belongs to will set this
-      // element's _parentForm property when handling this event.
-      this.fire('iron-form-element-register');
+    attached() {
+      if (!Polymer.Element) {
+        // Note: the iron-form that this element belongs to will set this
+        // element's _parentForm property when handling this event.
+        this.fire('iron-form-element-register');
+      }
     },
 
-    detached: Polymer.Element ? null : function() {
-      if (this._parentForm) {
+    detached() {
+      if (!Polymer.Element && this._parentForm) {
         this._parentForm.fire('iron-form-element-unregister', {target: this});
       }
     }
@@ -15670,16 +15672,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         type: Boolean
       },
 
+      /** @private */
       _ariaDescribedBy: {
         type: String,
         value: ''
       },
 
+      /** @private */
       _ariaLabelledBy: {
         type: String,
         value: ''
       },
 
+      /** @private */
       _inputId: {
         type: String,
         value: ''
@@ -15690,16 +15695,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       'addon-attached': '_onAddonAttached',
     },
 
+    /**
+     * @type {!Object}
+     */
     keyBindings: {
       'shift+tab:keydown': '_onShiftTabDown'
     },
 
+    /** @private */
     hostAttributes: {
       tabindex: 0
     },
 
     /**
      * Returns a reference to the input element.
+     * @return {!HTMLElement}
      */
     get inputElement() {
       // Chrome generates audit errors if an <input type="password"> has a
@@ -15717,6 +15727,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     /**
      * Returns a reference to the focusable element.
+     * @return {!HTMLElement}
      */
     get _focusableElement() {
       return this.inputElement;
@@ -16134,9 +16145,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     /**
      * The function called by `<paper-input-container>` when the input value or validity changes.
      * @param {{
+     *   invalid: boolean,
      *   inputElement: (Element|undefined),
-     *   value: (string|undefined),
-     *   invalid: boolean
+     *   value: (string|undefined)
      * }} state -
      *     inputElement: The input element.
      *     value: The input value.
@@ -16721,30 +16732,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   </style>
 </custom-style>
+<custom-style>
+  <style is="custom-style">
+    html {
+      --paper-input-container-shared-input-style: {
+        position: relative; /* to make a stacking context */
+        outline: none;
+        box-shadow: none;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        background: transparent;
+        border: none;
+        color: var(--paper-input-container-input-color, var(--primary-text-color));
+        -webkit-appearance: none;
+        text-align: inherit;
+        vertical-align: bottom;
+
+        @apply --paper-font-subhead;
+      };
+    }
+  </style>
+</custom-style>
+
 <dom-module id="paper-input-container" assetpath="../bower_components/paper-input/">
   <template>
     <style>
       :host {
         display: block;
         padding: 8px 0;
-
-        --paper-input-container-shared-input-style: {
-          position: relative; /* to make a stacking context */
-          outline: none;
-          box-shadow: none;
-          padding: 0;
-          width: 100%;
-          max-width: 100%;
-          background: transparent;
-          border: none;
-          color: var(--paper-input-container-input-color, var(--primary-text-color));
-          -webkit-appearance: none;
-          text-align: inherit;
-          vertical-align: bottom;
-
-          @apply --paper-font-subhead;
-        };
-
         @apply --paper-input-container;
       }
 
@@ -17135,6 +17151,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     },
 
+    /** @private */
     _onAddonAttached: function(event) {
       if (!this._addons) {
         this._addons = [];
@@ -17148,19 +17165,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     },
 
+    /** @private */
     _onFocus: function() {
       this._setFocused(true);
     },
 
+    /** @private */
     _onBlur: function() {
       this._setFocused(false);
       this._handleValueAndAutoValidate(this._inputElement);
     },
 
+    /** @private */
     _onInput: function(event) {
       this._handleValueAndAutoValidate(event.target);
     },
 
+    /** @private */
     _onValueChanged: function(event) {
       var input = event.target;
 
@@ -17178,6 +17199,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       this._handleValueAndAutoValidate(event.target);
     },
 
+    /** @private */
     _handleValue: function(inputElement) {
       var value = this._inputElementValue;
 
@@ -17195,6 +17217,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
     },
 
+    /** @private */
     _handleValueAndAutoValidate: function(inputElement) {
       if (this.autoValidate && inputElement) {
         var valid;
@@ -17211,10 +17234,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       this._handleValue(inputElement);
     },
 
+    /** @private */
     _onIronInputValidate: function(event) {
       this.invalid = this._inputElement.invalid;
     },
 
+    /** @private */
     _invalidChanged: function() {
       if (this._addons) {
         this.updateAddons({invalid: this.invalid});
@@ -17231,6 +17256,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     },
 
+    /** @private */
     _computeInputContentClass: function(noLabelFloat, alwaysFloatLabel, focused, invalid, _inputHasContent) {
       var cls = 'input-content';
       if (!noLabelFloat) {
@@ -17270,6 +17296,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       return cls;
     },
 
+    /** @private */
     _computeUnderlineClass: function(focused, invalid) {
       var cls = 'underline';
       if (invalid) {
@@ -17280,6 +17307,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       return cls;
     },
 
+    /** @private */
     _computeAddOnContentClass: function(focused, invalid) {
       var cls = 'add-on-content';
       if (invalid) {
@@ -17458,6 +17486,9 @@ Custom property | Description | Default
       },
     },
 
+    /**
+     * @return {number}
+     */
     get selectionStart() {
       return this.$.input.textarea.selectionStart;
     },
@@ -17465,6 +17496,9 @@ Custom property | Description | Default
       this.$.input.textarea.selectionStart = start;
     },
 
+    /**
+     * @return {number}
+     */
     get selectionEnd() {
       return this.$.input.textarea.selectionEnd;
     },

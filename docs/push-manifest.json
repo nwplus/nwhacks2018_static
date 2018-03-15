@@ -25,6 +25,7 @@
   "components/notfound-page/notfound-page.html": {},
   "components/emails-page/emails-page.html": {},
   "components/admin-events-page/admin-events-page.html": {},
+  "components/admin-hiring-page/admin-hiring-page.html": {},
   "components/admin-shorturls-page/admin-shorturls-page.html": {},
   "components/admin-blacklist-page/admin-blacklist-page.html": {}
 }
