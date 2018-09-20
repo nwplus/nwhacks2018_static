@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["components/admin-blacklist-page/admin-blacklist-page.html","035f8c1248789d00405704a1829392ef"],["components/admin-events-page/admin-events-page.html","1b5d0155778b9f5c56fd4b4c24903f1b"],["components/admin-hiring-page/admin-hiring-page.html","957231ad52368a6eeb67b167348dfc94"],["components/admin-settings/admin-settings.html","5f7be74e83b1343ff3b8e8a9e6647f67"],["components/admin-shorturls-page/admin-shorturls-page.html","8053a3da9b9dadccde89c6ca45c93837"],["components/checkin-page/checkin-page.html","e3c977e3535b53abb86832a110dcb02c"],["components/dayof-page/dayof-page.html","8c1c7e327f3c05c9646b5d71a5e20d1d"],["components/designer-role/designer-role.html","23f53611c194da33f51d698ee05c4ae3"],["components/dev-role/dev-role.html","1e9e93266f8114803e5888f5ab0313bc"],["components/emails-page/emails-page.html","90e776f018203e4a7c767c190c15b81c"],["components/emailtemplates-page/emailtemplates-page.html","00f4730f60a8bb0260014ee87072dab2"],["components/evangelist-role/evangelist-role.html","75b92fed1345b55cbd235bc36725c4e2"],["components/hiring-page/hiring-page.html","8e2a9588a9bb758fb4a40613246fe0f7"],["components/index-page/index-page.html","4a0ce36b5fccb0619c913bf472b40a9b"],["components/lead-designer-role/lead-designer-role.html","5ac1e04ea5180b9498926c047745a23e"],["components/logistics-role/logistics-role.html","be9b4daf9359a781638dec2df902fcd2"],["components/main-app/main-app.html","b15e6909a9c2515a6a56c7425fe41a54"],["components/marketing-director-role/marketing-director-role.html","63133f31a59cbb6c98520b8bd067b5f3"],["components/mentorexpo-form/mentorexpo-form.html","e4fe6be12edc96b5316f54dd17ddfb18"],["components/notfound-page/notfound-page.html","f462e037bff270cb692005ac7ad90467"],["components/register-closed/register-closed.html","58dd968e63753bf5c565827f3ecd7319"],["components/register-form/register-form.html","24073bf5b5493056f9c3332fe22a6f65"],["components/rsvp-page/rsvp-page.html","4feddf3d2b981989206a930347d03924"],["components/select-hackers/select-hackers.html","8415364ec9e6ab3aabd85b996042e46d"],["components/sponsor-page/sponsor-page.html","1e29be43eae31fff51d748c781142841"],["components/sponsorship-role/sponsorship-role.html","a2f7c11f067b6776b0a80a1a005e05dc"],["components/stats-page/stats-page.html","eb8c90b8402578b9833ebb59fddd235e"],["components/volunteer-form/volunteer-form.html","e286abcc3c6452b1102166ee902f06a6"],["components/writer-role/writer-role.html","df5a0cac028766a4bde59d5b2db0810b"],["index.html","bf857ec2ee474d43464bc0a5b49e6567"]];
+var precacheConfig = [["components/admin-blacklist-page/admin-blacklist-page.html","3db09b779f8503441f30f4e348c82b8c"],["components/admin-events-page/admin-events-page.html","7f4532e1c3beb39a259e7f639b0d28d5"],["components/admin-hiring-page/admin-hiring-page.html","aee8a13a771da4ba06e495908bdffcbb"],["components/admin-settings/admin-settings.html","d51f4f687ac978e2ac52747495668754"],["components/admin-shorturls-page/admin-shorturls-page.html","730c449b661c2c6b24238aa78f13cb22"],["components/checkin-page/checkin-page.html","b36f7ebc692c1a934dc00e346ff35a81"],["components/dayof-page/dayof-page.html","cfd5f2bf51acea6d55aba2b486e628a1"],["components/designer-role/designer-role.html","fe7abc56b93d8702d6ca5090f71bf579"],["components/dev-role/dev-role.html","f3663b8991a4653e9c877ab4ba818e28"],["components/emails-page/emails-page.html","03c71ce55cd2656d064b60b002e65c93"],["components/emailtemplates-page/emailtemplates-page.html","07362e96a6c244b19d384f2bc6f65fc0"],["components/evangelist-role/evangelist-role.html","d7f6714bbd169ef720da87c3e9a15abd"],["components/hiring-page/hiring-page.html","004a90faf95a75a6cdd7dfb033b7430c"],["components/index-page/index-page.html","b64c7ec297afa075d4b5d7852daa9975"],["components/lead-designer-role/lead-designer-role.html","43b8c64fd9e1a11bb9e1cb0d3192839b"],["components/logistics-role/logistics-role.html","f17f7a5582496fb62df999ca5fa9a195"],["components/main-app/main-app.html","721a11a6410b56448337c830cab45f60"],["components/marketing-director-role/marketing-director-role.html","b8ecf943576c279be96a2fa94d9129a9"],["components/mentorexpo-form/mentorexpo-form.html","352bad97a13219a79a9e957b5c2fe33b"],["components/notfound-page/notfound-page.html","b065b37ec153f090e3ecdec6ef0cd716"],["components/register-closed/register-closed.html","1a6d8173793e8e41c0bf0a1eaaaec795"],["components/register-form/register-form.html","03d513ffaffc3eee08c374387a6c564a"],["components/rsvp-page/rsvp-page.html","1fd44bb15f7cfbeeb927852f3746942c"],["components/select-hackers/select-hackers.html","d12c4bd1278f5132e9e6db2bd35380ed"],["components/sponsor-page/sponsor-page.html","bb552b8f3d035fd5292ce932c5ea2792"],["components/sponsorship-role/sponsorship-role.html","86653fc2f617a63480deb9c76a699dee"],["components/stats-page/stats-page.html","bf43d1b06df45bc6466cddb4e0cf4be6"],["components/volunteer-form/volunteer-form.html","86cdfbd51a8f8442ad0183348038c3c0"],["components/writer-role/writer-role.html","a1597ed9d6cdc6983287a7dd64d10cbc"],["index.html","bd36cd3730e0c9169165e922f54cf467"]];
 var cacheName = 'sw-precache-v3--' + (self.registration ? self.registration.scope : '');
 
 
@@ -65,7 +65,7 @@ var cleanResponse = function (originalResponse) {
       Promise.resolve(originalResponse.body) :
       originalResponse.blob();
 
-    return bodyPromise.then(function(body) {
+    return bodyPromise.then(function (body) {
       // new Response() is happy when passed either a stream or a Blob.
       return new Response(body, {
         headers: originalResponse.headers,
@@ -99,7 +99,7 @@ var isPathWhitelisted = function (whitelist, absoluteUrlString) {
 
     // Otherwise compare each path regex to the path of the URL passed in.
     var path = (new URL(absoluteUrlString)).pathname;
-    return whitelist.some(function(whitelistedPathRegex) {
+    return whitelist.some(function (whitelistedPathRegex) {
       return path.match(whitelistedPathRegex);
     });
   };
@@ -112,15 +112,15 @@ var stripIgnoredUrlParameters = function (originalUrl,
 
     url.search = url.search.slice(1) // Exclude initial '?'
       .split('&') // Split into an array of 'key=value' strings
-      .map(function(kv) {
+      .map(function (kv) {
         return kv.split('='); // Split each 'key=value' string into a [key, value] array
       })
-      .filter(function(kv) {
-        return ignoreUrlParametersMatching.every(function(ignoredRegex) {
+      .filter(function (kv) {
+        return ignoreUrlParametersMatching.every(function (ignoredRegex) {
           return !ignoredRegex.test(kv[0]); // Return true iff the key doesn't match any of the regexes.
         });
       })
-      .map(function(kv) {
+      .map(function (kv) {
         return kv.join('='); // Join each [key, value] array into a 'key=value' string
       })
       .join('&'); // Join the array of 'key=value' strings into a string with '&' in between each
@@ -131,7 +131,7 @@ var stripIgnoredUrlParameters = function (originalUrl,
 
 var hashParamName = '_sw-precache';
 var urlsToCacheKeys = new Map(
-  precacheConfig.map(function(item) {
+  precacheConfig.map(function (item) {
     var relativeUrl = item[0];
     var hash = item[1];
     var absoluteUrl = new URL(relativeUrl, self.location);
@@ -141,25 +141,25 @@ var urlsToCacheKeys = new Map(
 );
 
 function setOfCachedUrls(cache) {
-  return cache.keys().then(function(requests) {
-    return requests.map(function(request) {
+  return cache.keys().then(function (requests) {
+    return requests.map(function (request) {
       return request.url;
     });
-  }).then(function(urls) {
+  }).then(function (urls) {
     return new Set(urls);
   });
 }
 
-self.addEventListener('install', function(event) {
+self.addEventListener('install', function (event) {
   event.waitUntil(
-    caches.open(cacheName).then(function(cache) {
-      return setOfCachedUrls(cache).then(function(cachedUrls) {
+    caches.open(cacheName).then(function (cache) {
+      return setOfCachedUrls(cache).then(function (cachedUrls) {
         return Promise.all(
-          Array.from(urlsToCacheKeys.values()).map(function(cacheKey) {
+          Array.from(urlsToCacheKeys.values()).map(function (cacheKey) {
             // If we don't have a key matching url in the cache already, add it.
             if (!cachedUrls.has(cacheKey)) {
               var request = new Request(cacheKey, {credentials: 'same-origin'});
-              return fetch(request).then(function(response) {
+              return fetch(request).then(function (response) {
                 // Bail out of installation unless we get back a 200 OK for
                 // every request.
                 if (!response.ok) {
@@ -167,7 +167,7 @@ self.addEventListener('install', function(event) {
                     'response with status ' + response.status);
                 }
 
-                return cleanResponse(response).then(function(responseToCache) {
+                return cleanResponse(response).then(function (responseToCache) {
                   return cache.put(cacheKey, responseToCache);
                 });
               });
@@ -175,7 +175,7 @@ self.addEventListener('install', function(event) {
           })
         );
       });
-    }).then(function() {
+    }).then(function () {
       
       // Force the SW to transition from installing -> active state
       return self.skipWaiting();
@@ -184,21 +184,21 @@ self.addEventListener('install', function(event) {
   );
 });
 
-self.addEventListener('activate', function(event) {
+self.addEventListener('activate', function (event) {
   var setOfExpectedUrls = new Set(urlsToCacheKeys.values());
 
   event.waitUntil(
-    caches.open(cacheName).then(function(cache) {
-      return cache.keys().then(function(existingRequests) {
+    caches.open(cacheName).then(function (cache) {
+      return cache.keys().then(function (existingRequests) {
         return Promise.all(
-          existingRequests.map(function(existingRequest) {
+          existingRequests.map(function (existingRequest) {
             if (!setOfExpectedUrls.has(existingRequest.url)) {
               return cache.delete(existingRequest);
             }
           })
         );
       });
-    }).then(function() {
+    }).then(function () {
       
       return self.clients.claim();
       
@@ -207,7 +207,7 @@ self.addEventListener('activate', function(event) {
 });
 
 
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', function (event) {
   if (event.request.method === 'GET') {
     // Should we call event.respondWith() inside this fetch event handler?
     // This needs to be determined synchronously, which will give other fetch
@@ -242,14 +242,14 @@ self.addEventListener('fetch', function(event) {
     // event.respondWith(), using the appropriate cache key.
     if (shouldRespond) {
       event.respondWith(
-        caches.open(cacheName).then(function(cache) {
-          return cache.match(urlsToCacheKeys.get(url)).then(function(response) {
+        caches.open(cacheName).then(function (cache) {
+          return cache.match(urlsToCacheKeys.get(url)).then(function (response) {
             if (response) {
               return response;
             }
             throw Error('The cached response that was expected is missing.');
           });
-        }).catch(function(e) {
+        }).catch(function (e) {
           // Fall back to just fetch()ing the request if some unexpected error
           // prevented the cached response from being valid.
           console.warn('Couldn\'t serve response for "%s" from cache: %O', event.request.url, e);
