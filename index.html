@@ -36,7 +36,7 @@
                       console.log('New version available')
                       window.notify = {
                         message: 'New version available',
-                        buttonText: 'Reload to update',
+                        buttonText: 'Reloading...',
                         buttonTapHandler: function() {
                           window.location.reload()
                         },
@@ -44,7 +44,8 @@
                       }
                       window.dispatchEvent(new CustomEvent('notify', {
                         detail: window.notify
-                      }))
+                      }));
+                      window.location.reload();
                     }
                     break;
                   case 'redundant':
