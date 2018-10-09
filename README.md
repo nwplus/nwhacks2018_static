@@ -1,5 +1,5 @@
 # nwhacks2018_static
-This is the website, registration and check-in system for nwHacks 2018. https://www.nwhacks.io
+This is the website, registration and check-in system for nwHacks 2018. https://2018.nwhacks.io
 
 ## Setup
 1. Clone/fork the repository.
